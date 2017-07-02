@@ -161,10 +161,7 @@ public class Colors {
 	}
 	
 	private static void color(String name, int red, int green, int blue) {
-		Color color = new Color();
-		color.setRed(red);
-		color.setGreen(green);
-		color.setBlue(blue);
+		Color color = new Color(red, green, blue);
 		colors.put(name, color);
 	}
 

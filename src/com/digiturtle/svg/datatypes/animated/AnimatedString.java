@@ -1,8 +1,12 @@
-package com.digiturtle.svg.datatypes;
+package com.digiturtle.svg.datatypes.animated;
 
 public class AnimatedString {
 	
 	private String baseValue, animatedValue;
+	
+	public AnimatedString(String animatedValue) {
+		this.animatedValue = animatedValue;
+	}
 
 	public String getBaseValue() {
 		return baseValue;
@@ -14,10 +18,6 @@ public class AnimatedString {
 
 	public String getAnimatedValue() {
 		return animatedValue;
-	}
-
-	public void setAnimatedValue(String animatedValue) {
-		this.animatedValue = animatedValue;
 	}
 
 }

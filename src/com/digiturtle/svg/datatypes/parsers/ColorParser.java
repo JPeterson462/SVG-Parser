@@ -29,18 +29,20 @@ public class ColorParser implements DataParser<Color> {
 	public Color parse(String text, boolean presentationAttribute) {
 		text = text.trim();
 		text = text.replaceAll(" ", "").replaceAll("\t", "").replaceAll("\r", "").replaceAll("\n", "");
-		Color color = new Color();
+		Color color = null;
 		if (text.startsWith("#")) {
 			text = text.substring(1);
 			if (text.length() == 6) {
-				color.setRed(parseHex(text.charAt(0), text.charAt(1)));
-				color.setGreen(parseHex(text.charAt(2), text.charAt(3)));
-				color.setBlue(parseHex(text.charAt(4), text.charAt(5)));
+				int red = parseHex(text.charAt(0), text.charAt(1));
+				int green = parseHex(text.charAt(2), text.charAt(3));
+				int blue = parseHex(text.charAt(4), text.charAt(5));
+				color = new Color(red, green, blue);
 			}
 			else if (text.length() == 3) {
-				color.setRed(parseHex(text.charAt(0), text.charAt(0)));
-				color.setGreen(parseHex(text.charAt(1), text.charAt(1)));
-				color.setBlue(parseHex(text.charAt(2), text.charAt(2)));
+				int red = parseHex(text.charAt(0), text.charAt(0));
+				int green = parseHex(text.charAt(1), text.charAt(1));
+				int blue = parseHex(text.charAt(2), text.charAt(2));
+				color = new Color(red, green, blue);
 			}
 			else {
 				return null;
@@ -50,14 +52,16 @@ public class ColorParser implements DataParser<Color> {
 			text = text.substring(4, text.length() - 1);
 			String[] parts = text.split(",");
 			if (parts[0].contains("%") && parts[1].contains("%") && parts[2].contains("%")) {
-				color.setRed(Integer.parseInt(parts[0].substring(0, parts[0].length() - 1)) * 255 / 100);
-				color.setGreen(Integer.parseInt(parts[1].substring(0, parts[1].length() - 1)) * 255 / 100);
-				color.setBlue(Integer.parseInt(parts[2].substring(0, parts[2].length() - 1)) * 255 / 100);
+				int red = Integer.parseInt(parts[0].substring(0, parts[0].length() - 1)) * 255 / 100;
+				int green = Integer.parseInt(parts[1].substring(0, parts[1].length() - 1)) * 255 / 100;
+				int blue = Integer.parseInt(parts[2].substring(0, parts[2].length() - 1)) * 255 / 100;
+				color = new Color(red, green, blue);
 			}
 			else if (!parts[0].contains("%") && !parts[1].contains("%") && !parts[2].contains("%")) {
-				color.setRed(Integer.parseInt(parts[0]));
-				color.setGreen(Integer.parseInt(parts[1]));
-				color.setBlue(Integer.parseInt(parts[2]));
+				int red = Integer.parseInt(parts[0]);
+				int green = Integer.parseInt(parts[1]);
+				int blue = Integer.parseInt(parts[2]);
+				color = new Color(red, green, blue);
 			}
 		}
 		else {
@@ -65,7 +69,7 @@ public class ColorParser implements DataParser<Color> {
 			if (template == null) {
 				return null;
 			}
-			color.set(template);
+			color = new Color(template);
 		}
 		return color;
 	}

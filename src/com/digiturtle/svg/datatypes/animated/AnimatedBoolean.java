@@ -1,8 +1,12 @@
-package com.digiturtle.svg.datatypes;
+package com.digiturtle.svg.datatypes.animated;
 
 public class AnimatedBoolean {
 	
 	private boolean baseValue, animatedValue;
+	
+	public AnimatedBoolean(boolean animatedValue) {
+		this.animatedValue = animatedValue;
+	}
 
 	public boolean getBaseValue() {
 		return baseValue;
@@ -14,10 +18,6 @@ public class AnimatedBoolean {
 
 	public boolean getAnimatedValue() {
 		return animatedValue;
-	}
-
-	public void setAnimatedValue(boolean animatedValue) {
-		this.animatedValue = animatedValue;
 	}
 
 }
