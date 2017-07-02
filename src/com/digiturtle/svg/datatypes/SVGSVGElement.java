@@ -1,7 +1,5 @@
 package com.digiturtle.svg.datatypes;
 
-public class Matrix {
+public interface SVGSVGElement {
 
-	// TODO
-	
 }

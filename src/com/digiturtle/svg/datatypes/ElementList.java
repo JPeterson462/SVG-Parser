@@ -1,46 +1,23 @@
 package com.digiturtle.svg.datatypes;
 
-import java.util.ArrayList;
+import org.w3c.dom.DOMException;
 
-public class ElementList<T> {
+public interface ElementList<T> {
 	
-	private ArrayList<T> list = new ArrayList<>();
+	public long getNumberOfItems();
 	
-	public int getNumberOfItems() {
-		return list.size();
-	}
+	public void clear() throws DOMException;
 	
-	public void clear() {
-		list.clear();
-	}
+	public T initialize(T newItem) throws DOMException;
 	
-	public T initialize(T newItem) {
-		list.clear();
-		list.add(newItem);
-		return newItem;
-	}
-	
-	public T getItem(int index) {
-		return list.get(index);
-	}
-	
-	public T insertItemBefore(T newItem, int index) {
-		list.add(index, newItem);
-		return newItem;
-	}
-	
-	public T replaceItem(T newItem, int index) {
-		list.set(index, newItem);
-		return newItem;
-	}
-	
-	public T remoteItem(int index) {
-		return list.remove(index);
-	}
-	
-	public T appendItem(T newItem) {
-		list.add(newItem);
-		return newItem;
-	}
+	public T getItem(long index) throws DOMException;
+
+	public T insertItemBefore(T newItem, long index) throws DOMException;
+
+	public T replaceItem(T newItem, long index) throws DOMException;
+
+	public T removeItem(long index) throws DOMException;
+
+	public T appendItem(T newItem) throws DOMException;
 
 }
