@@ -1,4 +1,37 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
-Continue at '4.5.11 Interface SVGLength'
+Continue at '8.5.1 Interface SVGPathSeg'
+
+SVGLength converting with percentage; converting to and from a string, setting as string
+SVGAngle converting to and from a string, setting as string
+SVGColor to and from CSS text; RGBColor components in right format?
+SVGLocatable implementation
+SVGTransformable
+SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
+
+SVGDOMImplementation
+
+DocumentTypeImplementation
+SVGDocument
+
+SVGGElement
+SVGDefsElement
+SVGDescElement
+SVGTitleElement
+SVGSymbolElement
+SVGElementInstance
+SVGUseElement
+SVGElementInstance
+SVGImageElement
+SVGSwitchElement
+? GetSVGDocument
+
+Validate RGBColorImplementation
+
+Readonly elements/attributes
+
+Parsing <...>
+Make use of namespaces
 
 Documentation
+
+Parser that conforms to spec better
