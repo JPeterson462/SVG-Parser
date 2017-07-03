@@ -1,6 +1,7 @@
 package org.w3c.dom.svg;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.svg.documents.SVGSVGElement;
 
 public interface SVGStyleElement extends SVGElement, SVGLangSpace {
 	

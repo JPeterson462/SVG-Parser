@@ -1,4 +1,9 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.documents;
+
+import org.w3c.dom.svg.FileElement;
+import org.w3c.dom.svg.SVGAnimatedLength;
+import org.w3c.dom.svg.SVGAnimatedPreserveAspectRatio;
+import org.w3c.dom.svg.SVGURIReference;
 
 public interface SVGImageElement extends FileElement, SVGURIReference {
 

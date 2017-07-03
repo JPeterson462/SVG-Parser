@@ -1,6 +1,7 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.documents;
 
 import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.svg.SVGElement;
 
 public interface SVGElementInstance extends EventTarget {
 

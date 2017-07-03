@@ -2,6 +2,7 @@ package org.w3c.dom.svg;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
+import org.w3c.dom.svg.documents.SVGSVGElement;
 import org.w3c.dom.svg.impl.ElementImplementation;
 
 public interface SVGElement extends Element {

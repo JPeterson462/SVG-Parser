@@ -1,0 +1,149 @@
+package org.w3c.dom.svg.shapes;
+
+import org.w3c.dom.DOMException;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.svg.FileElement;
+import org.w3c.dom.svg.SVGAnimatedBoolean;
+import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
+import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGRect;
+import org.w3c.dom.svg.SVGStringList;
+import org.w3c.dom.svg.documents.SVGSVGElement;
+
+public interface SVGShapeElement extends FileElement {
+
+	public static class Implementation extends SVGElement.Implementation implements SVGShapeElement {
+
+		private String xmlLang, xmlSpace;
+		
+		private SVGAnimatedString className;
+		
+		private CSSStyleDeclaration style;
+		
+		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;
+		
+		private SVGAnimatedBoolean externalResourcesRequired;
+		
+		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				String xmlLang, String xmlSpace, SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
+				SVGAnimatedBoolean externalResourcesRequired) {
+			super(id, xmlBase, ownerSVGElement, viewportElement);
+			this.xmlLang = xmlLang;
+			this.xmlSpace = xmlSpace;
+			this.className = className;
+			this.style = style;
+			this.requiredFeatures = requiredFeatures;
+			this.requiredExtensions = requiredExtensions;
+			this.systemLanguage = systemLanguage;
+			this.externalResourcesRequired = externalResourcesRequired;
+		}
+
+		@Override
+		public String getXMLLang() {
+			return xmlLang;
+		}
+
+		@Override
+		public void setXMLLang(String xmlLang) throws DOMException {
+			this.xmlLang = xmlLang;
+		}
+
+		@Override
+		public String getXMLSpace() {
+			return xmlSpace;
+		}
+
+		@Override
+		public void setXMLSpace(String xmlSpace) throws DOMException {
+			this.xmlSpace = xmlSpace;
+		}
+
+		@Override
+		public SVGAnimatedString getClassName() {
+			return className;
+		}
+
+		@Override
+		public CSSStyleDeclaration getStyle() {
+			return style;
+		}
+
+		@Override
+		public CSSValue getPresentationAttribute(String name) {
+			throw new DOMException(DOMException.INVALID_STATE_ERR, "This method is deprecated.");
+		}
+
+		@Override
+		public SVGStringList getRequiredFeatures() {
+			return requiredFeatures;
+		}
+
+		@Override
+		public SVGStringList getRequiredExtensions() {
+			return requiredExtensions;
+		}
+
+		@Override
+		public SVGStringList getSystemLanguage() {
+			return systemLanguage;
+		}
+
+		@Override
+		public boolean hasExtension(String extension) throws DOMException {
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported.");
+		}
+
+		@Override
+		public SVGAnimatedBoolean getExternalResourcesRequired() {
+			return externalResourcesRequired;
+		}
+
+		@Override
+		public SVGAnimatedTransformList getTransform() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SVGElement getNearestViewportElement() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SVGElement getFarthestViewportElement() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SVGRect getBBox() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SVGMatrix getCTM() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SVGMatrix getScreenCTM() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public SVGMatrix getTransformToElement(SVGElement element) throws DOMException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	
+}

@@ -1,4 +1,4 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.documents;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
@@ -6,6 +6,23 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.css.DocumentCSS;
 import org.w3c.dom.css.ViewCSS;
 import org.w3c.dom.events.DocumentEvent;
+import org.w3c.dom.svg.SVGAngle;
+import org.w3c.dom.svg.SVGAnimatedLength;
+import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGExternalResourcesRequired;
+import org.w3c.dom.svg.SVGFitToViewBox;
+import org.w3c.dom.svg.SVGLangSpace;
+import org.w3c.dom.svg.SVGLength;
+import org.w3c.dom.svg.SVGLocatable;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGNumber;
+import org.w3c.dom.svg.SVGPoint;
+import org.w3c.dom.svg.SVGRect;
+import org.w3c.dom.svg.SVGStylable;
+import org.w3c.dom.svg.SVGTests;
+import org.w3c.dom.svg.SVGTransform;
+import org.w3c.dom.svg.SVGViewSpec;
+import org.w3c.dom.svg.SVGZoomAndPan;
 
 public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace, 
 			SVGExternalResourcesRequired, SVGStylable, SVGLocatable, 

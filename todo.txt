@@ -1,5 +1,5 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
-Continue at '8.5.1 Interface SVGPathSeg'
+Continue at '11.9.1 Interface SVGMarkerElement'
 
 SVGLength converting with percentage; converting to and from a string, setting as string
 SVGAngle converting to and from a string, setting as string
@@ -24,6 +24,15 @@ SVGElementInstance
 SVGImageElement
 SVGSwitchElement
 ? GetSVGDocument
+
+SVGShapeElement
+SVGPathElement
+
+SVGTextContentElement
+SVGTextElement
+SVGGlyphRefElement
+
+SVGPaint
 
 Validate RGBColorImplementation
 

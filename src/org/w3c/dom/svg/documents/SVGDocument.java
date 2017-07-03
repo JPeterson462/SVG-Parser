@@ -1,4 +1,4 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.documents;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;

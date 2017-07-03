@@ -1,4 +1,4 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.documents;
 
 public interface GetSVGDocument {
 

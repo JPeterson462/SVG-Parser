@@ -1,7 +1,9 @@
 package org.w3c.dom.svg;
 
-public interface SVGTransformable {
+public interface SVGTransformable extends SVGLocatable {
 	
-	// TODO
+	public SVGAnimatedTransformList getTransform();
 
+	// TODO implementation
+	
 }

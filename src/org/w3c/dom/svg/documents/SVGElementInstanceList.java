@@ -1,9 +1,10 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.documents;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.svg.ElementList;
 
 public interface SVGElementInstanceList extends ElementList<SVGElementInstance> {
 	
