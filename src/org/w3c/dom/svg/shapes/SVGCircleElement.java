@@ -6,7 +6,7 @@ import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
-import org.w3c.dom.svg.documents.SVGSVGElement;
+import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGCircleElement extends SVGShapeElement {
 

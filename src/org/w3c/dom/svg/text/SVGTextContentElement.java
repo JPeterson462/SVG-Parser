@@ -9,14 +9,15 @@ import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
+import org.w3c.dom.svg.SVGLangSpace;
 import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGStringList;
+import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTests;
-import org.w3c.dom.svg.SimpleFileElement;
-import org.w3c.dom.svg.documents.SVGSVGElement;
+import org.w3c.dom.svg.document.SVGSVGElement;
 
-public interface SVGTextContentElement extends SimpleFileElement, SVGTests, SVGExternalResourcesRequired {
+public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStylable, SVGTests, SVGExternalResourcesRequired {
 
 	/** The enumeration was set to a value that is not one of predefined types. It is invalid to attempt to define a new value of this type or to attempt to switch an existing value to this type. */
 	public static final short LENGTHADJUST_UNKNOWN = 0;

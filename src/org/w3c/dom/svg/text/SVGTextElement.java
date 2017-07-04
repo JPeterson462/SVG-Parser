@@ -7,7 +7,7 @@ import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGMatrix;
 import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGTransformable;
-import org.w3c.dom.svg.documents.SVGSVGElement;
+import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGTextElement extends SVGTextPositioningElement, SVGTransformable {
 

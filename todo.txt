@@ -1,5 +1,5 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
-Continue at '11.9.1 Interface SVGMarkerElement'
+Continue at '19.4.2 Interface TimeEvent' through '20.x.x' and '23.6.1 SVGForeignObjectElement'
 
 SVGLength converting with percentage; converting to and from a string, setting as string
 SVGAngle converting to and from a string, setting as string
@@ -33,8 +33,21 @@ SVGTextElement
 SVGGlyphRefElement
 
 SVGPaint
+SVGMarkerElement
+
+SVGClipPathElement implementation
+SVGMaskElement implementation
+SVGFilterElement
+
+SVGAElement implementation
+SVGViewElement implementation
 
 Validate RGBColorImplementation
+
+UIEventImplementation
+DOMTimeStamp implementation
+
+ElementTimeControl implementation?
 
 Readonly elements/attributes
 

@@ -1,4 +1,4 @@
-package org.w3c.dom.svg.documents;
+package org.w3c.dom.svg.document;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;

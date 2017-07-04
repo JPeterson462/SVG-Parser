@@ -2,7 +2,7 @@ package org.w3c.dom.svg.text;
 
 import org.w3c.dom.svg.SVGAnimatedLengthList;
 import org.w3c.dom.svg.SVGElement;
-import org.w3c.dom.svg.documents.SVGSVGElement;
+import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGTSpanElement extends SVGTextPositioningElement {
 

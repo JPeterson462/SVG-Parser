@@ -5,7 +5,7 @@ import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGURIReference;
-import org.w3c.dom.svg.documents.SVGSVGElement;
+import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGTextPathElement extends SVGTextContentElement, SVGURIReference {
 	
