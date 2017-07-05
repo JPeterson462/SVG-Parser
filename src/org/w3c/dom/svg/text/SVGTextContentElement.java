@@ -50,93 +50,107 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 	
 	public static class Implementation extends SVGElement.Implementation implements SVGTextContentElement {
 
-		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
+		private String xmlLang, xmlSpace;
+		
+		private SVGAnimatedString className;
+		
+		private CSSStyleDeclaration style;
+		
+		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;
+		
+		private SVGAnimatedBoolean externalResourcesRequired;
+		
+		private SVGAnimatedLength textLength;
+		
+		private SVGAnimatedEnumeration lengthAdjust;
+		
+		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				String xmlLang, String xmlSpace,
+				SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
+				SVGAnimatedBoolean externalResourcesRequired,
+				SVGAnimatedLength textLength, SVGAnimatedEnumeration lengthAdjust) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
-			
+			this.xmlLang = xmlLang;
+			this.xmlSpace = xmlSpace;
+			this.className = className;
+			this.style = style;
+			this.requiredFeatures = requiredFeatures;
+			this.requiredExtensions = requiredExtensions;
+			this.systemLanguage = systemLanguage;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.textLength = textLength;
+			this.lengthAdjust = lengthAdjust;
 		}
 
 		@Override
 		public String getXMLLang() {
-			// TODO Auto-generated method stub
-			return null;
+			return xmlLang;
 		}
 
 		@Override
 		public void setXMLLang(String xmlLang) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.xmlLang = xmlLang;
 		}
 
 		@Override
 		public String getXMLSpace() {
-			// TODO Auto-generated method stub
-			return null;
+			return xmlSpace;
 		}
 
 		@Override
 		public void setXMLSpace(String xmlSpace) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.xmlSpace = xmlSpace;
 		}
 
 		@Override
 		public SVGAnimatedString getClassName() {
-			// TODO Auto-generated method stub
-			return null;
+			return className;
 		}
 
 		@Override
 		public CSSStyleDeclaration getStyle() {
-			// TODO Auto-generated method stub
-			return null;
+			return style;
 		}
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			// TODO Auto-generated method stub
-			return null;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
 		}
 
 		@Override
 		public SVGStringList getRequiredFeatures() {
-			// TODO Auto-generated method stub
-			return null;
+			return requiredFeatures;
 		}
 
 		@Override
 		public SVGStringList getRequiredExtensions() {
-			// TODO Auto-generated method stub
-			return null;
+			return requiredExtensions;
 		}
 
 		@Override
 		public SVGStringList getSystemLanguage() {
-			// TODO Auto-generated method stub
-			return null;
+			return systemLanguage;
 		}
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			// TODO Auto-generated method stub
-			return false;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
 		}
 
 		@Override
 		public SVGAnimatedBoolean getExternalResourcesRequired() {
-			// TODO Auto-generated method stub
-			return null;
+			return externalResourcesRequired;
 		}
 
 		@Override
 		public SVGAnimatedLength getTextLength() {
-			// TODO Auto-generated method stub
-			return null;
+			return textLength;
 		}
 
 		@Override
 		public SVGAnimatedEnumeration getLengthAdjust() {
-			// TODO Auto-generated method stub
-			return null;
+			return lengthAdjust;
 		}
 
 		@Override

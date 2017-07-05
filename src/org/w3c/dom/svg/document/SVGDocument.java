@@ -11,16 +11,14 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.EntityReference;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
-import org.w3c.dom.UserDataHandler;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.svg.impl.AttrImplementation;
 import org.w3c.dom.svg.impl.NodeImplementation;
+import org.w3c.dom.svg.impl.TextImplementation;
 
 public interface SVGDocument extends Document, DocumentEvent {
 
@@ -94,7 +92,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public CDATASection createCDATASection(String data) throws DOMException {
-//			CDATA
+//			CDATASection 
 			return null;
 		}
 
@@ -135,9 +133,10 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Text createTextNode(String arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		public Text createTextNode(String data) {
+			Text text = new TextImplementation("TextNode");
+			text.setData(data);
+			return text;
 		}
 
 		@Override
