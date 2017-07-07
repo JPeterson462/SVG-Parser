@@ -17,7 +17,13 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.svg.impl.AttrImplementation;
+import org.w3c.dom.svg.impl.CDATASectionImplementation;
+import org.w3c.dom.svg.impl.CommentImplementation;
+import org.w3c.dom.svg.impl.ElementImplementation;
+import org.w3c.dom.svg.impl.EntityReferenceImplementation;
 import org.w3c.dom.svg.impl.NodeImplementation;
+import org.w3c.dom.svg.impl.ProcessingInstructionImplementation;
 import org.w3c.dom.svg.impl.TextImplementation;
 
 public interface SVGDocument extends Document, DocumentEvent {
@@ -38,13 +44,21 @@ public interface SVGDocument extends Document, DocumentEvent {
 		
 		private SVGSVGElement rootElement;
 		
-		public Implementation(String title, String referrer, String domain, String url, SVGSVGElement rootElement) {
+		private String xmlVersion, xmlEncoding;
+		
+		private DocumentType documentType;
+		
+		public Implementation(String title, String referrer, String domain, String url, SVGSVGElement rootElement, String xmlVersion, 
+				String xmlEncoding, DocumentType documentType) {
 			super(title);
 			this.title = title;
 			this.referrer = referrer;
 			this.domain = domain;
 			this.url = url;
 			this.rootElement = rootElement;
+			this.xmlVersion = xmlVersion;
+			this.xmlEncoding = xmlEncoding;
+			this.documentType = documentType;
 		}
 
 		@Override
@@ -73,33 +87,33 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Node adoptNode(Node arg0) throws DOMException {
+		public Node adoptNode(Node source) throws DOMException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public Attr createAttribute(String arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public Attr createAttribute(String name) throws DOMException {
+			return new AttrImplementation(null, name, null);
 		}
 
 		@Override
-		public Attr createAttributeNS(String arg0, String arg1) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException {
+			return new AttrImplementation(null, qualifiedName, null);
 		}
 
 		@Override
 		public CDATASection createCDATASection(String data) throws DOMException {
-//			CDATASection 
-			return null;
+			CDATASection cdata = new CDATASectionImplementation("CDATA");
+			cdata.setData(data);
+			return cdata;
 		}
 
 		@Override
-		public Comment createComment(String arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		public Comment createComment(String data) {
+			Comment comment = new CommentImplementation("CDATA");
+			comment.setData(data);
+			return comment;
 		}
 
 		@Override
@@ -109,27 +123,23 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Element createElement(String arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public Element createElement(String tagName) throws DOMException {
+			return new ElementImplementation(tagName);
 		}
 
 		@Override
-		public Element createElementNS(String arg0, String arg1) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public Element createElementNS(String namespaceURI, String qualifiedName) throws DOMException {
+			return new ElementImplementation(qualifiedName);
 		}
 
 		@Override
-		public EntityReference createEntityReference(String arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public EntityReference createEntityReference(String name) throws DOMException {
+			return new EntityReferenceImplementation(name);
 		}
 
 		@Override
-		public ProcessingInstruction createProcessingInstruction(String arg0, String arg1) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public ProcessingInstruction createProcessingInstruction(String target, String data) throws DOMException {
+			return new ProcessingInstructionImplementation("ProcessingInstruction", target, data);
 		}
 
 		@Override
@@ -141,8 +151,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public DocumentType getDoctype() {
-			// TODO Auto-generated method stub
-			return null;
+			return documentType;
 		}
 
 		@Override
@@ -201,8 +210,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public String getXmlEncoding() {
-			// TODO Auto-generated method stub
-			return null;
+			return xmlEncoding;
 		}
 
 		@Override
@@ -213,8 +221,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public String getXmlVersion() {
-			// TODO Auto-generated method stub
-			return null;
+			return xmlVersion;
 		}
 
 		@Override
@@ -254,9 +261,8 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public void setXmlVersion(String arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			
+		public void setXmlVersion(String xmlVersion) throws DOMException {
+			this.xmlVersion = xmlVersion;
 		}
 
 		@Override

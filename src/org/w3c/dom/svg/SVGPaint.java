@@ -43,6 +43,34 @@ public interface SVGPaint extends SVGColor {
 	
 	public void setPaint(short paintType, String uri, String rgbColor, String iccColor) throws SVGException;
 
-	// TODO implementation
+	public static class Implementation extends SVGColor.Implementation implements SVGPaint {
+
+		private short paintType;
+		
+		private String uri;
+		
+		@Override
+		public short getPaintType() {
+			return paintType;
+		}
+
+		@Override
+		public String getURI() {
+			return uri;
+		}
+
+		@Override
+		public void setURI(String uri) {
+			this.uri = uri;
+		}
+
+		@Override
+		public void setPaint(short paintType, String uri, String rgbColor, String iccColor) throws SVGException {
+			this.paintType = paintType;
+			this.uri = uri;
+			setRGBColorICCColor(rgbColor, iccColor);
+		}
+		
+	}
 	
 }

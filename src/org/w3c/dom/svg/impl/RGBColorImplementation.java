@@ -84,9 +84,9 @@ public class RGBColorImplementation implements RGBColor {
 	}
 	
 	public RGBColorImplementation(RGBColor color) {
-		red = new RGBComponent((int) (color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER)));
-		green = new RGBComponent((int) (color.getGreen().getFloatValue(CSSPrimitiveValue.CSS_NUMBER)));
-		blue = new RGBComponent((int) (color.getBlue().getFloatValue(CSSPrimitiveValue.CSS_NUMBER)));
+		red = new RGBComponent((int) (color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT));
+		green = new RGBComponent((int) (color.getGreen().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT));
+		blue = new RGBComponent((int) (color.getBlue().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT));
 	}
 
 	@Override

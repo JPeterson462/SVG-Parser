@@ -1,7 +1,6 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
 
 SVGLength converting with percentage; converting to and from a string, setting as string
-SVGAngle converting to and from a string, setting as string
 SVGColor to and from CSS text; RGBColor components in right format?
 SVGLocatable implementation
 SVGTransformable
@@ -9,7 +8,6 @@ SVGSVGElement (might have an abstract implementation to be completed by the LWJG
 
 SVGDOMImplementation
 
-DocumentTypeImplementation
 SVGDocument
 
 SVGGElement
@@ -22,7 +20,6 @@ SVGUseElement
 SVGElementInstance
 SVGImageElement
 SVGSwitchElement
-? GetSVGDocument
 
 SVGShapeElement
 SVGPathElement
@@ -30,17 +27,10 @@ SVGPathElement
 SVGTextContentElement
 SVGTextElement
 
-SVGPaint
-SVGMarkerElement
-
 SVGClipPathElement implementation
-SVGMaskElement implementation
 SVGFilterElement
 
 SVGAElement implementation
-SVGViewElement implementation
-
-Validate RGBColorImplementation
 
 UIEventImplementation
 DOMTimeStamp implementation

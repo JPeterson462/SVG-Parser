@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMStringList;
 
-public interface SVGStringList extends ElementList<String> {
+public interface SVGStringList extends ElementList<String>, DOMStringList {
 	
 	public static class Implementation implements SVGStringList {
 
@@ -67,6 +68,21 @@ public interface SVGStringList extends ElementList<String> {
 		public String appendItem(String newItem) throws DOMException {
 			list.add(newItem);
 			return newItem;
+		}
+
+		@Override
+		public boolean contains(String str) {
+			return list.contains(str);
+		}
+
+		@Override
+		public int getLength() {
+			return list.size();
+		}
+
+		@Override
+		public String item(int index) {
+			return list.get(index);
 		}
 		
 	}

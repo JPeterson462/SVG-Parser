@@ -94,7 +94,7 @@ public interface SVGColor extends CSSValue {
 			colorType = SVG_COLORTYPE_RGBCOLOR;
 			this.rgbColor = parseRGBColor(rgbColor);
 			if (rgbColor == null) {
-				
+				//TODO
 			}
 		}
 
@@ -103,6 +103,7 @@ public interface SVGColor extends CSSValue {
 			colorType = SVG_COLORTYPE_RGBCOLOR_ICCCOLOR;
 			this.rgbColor = parseRGBColor(rgbColor);
 			this.iccColor = parseICCColor(iccColor);
+			// TODO
 		}
 
 		@Override

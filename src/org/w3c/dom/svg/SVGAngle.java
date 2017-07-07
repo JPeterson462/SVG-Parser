@@ -111,12 +111,39 @@ public interface SVGAngle {
 
 		@Override
 		public String getValueAsString() {
-			return null;// TODO
+			String units = "";
+			switch (unitType) {
+				case SVG_ANGLETYPE_DEG:
+					units = "deg";
+					break;
+				case SVG_ANGLETYPE_RAD:
+					units = "rad";
+					break;
+				case SVG_ANGLETYPE_GRAD:
+					units = "grad";
+					break;
+				default:
+					break;
+			}
+			return valueInSpecifiedUnits + units;
 		}
 
 		@Override
 		public void setValueAsString(String valueAsString) throws DOMException {
-			// TODO
+			if (valueAsString.endsWith("deg")) {
+				unitType = SVG_ANGLETYPE_DEG;
+				setValueInSpecifiedUnits(Float.parseFloat(valueAsString.substring(0, valueAsString.length() - 3)));
+			}
+			else if (valueAsString.endsWith("grad")) {
+				unitType = SVG_ANGLETYPE_GRAD;
+				setValueInSpecifiedUnits(Float.parseFloat(valueAsString.substring(0, valueAsString.length() - 4)));			}
+			else if (valueAsString.endsWith("rad")) {
+				unitType = SVG_ANGLETYPE_RAD;
+				setValueInSpecifiedUnits(Float.parseFloat(valueAsString.substring(0, valueAsString.length() - 3)));
+			}
+			else {
+				throw new DOMException(DOMException.SYNTAX_ERR, "Invalid <angle> attribute.");
+			}
 		}
 
 		@Override

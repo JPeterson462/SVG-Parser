@@ -3,46 +3,54 @@ package org.w3c.dom.svg.impl;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.NamedNodeMap;
 
-public class DocumentTypeImplementation extends NodeImplementation implements DocumentType {//TODO
+public class DocumentTypeImplementation extends NodeImplementation implements DocumentType {
 
-	public DocumentTypeImplementation(String nodeName) {
+	private NamedNodeMap entities;
+	
+	private String internalSubset, name;
+	
+	private NamedNodeMap notations;
+	
+	private String publicId, systemId;
+	
+	public DocumentTypeImplementation(String nodeName, NamedNodeMap entities, String internalSubset, String name, NamedNodeMap notations, String publicId, String systemId) {
 		super(nodeName);
+		this.entities = entities;
+		this.internalSubset = internalSubset;
+		this.name = name;
+		this.notations = notations;
+		this.publicId = publicId;
+		this.systemId = systemId;
 	}
 
 	@Override
 	public NamedNodeMap getEntities() {
-		// TODO Auto-generated method stub
-		return null;
+		return entities;
 	}
 
 	@Override
 	public String getInternalSubset() {
-		// TODO Auto-generated method stub
-		return null;
+		return internalSubset;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return name;
 	}
 
 	@Override
 	public NamedNodeMap getNotations() {
-		// TODO Auto-generated method stub
-		return null;
+		return notations;
 	}
 
 	@Override
 	public String getPublicId() {
-		// TODO Auto-generated method stub
-		return null;
+		return publicId;
 	}
 
 	@Override
 	public String getSystemId() {
-		// TODO Auto-generated method stub
-		return null;
+		return systemId;
 	}
 
 }
