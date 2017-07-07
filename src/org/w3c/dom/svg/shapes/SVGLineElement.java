@@ -4,6 +4,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
@@ -26,9 +27,11 @@ public interface SVGLineElement extends SVGShapeElement {
 				String xmlLang, String xmlSpace, SVGAnimatedString className, CSSStyleDeclaration style,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
 				SVGAnimatedBoolean externalResourcesRequired,
-				SVGAnimatedLength x1, SVGAnimatedLength y1, SVGAnimatedLength x2, SVGAnimatedLength y2) {
+				SVGAnimatedLength x1, SVGAnimatedLength y1, SVGAnimatedLength x2, SVGAnimatedLength y2,
+				SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
 			super(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, className, style, requiredFeatures,
-					requiredExtensions, systemLanguage, externalResourcesRequired);
+					requiredExtensions, systemLanguage, externalResourcesRequired, nearestViewportElement,
+					farthestViewportElement, transform);
 			this.x1 = x1;
 			this.y1 = y1;
 			this.x2 = x2;

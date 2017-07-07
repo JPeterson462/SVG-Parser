@@ -92,23 +92,28 @@ public interface SVGColor extends CSSValue {
 		@Override
 		public void setRGBColor(String rgbColor) throws SVGException {
 			colorType = SVG_COLORTYPE_RGBCOLOR;
-			this.rgbColor = parseRGBColor(rgbColor);
 			if (rgbColor == null) {
-				//TODO
+				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color value");
 			}
+			this.rgbColor = parseRGBColor(rgbColor);
 		}
 
 		@Override
 		public void setRGBColorICCColor(String rgbColor, String iccColor) throws SVGException {
 			colorType = SVG_COLORTYPE_RGBCOLOR_ICCCOLOR;
+			if (rgbColor == null || iccColor == null) {
+				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color value");
+			}
 			this.rgbColor = parseRGBColor(rgbColor);
 			this.iccColor = parseICCColor(iccColor);
-			// TODO
 		}
 
 		@Override
 		public void setColor(short colorType, String rgbColor, String iccColor) throws SVGException {
 			this.colorType = colorType;
+			if (rgbColor == null || iccColor == null) {
+				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color value");
+			}
 			this.rgbColor = parseRGBColor(rgbColor);
 			this.iccColor = parseICCColor(iccColor);
 		}

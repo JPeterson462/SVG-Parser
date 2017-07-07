@@ -4,6 +4,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
@@ -24,9 +25,11 @@ public interface SVGCircleElement extends SVGShapeElement {
 				String xmlLang, String xmlSpace, SVGAnimatedString className, CSSStyleDeclaration style,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
 				SVGAnimatedBoolean externalResourcesRequired,
-				SVGAnimatedLength cx, SVGAnimatedLength cy, SVGAnimatedLength radius) {
+				SVGAnimatedLength cx, SVGAnimatedLength cy, SVGAnimatedLength radius,
+				SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
 			super(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, className, style, requiredFeatures,
-					requiredExtensions, systemLanguage, externalResourcesRequired);
+					requiredExtensions, systemLanguage, externalResourcesRequired, nearestViewportElement,
+					farthestViewportElement, transform);
 			this.cx = cx;
 			this.cy = cy;
 			this.radius = radius;

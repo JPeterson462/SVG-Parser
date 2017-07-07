@@ -4,6 +4,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
@@ -19,9 +20,11 @@ public interface SVGPolylineElement extends SVGShapeElement, SVGAnimatedPoints {
 				String xmlLang, String xmlSpace, SVGAnimatedString className, CSSStyleDeclaration style,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
 				SVGAnimatedBoolean externalResourcesRequired,
-				SVGPointList baseValue, SVGPointList animatedValue) {
+				SVGPointList baseValue, SVGPointList animatedValue,
+				SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
 			super(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, className, style, requiredFeatures,
-					requiredExtensions, systemLanguage, externalResourcesRequired);
+					requiredExtensions, systemLanguage, externalResourcesRequired, nearestViewportElement,
+					farthestViewportElement, transform);
 			this.baseValue = baseValue;
 			this.animatedValue = animatedValue;
 		}

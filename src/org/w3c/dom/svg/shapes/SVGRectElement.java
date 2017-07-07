@@ -4,6 +4,7 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
@@ -29,9 +30,11 @@ public interface SVGRectElement extends SVGShapeElement {
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
 				SVGAnimatedBoolean externalResourcesRequired,
 				SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width, SVGAnimatedLength height,
-				SVGAnimatedLength rx, SVGAnimatedLength ry) {
+				SVGAnimatedLength rx, SVGAnimatedLength ry,
+				SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
 			super(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, className, style, requiredFeatures,
-					requiredExtensions, systemLanguage, externalResourcesRequired);
+					requiredExtensions, systemLanguage, externalResourcesRequired, nearestViewportElement,
+					farthestViewportElement, transform);
 			this.x = x;
 			this.y = y;
 			this.width = width;

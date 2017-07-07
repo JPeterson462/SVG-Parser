@@ -14,17 +14,17 @@ public class UIEventImplementation implements UIEvent {
 	
 	private boolean bubbles, cancelable;
 	
-//	private DOMTimeStamp timeStamp;
+	private long timeStamp;
 	
 	public UIEventImplementation(String type, EventTarget target, EventTarget currentTarget,
-			short eventPhase, boolean bubbles, boolean cancelable, DOMTimeStamp timeStamp) {
+			short eventPhase, boolean bubbles, boolean cancelable, long timeStamp) {
 		this.type = type;
 		this.target = target;
 		this.currentTarget = currentTarget;
 		this.eventPhase = eventPhase;
 		this.bubbles = bubbles;
 		this.cancelable = cancelable;
-//		this.timeStamp = timeStamp;
+		this.timeStamp = timeStamp;
 	}
 	
 	@Override
@@ -54,8 +54,7 @@ public class UIEventImplementation implements UIEvent {
 
 	@Override
 	public long getTimeStamp() {
-		// TODO Auto-generated method stub
-		return 0;
+		return timeStamp;
 	}
 
 	@Override

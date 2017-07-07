@@ -1,39 +1,23 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
 
 SVGLength converting with percentage; converting to and from a string, setting as string
-SVGColor to and from CSS text; RGBColor components in right format?
+SVGColor to and from CSS text; RGBColor components in right format? RGBA hex?
 SVGLocatable implementation
-SVGTransformable
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
 
 SVGDOMImplementation
 
 SVGDocument
 
-SVGGElement
-SVGDefsElement
-SVGDescElement
-SVGTitleElement
-SVGSymbolElement
 SVGElementInstance
-SVGUseElement
-SVGElementInstance
-SVGImageElement
-SVGSwitchElement
 
-SVGShapeElement
 SVGPathElement
 
 SVGTextContentElement
-SVGTextElement
 
-SVGClipPathElement implementation
 SVGFilterElement
 
-SVGAElement implementation
-
 UIEventImplementation
-DOMTimeStamp implementation
 TimeEvent
 
 ElementTimeControl implementation?
@@ -42,8 +26,8 @@ SVGAnimationElement implementation
 Readonly elements/attributes
 
 Parsing <...>
-Make use of namespaces
 
 Documentation
 
 Parser that conforms to spec better
+Standardized error messages
