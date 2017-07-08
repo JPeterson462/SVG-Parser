@@ -4,20 +4,22 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
+import org.w3c.dom.svg.document.SVGDocument;
+import org.w3c.dom.svg.impl.DocumentTypeImplementation;
+import org.w3c.dom.svg.impl.NamedNodeMapImplementation;
 
 public class SVGDOMImplementation implements DOMImplementation {
-
+	
 	@Override
 	public Document createDocument(String namespaceURI, String qualifiedName, DocumentType doctype)
 			throws DOMException {
-		// TODO Auto-generated method stub
-		return null;
+		return new SVGDocument.Implementation(null, null, null, null, null, qualifiedName, null, doctype, new SVGDOMConfiguration());
 	}
 
 	@Override
 	public DocumentType createDocumentType(String qualifiedName, String publicId, String systemId) throws DOMException {
-		// TODO Auto-generated method stub
-		return null;
+		return new DocumentTypeImplementation(qualifiedName, new NamedNodeMapImplementation(), null, qualifiedName, 
+				new NamedNodeMapImplementation(), publicId, systemId);
 	}
 
 	@Override

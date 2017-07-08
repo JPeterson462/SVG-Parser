@@ -6,20 +6,11 @@ SVGLocatable implementation
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
 
 SVGDOMImplementation
-
 SVGDocument
-
-SVGElementInstance
-
 SVGPathElement
-
 SVGTextContentElement
 
-SVGFilterElement
-
-UIEventImplementation
-TimeEvent
-
+EventImplementation
 ElementTimeControl implementation?
 SVGAnimationElement implementation
 

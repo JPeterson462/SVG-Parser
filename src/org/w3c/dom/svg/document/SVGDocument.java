@@ -20,6 +20,7 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.svg.impl.AttrImplementation;
 import org.w3c.dom.svg.impl.CDATASectionImplementation;
 import org.w3c.dom.svg.impl.CommentImplementation;
+import org.w3c.dom.svg.impl.DocumentFragmentImplementation;
 import org.w3c.dom.svg.impl.ElementImplementation;
 import org.w3c.dom.svg.impl.EntityReferenceImplementation;
 import org.w3c.dom.svg.impl.NodeImplementation;
@@ -48,8 +49,18 @@ public interface SVGDocument extends Document, DocumentEvent {
 		
 		private DocumentType documentType;
 		
+		private DOMImplementation domImplementation;
+		
+		private DOMConfiguration domConfiguration;
+		
+		private String inputEncoding;
+		
+		private String documentURI;
+		
+		private boolean strictErrorChecking = false, xmlStandalone = false;
+		
 		public Implementation(String title, String referrer, String domain, String url, SVGSVGElement rootElement, String xmlVersion, 
-				String xmlEncoding, DocumentType documentType) {
+				String xmlEncoding, DocumentType documentType, DOMConfiguration domConfiguration) {
 			super(title);
 			this.title = title;
 			this.referrer = referrer;
@@ -59,6 +70,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 			this.xmlVersion = xmlVersion;
 			this.xmlEncoding = xmlEncoding;
 			this.documentType = documentType;
+			this.domConfiguration = domConfiguration;
 		}
 
 		@Override
@@ -118,8 +130,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public DocumentFragment createDocumentFragment() {
-			// TODO Auto-generated method stub
-			return null;
+			return new DocumentFragmentImplementation(null);
 		}
 
 		@Override
@@ -162,14 +173,12 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public String getDocumentURI() {
-			// TODO Auto-generated method stub
-			return null;
+			return documentURI;
 		}
 
 		@Override
 		public DOMConfiguration getDomConfig() {
-			// TODO Auto-generated method stub
-			return null;
+			return domConfiguration;
 		}
 
 		@Override
@@ -192,20 +201,17 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public DOMImplementation getImplementation() {
-			// TODO Auto-generated method stub
-			return null;
+			return domImplementation;
 		}
 
 		@Override
 		public String getInputEncoding() {
-			// TODO Auto-generated method stub
-			return null;
+			return inputEncoding;
 		}
 
 		@Override
 		public boolean getStrictErrorChecking() {
-			// TODO Auto-generated method stub
-			return false;
+			return strictErrorChecking;
 		}
 
 		@Override
@@ -215,8 +221,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public boolean getXmlStandalone() {
-			// TODO Auto-generated method stub
-			return false;
+			return xmlStandalone;
 		}
 
 		@Override
@@ -243,21 +248,18 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public void setDocumentURI(String arg0) {
-			// TODO Auto-generated method stub
-			
+		public void setDocumentURI(String documentURI) {
+			this.documentURI = documentURI;
 		}
 
 		@Override
-		public void setStrictErrorChecking(boolean arg0) {
-			// TODO Auto-generated method stub
-			
+		public void setStrictErrorChecking(boolean strictErrorChecking) {
+			this.strictErrorChecking = strictErrorChecking;
 		}
 
 		@Override
-		public void setXmlStandalone(boolean arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			
+		public void setXmlStandalone(boolean xmlStandalone) throws DOMException {
+			this.xmlStandalone = xmlStandalone;
 		}
 
 		@Override

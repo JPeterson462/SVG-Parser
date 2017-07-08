@@ -3,6 +3,7 @@ package org.w3c.dom.svg;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.events.UIEvent;
 import org.w3c.dom.svg.impl.UIEventImplementation;
+import org.w3c.dom.views.AbstractView;
 
 public interface SVGZoomEvent extends UIEvent {
 	
@@ -31,8 +32,9 @@ public interface SVGZoomEvent extends UIEvent {
 		public Implementation(String type, EventTarget target, EventTarget currentTarget, short eventPhase,
 				boolean bubbles, boolean cancelable, long timeStamp,
 				SVGRect zoomRectScreen, float previousScale, SVGPoint previousTranslate,
-				float newScale, SVGPoint newTranslate) {
-			super(type, target, currentTarget, eventPhase, bubbles, cancelable, timeStamp);
+				float newScale, SVGPoint newTranslate,
+				int detail, AbstractView view) {
+			super(type, target, currentTarget, eventPhase, bubbles, cancelable, timeStamp, detail, view);
 			this.zoomRectScreen = zoomRectScreen;
 			this.previousScale = previousScale;
 			this.previousTranslate = previousTranslate;

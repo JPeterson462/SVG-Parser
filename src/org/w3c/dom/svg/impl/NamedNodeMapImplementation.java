@@ -1,5 +1,6 @@
 package org.w3c.dom.svg.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,10 @@ import org.w3c.dom.Node;
 public class NamedNodeMapImplementation implements NamedNodeMap {
 
 	private List nodes;
+	
+	public NamedNodeMapImplementation() {
+		nodes = new ArrayList();
+	}
 	
 	public NamedNodeMapImplementation(List nodes) {
 		this.nodes = nodes;
