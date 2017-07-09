@@ -77,16 +77,24 @@ public class RGBColorImplementation implements RGBColor {
 		
 	}
 	
+	private int redInt, greenInt, blueInt;
+	
 	public RGBColorImplementation(int red, int green, int blue) {
 		this.red = new RGBComponent(red);
 		this.green = new RGBComponent(green);
 		this.blue = new RGBComponent(blue);
+		redInt = red;
+		greenInt = green;
+		blueInt = blue;
 	}
 	
 	public RGBColorImplementation(RGBColor color) {
-		red = new RGBComponent((int) (color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT));
-		green = new RGBComponent((int) (color.getGreen().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT));
-		blue = new RGBComponent((int) (color.getBlue().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT));
+		redInt = (int) (color.getRed().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT);
+		greenInt = (int) (color.getGreen().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT);
+		blueInt = (int) (color.getBlue().getFloatValue(CSSPrimitiveValue.CSS_NUMBER) * MAX_COLOR_COMPONENT);
+		red = new RGBComponent(redInt);
+		green = new RGBComponent(greenInt);
+		blue = new RGBComponent(blueInt);
 	}
 
 	@Override
@@ -102,6 +110,10 @@ public class RGBColorImplementation implements RGBColor {
 	@Override
 	public CSSPrimitiveValue getBlue() {
 		return blue;
+	}
+	
+	public String toString() {
+		return "rgb(" + redInt + ", " + greenInt + ", " + blueInt + ")";
 	}
 
 }

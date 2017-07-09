@@ -36,6 +36,16 @@ public interface SVGICCColor {
 			return colors;
 		}
 		
+		public String toString() {
+			String str = "icc-color(";
+			str += colorProfile;
+			for (int i = 0; i < colors.getNumberOfItems(); i++) {
+				str += ", " + colors.getItem(i).getValue();
+			}
+			str += ")";
+			return str;
+		}
+		
 	}
 
 }

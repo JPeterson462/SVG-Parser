@@ -60,8 +60,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void beginElement() {
-			// TODO Auto-generated method stub
-			
+			beginElementAt(0);
 		}
 
 		@Override
@@ -72,8 +71,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void endElement() {
-			// TODO Auto-generated method stub
-			
+			endElementAt(0);
 		}
 
 		@Override

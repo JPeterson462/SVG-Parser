@@ -1,7 +1,6 @@
 package org.w3c.dom.svg;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGLength {
 
@@ -40,7 +39,7 @@ public interface SVGLength {
 
 	public float getValueInSpecifiedUnits();
 
-	public void setValueInSpecifiedUnits(float value) throws DOMException;
+	public void setValueInSpecifiedUnits(float valueInSpecifiedUnits) throws DOMException;
 
 	public String getValueAsString();
 
@@ -85,7 +84,45 @@ public interface SVGLength {
 
 		@Override
 		public void setValue(float value) throws DOMException {
-			// TODO
+			this.value = value;
+			switch (unitType) {
+				case SVG_LENGTHTYPE_PERCENTAGE:
+					SVGElement viewportElement = element.getViewportElement();
+					if (viewportElement != null) {
+						if (viewportElement instanceof SVGLocatable) {
+							valueInSpecifiedUnits = value * 100f / ((SVGLocatable) viewportElement).getBBox().getWidth();
+						} else {
+							throw new DOMException(DOMException.INVALID_STATE_ERR, "This element (" + viewportElement + ") cannot be used for relative positioning");
+						}
+					} else {
+						throw new DOMException(DOMException.INVALID_STATE_ERR, "Root elements cannot use relative positioning"); 
+					}
+					break;
+				case SVG_LENGTHTYPE_EMS:
+					valueInSpecifiedUnits = value / pixelsPerEM;
+					break;
+				case SVG_LENGTHTYPE_EXS:
+					valueInSpecifiedUnits = value / (float) Math.ceil(pixelsPerEM / SVGSettings.EFFECTIVE_ZOOM);
+					break;
+				case SVG_LENGTHTYPE_PX:
+					valueInSpecifiedUnits = value;
+					break;
+				case SVG_LENGTHTYPE_CM:
+					valueInSpecifiedUnits = value / pixelsPerCM;
+					break;
+				case SVG_LENGTHTYPE_MM:
+					valueInSpecifiedUnits = value / pixelsPerMM;
+					break;
+				case SVG_LENGTHTYPE_IN:
+					valueInSpecifiedUnits = value / pixelsPerInch;
+					break;
+				case SVG_LENGTHTYPE_PT:
+					valueInSpecifiedUnits = value / pixelsPerPoint;
+					break;
+				case SVG_LENGTHTYPE_PC:
+					valueInSpecifiedUnits = value / pixelsPerPica;
+					break;
+			}
 		}
 
 		@Override
@@ -94,8 +131,9 @@ public interface SVGLength {
 		}
 
 		@Override
-		public void setValueInSpecifiedUnits(float value) throws DOMException {
-			// TODO
+		public void setValueInSpecifiedUnits(float valueInSpecifiedUnits) throws DOMException {
+			this.valueInSpecifiedUnits = valueInSpecifiedUnits;
+			convertToSpecifiedUnits(unitType);
 		}
 
 		@Override
@@ -135,7 +173,42 @@ public interface SVGLength {
 
 		@Override
 		public void setValueAsString(String value) throws DOMException {
-			// TODO
+			if (value.endsWith("%")) {
+				value = value.substring(0, value.length() - 1);
+				unitType = SVG_LENGTHTYPE_PERCENTAGE;
+			} else {
+				String extension = value.substring(value.length() - 2).toLowerCase();
+				switch (extension) {
+					case "em":
+						unitType = SVG_LENGTHTYPE_EMS;
+						break;
+					case "ex":
+						unitType = SVG_LENGTHTYPE_EXS;
+						break;
+					case "px":
+						unitType = SVG_LENGTHTYPE_PX;
+						break;
+					case "cm":
+						unitType = SVG_LENGTHTYPE_CM;
+						break;
+					case "mm":
+						unitType = SVG_LENGTHTYPE_MM;
+						break;
+					case "in":
+						unitType = SVG_LENGTHTYPE_IN;
+						break;
+					case "pt":
+						unitType = SVG_LENGTHTYPE_PT;
+						break;
+					case "pc":
+						unitType = SVG_LENGTHTYPE_PC;
+						break;
+					default:
+						throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid unit type constant");
+				}
+				value = value.substring(0, value.length() - 2);
+			}
+			setValueInSpecifiedUnits(Float.parseFloat(value));
 		}
 
 		@Override
@@ -149,13 +222,22 @@ public interface SVGLength {
 			this.unitType = unitType;
 			switch (unitType) {
 				case SVG_LENGTHTYPE_NUMBER:
+					if (valueInSpecifiedUnits > 0) {
+						throw new DOMException(DOMException.INVALID_STATE_ERR, "CSS values of type number must be zero");
+					} else {
+						value = 0;
+					}
 					break;
 				case SVG_LENGTHTYPE_PERCENTAGE:
-					// TODO
-					if (element.getViewportElement() != null) {
-	
+					SVGElement viewportElement = element.getViewportElement();
+					if (viewportElement != null) {
+						if (viewportElement instanceof SVGLocatable) {
+							value = (valueInSpecifiedUnits * 0.01f) * ((SVGLocatable) viewportElement).getBBox().getWidth();
+						} else {
+							throw new DOMException(DOMException.INVALID_STATE_ERR, "This element (" + viewportElement + ") cannot be used for relative positioning");
+						}
 					} else {
-						SVGSVGElement rootElement = element.getOwnerSVGElement();
+						throw new DOMException(DOMException.INVALID_STATE_ERR, "Root elements cannot use relative positioning"); 
 					}
 					break;
 				case SVG_LENGTHTYPE_EMS:

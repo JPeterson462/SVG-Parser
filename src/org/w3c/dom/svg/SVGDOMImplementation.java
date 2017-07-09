@@ -1,5 +1,7 @@
 package org.w3c.dom.svg;
 
+import java.util.HashMap;
+
 import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -9,6 +11,13 @@ import org.w3c.dom.svg.impl.DocumentTypeImplementation;
 import org.w3c.dom.svg.impl.NamedNodeMapImplementation;
 
 public class SVGDOMImplementation implements DOMImplementation {
+	
+	private HashMap<String, String[]> features = new HashMap<>();
+	
+	public SVGDOMImplementation() {
+		features.put("SVG", new String[] { "1.0", "1.1" });
+		features.put("SVGEvents", new String[] { "1.0", "1.1" });
+	}
 	
 	@Override
 	public Document createDocument(String namespaceURI, String qualifiedName, DocumentType doctype)
@@ -24,13 +33,22 @@ public class SVGDOMImplementation implements DOMImplementation {
 
 	@Override
 	public Object getFeature(String feature, String version) {
-		// TODO Auto-generated method stub
+		if (hasFeature(feature, version)) {
+			return this;
+		}
 		return null;
 	}
 
 	@Override
 	public boolean hasFeature(String feature, String version) {
-		// TODO Auto-generated method stub
+		if (features.containsKey(feature)) {
+			String[] versions = features.get(feature);
+			for (int i = 0; i < versions.length; i++) {
+				if (versions[i].equalsIgnoreCase(version)) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 

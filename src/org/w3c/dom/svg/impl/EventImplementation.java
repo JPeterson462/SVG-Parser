@@ -15,6 +15,8 @@ public class EventImplementation implements Event {
 	
 	private long timeStamp;
 	
+	private boolean stopPropagation = false, preventDefault = false;
+	
 	public EventImplementation(String type, EventTarget target, EventTarget currentTarget,
 			short eventPhase, boolean bubbles, boolean cancelable, long timeStamp) {
 		this.type = type;
@@ -70,14 +72,20 @@ public class EventImplementation implements Event {
 
 	@Override
 	public void preventDefault() {
-		// TODO Auto-generated method stub
-		
+		preventDefault = true;
+	}
+	
+	public boolean getDefaultPrevented() {
+		return preventDefault;
 	}
 
 	@Override
 	public void stopPropagation() {
-		// TODO Auto-generated method stub
-		
+		stopPropagation = true;
+	}
+	
+	public boolean getStopPropagation() {
+		return stopPropagation;
 	}
 
 }

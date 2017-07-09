@@ -44,7 +44,14 @@ public interface SVGColor extends CSSValue {
 		
 		@Override
 		public String getCssText() {
-			// TODO
+			switch (colorType) {
+				case SVG_COLORTYPE_RGBCOLOR:
+					return rgbColor.toString();
+				case SVG_COLORTYPE_RGBCOLOR_ICCCOLOR:
+					return rgbColor.toString() + " " + iccColor.toString();
+				case SVG_COLORTYPE_CURRENTCOLOR:
+					throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "CurrentColor not implemented");
+			}
 			return null;
 		}
 
@@ -63,14 +70,35 @@ public interface SVGColor extends CSSValue {
 
 		@Override
 		public void setCssText(String text) throws DOMException {
-			// TODO
+			if (text.equals("currentColor")) {
+				colorType = SVG_COLORTYPE_CURRENTCOLOR;
+			}
+			else if (text.contains("rgb") && text.contains("icc")) {
+				colorType = SVG_COLORTYPE_RGBCOLOR_ICCCOLOR;
+			}
+			else {
+				colorType = SVG_COLORTYPE_RGBCOLOR;
+			}
 			switch (colorType) {
 				case SVG_COLORTYPE_RGBCOLOR:
-					
+					rgbColor = parseRGBColor(text);
 				case SVG_COLORTYPE_RGBCOLOR_ICCCOLOR:
-					
+					String[] parts = text.trim().split("\\s+");
+					if (parts[0].startsWith("rgb")) {
+						rgbColor = parseRGBColor(parts[0]);
+						iccColor = parseICCColor(parts[1]);
+					}
+					else if (parts[0].startsWith("icc")) {
+						iccColor = parseICCColor(parts[0]);
+						rgbColor = parseRGBColor(parts[1]);
+					}
+					else {
+						throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color definitions");
+					}
 				case SVG_COLORTYPE_CURRENTCOLOR:
-					
+					throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "CurrentColor not implemented");
+				default:
+					throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color format");
 			}
 		}
 
@@ -210,7 +238,7 @@ public interface SVGColor extends CSSValue {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid ICC color code.");
 			}
 			for (int i = 1; i < components.length; i++) {
-				SVGNumber number = new SVGNumber.Implementation(Float.parseFloat(components[i]));
+				SVGNumber number = new SVGNumber.Implementation(Float.parseFloat(components[i].trim()));
 				numbers.add(number);
 			}
 			SVGNumberList list = new SVGNumberList.Implementation(numbers);
