@@ -237,7 +237,6 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public void normalizeDocument() {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -268,9 +267,12 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Event createEvent(String arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public Event createEvent(String type) throws DOMException {
+//			if (type.equals("UIEvents")) {
+//				
+//			}
+//			return null;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
 		}
 		
 	}

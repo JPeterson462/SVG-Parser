@@ -33,12 +33,15 @@ public interface SVGForeignObjectElement extends SVGElement, SVGTests, SVGLangSp
 		
 		private SVGAnimatedLength x, y, width, height;
 		
+		private SVGTransformable transformableBase;
+		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
 				String xmlLang, String xmlSpace,
 				SVGAnimatedBoolean externalResourcesRequired,
 				SVGAnimatedString className, CSSStyleDeclaration style,
-				SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width, SVGAnimatedLength height) {
+				SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width, SVGAnimatedLength height,
+				SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
 			this.requiredFeatures = requiredFeatures;
 			this.requiredExtensions = requiredExtensions;
@@ -52,6 +55,7 @@ public interface SVGForeignObjectElement extends SVGElement, SVGTests, SVGLangSp
 			this.y = y;
 			this.width = width;
 			this.height = height;
+			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
 		}
 
 		@Override
@@ -116,44 +120,37 @@ public interface SVGForeignObjectElement extends SVGElement, SVGTests, SVGLangSp
 
 		@Override
 		public SVGAnimatedTransformList getTransform() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getTransform();
 		}
 
 		@Override
 		public SVGElement getNearestViewportElement() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getNearestViewportElement();
 		}
 
 		@Override
 		public SVGElement getFarthestViewportElement() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getFarthestViewportElement();
 		}
 
 		@Override
 		public SVGRect getBBox() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getBBox();
 		}
 
 		@Override
 		public SVGMatrix getCTM() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getCTM();
 		}
 
 		@Override
 		public SVGMatrix getScreenCTM() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getScreenCTM();
 		}
 
 		@Override
 		public SVGMatrix getTransformToElement(SVGElement element) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getTransformToElement(element);
 		}
 
 		@Override

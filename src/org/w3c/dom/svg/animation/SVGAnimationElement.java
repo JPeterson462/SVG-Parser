@@ -18,8 +18,6 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 	
 	public float getSimpleDuration() throws DOMException;
 	
-	// TODO implementation
-	
 	public static class Implementation extends SVGElement.Implementation implements SVGAnimationElement {
 
 		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;

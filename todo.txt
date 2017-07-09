@@ -10,9 +10,10 @@ SVGTextContentElement
 ElementTimeControl implementation?
 SVGAnimationElement implementation
 
-Readonly elements/attributes
+Readonly elements/attributes?
 Parsing <...>
 Documentation
+Validate setting of constants?
 
 Parser that conforms to spec better
 Standardized error messages

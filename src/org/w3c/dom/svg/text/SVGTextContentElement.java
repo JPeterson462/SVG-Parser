@@ -155,8 +155,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@Override
 		public long getNumberOfChars() {
-			// TODO Auto-generated method stub
-			return 0;
+			return getTextContent().length();
 		}
 
 		@Override

@@ -30,6 +30,7 @@ import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTests;
 import org.w3c.dom.svg.SVGTransform;
+import org.w3c.dom.svg.SVGTransformable;
 import org.w3c.dom.svg.SVGViewSpec;
 import org.w3c.dom.svg.SVGZoomAndPan;
 import org.w3c.dom.views.DocumentView;
@@ -122,7 +123,43 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 	public Element getElementById(String elementId);
 
 	public static class Implementation extends SVGElement.Implementation implements SVGSVGElement {
+		
+		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;
+		
+		private String xmlLang, xmlSpace;
+		
+		private SVGAnimatedBoolean externalResourcesRequired;
+		
+		private SVGAnimatedString className;
+		
+		private CSSStyleDeclaration style;
+		
+		private SVGTransformable transformableBase;
+		
+		private SVGAnimatedRect viewBox;
+		
+		private SVGAnimatedPreserveAspectRatio preserveAspectRatio;
+		
+		private short zoomAndPan;
+		
+		private SVGAnimatedLength x, y, width, height;
+		
+		private String contentScriptType, contentStyleType;
+		
+		private SVGRect viewport;
+		
+		private float pixelUnitToMillimeterX, pixelUnitToMillimeterY;
+		
+		private float screenPixelToMillimeterX, screenPixelToMillimeterY;
+		
+		private boolean useCurrentView;
+		
+		private SVGViewSpec currentView;
 
+		private float currentScale;
+		
+		private SVGPoint currentTranslate;
+		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
 			// TODO Auto-generated constructor stub
@@ -130,140 +167,121 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public SVGStringList getRequiredFeatures() {
-			// TODO Auto-generated method stub
-			return null;
+			return requiredFeatures;
 		}
 
 		@Override
 		public SVGStringList getRequiredExtensions() {
-			// TODO Auto-generated method stub
-			return null;
+			return requiredExtensions;
 		}
 
 		@Override
 		public SVGStringList getSystemLanguage() {
-			// TODO Auto-generated method stub
-			return null;
+			return systemLanguage;
 		}
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			// TODO Auto-generated method stub
-			return false;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
 		}
 
 		@Override
 		public String getXMLLang() {
-			// TODO Auto-generated method stub
-			return null;
+			return xmlLang;
 		}
 
 		@Override
 		public void setXMLLang(String xmlLang) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.xmlLang = xmlLang;
 		}
 
 		@Override
 		public String getXMLSpace() {
-			// TODO Auto-generated method stub
-			return null;
+			return xmlSpace;
 		}
 
 		@Override
 		public void setXMLSpace(String xmlSpace) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.xmlSpace = xmlSpace;
 		}
 
 		@Override
 		public SVGAnimatedBoolean getExternalResourcesRequired() {
-			// TODO Auto-generated method stub
-			return null;
+			return externalResourcesRequired;
 		}
 
 		@Override
 		public SVGAnimatedString getClassName() {
-			// TODO Auto-generated method stub
-			return null;
+			return className;
 		}
 
 		@Override
 		public CSSStyleDeclaration getStyle() {
-			// TODO Auto-generated method stub
-			return null;
+			return style;
 		}
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			// TODO Auto-generated method stub
-			return null;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
 		}
 
 		@Override
 		public SVGElement getNearestViewportElement() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getNearestViewportElement();
 		}
 
 		@Override
 		public SVGElement getFarthestViewportElement() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getFarthestViewportElement();
 		}
 
 		@Override
 		public SVGRect getBBox() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getBBox();
 		}
 
 		@Override
 		public SVGMatrix getCTM() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getCTM();
 		}
 
 		@Override
 		public SVGMatrix getScreenCTM() {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getScreenCTM();
 		}
 
 		@Override
 		public SVGMatrix getTransformToElement(SVGElement element) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			return transformableBase.getTransformToElement(element);
 		}
 
 		@Override
 		public SVGAnimatedRect getViewBox() {
-			// TODO Auto-generated method stub
-			return null;
+			return viewBox;
 		}
 
 		@Override
 		public SVGAnimatedPreserveAspectRatio getPreserveAspectRatio() {
-			// TODO Auto-generated method stub
-			return null;
+			return preserveAspectRatio;
 		}
 
 		@Override
 		public short getZoomAndPan() {
-			// TODO Auto-generated method stub
-			return 0;
+			return zoomAndPan;
 		}
 
 		@Override
 		public void setZoomAndPan(short zoomAndPan) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.zoomAndPan = zoomAndPan;
 		}
 
 		@Override
-		public Event createEvent(String arg0) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+		public Event createEvent(String type) throws DOMException {
+//			if (type.equals("UIEvents")) {
+//			
+//			}
+//			return null;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
 		}
 
 		@Override
@@ -292,110 +310,92 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public SVGAnimatedLength getX() {
-			// TODO Auto-generated method stub
-			return null;
+			return x;
 		}
 
 		@Override
 		public SVGAnimatedLength getY() {
-			// TODO Auto-generated method stub
-			return null;
+			return y;
 		}
 
 		@Override
 		public SVGAnimatedLength getWidth() {
-			// TODO Auto-generated method stub
-			return null;
+			return width;
 		}
 
 		@Override
 		public SVGAnimatedLength getHeight() {
-			// TODO Auto-generated method stub
-			return null;
+			return height;
 		}
 
 		@Override
 		public String getContentScriptType() {
-			// TODO Auto-generated method stub
-			return null;
+			return contentScriptType;
 		}
 
 		@Override
 		public void setContentScriptType(String contentScriptType) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.contentScriptType = contentScriptType;
 		}
 
 		@Override
 		public String getContentStyleType() {
-			// TODO Auto-generated method stub
-			return null;
+			return contentStyleType;
 		}
 
 		@Override
 		public void setContentStyleType(String contentStyleType) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			this.contentStyleType = contentStyleType;
 		}
 
 		@Override
 		public SVGRect getViewport() {
-			// TODO Auto-generated method stub
-			return null;
+			return viewport;
 		}
 
 		@Override
 		public float getPixelUnitToMillimeterX() {
-			// TODO Auto-generated method stub
-			return 0;
+			return pixelUnitToMillimeterX;
 		}
 
 		@Override
 		public float getPixelUnitToMillimeterY() {
-			// TODO Auto-generated method stub
-			return 0;
+			return pixelUnitToMillimeterY;
 		}
 
 		@Override
 		public float getScreenPixelToMillimeterX() {
-			// TODO Auto-generated method stub
-			return 0;
+			return screenPixelToMillimeterX;
 		}
 
 		@Override
 		public float getScreenPixelToMillimeterY() {
-			// TODO Auto-generated method stub
-			return 0;
+			return screenPixelToMillimeterY;
 		}
 
 		@Override
 		public boolean useCurrentView() {
-			// TODO Auto-generated method stub
-			return false;
+			return useCurrentView;
 		}
 
 		@Override
 		public SVGViewSpec getCurrentView() {
-			// TODO Auto-generated method stub
-			return null;
+			return currentView;
 		}
 
 		@Override
 		public float getCurrentScale() {
-			// TODO Auto-generated method stub
-			return 0;
+			return currentScale;
 		}
 
 		@Override
 		public void setCurrentScale(float scale) {
-			// TODO Auto-generated method stub
-			
+			currentScale = scale;
 		}
 
 		@Override
 		public SVGPoint getCurrentTranslate() {
-			// TODO Auto-generated method stub
-			return null;
+			return currentTranslate;
 		}
 
 		@Override
