@@ -1,5 +1,7 @@
 package org.w3c.dom.svg.document;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -24,6 +26,7 @@ import org.w3c.dom.svg.impl.DocumentFragmentImplementation;
 import org.w3c.dom.svg.impl.ElementImplementation;
 import org.w3c.dom.svg.impl.EntityReferenceImplementation;
 import org.w3c.dom.svg.impl.NodeImplementation;
+import org.w3c.dom.svg.impl.NodeListImplementation;
 import org.w3c.dom.svg.impl.ProcessingInstructionImplementation;
 import org.w3c.dom.svg.impl.TextImplementation;
 
@@ -100,8 +103,39 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public Node adoptNode(Node source) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			switch (source.getNodeType()) {
+				case ATTRIBUTE_NODE://TODO
+					break;
+				case DOCUMENT_FRAGMENT_NODE://TODO
+					break;
+				case DOCUMENT_NODE:
+					throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Document nodes cannot be adopted");
+				case DOCUMENT_TYPE_NODE:
+					throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DocumentType nodes cannot be adopted");
+				case ELEMENT_NODE:
+					break;
+				case ENTITY_NODE:
+					throw new DOMException(DOMException.INVALID_STATE_ERR, "Entity nodes cannot be adopted");
+				case ENTITY_REFERENCE_NODE:
+					break;
+				case NOTATION_NODE:
+					throw new DOMException(DOMException.INVALID_STATE_ERR, "Notation nodes cannot be adopted");
+				case PROCESSING_INSTRUCTION_NODE:
+					getDocumentElement().appendChild(source);
+					break;
+				case TEXT_NODE:
+					getDocumentElement().appendChild(source);
+					break;
+				case CDATA_SECTION_NODE:
+					getDocumentElement().appendChild(source);
+					break;
+				case COMMENT_NODE:
+					getDocumentElement().appendChild(source);
+					break;
+				default:
+					throw new DOMException(DOMException.INVALID_STATE_ERR, "Nodes of type " + source.getNodeType() + " cannot be adopted");
+			}
+			return source;
 		}
 
 		@Override
@@ -167,8 +201,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public Element getDocumentElement() {
-			// TODO Auto-generated method stub
-			return null;
+			return rootElement;
 		}
 
 		@Override
@@ -182,21 +215,50 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Element getElementById(String arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		public Element getElementById(String elementId) {
+			Element[] result = new Element[1];
+			visitNodes(getDocumentElement(), (node) -> {
+				if (node instanceof Element) {
+					if (((Element) node).hasAttribute("id") && ((Element) node).getAttribute("id").equals(elementId)) {
+						if (result[0] == null) {
+							result[0] = (Element) node;
+						}
+					}
+				}
+			});
+			return result[0];
 		}
 
 		@Override
-		public NodeList getElementsByTagName(String arg0) {
-			// TODO Auto-generated method stub
-			return null;
+		public NodeList getElementsByTagName(String tagName) {
+			ArrayList<Node> nodes = new ArrayList<>();
+			visitNodes(getDocumentElement(), (node) -> {
+				if (node instanceof Element) {
+					if (((Element) node).getTagName().equalsIgnoreCase(tagName)) {
+						nodes.add(node);
+					}
+				}
+			});
+			return new NodeListImplementation(nodes);
 		}
 
 		@Override
-		public NodeList getElementsByTagNameNS(String arg0, String arg1) {
-			// TODO Auto-generated method stub
-			return null;
+		public NodeList getElementsByTagNameNS(String namespaceURI, String localName) {
+			return getElementsByTagName(localName);
+		}
+		
+		private void visitNodes(Node root, Visitor visitor) {
+			NodeList children = root.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				Node node = children.item(i);
+				visitor.visit(node);
+				visitNodes(node, visitor);
+			}
+		}
+		
+		@FunctionalInterface
+		interface Visitor {
+			void visit(Node node);
 		}
 
 		@Override
@@ -230,8 +292,9 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Node importNode(Node arg0, boolean arg1) throws DOMException {
+		public Node importNode(Node importedNode, boolean deep) throws DOMException {
 			// TODO Auto-generated method stub
+			//Copy the node
 			return null;
 		}
 
@@ -241,7 +304,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 		}
 
 		@Override
-		public Node renameNode(Node arg0, String arg1, String arg2) throws DOMException {
+		public Node renameNode(Node node, String namespaceURI, String qualifiedName) throws DOMException {
 			// TODO Auto-generated method stub
 			return null;
 		}
