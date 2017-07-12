@@ -1,0 +1,11 @@
+SVGParser contains a mapping of String (Tag Name) -> ElementParser
+
+	readSVG(InputStream):
+		InputStream -> Document (XML)
+		Document -> SVGDocument
+			foreach (element in document)
+				Element -> SVGElement
+				Tag Name -> ElementParser
+	writeSVG(OutputStream, SVGDocument):
+		SVGDocument -> Document
+		Document -> OutputStream
