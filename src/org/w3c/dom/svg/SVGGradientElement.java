@@ -78,7 +78,7 @@ public interface SVGGradientElement extends SVGElement, SVGURIReference, SVGExte
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.INVALID_STATE_ERR, "This method is deprecated.");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

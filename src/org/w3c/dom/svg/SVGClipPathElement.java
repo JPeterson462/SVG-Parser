@@ -106,7 +106,7 @@ public interface SVGClipPathElement extends SVGElement, SVGLangSpace, SVGStylabl
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

@@ -1,6 +1,5 @@
 package org.w3c.dom.svg;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 
@@ -35,7 +34,7 @@ public interface SVGStylable {
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.INVALID_STATE_ERR, "This method is deprecated.");
+			return DOMErrors.deprecatedMethod();
 		}
 		
 	}

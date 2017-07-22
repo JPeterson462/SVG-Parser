@@ -38,7 +38,7 @@ public interface SVGStopElement extends SVGElement, SVGStylable {
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

@@ -116,7 +116,7 @@ public interface SVGMaskElement extends SVGElement, SVGTests, SVGLangSpace, SVGE
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

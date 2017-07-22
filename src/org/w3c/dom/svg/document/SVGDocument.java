@@ -104,15 +104,18 @@ public interface SVGDocument extends Document, DocumentEvent {
 		@Override
 		public Node adoptNode(Node source) throws DOMException {
 			switch (source.getNodeType()) {
-				case ATTRIBUTE_NODE://TODO
+				case ATTRIBUTE_NODE:
+					getDocumentElement().appendChild(source);
 					break;
-				case DOCUMENT_FRAGMENT_NODE://TODO
+				case DOCUMENT_FRAGMENT_NODE:
+					getDocumentElement().appendChild(source);
 					break;
 				case DOCUMENT_NODE:
 					throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Document nodes cannot be adopted");
 				case DOCUMENT_TYPE_NODE:
 					throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "DocumentType nodes cannot be adopted");
 				case ELEMENT_NODE:
+					getDocumentElement().appendChild(source);
 					break;
 				case ENTITY_NODE:
 					throw new DOMException(DOMException.INVALID_STATE_ERR, "Entity nodes cannot be adopted");
@@ -293,20 +296,36 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public Node importNode(Node importedNode, boolean deep) throws DOMException {
-			// TODO Auto-generated method stub
-			//Copy the node
-			return null;
+			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not implemented");
 		}
 
 		@Override
 		public void normalizeDocument() {
 			
 		}
-
+		
 		@Override
 		public Node renameNode(Node node, String namespaceURI, String qualifiedName) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			if (node.getNodeType() != ELEMENT_NODE && node.getNodeType() != ATTRIBUTE_NODE) {
+				throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Nodes of this type cannot be renamed");
+			}
+			if (node instanceof NodeImplementation) {
+				Node renamed = new NodeImplementation(node.getNodeName());
+				((NodeImplementation) node).duplicate((NodeImplementation) renamed);
+				node.getParentNode().appendChild(renamed);
+				node.getParentNode().removeChild(node);
+				return renamed;
+			}
+			else if (node instanceof ElementImplementation) {
+				Element renamed = new ElementImplementation(node.getNodeName());
+				((ElementImplementation) node).duplicate((NodeImplementation) renamed);
+				node.getParentNode().appendChild(renamed);
+				node.getParentNode().removeChild(node);
+				return renamed;
+			}
+			else {
+				throw new DOMException(DOMException.WRONG_DOCUMENT_ERR, "This node is from another document");
+			}
 		}
 
 		@Override

@@ -36,6 +36,18 @@ public class NodeImplementation implements Node, NodeList {
 		this.nodeName = nodeName;
 	}
 	
+	public void duplicate(NodeImplementation dup) {
+		dup.nodeValue = nodeValue;
+		dup.userObject = userObject;
+		dup.parent = parent;
+		dup.numChildren = numChildren;
+		dup.firstChild = firstChild;
+		dup.lastChild = lastChild;
+		dup.nextSibling = nextSibling;
+		dup.previousSibling = previousSibling;
+		dup.attributes = attributes;
+	}
+	
 	private void checkNode(Node node) throws DOMException {
 		if (node == null) {
 			return;

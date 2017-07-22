@@ -3,6 +3,7 @@ package org.w3c.dom.svg.document;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedPreserveAspectRatio;
 import org.w3c.dom.svg.SVGAnimatedRect;
@@ -77,7 +78,7 @@ public interface SVGSymbolElement extends SVGElement, SVGLangSpace, SVGStylable,
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

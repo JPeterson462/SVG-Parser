@@ -3,6 +3,7 @@ package org.w3c.dom.svg.filters;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
@@ -71,7 +72,7 @@ public interface SVGFEElement extends SVGElement, SVGFilterPrimitiveStandardAttr
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.INVALID_STATE_ERR, "This method is deprecated.");
+			return DOMErrors.deprecatedMethod();
 		}
 		
 	}

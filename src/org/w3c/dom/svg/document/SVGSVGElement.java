@@ -10,6 +10,7 @@ import org.w3c.dom.css.ViewCSS;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.stylesheets.StyleSheetList;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAngle;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
@@ -222,7 +223,7 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

@@ -111,7 +111,7 @@ public interface SVGAElement extends SVGElement, SVGURIReference, SVGTests, SVGL
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override

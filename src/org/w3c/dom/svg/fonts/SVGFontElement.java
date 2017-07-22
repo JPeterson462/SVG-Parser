@@ -1,8 +1,8 @@
 package org.w3c.dom.svg.fonts;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
@@ -45,7 +45,7 @@ public interface SVGFontElement extends SVGElement, SVGExternalResourcesRequired
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
+			return DOMErrors.deprecatedMethod();
 		}
 		
 	}

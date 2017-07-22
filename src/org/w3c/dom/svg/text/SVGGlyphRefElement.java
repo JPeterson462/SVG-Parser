@@ -3,6 +3,7 @@ package org.w3c.dom.svg.text;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStylable;
@@ -77,7 +78,7 @@ public interface SVGGlyphRefElement extends SVGElement, SVGURIReference, SVGStyl
 
 		@Override
 		public CSSValue getPresentationAttribute(String name) {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
+			return DOMErrors.deprecatedMethod();
 		}
 
 		@Override
