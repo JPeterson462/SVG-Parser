@@ -12,11 +12,11 @@ import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGTransform;
 import org.w3c.dom.svg.SVGTransformList;
 
-public interface ElementParser {
+public interface ElementParser<T extends SVGElement> {
 	
-	public SVGElement readElement(Element element);
+	public T readElement(Element element, ParsingState parsingState);
 	
-	public Element writeElement(SVGElement element, ElementFactory factory);
+	public Element writeElement(T element, ElementFactory factory);
 
 	public static SVGStringList concatenate(String... elements) {
 		ArrayList<String> list = new ArrayList<>(Arrays.asList(elements));

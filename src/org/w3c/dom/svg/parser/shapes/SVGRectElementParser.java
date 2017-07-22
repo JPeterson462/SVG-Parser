@@ -3,6 +3,7 @@ package org.w3c.dom.svg.parser.shapes;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
+import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
@@ -11,30 +12,29 @@ import org.w3c.dom.svg.SVGFeatures;
 import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
+import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.shapes.SVGRectElement;
 
 public class SVGRectElementParser implements ElementParser {
 
 	@Override
-	public SVGElement readElement(Element element) {
-		if (!element.getTagName().equalsIgnoreCase("rect")) {
-			throw new IllegalStateException("Invalid <rect> element");
-		}
+	public SVGElement readElement(Element element, ParsingState parsingState) {
 		// Read and validate
-		String xStr = ElementParser.readOrDefault(element, "x", "0");
-		String yStr = ElementParser.readOrDefault(element, "y", "0");
-		String widthStr = element.getAttribute("width");
+		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
+		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
+		String widthStr = element.getAttribute(Attributes.WIDTH);
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Width must be >= 0");
 		}
-		String heightStr = element.getAttribute("height");
+		String heightStr = element.getAttribute(Attributes.HEIGHT);
 		if (heightStr.startsWith("-")) {
 			SVGErrors.error("Height must be >= 0");
 		}
-		String rxStr = element.getAttribute("rx");
-		String ryStr = element.getAttribute("ry");
+		String rxStr = element.getAttribute(Attributes.RX);
+		String ryStr = element.getAttribute(Attributes.RY);
 		if (rxStr == null && ryStr != null) {
 			rxStr = ryStr;
 		}
@@ -73,23 +73,30 @@ public class SVGRectElementParser implements ElementParser {
 		if (ry.getValue() > 0.5f * height.getValue()) {
 			ry.setValue(0.5f * height.getValue());
 		}
+		// SVGLength -> SVGAnimatedLength
+		SVGAnimatedLength ax = new SVGAnimatedLength.Implementation(x, x);
+		SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
+		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
+		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
+		SVGAnimatedLength arx = new SVGAnimatedLength.Implementation(rx, rx);
+		SVGAnimatedLength ary = new SVGAnimatedLength.Implementation(ry, ry);
 		// Get default values
-		String id = element.getAttribute("id");
-		String xmlBase = null;//TODO
-		SVGSVGElement ownerSVGElement = null;//TODO
-		SVGElement viewportElement = null;//TODO
-		String xmlLang = element.getAttribute("xml:lang");
+		String id = element.getAttribute(Attributes.ID);
+		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		String xmlLang = element.getAttribute(Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute("xml:space");
+		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
 //		String className = element.getAttribute("class");
-		SVGAnimatedString className;
+		SVGAnimatedString className = null;//TODO
 		CSSStyleDeclaration style = null;//TODO
-		SVGStringList requiredFeatures = ElementParser.concatenate(SVGFeatures.SHAPE);
+		SVGStringList requiredFeatures = null;//TODO
 		SVGStringList requiredExtensions = null;//TODO
 		SVGStringList systemLanguage = null;//TODO
 		SVGAnimatedBoolean externalResourcesRequired = null;//TODO
@@ -97,10 +104,9 @@ public class SVGRectElementParser implements ElementParser {
 		SVGElement farthestViewportElement = null;//TODO
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-//		return new SVGRectElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
-//					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
-//					x, y, width, height, rx, ry, nearestViewportElement, farthestViewportElement, transform);
-		return null;
+		return new SVGRectElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
+					ax, ay, awidth, aheight, arx, ary, nearestViewportElement, farthestViewportElement, transform);
 	}
 
 	@Override
