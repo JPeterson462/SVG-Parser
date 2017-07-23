@@ -162,7 +162,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
@@ -197,33 +197,58 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public float getTotalLength() {
-			// TODO Auto-generated method stub
-			return 0;
+			float totalLength = 0;
+			SVGPoint point = new SVGPoint.Implementation(0, 0);
+			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
+				SVGPathSeg seg = pathSegList.getItem(segment);
+				float segDistance = SVGPathMath.getSegmentLength(seg, point);
+				SVGPathMath.transformPoint(seg, point, segDistance, segDistance);
+				totalLength += segDistance;
+			}
+			return totalLength;
 		}
 
 		@Override
 		public SVGPoint getPointAtLength(float distance) {
-			// TODO Auto-generated method stub
-			return null;
+			SVGPoint point = new SVGPoint.Implementation(0, 0);
+			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
+				SVGPathSeg seg = pathSegList.getItem(segment);
+				float segDistance = SVGPathMath.getSegmentLength(seg, point);
+				if (distance < segDistance) {
+					SVGPathMath.transformPoint(seg, point, distance, segDistance);
+					return point;
+				} else {
+					SVGPathMath.transformPoint(seg, point);
+					distance -= segDistance;
+				}
+			}
+			return point;
 		}
 
 		@Override
 		public long getPathSegAtLength(float distance) {
-			// TODO Auto-generated method stub
-			return 0;
+			SVGPoint point = new SVGPoint.Implementation(0, 0);
+			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
+				SVGPathSeg seg = pathSegList.getItem(segment);
+				float segDistance = SVGPathMath.getSegmentLength(seg, point);
+				if (distance < segDistance) {
+					return segment;
+				}
+				SVGPathMath.transformPoint(seg, point);
+				distance -= segDistance;
+			}
+			return pathSegList.getNumberOfItems();
 		}
 
 		@Override
 		public SVGPathSegClosePath createSVGPathSegClosePath() {
-			short type = SVGPathSeg.PATHSEG_CLOSEPATH;
-			SVGPathSegClosePath path = new SVGPathSegClosePath.Implementation(type);
+			SVGPathSegClosePath path = new SVGPathSegClosePath.Implementation();
 			return path;
 		}
 
 		@Override
 		public SVGPathSegMoveToAbs createSVGPathSegMoveToAbs(float x, float y) {
-			short type = SVGPathSeg.PATHSEG_MOVETO_ABS;
-			SVGPathSegMoveToAbs path = new SVGPathSegMoveToAbs.Implementation(type);
+			SVGPathSegMoveToAbs path = new SVGPathSegMoveToAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			return path;
@@ -231,8 +256,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegMoveToRel createSVGPathSegMoveToRel(float x, float y) {
-			short type = SVGPathSeg.PATHSEG_MOVETO_REL;
-			SVGPathSegMoveToRel path = new SVGPathSegMoveToRel.Implementation(type);
+			SVGPathSegMoveToRel path = new SVGPathSegMoveToRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			return path;
@@ -240,8 +264,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegLineToAbs createSVGPathSegLineToAbs(float x, float y) {
-			short type = SVGPathSeg.PATHSEG_LINETO_ABS;
-			SVGPathSegLineToAbs path = new SVGPathSegLineToAbs.Implementation(type);
+			SVGPathSegLineToAbs path = new SVGPathSegLineToAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			return path;
@@ -249,8 +272,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegLineToRel createSVGPathSegLineToRel(float x, float y) {
-			short type = SVGPathSeg.PATHSEG_LINETO_REL;
-			SVGPathSegLineToRel path = new SVGPathSegLineToRel.Implementation(type);
+			SVGPathSegLineToRel path = new SVGPathSegLineToRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			return path;
@@ -259,8 +281,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGPathSegCurveToCubicAbs createSVGPathSegCurveToCubicAbs(float x, float y, float x1, float y1, float x2,
 				float y2) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS;
-			SVGPathSegCurveToCubicAbs path = new SVGPathSegCurveToCubicAbs.Implementation(type);
+			SVGPathSegCurveToCubicAbs path = new SVGPathSegCurveToCubicAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setX1(x1);
@@ -273,8 +294,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGPathSegCurveToCubicRel createSVGPathSegCurveToCubicRel(float x, float y, float x1, float y1, float x2,
 				float y2) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL;
-			SVGPathSegCurveToCubicRel path = new SVGPathSegCurveToCubicRel.Implementation(type);
+			SVGPathSegCurveToCubicRel path = new SVGPathSegCurveToCubicRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setX1(x1);
@@ -286,8 +306,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegCurveToQuadraticAbs createSVGPathSegCurveToQuadraticAbs(float x, float y, float x1, float y1) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS;
-			SVGPathSegCurveToQuadraticAbs path = new SVGPathSegCurveToQuadraticAbs.Implementation(type);
+			SVGPathSegCurveToQuadraticAbs path = new SVGPathSegCurveToQuadraticAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setX1(x1);
@@ -297,8 +316,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegCurveToQuadraticRel createSVGPathSegCurveToQuadraticRel(float x, float y, float x1, float y1) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL;
-			SVGPathSegCurveToQuadraticRel path = new SVGPathSegCurveToQuadraticRel.Implementation(type);
+			SVGPathSegCurveToQuadraticRel path = new SVGPathSegCurveToQuadraticRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setX1(x1);
@@ -309,8 +327,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGPathSegArcAbs createSVGPathSegArcAbs(float x, float y, float r1, float r2, float angle,
 				boolean largeArcFlag, boolean sweepFlag) {
-			short type = SVGPathSeg.PATHSEG_ARC_ABS;
-			SVGPathSegArcAbs path = new SVGPathSegArcAbs.Implementation(type);
+			SVGPathSegArcAbs path = new SVGPathSegArcAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setR1(r1);
@@ -324,8 +341,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGPathSegArcRel createSVGPathSegArcRel(float x, float y, float r1, float r2, float angle,
 				boolean largeArcFlag, boolean sweepFlag) {
-			short type = SVGPathSeg.PATHSEG_ARC_REL;
-			SVGPathSegArcRel path = new SVGPathSegArcRel.Implementation(type);
+			SVGPathSegArcRel path = new SVGPathSegArcRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setR1(r1);
@@ -338,32 +354,28 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegLineToHorizontalAbs createSVGPathSegLineToHorizontalAbs(float x) {
-			short type = SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS;
-			SVGPathSegLineToHorizontalAbs path = new SVGPathSegLineToHorizontalAbs.Implementation(type);
+			SVGPathSegLineToHorizontalAbs path = new SVGPathSegLineToHorizontalAbs.Implementation();
 			path.setX(x);
 			return path;
 		}
 
 		@Override
 		public SVGPathSegLineToHorizontalRel createSVGPathSegLineToHorizontalRel(float x) {
-			short type = SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL;
-			SVGPathSegLineToHorizontalRel path = new SVGPathSegLineToHorizontalRel.Implementation(type);
+			SVGPathSegLineToHorizontalRel path = new SVGPathSegLineToHorizontalRel.Implementation();
 			path.setX(x);
 			return path;
 		}
 
 		@Override
 		public SVGPathSegLineToVerticalAbs createSVGPathSegLineToVerticalAbs(float y) {
-			short type = SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS;
-			SVGPathSegLineToVerticalAbs path = new SVGPathSegLineToVerticalAbs.Implementation(type);
+			SVGPathSegLineToVerticalAbs path = new SVGPathSegLineToVerticalAbs.Implementation();
 			path.setY(y);
 			return path;
 		}
 
 		@Override
 		public SVGPathSegLineToVerticalRel createSVGPathSegLineToVerticalRel(float y) {
-			short type = SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL;
-			SVGPathSegLineToVerticalRel path = new SVGPathSegLineToVerticalRel.Implementation(type);
+			SVGPathSegLineToVerticalRel path = new SVGPathSegLineToVerticalRel.Implementation();
 			path.setY(y);
 			return path;
 		}
@@ -371,8 +383,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGPathSegCurveToCubicSmoothAbs createSVGPathSegCurveToCubicSmoothAbs(float x, float y, float x2,
 				float y2) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS;
-			SVGPathSegCurveToCubicSmoothAbs path = new SVGPathSegCurveToCubicSmoothAbs.Implementation(type);
+			SVGPathSegCurveToCubicSmoothAbs path = new SVGPathSegCurveToCubicSmoothAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setX2(x2);
@@ -383,8 +394,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGPathSegCurveToCubicSmoothRel createSVGPathSegCurveToCubicSmoothRel(float x, float y, float x2,
 				float y2) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL;
-			SVGPathSegCurveToCubicSmoothRel path = new SVGPathSegCurveToCubicSmoothRel.Implementation(type);
+			SVGPathSegCurveToCubicSmoothRel path = new SVGPathSegCurveToCubicSmoothRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			path.setX2(x2);
@@ -394,8 +404,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegCurveToQuadraticSmoothAbs createSVGPathSegCurveToQuadraticSmoothAbs(float x, float y) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS;
-			SVGPathSegCurveToQuadraticSmoothAbs path = new SVGPathSegCurveToQuadraticSmoothAbs.Implementation(type);
+			SVGPathSegCurveToQuadraticSmoothAbs path = new SVGPathSegCurveToQuadraticSmoothAbs.Implementation();
 			path.setX(x);
 			path.setY(y);
 			return path;
@@ -403,8 +412,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPathSegCurveToQuadraticSmoothRel createSVGPathSegCurveToQuadraticSmoothRel(float x, float y) {
-			short type = SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL;
-			SVGPathSegCurveToQuadraticSmoothRel path = new SVGPathSegCurveToQuadraticSmoothRel.Implementation(type);
+			SVGPathSegCurveToQuadraticSmoothRel path = new SVGPathSegCurveToQuadraticSmoothRel.Implementation();
 			path.setX(x);
 			path.setY(y);
 			return path;

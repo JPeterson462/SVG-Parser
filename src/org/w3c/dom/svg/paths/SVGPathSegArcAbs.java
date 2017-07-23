@@ -38,8 +38,8 @@ public interface SVGPathSegArcAbs extends SVGPathSeg {
 		
 		private boolean largeArcFlag, sweepFlag;
 		
-		public Implementation(short pathSegType) {
-			super(pathSegType);
+		public Implementation() {
+			super(PATHSEG_ARC_ABS);
 		}
 
 		@Override

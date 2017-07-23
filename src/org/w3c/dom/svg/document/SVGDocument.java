@@ -19,6 +19,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.impl.AttrImplementation;
 import org.w3c.dom.svg.impl.CDATASectionImplementation;
 import org.w3c.dom.svg.impl.CommentImplementation;
@@ -296,7 +297,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 
 		@Override
 		public Node importNode(Node importedNode, boolean deep) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not implemented");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
@@ -354,7 +355,7 @@ public interface SVGDocument extends Document, DocumentEvent {
 //				
 //			}
 //			return null;
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 		
 	}

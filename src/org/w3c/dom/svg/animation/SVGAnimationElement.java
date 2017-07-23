@@ -1,6 +1,7 @@
 package org.w3c.dom.svg.animation;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
@@ -48,7 +49,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override

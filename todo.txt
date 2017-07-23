@@ -2,16 +2,17 @@ https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
 
 SVGLocatable implementation
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
-SVGPathElement
 SVGTextContentElement
 ElementTimeControl implementation?
 SVGAnimationElement implementation
+
+SVGPathMath
 
 Readonly elements/attributes?
 Parsing <...>
 Documentation
 Validate setting of constants?
-For implementations duplicate() should it recurse
+For implementations duplicate() should it recurse?
 Better adoptNode() implementation
 
 Parsing styling elements

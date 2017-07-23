@@ -35,7 +35,7 @@ public interface SVGTransformList extends ElementList<SVGTransform> {
 		@Override
 		public SVGTransform getItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.get((int) index);
 		}
@@ -49,7 +49,7 @@ public interface SVGTransformList extends ElementList<SVGTransform> {
 		@Override
 		public SVGTransform replaceItem(SVGTransform newItem, long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			list.set((int) index, newItem);
 			return newItem;
@@ -58,7 +58,7 @@ public interface SVGTransformList extends ElementList<SVGTransform> {
 		@Override
 		public SVGTransform removeItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.remove((int) index);
 		}

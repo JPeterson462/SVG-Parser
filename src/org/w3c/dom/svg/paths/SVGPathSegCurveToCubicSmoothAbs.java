@@ -24,8 +24,8 @@ public interface SVGPathSegCurveToCubicSmoothAbs extends SVGPathSeg {
 
 		private float x, y, x2, y2;
 		
-		public Implementation(short pathSegType) {
-			super(pathSegType);
+		public Implementation() {
+			super(PATHSEG_CURVETO_CUBIC_SMOOTH_ABS);
 		}
 
 		@Override

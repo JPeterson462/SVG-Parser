@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.w3c.dom.DOMException;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.ElementList;
 
 public interface SVGPathSegList extends ElementList<SVGPathSeg> {
@@ -36,7 +37,7 @@ public interface SVGPathSegList extends ElementList<SVGPathSeg> {
 		@Override
 		public SVGPathSeg getItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.get((int) index);
 		}
@@ -50,7 +51,7 @@ public interface SVGPathSegList extends ElementList<SVGPathSeg> {
 		@Override
 		public SVGPathSeg replaceItem(SVGPathSeg newItem, long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			list.set((int) index, newItem);
 			return newItem;
@@ -59,7 +60,7 @@ public interface SVGPathSegList extends ElementList<SVGPathSeg> {
 		@Override
 		public SVGPathSeg removeItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.remove((int) index);
 		}

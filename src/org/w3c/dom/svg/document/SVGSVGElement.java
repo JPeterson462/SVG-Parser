@@ -183,7 +183,7 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
@@ -282,7 +282,7 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 //			
 //			}
 //			return null;
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override

@@ -91,7 +91,7 @@ public interface SVGGElement extends SVGElement, SVGLangSpace, SVGStylable, SVGT
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
+			return DOMErrors.notSupported();
 		}
 
 		@Override

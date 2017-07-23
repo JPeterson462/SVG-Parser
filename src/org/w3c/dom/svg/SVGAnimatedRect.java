@@ -1,7 +1,5 @@
 package org.w3c.dom.svg;
 
-import org.w3c.dom.DOMException;
-
 public interface SVGAnimatedRect extends Animated<SVGRect> {
 
 	public static class Implementation implements SVGAnimatedRect {
@@ -20,7 +18,7 @@ public interface SVGAnimatedRect extends Animated<SVGRect> {
 
 		@Override
 		public void setBaseValue(SVGRect value) {
-			throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "SVGAnimatedRect.animVal is readonly");
+			DOMErrors.readonly(getClass());
 		}
 
 		@Override

@@ -103,7 +103,7 @@ public interface SVGShapeElement extends SVGElement, SVGLangSpace, SVGStylable, 
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported.");
+			return DOMErrors.notSupported();
 		}
 
 		@Override

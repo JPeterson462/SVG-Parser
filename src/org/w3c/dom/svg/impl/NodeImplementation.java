@@ -9,6 +9,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.svg.DOMErrors;
 
 public class NodeImplementation implements Node, NodeList {
 
@@ -80,7 +81,7 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public short compareDocumentPosition(Node other) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 		}
 
 	@Override
@@ -90,7 +91,7 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public String getBaseURI() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
@@ -100,7 +101,7 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public Object getFeature(String feature, String version) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
@@ -165,12 +166,12 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public String getTextContent() throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Object getUserData(String key) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
@@ -220,17 +221,17 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public boolean isDefaultNamespace(String namespaceURI) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean isEqualNode(Node arg) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean isSameNode(Node other) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
@@ -240,12 +241,12 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public String lookupNamespaceURI(String prefix) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public String lookupPrefix(String namespaceURI) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
@@ -325,12 +326,12 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public void setTextContent(String textContent) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public Object setUserData(String key, Object data, UserDataHandler handler) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	public Object getUserObject() {

@@ -1,7 +1,7 @@
 package org.w3c.dom.svg.shapes;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.svg.Animated;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGPointList;
 
 public interface SVGAnimatedPoints extends Animated<SVGPointList> {
@@ -22,7 +22,7 @@ public interface SVGAnimatedPoints extends Animated<SVGPointList> {
 
 		@Override
 		public void setBaseValue(SVGPointList value) {
-			throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "SVGAnimatedPoints instances are readonly");
+			DOMErrors.readonly(getClass());
 		}
 
 		@Override

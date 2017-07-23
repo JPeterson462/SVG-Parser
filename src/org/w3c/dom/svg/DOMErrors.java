@@ -8,8 +8,16 @@ public class DOMErrors {
 		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "This method is deprecated");
 	}
 	
-	public static void notSupported() {
-		//TODO
+	public static <T> T notSupported() throws DOMException {
+		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+	}
+	
+	public static <T> T indexTooHigh() throws DOMException {
+		throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+	}
+	
+	public static <T> T readonly(Class<T> type) throws DOMException {
+		throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "Instances of " + type.getSimpleName() + " are readonly");
 	}
 	
 }

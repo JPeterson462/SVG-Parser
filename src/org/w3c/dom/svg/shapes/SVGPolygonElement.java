@@ -1,7 +1,7 @@
 package org.w3c.dom.svg.shapes;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.svg.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
@@ -36,7 +36,7 @@ public interface SVGPolygonElement extends SVGShapeElement, SVGAnimatedPoints {
 
 		@Override
 		public void setBaseValue(SVGPointList value) {
-			throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "SVGAnimatedPoints instances are readonly");
+			DOMErrors.readonly(getClass());
 		}
 
 		@Override

@@ -5,6 +5,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.Counter;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.css.Rect;
+import org.w3c.dom.svg.DOMErrors;
 
 public class RGBColorImplementation implements RGBColor {
 	
@@ -22,22 +23,22 @@ public class RGBColorImplementation implements RGBColor {
 
 		@Override
 		public String getCssText() {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
 		public short getCssValueType() {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
 		public void setCssText(String text) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			DOMErrors.notSupported();
 		}
 
 		@Override
 		public Counter getCounterValue() throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
@@ -52,27 +53,27 @@ public class RGBColorImplementation implements RGBColor {
 
 		@Override
 		public RGBColor getRGBColorValue() throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
 		public Rect getRectValue() throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
 		public String getStringValue() throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			return DOMErrors.notSupported();
 		}
 
 		@Override
 		public void setFloatValue(short unitType, float value) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			DOMErrors.notSupported();
 		}
 
 		@Override
 		public void setStringValue(short unitType, String text) throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			DOMErrors.notSupported();
 		}
 		
 	}

@@ -16,8 +16,8 @@ public interface SVGPathSegCurveToQuadraticSmoothRel extends SVGPathSeg {
 
 		private float x, y;
 		
-		public Implementation(short pathSegType) {
-			super(pathSegType);
+		public Implementation() {
+			super(PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL);
 		}
 
 		@Override

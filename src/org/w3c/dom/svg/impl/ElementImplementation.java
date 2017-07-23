@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.svg.DOMErrors;
 
 @SuppressWarnings("rawtypes")
 public class ElementImplementation extends NodeImplementation implements Element, NodeList {
@@ -62,12 +63,12 @@ public class ElementImplementation extends NodeImplementation implements Element
 	
 	@Override
 	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public TypeInfo getSchemaTypeInfo() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
@@ -170,17 +171,17 @@ public class ElementImplementation extends NodeImplementation implements Element
 	
 	@Override
 	public void setIdAttribute(String name, boolean isId) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 	
 }

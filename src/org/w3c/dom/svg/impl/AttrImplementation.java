@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.svg.DOMErrors;
 
 public class AttrImplementation extends ElementImplementation implements Attr {
 
@@ -65,162 +66,162 @@ public class AttrImplementation extends ElementImplementation implements Attr {
 	
 	@Override
 	public short compareDocumentPosition(Node other) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public String getBaseURI() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Object getFeature(String feature, String version) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 		}
 
 	@Override
 	public String getTextContent() throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Object getUserData(String key) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean hasAttributes() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean isDefaultNamespace(String namespaceURI) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean isEqualNode(Node arg) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean isSameNode(Node other) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public String lookupNamespaceURI(String prefix) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public String lookupPrefix(String namespaceURI) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setTextContent(String textContent) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public Object setUserData(String key, Object data, UserDataHandler handler) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Attr getAttributeNode(String name) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Attr getAttributeNodeNS(String namespaceURI, String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public NodeList getElementsByTagName(String name) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public NodeList getElementsByTagNameNS(String namespaceURI, String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean hasAttribute(String name) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean hasAttributeNS(String namespaceURI, String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public void removeAttribute(String name) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public void removeAttributeNS(String namespaceURI, String localName) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setAttributeNS(String namespaceURI, String qualifiedName, String value) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public Attr setAttributeNode(Attr newAttr) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setIdAttribute(String name, boolean isId) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setIdAttributeNS(String namespaceURI, String localName, boolean isId) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		DOMErrors.notSupported();
 	}
 
 	@Override
 	public int getLength() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public Node item(int index) {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public TypeInfo getSchemaTypeInfo() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 	@Override
 	public boolean isId() {
-		throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+		return DOMErrors.notSupported();
 	}
 
 }

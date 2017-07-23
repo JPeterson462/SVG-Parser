@@ -36,7 +36,7 @@ public interface SVGStringList extends ElementList<String>, DOMStringList {
 		@Override
 		public String getItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.get((int) index);
 		}
@@ -50,7 +50,7 @@ public interface SVGStringList extends ElementList<String>, DOMStringList {
 		@Override
 		public String replaceItem(String newItem, long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			list.set((int) index, newItem);
 			return newItem;
@@ -59,7 +59,7 @@ public interface SVGStringList extends ElementList<String>, DOMStringList {
 		@Override
 		public String removeItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.remove((int) index);
 		}

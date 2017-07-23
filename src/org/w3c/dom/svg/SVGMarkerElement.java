@@ -183,7 +183,7 @@ public interface SVGMarkerElement extends SVGElement, SVGLangSpace, SVGStylable,
 
 		@Override
 		public void setOrientToAuto() throws DOMException {
-			throw new DOMException(DOMException.NOT_SUPPORTED_ERR, "Method not supported");
+			DOMErrors.notSupported();
 		}
 
 		@Override

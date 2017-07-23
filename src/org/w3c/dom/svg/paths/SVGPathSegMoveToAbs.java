@@ -16,8 +16,8 @@ public interface SVGPathSegMoveToAbs extends SVGPathSeg {
 
 		private float x, y;
 		
-		public Implementation(short pathSegType) {
-			super(pathSegType);
+		public Implementation() {
+			super(PATHSEG_MOVETO_ABS);
 		}
 
 		@Override

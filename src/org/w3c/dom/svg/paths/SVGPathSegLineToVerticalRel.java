@@ -12,8 +12,8 @@ public interface SVGPathSegLineToVerticalRel extends SVGPathSeg {
 
 		private float y;
 		
-		public Implementation(short pathSegType) {
-			super(pathSegType);
+		public Implementation() {
+			super(PATHSEG_LINETO_VERTICAL_REL);
 		}
 
 		@Override

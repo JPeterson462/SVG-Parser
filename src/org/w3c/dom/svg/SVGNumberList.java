@@ -35,7 +35,7 @@ public interface SVGNumberList extends ElementList<SVGNumber> {
 		@Override
 		public SVGNumber getItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.get((int) index);
 		}
@@ -49,7 +49,7 @@ public interface SVGNumberList extends ElementList<SVGNumber> {
 		@Override
 		public SVGNumber replaceItem(SVGNumber newItem, long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			list.set((int) index, newItem);
 			return newItem;
@@ -58,7 +58,7 @@ public interface SVGNumberList extends ElementList<SVGNumber> {
 		@Override
 		public SVGNumber removeItem(long index) throws DOMException {
 			if (index >= getNumberOfItems()) {
-				throw new DOMException(DOMException.INDEX_SIZE_ERR, "Index >= Size");
+				DOMErrors.indexTooHigh();
 			}
 			return list.remove((int) index);
 		}
