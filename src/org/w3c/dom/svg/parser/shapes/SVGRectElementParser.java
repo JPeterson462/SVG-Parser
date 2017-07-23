@@ -18,10 +18,10 @@ import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.shapes.SVGRectElement;
 
-public class SVGRectElementParser implements ElementParser {
+public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 
 	@Override
-	public SVGElement readElement(Element element, ParsingState parsingState) {
+	public SVGRectElement readElement(Element element, ParsingState parsingState) {
 		// Read and validate
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
@@ -53,19 +53,18 @@ public class SVGRectElementParser implements ElementParser {
 		if (ryStr.startsWith("-")) {
 			SVGErrors.error("Y Radius must be >= 0");
 		}
-		// TODO pass parent element
 		// Convert
-		SVGLength x = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, null);
+		SVGLength x = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		x.setValueAsString(xStr);
-		SVGLength y = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, null);
+		SVGLength y = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		y.setValueAsString(yStr);
-		SVGLength width = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, null);
+		SVGLength width = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		width.setValueAsString(widthStr);
-		SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, null);
+		SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		height.setValueAsString(heightStr);
-		SVGLength rx = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, null);
+		SVGLength rx = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		rx.setValueAsString(rxStr);
-		SVGLength ry = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, null);
+		SVGLength ry = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		ry.setValueAsString(ryStr);
 		if (rx.getValue() > 0.5f * width.getValue()) {
 			rx.setValue(0.5f * width.getValue());
@@ -93,7 +92,7 @@ public class SVGRectElementParser implements ElementParser {
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-//		String className = element.getAttribute("class");
+//		String className = element.getAttribute(Attributes.CLASS);
 		SVGAnimatedString className = null;//TODO
 		CSSStyleDeclaration style = null;//TODO
 		SVGStringList requiredFeatures = null;//TODO
@@ -110,7 +109,7 @@ public class SVGRectElementParser implements ElementParser {
 	}
 
 	@Override
-	public Element writeElement(SVGElement element, ElementFactory factory) {
+	public Element writeElement(SVGRectElement element, ElementFactory factory) {
 		// TODO Auto-generated method stub
 		return null;
 	}

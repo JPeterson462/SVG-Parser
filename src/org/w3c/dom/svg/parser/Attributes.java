@@ -4,6 +4,8 @@ public interface Attributes {
 
 	public static final String BASE_PROFILE = "baseProfile";
 	
+	public static final String CLASS = "class";
+	
 	public static final String CONTENT_STYLE_TYPE = "contentStyleType";
 	
 	public static final String HEIGHT = "height";

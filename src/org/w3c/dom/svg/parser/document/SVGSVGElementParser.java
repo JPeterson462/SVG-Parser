@@ -13,7 +13,7 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 	@Override
 	public SVGSVGElement readElement(Element element, ParsingState parsingState) {
 		String version = element.getAttribute(Attributes.VERSION);
-		String baseProfile = ElementParser.readOrDefault(element, Attributes.BASE_PROFILE, "none"); // or 'none'
+		String baseProfile = ElementParser.readOrDefault(element, Attributes.BASE_PROFILE, "none");
 		String xStr = element.getAttribute(Attributes.X);
 		//TODO
 		return null;

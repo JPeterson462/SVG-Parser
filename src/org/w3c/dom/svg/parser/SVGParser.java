@@ -27,7 +27,6 @@ public class SVGParser {
 		Element root = document.getDocumentElement();
 		if (root.getTagName().equals(Tags.SVG)) {
 			ParsingState parsingState = new ParsingState();
-			// TODO
 			return (SVGSVGElement) parseElementRecursively(root, parsingState);
 		} else {
 			throw new DOMException(DOMException.INVALID_STATE_ERR, "Invalid SVG Document");
@@ -38,7 +37,13 @@ public class SVGParser {
 	private SVGElement parseElementRecursively(Element root, ParsingState parsingState) {
 		ElementParser parser = Parsers.getParser(root.getTagName());
 		SVGElement element = parser.readElement(root, parsingState);
+		if (element instanceof SVGSVGElement) {
+			if (parsingState.getOwnerSVGElement() == null) { // TODO set viewport element each time?
+				parsingState.setOwnerSVGElement((SVGSVGElement) element);
+			}
+		}
 		NodeList children = root.getChildNodes();
+		parsingState.pushParent(element);
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
 			if (!(child instanceof Element)) {
@@ -46,6 +51,7 @@ public class SVGParser {
 			}
 			element.appendChild(parseElementRecursively((Element) child, parsingState));
 		}
+		parsingState.popParent();
 		return element;
 	}
 	
