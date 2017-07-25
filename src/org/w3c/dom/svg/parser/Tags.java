@@ -1,6 +1,8 @@
 package org.w3c.dom.svg.parser;
 
 public interface Tags {
+	
+	public static final String CURSOR = "cursor";
 
 	public static final String METADATA = "metadata";
 	

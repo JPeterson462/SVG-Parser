@@ -31,54 +31,60 @@ SVG Events
 	3. Renderer
 *	4. Writer
 
-	<svg>
-	<g>
-	<defs>
-	<desc>
-	<title>
-	<symbol>
-	<use>
-	<image>
-	<switch>
-+	<style>
-	<path>
-*	<rect>
-	<circle>
-	<ellipse>
-	<line>
-	<polyline>
-	<polygon>
-	<text>
-	<tspan>
-	<tref>
-	<textPath>
-	<altGlyph>
-	<altGlyphDef>
-	<altGlyphItem>
-	<glyphRef>
-	<marker>
-	<color-profile>
-	<clipPath>
-	<filter>
-	Filter Primitives?
-	<cursor>
-	<a>
-	<view>
-	<script>
-	<animate>
-	<set>
-	<animateMotion>
-	<animateColor>
-	<animateTransform>
-	<font>
-	<glyph>
-	<missing-glyph>
-	<hkern>
-	<vkern>
-	<font-face>
-	<font-face-src>
-	<font-face-uri>
-	<font-face-format>
-	<font-face-name>
-+	<metadata>
-	<foreignObject>
+CSSStyleDeclarationImplementation
+CSSValueImplementation
+
+Parsing the <style>... where?
+
+R	W
+		<svg>
+		<g>
+		<defs>
+		<desc>
+		<title>
+		<symbol>
+		<use>
+		<image>
+		<switch>
++	+	<style>
+		<path>
+*		<rect>
+		<circle>
+		<ellipse>
+		<line>
+		<polyline>
+		<polygon>
+		<text>
+		<tspan>
+		<tref>
+		<textPath>
+		<altGlyph>
+		<altGlyphDef>
+		<altGlyphItem>
+		<glyphRef>
+		<marker>
+		<color-profile>
+		<clipPath>
+		<filter>
+		Filter Primitives?
++	+	<cursor>
+		<a>
+		<view>
+		<script>
+		<animate>
+		<set>
+		<animateMotion>
+		<animateColor>
+		<animateTransform>
+		<font>
+		<glyph>
+		<missing-glyph>
+		<hkern>
+		<vkern>
+		<font-face>
+		<font-face-src>
+		<font-face-uri>
+		<font-face-format>
+		<font-face-name>
++	+	<metadata>
+		<foreignObject>

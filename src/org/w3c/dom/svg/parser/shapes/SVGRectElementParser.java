@@ -92,13 +92,14 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-//		String className = element.getAttribute(Attributes.CLASS);
-		SVGAnimatedString className = null;//TODO
+		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclaration style = null;//TODO
-		SVGStringList requiredFeatures = null;//TODO
-		SVGStringList requiredExtensions = null;//TODO
-		SVGStringList systemLanguage = null;//TODO
-		SVGAnimatedBoolean externalResourcesRequired = null;//TODO
+		SVGStringList requiredFeatures = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_FEATURES).split(" "));
+		SVGStringList requiredExtensions = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_EXTENSIONS).split(" "));
+		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
+		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
+		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
 		SVGElement nearestViewportElement = null;//TODO
 		SVGElement farthestViewportElement = null;//TODO
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);

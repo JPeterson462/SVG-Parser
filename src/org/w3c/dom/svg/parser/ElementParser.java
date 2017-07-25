@@ -23,6 +23,18 @@ public interface ElementParser<T extends SVGElement> {
 		return new SVGStringList.Implementation(list);
 	}
 	
+	public static String concatenate(SVGStringList list, String joinBy) {
+		String concatenated = "";
+		for (int i = 0; i < list.getLength(); i++) {
+			if (i > 0) {
+				concatenated += joinBy;
+			} else {
+				concatenated += list.item(i);
+			}
+		}
+		return concatenated;
+	}
+	
 	public static float[] parseFloatArray(String text) {
 		String[] strings = text.split(",");
 		float[] array = new float[strings.length];
