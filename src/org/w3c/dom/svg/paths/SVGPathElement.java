@@ -198,11 +198,19 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public float getTotalLength() {
 			float totalLength = 0;
-			SVGPoint point = new SVGPoint.Implementation(0, 0);
+			SVGPathMath.State state = new SVGPathMath.State();
+			state.point = new SVGPoint.Implementation(0, 0);
+			state.start = new SVGPoint.Implementation(0, 0);
+			boolean setStart = false;
 			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
 				SVGPathSeg seg = pathSegList.getItem(segment);
-				float segDistance = SVGPathMath.getSegmentLength(seg, point);
-				SVGPathMath.transformPoint(seg, point, segDistance, segDistance);
+				if (!setStart && seg.getPathSegType() != SVGPathSeg.PATHSEG_MOVETO_ABS && seg.getPathSegType() != SVGPathSeg.PATHSEG_MOVETO_REL) {
+					state.start.setX(state.point.getX());
+					state.start.setY(state.point.getY());
+					setStart = true;
+				}
+				float segDistance = SVGPathMath.getSegmentLength(seg, state);
+				SVGPathMath.transformPoint(seg, segDistance, segDistance, state);
 				totalLength += segDistance;
 			}
 			return totalLength;
@@ -210,31 +218,47 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public SVGPoint getPointAtLength(float distance) {
-			SVGPoint point = new SVGPoint.Implementation(0, 0);
+			SVGPathMath.State state = new SVGPathMath.State();
+			state.point = new SVGPoint.Implementation(0, 0);
+			state.start = new SVGPoint.Implementation(0, 0);
+			boolean setStart = false;
 			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
 				SVGPathSeg seg = pathSegList.getItem(segment);
-				float segDistance = SVGPathMath.getSegmentLength(seg, point);
+				if (!setStart && seg.getPathSegType() != SVGPathSeg.PATHSEG_MOVETO_ABS && seg.getPathSegType() != SVGPathSeg.PATHSEG_MOVETO_REL) {
+					state.start.setX(state.point.getX());
+					state.start.setY(state.point.getY());
+					setStart = true;
+				}
+				float segDistance = SVGPathMath.getSegmentLength(seg, state);
 				if (distance < segDistance) {
-					SVGPathMath.transformPoint(seg, point, distance, segDistance);
-					return point;
+					SVGPathMath.transformPoint(seg, distance, segDistance, state);
+					return state.point;
 				} else {
-					SVGPathMath.transformPoint(seg, point);
+					SVGPathMath.transformPoint(seg, state);
 					distance -= segDistance;
 				}
 			}
-			return point;
+			return state.point;
 		}
 
 		@Override
 		public long getPathSegAtLength(float distance) {
-			SVGPoint point = new SVGPoint.Implementation(0, 0);
+			SVGPathMath.State state = new SVGPathMath.State();
+			state.point = new SVGPoint.Implementation(0, 0);
+			state.start = new SVGPoint.Implementation(0, 0);
+			boolean setStart = false;
 			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
 				SVGPathSeg seg = pathSegList.getItem(segment);
-				float segDistance = SVGPathMath.getSegmentLength(seg, point);
+				if (!setStart && seg.getPathSegType() != SVGPathSeg.PATHSEG_MOVETO_ABS && seg.getPathSegType() != SVGPathSeg.PATHSEG_MOVETO_REL) {
+					state.start.setX(state.point.getX());
+					state.start.setY(state.point.getY());
+					setStart = true;
+				}
+				float segDistance = SVGPathMath.getSegmentLength(seg, state);
 				if (distance < segDistance) {
 					return segment;
 				}
-				SVGPathMath.transformPoint(seg, point);
+				SVGPathMath.transformPoint(seg, state);
 				distance -= segDistance;
 			}
 			return pathSegList.getNumberOfItems();

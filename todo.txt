@@ -16,9 +16,7 @@ For implementations duplicate() should it recurse?
 Better adoptNode() implementation
 
 Parsing styling elements
-Parser that conforms to spec better
 Standardized error messages
-Get the parser to pass a stack of parent elements
 Validate SVG using required features and extensions
 
 SVG Events
