@@ -107,7 +107,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 			this.animatedPathSegList = animatedPathSegList;
 			this.animatedNormalizedPathSegList = animatedNormalizedPathSegList;
 			this.pathLength = pathLength;
-			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
+			transformableBase = new SVGTransformable.Implementation(this, transform);
 		}
 
 		@Override

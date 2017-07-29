@@ -8,8 +8,8 @@ public interface SVGTransformable extends SVGLocatable {
 
 		private SVGAnimatedTransformList transform;
 		
-		public Implementation(SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
-			super(nearestViewportElement, farthestViewportElement);
+		public Implementation(SVGElement element, SVGAnimatedTransformList transform) {
+			super(element);
 			this.transform = transform;
 		}
 

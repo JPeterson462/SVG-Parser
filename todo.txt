@@ -19,6 +19,8 @@ Parsing styling elements
 Standardized error messages
 Validate SVG using required features and extensions
 
+Relative vs absolute control points
+
 SVG Events
 
 * = work in progress

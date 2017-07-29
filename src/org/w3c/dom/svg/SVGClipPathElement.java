@@ -46,7 +46,7 @@ public interface SVGClipPathElement extends SVGElement, SVGLangSpace, SVGStylabl
 			this.className = className;
 			this.style = style;
 			this.clipPathUnits = clipPathUnits;
-			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
+			transformableBase = new SVGTransformable.Implementation(this, transform);
 		}
 
 		@Override

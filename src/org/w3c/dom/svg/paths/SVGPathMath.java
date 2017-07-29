@@ -32,20 +32,33 @@ public class SVGPathMath {
 				return SVGMath.sqrt(closeDx * closeDx + closeDy * closeDy);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS:
 				SVGPathSegCurveToCubicAbs pathSegCurveToCubicAbs = (SVGPathSegCurveToCubicAbs) segment;
-				
-				break;
+				state.lastControlPoint = new float[] { pathSegCurveToCubicAbs.getX1(), pathSegCurveToCubicAbs.getY1() };
+				return BezierCurve.cubicBezierLength(state.point.getX(), state.point.getY(), pathSegCurveToCubicAbs.getX(), pathSegCurveToCubicAbs.getY(), 
+						pathSegCurveToCubicAbs.getX1(), pathSegCurveToCubicAbs.getY1(), pathSegCurveToCubicAbs.getX2(), pathSegCurveToCubicAbs.getY2(), 1);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL:
 				SVGPathSegCurveToCubicRel pathSegCurveToCubicRel = (SVGPathSegCurveToCubicRel) segment;
-				
-//				return BezierCurve.cubicBezierLength(pathSegCurveToCubicRel.getX(), pathSegCurveToCubicRel.getY(), pathSegCurveToCubicRel.getX1(), pathSegCurveToCubicRel.getY1(), pathSegCurveToCubicRel.getX2(), pathSegCurveToCubicRel.getY2());
+				state.lastControlPoint = new float[] { pathSegCurveToCubicRel.getX() + state.point.getX(), pathSegCurveToCubicRel.getY() + state.point.getY() };
+				return BezierCurve.cubicBezierLength(0, 0, pathSegCurveToCubicRel.getX(), pathSegCurveToCubicRel.getY(), 
+						pathSegCurveToCubicRel.getX1(), pathSegCurveToCubicRel.getY1(), pathSegCurveToCubicRel.getX2(), pathSegCurveToCubicRel.getY2(), 1);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
 				SVGPathSegCurveToCubicSmoothAbs pathSegCurveToCubicSmoothAbs = (SVGPathSegCurveToCubicSmoothAbs) segment;
-				
-				break;
+				if (state.lastControlPoint == null) {
+					state.lastControlPoint = new float[] { state.point.getX(), state.point.getY() };
+				}
+				controlPoint = SVGMath.reflectPoint(state.lastControlPoint[0], state.lastControlPoint[1], state.point.getX(), state.point.getY());
+				state.lastControlPoint = controlPoint;
+				return BezierCurve.cubicBezierLength(state.point.getX(), state.point.getY(), pathSegCurveToCubicSmoothAbs.getX(), pathSegCurveToCubicSmoothAbs.getY(), 
+						controlPoint[0], controlPoint[1], pathSegCurveToCubicSmoothAbs.getX2(), pathSegCurveToCubicSmoothAbs.getY2(), 1);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL:
 				SVGPathSegCurveToCubicSmoothRel pathSegCurveToCubicSmoothRel = (SVGPathSegCurveToCubicSmoothRel) segment;
 				
-				break;
+				if (state.lastControlPoint == null) {
+					state.lastControlPoint = new float[] { state.point.getX(), state.point.getY() };
+				}
+				controlPoint = SVGMath.reflectPoint(state.lastControlPoint[0], state.lastControlPoint[1], state.point.getX(), state.point.getY());
+				state.lastControlPoint = controlPoint;
+				return BezierCurve.cubicBezierLength(0, 0, pathSegCurveToCubicSmoothRel.getX(), pathSegCurveToCubicSmoothRel.getY(), 
+						controlPoint[0], controlPoint[1], pathSegCurveToCubicSmoothRel.getX2(), pathSegCurveToCubicSmoothRel.getY2(), 1);
 			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS:
 				SVGPathSegCurveToQuadraticAbs pathSegCurveToQuadraticAbs = (SVGPathSegCurveToQuadraticAbs) segment;
 				state.lastControlPoint = new float[] { pathSegCurveToQuadraticAbs.getX(), pathSegCurveToQuadraticAbs.getY() };

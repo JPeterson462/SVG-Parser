@@ -55,7 +55,7 @@ public interface SVGForeignObjectElement extends SVGElement, SVGTests, SVGLangSp
 			this.y = y;
 			this.width = width;
 			this.height = height;
-			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
+			transformableBase = new SVGTransformable.Implementation(this, transform);
 		}
 
 		@Override

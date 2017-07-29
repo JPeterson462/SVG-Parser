@@ -36,7 +36,7 @@ public interface SVGGElement extends SVGElement, SVGLangSpace, SVGStylable, SVGT
 			this.requiredExtensions = requiredExtensions;
 			this.systemLanguage = systemLanguage;
 			this.externalResourcesRequired = externalResourcesRequired;
-			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
+			transformableBase = new SVGTransformable.Implementation(this, transform);
 		}
 
 		@Override

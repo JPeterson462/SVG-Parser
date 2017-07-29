@@ -45,7 +45,7 @@ public interface SVGAElement extends SVGElement, SVGURIReference, SVGTests, SVGL
 			this.externalResourcesRequired = externalResourcesRequired;
 			this.className = className;
 			this.style = style;
-			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
+			transformableBase = new SVGTransformable.Implementation(this, transform);
 			this.target = target;
 		}
 

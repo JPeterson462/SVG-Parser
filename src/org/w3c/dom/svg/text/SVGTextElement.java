@@ -31,7 +31,7 @@ public interface SVGTextElement extends SVGTextPositioningElement, SVGTransforma
 				SVGAnimatedLength textLength, SVGAnimatedEnumeration lengthAdjust,
 				SVGElement nearestViewportElement, SVGElement farthestViewportElement, SVGAnimatedTransformList transform) {
 			super(id, xmlBase, ownerSVGElement, viewportElement, x, y, dx, dy, rotate, xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, textLength, lengthAdjust);
-			transformableBase = new SVGTransformable.Implementation(nearestViewportElement, farthestViewportElement, transform);
+			transformableBase = new SVGTransformable.Implementation(this, transform);
 		}
 
 		@Override

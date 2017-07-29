@@ -16,28 +16,40 @@ public interface SVGLocatable {
 	
 	public SVGMatrix getTransformToElement(SVGElement element) throws DOMException;
 	
+	// https://github.com/apache/batik/blob/c1d67eac2699e33807ee63a115dff5c46bcea2b7/batik-anim/src/main/java/org/apache/batik/anim/dom/SVGLocatableSupport.java
+	
 	public static class Implementation implements SVGLocatable {
 		
-		private SVGElement nearestViewportElement, farthestViewportElement;
-
-		public Implementation(SVGElement nearestViewportElement, SVGElement farthestViewportElement) {
-			this.nearestViewportElement = nearestViewportElement;
-			this.farthestViewportElement = farthestViewportElement;
+		private SVGElement element;
+		
+		public Implementation(SVGElement element) {
+			this.element = element;
 		}
 		
 		@Override
 		public SVGElement getNearestViewportElement() {
-			return nearestViewportElement;
+			SVGElement elt = element;
+			while (elt != null) {
+				elt = (SVGElement) element.getParentNode();
+				if (elt instanceof SVGFitToViewBox) {
+					break;
+				}
+
+			}
+			return elt;
 		}
 
 		@Override
 		public SVGElement getFarthestViewportElement() {
-			return farthestViewportElement;
+			SVGElement rootSVG = (SVGElement) element.getOwnerDocument().getDocumentElement();
+			if (element == rootSVG) {
+				return null;
+			}
+			return rootSVG;
 		}
 
 		@Override
 		public SVGRect getBBox() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
