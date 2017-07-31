@@ -6,8 +6,6 @@ SVGTextContentElement
 ElementTimeControl implementation?
 SVGAnimationElement implementation
 
-SVGPathMath
-
 Readonly elements/attributes?
 Parsing <...>
 Documentation
@@ -19,7 +17,7 @@ Parsing styling elements
 Standardized error messages
 Validate SVG using required features and extensions
 
-Relative vs absolute control points
+Add license https://github.com/regebro/svg.path/blob/master/LICENSE.txt
 
 SVG Events
 

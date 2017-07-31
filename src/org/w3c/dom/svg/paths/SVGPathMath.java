@@ -19,12 +19,12 @@ public class SVGPathMath {
 		switch (segment.getPathSegType()) {
 			case SVGPathSeg.PATHSEG_ARC_ABS:
 				SVGPathSegArcAbs pathSegArcAbs = (SVGPathSegArcAbs) segment;
-				
-				break;
+				return Arc.arcLength(state.point.getX(), state.point.getY(), pathSegArcAbs.getX(), pathSegArcAbs.getY(), pathSegArcAbs.getR1(), pathSegArcAbs.getR2(), 
+						pathSegArcAbs.getAngle(), Arc.flag(pathSegArcAbs.getLargeArcFlag()), Arc.flag(pathSegArcAbs.getSweepFlag()), 1);
 			case SVGPathSeg.PATHSEG_ARC_REL:
 				SVGPathSegArcRel pathSegArcRel = (SVGPathSegArcRel) segment;
-				
-				break;
+				return Arc.arcLength(0, 0, pathSegArcRel.getX(), pathSegArcRel.getY(), pathSegArcRel.getR1(), pathSegArcRel.getR2(), 
+						pathSegArcRel.getAngle(), Arc.flag(pathSegArcRel.getLargeArcFlag()), Arc.flag(pathSegArcRel.getSweepFlag()), 1);
 			case SVGPathSeg.PATHSEG_CLOSEPATH:
 //				SVGPathSegClosePath pathSegClosePath = (SVGPathSegClosePath) segment;
 				float closeDx = state.start.getX() - state.point.getX();
@@ -116,7 +116,6 @@ public class SVGPathMath {
 			default:
 				throw new SVGException(SVGException.SVG_WRONG_TYPE_ERR, "Invalid path segment type: " + segment);
 		}
-		return 0;
 	}
 	
 	public static void transformPoint(SVGPathSeg segment, State state) {
@@ -129,11 +128,19 @@ public class SVGPathMath {
 		switch (segment.getPathSegType()) {
 			case SVGPathSeg.PATHSEG_ARC_ABS:
 				SVGPathSegArcAbs pathSegArcAbs = (SVGPathSegArcAbs) segment;
-				
+				float[] arcAbsPoint = Arc.arc(state.point.getX(), state.point.getY(), pathSegArcAbs.getX(), pathSegArcAbs.getY(), 
+						pathSegArcAbs.getR1(), pathSegArcAbs.getR2(), pathSegArcAbs.getAngle(), Arc.flag(pathSegArcAbs.getLargeArcFlag()), 
+						Arc.flag(pathSegArcAbs.getSweepFlag()), distance / segmentLength);
+				state.point.setX(arcAbsPoint[0]);
+				state.point.setY(arcAbsPoint[1]);
 				break;
 			case SVGPathSeg.PATHSEG_ARC_REL:
 				SVGPathSegArcRel pathSegArcRel = (SVGPathSegArcRel) segment;
-				
+				float[] arcRelPoint = Arc.arc(0, 0, pathSegArcRel.getX(), pathSegArcRel.getY(), 
+						pathSegArcRel.getR1(), pathSegArcRel.getR2(), pathSegArcRel.getAngle(), Arc.flag(pathSegArcRel.getLargeArcFlag()), 
+						Arc.flag(pathSegArcRel.getSweepFlag()), distance / segmentLength);
+				state.point.setX(state.point.getX() + arcRelPoint[0]);
+				state.point.setY(state.point.getY() + arcRelPoint[1]);
 				break;
 			case SVGPathSeg.PATHSEG_CLOSEPATH:
 //				SVGPathSegClosePath pathSegClosePath = (SVGPathSegClosePath) segment;
