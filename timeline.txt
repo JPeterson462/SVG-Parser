@@ -1,0 +1,28 @@
+Tentative Timeline:
+
+Start	End		Task
+8/4		8/9		CSS Parsing
+				-	CSSStyleDeclarationImplementation
+				-	CSSStyleRuleImplementation
+				-	CSSValueImplementation
+				-	CSSValueType
+8/10	8/16	Implementations
+				-	SVGLocatable
+				-	SVGSVGElement
+				-	SVGTextContentElement
+				-	ElementTimeControl ?
+				-	SVGAnimationElement
+8/17	8/19	SVG Style Parsing
+				-	Standardize regexes
+				-	Parsing style="", attributes and <style>...</style>
+
+8/20			<path>, <rect>, <circle>, <ellipse>, <line>, <polyline>, <polygon>
+8/21			<font>, <glyph>, <missing-glyph>, <hkern>, <vkern>, <font-face>, 
+				<font-face-src>, <font-face-uri>, <font-face-format>, <font-face-name>
+8/22			<foreignObject>, <text>, <tspan> <tref>, <textPath>, <altGlyph>, 
+				<altGlyphDef>, <altGlyphItem> <glyphRef>
+8/23			<animate>, <set>, <animateMotion>, <animateColor>, <animateTransform>,
+				<script>, <view>, <a>
+8/24			<g>, <defs>, <desc>, <title>, <symbol>, <use>, <image>, <switch>, <marker>,
+				<color-profile>, <clipPath>
+8/25			<svg>, <filter>, Filter Primitives

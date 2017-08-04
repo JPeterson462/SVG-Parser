@@ -1,11 +1,22 @@
 package org.w3c.dom.svg.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 
 public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
+	
+	private class Property {
+		public String value, priority;
+	}
+	
+	private HashMap<String, Property> properties = new HashMap<>();
+	
+	private ArrayList<String> propertyNames = new ArrayList<>();
 
 	public CSSStyleDeclarationImplementation() {
 		
@@ -23,8 +34,7 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 
 	@Override
 	public int getLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		return properties.size();
 	}
 
 	@Override
@@ -40,27 +50,24 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	}
 
 	@Override
-	public String getPropertyPriority(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPropertyPriority(String propertyName) {
+		return properties.get(propertyName).priority;
 	}
 
 	@Override
-	public String getPropertyValue(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPropertyValue(String propertyName) {
+		return properties.get(propertyName).value;
 	}
 
 	@Override
-	public String item(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public String item(int index) {
+		return propertyNames.get(index);
 	}
 
 	@Override
-	public String removeProperty(String arg0) throws DOMException {
-		// TODO Auto-generated method stub
-		return null;
+	public String removeProperty(String propertyName) throws DOMException {
+		propertyNames.remove(propertyName);
+		return properties.remove(propertyName).value;
 	}
 
 	@Override
@@ -70,9 +77,14 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	}
 
 	@Override
-	public void setProperty(String arg0, String arg1, String arg2) throws DOMException {
-		// TODO Auto-generated method stub
-		
+	public void setProperty(String propertyName, String value, String priority) throws DOMException {
+		Property property = new Property();
+		property.value = value;
+		property.priority = priority;
+		properties.put(propertyName, property);
+		if (!propertyNames.contains(propertyName)) {
+			propertyNames.add(propertyName);
+		}
 	}
 
 }

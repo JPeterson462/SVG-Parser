@@ -1,4 +1,5 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
+https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSRule
 
 SVGLocatable implementation
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
@@ -12,6 +13,8 @@ Validate setting of constants?
 For implementations duplicate() should it recurse?
 Better adoptNode() implementation
 Setting viewport element each layer?
+
+** Standardize regexes
 
 Parsing styling elements
 Standardized error messages
@@ -31,6 +34,7 @@ SVG Events
 
 CSSStyleDeclarationImplementation
 CSSValueImplementation
+CSSStyleRuleImplementation
 
 Don't support calc()
 

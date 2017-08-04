@@ -12,7 +12,6 @@ import org.w3c.dom.svg.SVGColor;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGLength;
-import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGRegex;
 
 public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, Counter, Rect, RGBColor {
@@ -34,6 +33,12 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 	private Counter counter;
 	
 	private CSSValueType type;
+	
+	private CSSValueImplementation[] list;
+	
+	public CSSValueImplementation(CSSValueType[] types, String text, SVGElement parent) {
+		// TODO
+	}
 	
 	public CSSValueImplementation(CSSValueType type, String text, SVGElement parent) {
 		this.type = type;
@@ -109,7 +114,7 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 	}
 	
 	@Override
-	public String getCssText() {
+	public String getCssText() {//TODO
 		switch (type) {
 			case COLOR:
 				return svgColor.getCssText();
@@ -124,9 +129,11 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 			case ATTR:
 				break;
 			case IDENT:
-				break;
+				return text;
 			case URI:
 				break;
+			default:
+				SVGErrors.error("Unsupported CSS Type");
 		}
 		return null;
 	}
@@ -134,7 +141,7 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 	@Override
 	public short getCssValueType() {
 		// TODO Auto-generated method stub
-		return 0;
+		return CSS_PRIMITIVE_VALUE;
 	}
 
 	@Override
@@ -215,14 +222,12 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 
 	@Override
 	public int getLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		return list.length;
 	}
 
 	@Override
-	public CSSValue item(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public CSSValue item(int index) {
+		return list[index];
 	}
 
 	@Override
