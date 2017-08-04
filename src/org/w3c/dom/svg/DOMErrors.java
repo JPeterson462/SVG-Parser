@@ -20,4 +20,8 @@ public class DOMErrors {
 		throw new DOMException(DOMException.INVALID_MODIFICATION_ERR, "Instances of " + type.getSimpleName() + " are readonly");
 	}
 	
+	public static <T> T invalidAccess() throws DOMException {
+		throw new DOMException(DOMException.INVALID_ACCESS_ERR, "Invalid Value");
+	}
+	
 }

@@ -83,7 +83,7 @@ public interface SVGColor extends CSSValue {
 				case SVG_COLORTYPE_RGBCOLOR:
 					rgbColor = parseRGBColor(text);
 				case SVG_COLORTYPE_RGBCOLOR_ICCCOLOR:
-					String[] parts = text.trim().split("\\s+");
+					String[] parts = text.trim().split(SVGRegex.WHITESPACE);
 					if (parts[0].startsWith("rgb")) {
 						rgbColor = parseRGBColor(parts[0]);
 						iccColor = parseICCColor(parts[1]);
@@ -197,7 +197,7 @@ public interface SVGColor extends CSSValue {
 		}
 		else if (text.startsWith("rgb(") && text.endsWith(")")) {
 			text = text.substring(4, text.length() - 1);
-			text = text.replaceAll("\\s", "");
+			text = text.replaceAll(SVGRegex.WHITESPACE, "");
 			String[] components = text.split(",");
 			if (components[0].endsWith("%") && components[1].endsWith("%") && components[2].endsWith("%")) {
 				float rFloat = Float.parseFloat(components[0].substring(0, components[0].length() - 1)) / 100f;
@@ -230,7 +230,7 @@ public interface SVGColor extends CSSValue {
 		text = text.trim();
 		if (text.startsWith("icc-color(") && text.endsWith(")")) {
 			text = text.substring(10, text.length() - 1);
-			text = text.replaceAll("\\s", "");
+			text = text.replaceAll(SVGRegex.WHITESPACE, "");
 			String[] components = text.split(",");
 			String colorProfile = components[0];
 			ArrayList<SVGNumber> numbers = new ArrayList<>();

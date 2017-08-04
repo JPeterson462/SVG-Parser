@@ -50,6 +50,7 @@ public interface SVGLocatable {
 
 		@Override
 		public SVGRect getBBox() {
+			// TODO
 			return null;
 		}
 
