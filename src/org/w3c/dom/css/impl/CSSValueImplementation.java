@@ -96,12 +96,13 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 			counter = new CounterImplementation(text);
 		}
 		else if (type.equals(CSSValueType.ATTR)) {
-			
+			// TODO
 		}
 		else if (type.equals(CSSValueType.IDENT)) {
 			this.text = text;
 		}
 		else if (type.equals(CSSValueType.URI)) {
+			// TODO
 			
 		}
 		else {
@@ -283,13 +284,13 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 	}
 
 	@Override
-	public void setFloatValue(short arg0, float arg1) throws DOMException {
+	public void setFloatValue(short unitType, float value) throws DOMException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setStringValue(short arg0, String arg1) throws DOMException {
+	public void setStringValue(short unitType, String value) throws DOMException {
 		// TODO Auto-generated method stub
 		
 	}

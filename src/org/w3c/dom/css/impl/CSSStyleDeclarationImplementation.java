@@ -19,20 +19,37 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	private ArrayList<String> propertyNames = new ArrayList<>();
 	
 	private CSSRule parentRule;
+	
+	private HashMap<String, CSSValue> values = new HashMap<>();
 
 	public CSSStyleDeclarationImplementation(CSSRule parentRule) {
 		this.parentRule = parentRule;
 	}
 
 	public CSSStyleDeclarationImplementation(CSSRule parentRule, CSSStyleDeclaration declaration) {
-		//TODO
 		this.parentRule = parentRule;
+		for (int i = 0; i < declaration.getLength(); i++) {
+			String propertyName = declaration.item(i);
+			Property property = new Property();
+			property.value = declaration.getPropertyValue(propertyName);
+			property.priority = declaration.getPropertyPriority(propertyName);
+			propertyNames.add(propertyName);
+			properties.put(propertyName, property);
+		}
 	}
 	
 	@Override
 	public String getCssText() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < propertyNames.size(); i++) {
+			String propertyName = propertyNames.get(i);
+			Property property = properties.get(propertyName);
+			if (i > 0) {
+				buffer.append('\n');
+			}
+			buffer.append(propertyName + ": " + property.value + (property.priority.length() > 0 ? (" !" + property.priority) : "") + ";");
+		}
+		return buffer.toString();
 	}
 
 	@Override
@@ -46,9 +63,8 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	}
 
 	@Override
-	public CSSValue getPropertyCSSValue(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public CSSValue getPropertyCSSValue(String propertyName) {
+		return values.get(propertyName);
 	}
 
 	@Override
@@ -73,9 +89,27 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	}
 
 	@Override
-	public void setCssText(String arg0) throws DOMException {
-		// TODO Auto-generated method stub
-		
+	public void setCssText(String text) throws DOMException {
+		String[] lines = text.trim().split(";");
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i].trim();
+			String[] keyValue = line.split(":");
+			String key = keyValue[0];
+			String value = line.substring(key.length());
+			key = key.trim();
+			value = value.trim();
+			String priority = "";
+			if (value.contains("!")) {
+				String[] valuePriority = value.split("!");
+				value = valuePriority[0];
+				priority = valuePriority[1];
+			}
+			setProperty(key, value, priority);
+		}
+	}
+	
+	public void storeValue(String propertyName, CSSValue value) {
+		values.put(propertyName, value);
 	}
 
 	@Override
@@ -87,6 +121,8 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 		if (!propertyNames.contains(propertyName)) {
 			propertyNames.add(propertyName);
 		}
+		CSSProperties.tryCreateProperties();
+		CSSProperties.parseValue(propertyName, value, this);
 	}
 
 }

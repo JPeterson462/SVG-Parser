@@ -32,9 +32,10 @@ SVG Events
 	3. Renderer
 *	4. Writer
 
-CSSStyleDeclarationImplementation
+CounterImplementation
 CSSValueImplementation
 CSSRuleBuilder
+CSSProperties
 
 Don't support calc()
 
