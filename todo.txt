@@ -34,7 +34,7 @@ SVG Events
 
 CSSStyleDeclarationImplementation
 CSSValueImplementation
-CSSStyleRuleImplementation
+CSSRuleBuilder
 
 Don't support calc()
 

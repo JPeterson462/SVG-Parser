@@ -1,4 +1,4 @@
-package org.w3c.dom.svg.impl;
+package org.w3c.dom.css.impl;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;

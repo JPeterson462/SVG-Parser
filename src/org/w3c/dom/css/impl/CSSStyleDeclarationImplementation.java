@@ -1,4 +1,4 @@
-package org.w3c.dom.svg.impl;
+package org.w3c.dom.css.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +17,16 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	private HashMap<String, Property> properties = new HashMap<>();
 	
 	private ArrayList<String> propertyNames = new ArrayList<>();
+	
+	private CSSRule parentRule;
 
-	public CSSStyleDeclarationImplementation() {
-		
+	public CSSStyleDeclarationImplementation(CSSRule parentRule) {
+		this.parentRule = parentRule;
 	}
 
-	public CSSStyleDeclarationImplementation(CSSStyleDeclaration declaration) {
+	public CSSStyleDeclarationImplementation(CSSRule parentRule, CSSStyleDeclaration declaration) {
 		//TODO
+		this.parentRule = parentRule;
 	}
 	
 	@Override
@@ -39,8 +42,7 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 
 	@Override
 	public CSSRule getParentRule() {
-		// TODO Auto-generated method stub
-		return null;
+		return parentRule;
 	}
 
 	@Override
