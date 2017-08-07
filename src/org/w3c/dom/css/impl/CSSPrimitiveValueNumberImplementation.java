@@ -5,7 +5,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.Counter;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.css.Rect;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGLength;
 
 public class CSSPrimitiveValueNumberImplementation implements CSSPrimitiveValue {

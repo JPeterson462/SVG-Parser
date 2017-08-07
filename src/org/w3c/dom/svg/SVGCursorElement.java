@@ -1,5 +1,6 @@
 package org.w3c.dom.svg;
 
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.svg.document.SVGSVGElement;
 

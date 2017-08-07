@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 
 @SuppressWarnings("rawtypes")
 public class ElementImplementation extends NodeImplementation implements Element, NodeList {

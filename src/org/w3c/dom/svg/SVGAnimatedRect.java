@@ -1,5 +1,7 @@
 package org.w3c.dom.svg;
 
+import org.w3c.dom.DOMErrors;
+
 public interface SVGAnimatedRect extends Animated<SVGRect> {
 
 	public static class Implementation implements SVGAnimatedRect {

@@ -1,4 +1,4 @@
-package org.w3c.dom.svg;
+package org.w3c.dom;
 
 import org.w3c.dom.DOMException;
 
@@ -22,6 +22,10 @@ public class DOMErrors {
 	
 	public static <T> T invalidAccess() throws DOMException {
 		throw new DOMException(DOMException.INVALID_ACCESS_ERR, "Invalid Value");
+	}
+	
+	public static <T> T invalidValue() throws DOMException {
+		throw new DOMException(DOMException.VALIDATION_ERR, "Invalid Value");
 	}
 	
 }

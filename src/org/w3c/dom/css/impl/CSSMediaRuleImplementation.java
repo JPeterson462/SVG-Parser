@@ -7,7 +7,7 @@ import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.MediaList;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 
 public class CSSMediaRuleImplementation extends CSSRuleImplementation implements CSSMediaRule {
 

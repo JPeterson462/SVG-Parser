@@ -7,7 +7,7 @@ import org.w3c.dom.css.CSSValueList;
 import org.w3c.dom.css.Counter;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.css.Rect;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGColor;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;

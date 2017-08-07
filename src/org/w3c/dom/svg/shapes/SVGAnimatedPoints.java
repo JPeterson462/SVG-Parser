@@ -1,7 +1,7 @@
 package org.w3c.dom.svg.shapes;
 
 import org.w3c.dom.svg.Animated;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGPointList;
 
 public interface SVGAnimatedPoints extends Animated<SVGPointList> {

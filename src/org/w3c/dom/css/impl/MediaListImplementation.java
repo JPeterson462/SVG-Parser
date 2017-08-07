@@ -2,9 +2,9 @@ package org.w3c.dom.css.impl;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.stylesheets.MediaList;
-import org.w3c.dom.svg.SVGRegex;
 
 public class MediaListImplementation implements MediaList {
 	
@@ -36,12 +36,7 @@ public class MediaListImplementation implements MediaList {
 	@Override
 	public String getMediaText() {
 		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < media.size(); i++) {
-			if (i > 0) {
-				buffer.append(" and");
-			}
-			buffer.append(" " + media.get(i));
-		}
+		DOMErrors.notSupported();
 		return buffer.toString();
 	}
 
@@ -52,13 +47,7 @@ public class MediaListImplementation implements MediaList {
 
 	@Override
 	public void setMediaText(String text) throws DOMException {
-		String[] data = text.trim().split(SVGRegex.WHITESPACE);
-		media.clear();
-		for (int i = 0; i < data.length; i++) {
-			if (!data[i].equals("and")) {
-				media.add(data[i]);
-			}
-		}
+		DOMErrors.notSupported();
 	}
 
 }

@@ -32,10 +32,12 @@ SVG Events
 	3. Renderer
 *	4. Writer
 
-CounterImplementation
-CSSValueImplementation
+CSSValueImplementation (split)
 CSSRuleBuilder
 CSSProperties
+@font-face
+set initial -> default
+colors also accept transparent, initial, inherit
 
 Don't support calc()
 

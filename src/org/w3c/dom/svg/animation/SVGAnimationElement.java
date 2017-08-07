@@ -1,7 +1,7 @@
 package org.w3c.dom.svg.animation;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;

@@ -7,7 +7,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 
 public class AttrImplementation extends ElementImplementation implements Attr {
 

@@ -1,5 +1,7 @@
 package org.w3c.dom.svg;
 
+import org.w3c.dom.DOMErrors;
+
 public interface SVGAnimatedPreserveAspectRatio extends Animated<SVGPreserveAspectRatio> {
 
 	public static class Implementation implements SVGAnimatedPreserveAspectRatio {

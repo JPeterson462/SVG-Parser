@@ -9,6 +9,10 @@ public class CSSRuleListImplementation implements CSSRuleList {
 	
 	private ArrayList<CSSRule> rules;
 	
+	public CSSRuleListImplementation() {
+		rules = new ArrayList<>();
+	}
+	
 	public CSSRuleListImplementation(ArrayList<CSSRule> rules) {
 		this.rules = rules;
 	}
@@ -19,6 +23,10 @@ public class CSSRuleListImplementation implements CSSRuleList {
 	
 	public void removeRule(int index) {
 		rules.remove(index);
+	}
+	
+	public void addAll(CSSRuleListImplementation otherList) {
+		rules.addAll(otherList.rules);
 	}
 
 	@Override

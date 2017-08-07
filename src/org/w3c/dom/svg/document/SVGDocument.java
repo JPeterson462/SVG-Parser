@@ -19,7 +19,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.svg.DOMErrors;
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.impl.AttrImplementation;
 import org.w3c.dom.svg.impl.CDATASectionImplementation;
 import org.w3c.dom.svg.impl.CommentImplementation;
