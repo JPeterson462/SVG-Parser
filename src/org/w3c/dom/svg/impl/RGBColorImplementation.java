@@ -11,7 +11,7 @@ public class RGBColorImplementation implements RGBColor {
 	
 	private CSSPrimitiveValue red, green, blue;
 	
-	public static final float MAX_COLOR_COMPONENT = 255f;
+	public static final float MAX_COLOR_COMPONENT = 256f;
 	
 	private class RGBComponent implements CSSPrimitiveValue {
 		

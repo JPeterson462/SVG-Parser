@@ -1,6 +1,7 @@
 package org.w3c.dom.css.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +26,24 @@ public class StringUtils {
 			}
 		}
 		return false;
+	}
+	
+	public static HashMap<String, String> getWhitespaceStrippedMap(String text) {
+		HashMap<String, String> map = new HashMap<>();
+		String[] lines = text.split(";");
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i].trim();
+			if (line.length() == 0) {
+				continue;
+			}
+			String[] keyValue = line.split(":");
+			if (keyValue.length == 2) {
+				map.put(keyValue[0].trim(), keyValue[1].trim());
+			} else {
+				continue; // Skip invalid lines
+			}
+		}
+		return map;
 	}
 	
 }

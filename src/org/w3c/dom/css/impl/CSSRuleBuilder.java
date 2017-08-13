@@ -106,7 +106,6 @@ public class CSSRuleBuilder {
 				return SVGErrors.error("Invalid " + CSSRulePrefixes.IMPORT);
 			}
 			mediaList.setMediaText(join(header, " ", 2));
-			// TODO parse sub rules
 			return new CSSImportRuleImplementation(parentRule, stylesheet, 
 					new CSSStyleDeclarationImplementation(parentRule, declaration), href, mediaList, stylesheet);
 		}
@@ -129,7 +128,11 @@ public class CSSRuleBuilder {
 		CSSStyleDeclarationImplementation declarationSub = new CSSStyleDeclarationImplementation(parentRule, declaration);
 		String[] rules = body.split(";");
 		for (int i = 0; i < rules.length; i++) {
-			String[] rule = rules[i].trim().split(":");
+			String ruleRaw = rules[i].trim();
+			if (ruleRaw.length() == 0) {
+				continue;
+			}
+			String[] rule = ruleRaw.split(":");
 			String name = rule[0].trim();
 			String cssText = rule[0].trim();
 			CSSProperties.tryCreateProperties();

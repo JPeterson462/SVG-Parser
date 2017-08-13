@@ -50,7 +50,7 @@ public class CSSMediaRuleImplementation extends CSSRuleImplementation implements
 		if (index > ruleList.getLength()) {
 			DOMErrors.indexTooHigh();
 		}
-		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, getParentRule(), declaration, getParentStyleSheet()));
+		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, getParentRule(), (CSSStyleDeclarationImplementation) declaration, getParentStyleSheet()));
 		return index;
 	}
 	

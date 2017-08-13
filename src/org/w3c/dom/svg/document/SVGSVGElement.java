@@ -2,6 +2,7 @@ package org.w3c.dom.svg.document;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
@@ -527,7 +528,24 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public Element getElementById(String elementId) {
-			// TODO Auto-generated method stub
+			return getElementById(this, elementId);
+		}
+		
+		private Element getElementById(Element element, String elementId) {
+			NodeList children = element.getChildNodes();
+			for (int i = 0; i < children.getLength(); i++) {
+				Node node = children.item(i);
+				if (!(node instanceof Element)) {
+					continue;
+				}
+				if (((Element) node).getAttribute("id").equals(elementId)) {
+					return (Element) node;
+				}
+				Element recursive = getElementById((Element) node, elementId);
+				if (recursive != null) {
+					return recursive;
+				}
+			}
 			return null;
 		}
 		

@@ -94,7 +94,7 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 
 	@Override
 	public int insertRule(String text, int index) throws DOMException {
-		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, ownerRule, ((CSSRuleImplementation) ownerRule).declaration, this));
+		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, ownerRule, (CSSStyleDeclarationImplementation) ((CSSRuleImplementation) ownerRule).declaration, this));
 		return ruleList.getLength();
 	}
 

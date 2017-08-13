@@ -93,6 +93,9 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 		String[] lines = text.trim().split(";");
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i].trim();
+			if (line.length() == 0) {
+				continue;
+			}
 			String[] keyValue = line.split(":");
 			String key = keyValue[0];
 			String value = line.substring(key.length());
