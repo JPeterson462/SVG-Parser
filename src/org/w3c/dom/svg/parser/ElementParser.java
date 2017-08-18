@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.css.impl.CSSPropertyNames;
+import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGException;
@@ -42,6 +44,15 @@ public interface ElementParser<T extends SVGElement> {
 			array[i] = Float.parseFloat(strings[i]);
 		}
 		return array;
+	}
+	
+	public static void parseStyleFromAttributes(Element element, CSSStyleDeclarationImplementation declaration) {
+		String[] properties = CSSPropertyNames.PROPERTIES;
+		for (int i = 0; i < properties.length; i++) {
+			if (element.hasAttribute(properties[i])) {
+				declaration.setProperty(properties[i], element.getAttribute(properties[i]), "important");
+			}
+		}
 	}
 	
 	public static String readOrDefault(Element element, String attribute, String... defaultValue) {

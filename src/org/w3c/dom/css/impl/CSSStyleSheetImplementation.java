@@ -25,6 +25,17 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 	
 	private CSSRuleListImplementation ruleList;
 	
+	public CSSStyleSheetImplementation(String href, Node ownerNode, String title, String type) {
+		ownerRule = null;
+		disabled = false;
+		this.href = href;
+		media = new MediaListImplementation();
+		this.ownerNode = ownerNode;
+		parentStyleSheet = null;
+		this.title = title;
+		this.type = type;
+	}
+	
 	public CSSStyleSheetImplementation(CSSImportRuleImplementation ownerRule, boolean disabled, String href, MediaList media, Node ownerNode, CSSStyleSheet parentStyleSheet, String title, String type, CSSRuleListImplementation ruleList) {
 		this.ownerRule = ownerRule;
 		this.disabled = disabled;
@@ -35,6 +46,10 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 		this.title = title;
 		this.type = type;
 		this.ruleList = ruleList;
+	}
+	
+	public void setCssText(String cssText) {
+		ruleList = CSSRuleBuilder.createRuleList(cssText, null, new CSSStyleDeclarationImplementation(ownerRule), this);
 	}
 	
 	@Override

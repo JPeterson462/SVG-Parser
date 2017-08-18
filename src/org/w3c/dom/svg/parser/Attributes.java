@@ -24,6 +24,8 @@ public interface Attributes {
 	
 	public static final String RY = "ry";
 	
+	public static final String STYLE = "style";
+	
 	public static final String SYSTEM_LANGUAGE = "systemLanguage";
 	
 	public static final String TITLE = "title";

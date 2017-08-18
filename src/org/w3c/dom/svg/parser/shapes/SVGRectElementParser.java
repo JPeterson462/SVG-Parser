@@ -2,6 +2,7 @@ package org.w3c.dom.svg.parser.shapes;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
@@ -94,7 +95,9 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		}
 		String classNameAsString = element.getAttribute(Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
-		CSSStyleDeclaration style = null;//TODO
+		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
+		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
+		ElementParser.parseStyleFromAttributes(element, style);
 		SVGStringList requiredFeatures = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_FEATURES).split(" "));
 		SVGStringList requiredExtensions = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_EXTENSIONS).split(" "));
 		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));

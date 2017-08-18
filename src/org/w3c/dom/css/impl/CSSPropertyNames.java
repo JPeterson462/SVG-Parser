@@ -2,7 +2,7 @@ package org.w3c.dom.css.impl;
 
 // https://www.w3.org/TR/SVG/styling.html
 public interface CSSPropertyNames {
-
+	
 	// Font Properties
 	public static final String FONT = "font";
 	public static final String FONT_FAMILY = "font-family";
@@ -81,5 +81,77 @@ public interface CSSPropertyNames {
 	public static final String KERNING = "kerning";
 	public static final String TEXT_ANCHOR = "text-anchor";
 	public static final String WRITING_MODE = "writing-mode";
+	
+	public static final String[] PROPERTIES = {
+		FONT,
+		FONT_FAMILY,
+		FONT_SIZE,
+		FONT_SIZE_ADJUST,
+		FONT_STRETCH,
+		FONT_STYLE,
+		FONT_VARIANT,
+		FONT_WEIGHT,
+		
+		DIRECTION,
+		LETTER_SPACING,
+		TEXT_DECORATION,
+		UNICODE_BIDI,
+		WORD_SPACING,
+		
+		CLIP,
+		COLOR,
+		CURSOR,
+		DISPLAY,
+		OVERFLOW,
+		VISIBILITY,
+		
+		CLIP_PATH,
+		CLIP_RULE,
+		MASK,
+		OPACITY,
+		
+		ENABLE_BACKGROUND,
+		FILTER,
+		FLOOD_COLOR,
+		FLOOD_OPACITY,
+		LIGHTING_COLOR,
+		
+		STOP_COLOR,
+		STOP_OPACITY,
+		
+		POINTER_EVENTS,
+		
+		COLOR_INTERPOLATION,
+		COLOR_INTERPOLATION_FILTERS,
+		COLOR_PROFILE,
+		COLOR_RENDERING,
+		FILL,
+		FILL_OPACITY,
+		FILL_RULE,
+		IMAGE_RENDERING,
+		MARKER,
+		MARKER_END,
+		MARKER_MID,
+		MARKER_START,
+		SHAPE_RENDERING,
+		STROKE,
+		STROKE_DASHARRAY,
+		STROKE_DASHOFFSET,
+		STROKE_LINECAP,
+		STROKE_LINEJOIN,
+		STROKE_MITERLIMIT,
+		STROKE_OPACITY,
+		STROKE_WIDTH,
+		TEXT_RENDERING,
+		
+		ALIGNMENT_BASELINE,
+		BASELINE_SHIFT,
+		DOMINANT_BASELINE,
+		GLYPH_ORIENTATION_HORIZONTAL,
+		GLYPH_ORIENTATION_VERTICAL,
+		KERNING,
+		TEXT_ANCHOR,
+		WRITING_MODE
+	};
 	
 }

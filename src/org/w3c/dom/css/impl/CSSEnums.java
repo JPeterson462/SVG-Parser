@@ -47,4 +47,62 @@ public interface CSSEnums {
 		"ultra-expanded", "inherit"
 	};
 	
+	public static final String[] FONT_STYLE_VALUES = {
+		"normal", "italic", "oblique", "inherit"	
+	};
+	
+	public static final String[] FONT_VARIANT_VALUES = {
+		"normal", "small-caps", "inherit"	
+	};
+	
+	public static final String[] FONT_WEIGHT_VALUES = {
+		"normal", "bold", "bolder", "lighter", "100", "200", "300", "400",
+		"500", "600", "700", "800", "900", "inherit"
+	};
+	
+	public static final String[] IMAGE_RENDERING_VALUES = {
+		"auto", "optimizeSpeed", "optimizeQuality", "inherit"	
+	};
+	
+	public static final String[] OVERFLOW_VALUES = {
+		"visible", "hidden", "scroll", "auto", "inherit"
+	};
+	
+	public static final String[] POINTER_EVENTS_VALUES = {
+		"visiblePainted", "visibleFill", "visibleStroke", "visible",
+		"painted", "fill", "stroke", "all", "none", "inherit"
+	};
+	
+	public static final String[] SHAPE_RENDERING_VALUES = {
+		"auto", "optimizeSpeed", "crispEdges", "geometricPrecision", "inherit"	
+	};
+	
+	public static final String[] STROKE_LINECAP_VALUES = {
+		"butt", "round", "square", "inherit"	
+	};
+	
+	public static final String[] STROKE_LINEJOIN_VALUES = {
+		"miter", "round", "bevel", "inherit"	
+	};
+	
+	public static final String[] TEXT_ANCHOR_VALUES = {
+		"start", "middle", "end", "inherit"
+	};
+
+	public static final String[] TEXT_RENDERING_VALUES = {
+		"auto", "optimizeSpeed", "optimizeLegibility", "geometricPrecision", "inherit"	
+	};
+	
+	public static final String[] UNICODE_BIDI_VALUES = {
+		"normal", "embed", "bidi-override", "inherit"	
+	};
+	
+	public static final String[] VISIBILITY_VALUES = {
+		"visible", "hidden", "collapse", "inherit"	
+	};
+	
+	public static final String[] WRITING_MODE_VALUES = {
+		"lr-tb", "rl-tb", "tb-rl", "lr", "rl", "tb", "inherit"	
+	};
+	
 }
