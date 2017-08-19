@@ -23,19 +23,19 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.COLOR, new CSSColor("#000"));
 		declaration.storeValue(CSSPropertyNames.COLOR_INTERPOLATION, createEnum(CSSEnums.COLOR_INTERPOLATION_VALUES, "sRGB"));
 		declaration.storeValue(CSSPropertyNames.COLOR_INTERPOLATION_FILTERS, createEnum(CSSEnums.COLOR_INTERPOLATION_VALUES, "linearRGB"));
-		// color-profile
+		declaration.storeValue(CSSPropertyNames.COLOR_PROFILE, new CSSColorProfile("auto"));
 		declaration.storeValue(CSSPropertyNames.COLOR_RENDERING, createEnum(CSSEnums.COLOR_RENDERING_VALUES, "auto"));
-		// cursor
+		declaration.storeValue(CSSPropertyNames.CURSOR, new CSSCursor("auto"));
 		declaration.storeValue(CSSPropertyNames.DIRECTION, createEnum(CSSEnums.DIRECTION_VALUES, "ltr"));
 		declaration.storeValue(CSSPropertyNames.DISPLAY, createEnum(CSSEnums.DISPLAY_VALUES, "inline"));
 		declaration.storeValue(CSSPropertyNames.DOMINANT_BASELINE, createEnum(CSSEnums.DOMINANT_BASELINE_VALUES, "auto"));
 		// enable-background
 		// fill
-		// fill-opacity
+		declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.FILL_RULE, createEnum(CSSEnums.FILL_RULE_VALUES, "nonzero"));
 		declaration.storeValue(CSSPropertyNames.FILTER, createIRI("none"));
-		// flood-color
-		// flood-opacity
+		declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColor("black"));
+		declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber("1"));
 		// font
 		// font-family
 		// font-size
@@ -47,34 +47,34 @@ public class CSSProperties {
 		// glyph-orientation-horizontal
 		// glyph-orientation-vertical
 		declaration.storeValue(CSSPropertyNames.IMAGE_RENDERING, createEnum(CSSEnums.IMAGE_RENDERING_VALUES, "auto"));
-		// kerning
-		// letter-spacing
-		// lighting-color
+		declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation("auto", true));
+		declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation("normal", false));
+		declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColor("white"));
 		// !marker
 		declaration.storeValue(CSSPropertyNames.MARKER_END, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.MARKER_MID, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.MARKER_START, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.MASK, createIRI("none"));
-		// opacity
-		// overflow
+		declaration.storeValue(CSSPropertyNames.OPACITY, createNumber("1"));
+		declaration.storeValue(CSSPropertyNames.OVERFLOW, createEnum(CSSEnums.OVERFLOW_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.POINTER_EVENTS, createEnum(CSSEnums.POINTER_EVENTS_VALUES, "visiblePainted"));
 		declaration.storeValue(CSSPropertyNames.SHAPE_RENDERING, createEnum(CSSEnums.SHAPE_RENDERING_VALUES, "auto"));
-		// stop-color
-		// stop-opacity
+		declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColor("black"));
+		declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber("1"));
 		// stroke
 		// stroke-dasharray
 		// stroke-dashoffset
 		declaration.storeValue(CSSPropertyNames.STROKE_LINECAP, createEnum(CSSEnums.STROKE_LINECAP_VALUES, "butt"));
 		declaration.storeValue(CSSPropertyNames.STROKE_LINEJOIN, createEnum(CSSEnums.STROKE_LINEJOIN_VALUES, "miter"));
-		// stroke-miterlimit
-		// stroke-opacity
+		declaration.storeValue(CSSPropertyNames.STROKE_MITERLIMIT, createNumber("4"));
+		declaration.storeValue(CSSPropertyNames.STROKE_OPACITY, createNumber("1"));
 		// stroke-width
 		declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, "start"));
 		// text-decoration
 		declaration.storeValue(CSSPropertyNames.TEXT_RENDERING, createEnum(CSSEnums.TEXT_RENDERING_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.UNICODE_BIDI, createEnum(CSSEnums.FONT_STYLE_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.VISIBILITY, createEnum(CSSEnums.VISIBILITY_VALUES, "visible"));
-		// word-spacing
+		declaration.storeValue(CSSPropertyNames.WORD_SPACING, new CSSLengthValueImplementation("normal", false));
 		declaration.storeValue(CSSPropertyNames.WRITING_MODE, createEnum(CSSEnums.WRITING_MODE_VALUES, "writing-mode"));
 	}
 	
@@ -100,11 +100,15 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.COLOR_INTERPOLATION_FILTERS, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.COLOR_INTERPOLATION_FILTERS, createEnum(CSSEnums.COLOR_INTERPOLATION_VALUES, cssText));
 			});
-			// color-profile
+			properties.put(CSSPropertyNames.COLOR_PROFILE, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.COLOR_PROFILE, new CSSColorProfile(cssText));
+			});
 			properties.put(CSSPropertyNames.COLOR_RENDERING, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.COLOR_RENDERING, createEnum(CSSEnums.COLOR_RENDERING_VALUES, cssText));
 			});
-			// cursor
+			properties.put(CSSPropertyNames.CURSOR, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.CURSOR, new CSSCursor(cssText));
+			});
 			properties.put(CSSPropertyNames.DIRECTION, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.DIRECTION, createEnum(CSSEnums.DIRECTION_VALUES, cssText));
 			});
@@ -116,15 +120,21 @@ public class CSSProperties {
 			});
 			// enable-background
 			// fill
-			// fill-opacity
+			properties.put(CSSPropertyNames.FILL_OPACITY, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber(cssText));
+			});
 			properties.put(CSSPropertyNames.FILL_RULE, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FILL_RULE, createEnum(CSSEnums.FILL_RULE_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.FILTER, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FILTER, createIRI(cssText));
 			});
-			// flood-color
-			// flood-opacity
+			properties.put(CSSPropertyNames.FLOOD_COLOR, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColor("black"));
+			});
+			properties.put(CSSPropertyNames.FLOOD_OPACITY, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber(cssText));
+			});
 			// font
 			// font-family
 			// font-size
@@ -146,10 +156,16 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.IMAGE_RENDERING, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.IMAGE_RENDERING, createEnum(CSSEnums.IMAGE_RENDERING_VALUES, cssText));
 			});
-			// kerning
-			// letter-spacing
-			// lighting-color
-			// !marker
+			properties.put(CSSPropertyNames.KERNING, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation(cssText, true));
+			});
+			properties.put(CSSPropertyNames.LETTER_SPACING, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation(cssText, false));
+			});
+			properties.put(CSSPropertyNames.LIGHTING_COLOR, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColor("white"));
+			});
+			// marker
 			properties.put(CSSPropertyNames.MARKER_END, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.MARKER_END, createIRI(cssText));
 			});
@@ -162,16 +178,24 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.MASK, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.MASK, createIRI(cssText));
 			});
-			// opacity
-			// overflow
+			properties.put(CSSPropertyNames.OPACITY, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.OPACITY, createNumber(cssText));
+			});
+			properties.put(CSSPropertyNames.OVERFLOW, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.OVERFLOW, createEnum(CSSEnums.OVERFLOW_VALUES, cssText));
+			});
 			properties.put(CSSPropertyNames.POINTER_EVENTS, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.POINTER_EVENTS, createEnum(CSSEnums.POINTER_EVENTS_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.SHAPE_RENDERING, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.SHAPE_RENDERING, createEnum(CSSEnums.SHAPE_RENDERING_VALUES, cssText));
 			});
-			// stop-color
-			// stop-opacity
+			properties.put(CSSPropertyNames.STOP_COLOR, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColor("black"));
+			});
+			properties.put(CSSPropertyNames.STOP_OPACITY, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber(cssText));
+			});
 			// stroke
 			// stroke-dasharray
 			// stroke-dashoffset
@@ -181,8 +205,12 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.STROKE_LINEJOIN, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STROKE_LINEJOIN, createEnum(CSSEnums.STROKE_LINEJOIN_VALUES, cssText));
 			});
-			// stroke-miterlimit
-			// stroke-opacity
+			properties.put(CSSPropertyNames.STROKE_MITERLIMIT, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STROKE_MITERLIMIT, createNumber(cssText));
+			});
+			properties.put(CSSPropertyNames.STROKE_OPACITY, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STROKE_OPACITY, createNumber(cssText));
+			});
 			// stroke-width
 			properties.put(CSSPropertyNames.TEXT_ANCHOR, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, cssText));
@@ -197,7 +225,9 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.VISIBILITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.VISIBILITY, createEnum(CSSEnums.VISIBILITY_VALUES, cssText));
 			});
-			// word-spacing
+			properties.put(CSSPropertyNames.WORD_SPACING, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.WORD_SPACING, new CSSLengthValueImplementation(cssText, false));
+			});
 			properties.put(CSSPropertyNames.WRITING_MODE, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.WRITING_MODE, createEnum(CSSEnums.WRITING_MODE_VALUES, cssText));
 			});
@@ -212,6 +242,12 @@ public class CSSProperties {
 	
 	private static CSSValue createIRI(String cssText) {
 		CSSValue value = new CSSIRIValueImplementation();
+		value.setCssText(cssText);
+		return value;
+	}
+	
+	private static CSSValue createNumber(String cssText) {
+		CSSValue value = new CSSNumberValueImplementation();
 		value.setCssText(cssText);
 		return value;
 	}

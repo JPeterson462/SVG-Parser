@@ -2,7 +2,6 @@ package org.w3c.dom.css.impl;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSValue;
-import org.w3c.dom.svg.SVGErrors;
 
 public class CSSIRIValueImplementation implements CSSValue {
 	
@@ -38,13 +37,6 @@ public class CSSIRIValueImplementation implements CSSValue {
 		return value.equals("inherit") ? CSS_INHERIT : CSS_PRIMITIVE_VALUE;
 	}
 
-	private static String parseUri(String text) {
-		if (text.startsWith("url(") && text.endsWith(")")) {
-			return text.substring(4, text.length() - 1);
-		}
-		return SVGErrors.error("Invalid Functional URI: " + text);
-	}
-	
 	@Override
 	public void setCssText(String text) throws DOMException {
 		value = text;
@@ -56,7 +48,7 @@ public class CSSIRIValueImplementation implements CSSValue {
 		}
 		else {
 			state = STATE_IRI;
-			value = parseUri(text);
+			value = StringUtils.parseUri(text);
 		}
 	}
 

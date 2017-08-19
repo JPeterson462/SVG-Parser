@@ -71,6 +71,10 @@ public interface SVGLength {
 			this.element = element;
 			convertToSpecifiedUnits(unitType);
 		}
+		
+		public void setElement(SVGElement element) {
+			this.element = element;
+		}
 
 		@Override
 		public short getUnitType() {

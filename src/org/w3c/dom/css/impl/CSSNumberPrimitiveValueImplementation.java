@@ -8,15 +8,15 @@ import org.w3c.dom.css.Rect;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGLength;
 
-public class CSSPrimitiveValueNumberImplementation implements CSSPrimitiveValue {
+public class CSSNumberPrimitiveValueImplementation implements CSSPrimitiveValue {
 	
 	private SVGLength length;
 	
-	public CSSPrimitiveValueNumberImplementation(SVGLength length) {
+	public CSSNumberPrimitiveValueImplementation(SVGLength length) {
 		this.length = length;
 	}
 	
-	public CSSPrimitiveValueNumberImplementation() {
+	public CSSNumberPrimitiveValueImplementation() {
 		// Empty
 	}
 	

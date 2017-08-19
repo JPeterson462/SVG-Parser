@@ -10,6 +10,7 @@ import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGException;
 import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGTransform;
 import org.w3c.dom.svg.SVGTransformList;
@@ -20,6 +21,26 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public Element writeElement(T element, ElementFactory factory);
 
+	public static SVGElement getNearestViewportElement(ParsingState parsingState) {
+		SVGElement[] result = { null };
+		parsingState.traverseHierarchy(e -> {
+			if (result[0] == null && e.getTagName().equals(Tags.SVG)) {
+				result[0] = e;
+			}
+		});
+		return result[0];
+	}
+	
+	public static SVGElement getFarthestViewportElement(ParsingState parsingState) {
+		SVGElement[] result = { null };
+		parsingState.traverseHierarchy(e -> {
+			if (e.getTagName().equals(Tags.SVG)) {
+				result[0] = e;
+			}
+		});
+		return result[0];
+	}
+	
 	public static SVGStringList concatenate(String... elements) {
 		ArrayList<String> list = new ArrayList<>(Arrays.asList(elements));
 		return new SVGStringList.Implementation(list);
@@ -154,13 +175,53 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static SVGAnimatedTransformList parseTransforms(Element element) {
 		ArrayList<SVGTransform> transforms = new ArrayList<>();
-		String attribute = readOrDefault(element, "transform", "");
-		String[] rawTransforms = attribute.split(" ");
+		String attribute = readOrDefault(element, Attributes.TRANSFORM, "");
+		String[] rawTransforms = attribute.split("[ ]+");
 		for (int i = 0; i < rawTransforms.length; i++) {
 			transforms.add(parseTransform(rawTransforms[i]));
 		}
 		return new SVGAnimatedTransformList.Implementation(new SVGTransformList.Implementation(transforms),
 				new SVGTransformList.Implementation(transforms));
+	}
+	
+	public static String getTransform(SVGTransform transform) {
+		return "matrix(" + transform.getMatrix().getA() + ", " + transform.getMatrix().getB() + ", " + transform.getMatrix().getC() + ", "
+				+ transform.getMatrix().getD() + ", " + transform.getMatrix().getE() + ", " + transform.getMatrix().getF() + ")";
+	}
+	
+	public static String getTransforms(SVGAnimatedTransformList transforms) {
+		SVGTransformList list = transforms.getBaseValue();
+		String text = "";
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			SVGTransform transform = list.getItem(i);
+			if (i > 0) {
+				text += " ";
+			}
+			text += getTransform(transform);
+		}
+		return text;
+	}
+	
+	public static String join(SVGStringList list, String joinBy) {
+		String text = "";
+		for (int i = 0; i < list.getLength(); i++) {
+			if (i > 0) {
+				text += joinBy;
+			}
+			text += list.getItem(i);
+		}
+		return text;
+	}
+	
+	public static String getPointList(SVGPointList points) {
+		String text = "";
+		for (int i = 0; i < points.getNumberOfItems(); i++) {
+			if (i > 0) {
+				text += " ";
+			}
+			text += points.getItem(i).getX() + "," + points.getItem(i).getY();
+		}
+		return text;
 	}
 	
 }

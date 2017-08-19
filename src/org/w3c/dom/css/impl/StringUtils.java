@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.w3c.dom.svg.SVGErrors;
+
 public class StringUtils {
 
 	public static ArrayList<String> splitByWhitespace(String text) {
@@ -44,6 +46,23 @@ public class StringUtils {
 			}
 		}
 		return map;
+	}
+	
+	public static String parseUri(String text) {
+		if (text.startsWith("url(") && text.endsWith(")")) {
+			return unquote(text.substring(4, text.length() - 1));
+		}
+		return SVGErrors.error("Invalid Functional URI: " + text);
+	}
+	
+	private static String unquote(String text) {
+		while (text.startsWith("\"")) {
+			if (!text.endsWith("\"")) {
+				SVGErrors.error("Invalid Functional URI: " + text);
+			}
+			text = text.substring(1, text.length() - 1);
+		}
+		return text;
 	}
 	
 }

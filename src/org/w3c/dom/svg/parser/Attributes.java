@@ -8,6 +8,12 @@ public interface Attributes {
 	
 	public static final String CONTENT_STYLE_TYPE = "contentStyleType";
 	
+	public static final String CX = "cx";
+	
+	public static final String CY = "cy";
+
+	public static final String D = "d";
+	
 	public static final String EXTERNAL_RESOURCES_REQUIRED = "externalResourcesRequired";
 	
 	public static final String HEIGHT = "height";
@@ -16,9 +22,13 @@ public interface Attributes {
 	
 	public static final String MEDIA = "media";
 	
+	public static final String PATH_LENGTH = "pathLength";
+	
 	public static final String REQUIRED_EXTENSIONS = "requiredExtensions";
 
 	public static final String REQUIRED_FEATURES = "requiredFeatures";
+	
+	public static final String R = "r";
 	
 	public static final String RX = "rx";
 	
@@ -29,6 +39,8 @@ public interface Attributes {
 	public static final String SYSTEM_LANGUAGE = "systemLanguage";
 	
 	public static final String TITLE = "title";
+	
+	public static final String TRANSFORM = "transform";
 	
 	public static final String TYPE = "type";
 	
@@ -45,7 +57,15 @@ public interface Attributes {
 	public static final String XML_SPACE = "xml:space";
 	
 	public static final String X = "x";
+
+	public static final String X1 = "x1";
+
+	public static final String X2 = "x2";
 	
 	public static final String Y = "y";
+
+	public static final String Y1 = "y1";
+
+	public static final String Y2 = "y2";
 	
 }

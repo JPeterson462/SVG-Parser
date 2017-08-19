@@ -1,5 +1,6 @@
 package org.w3c.dom.svg.parser;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 import org.w3c.dom.css.CSSRule;
@@ -14,6 +15,18 @@ public class ParsingState {
 
 	public SVGSVGElement getOwnerSVGElement() {
 		return ownerSVGElement;
+	}
+	
+	@FunctionalInterface
+	public interface HierarchyTraversal {
+		public void visit(SVGElement element);
+	}
+	
+	public void traverseHierarchy(HierarchyTraversal traversal) {
+		Iterator<SVGElement> iterator = elementHierarchy.iterator();
+		while (iterator.hasNext()) {
+			traversal.visit(iterator.next());
+		}
 	}
 
 	public void setOwnerSVGElement(SVGSVGElement ownerSVGElement) {

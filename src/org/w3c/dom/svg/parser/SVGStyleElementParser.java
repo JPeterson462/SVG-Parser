@@ -35,7 +35,9 @@ public class SVGStyleElementParser implements ElementParser<SVGStyleElement> {
 		attributes.put(Attributes.TYPE, element.getType());
 		attributes.put(Attributes.MEDIA, element.getMedia());
 		attributes.put(Attributes.TITLE, element.getTitle());
-		return factory.createElement(Tags.STYLE, attributes);
+		Element e = factory.createElement(Tags.STYLE, attributes);
+		e.setTextContent(element.getTextContent());
+		return e;
 	}
 
 }

@@ -36,11 +36,10 @@ CSSValueImplementation (split)
 CSSRuleBuilder @font-face
 CSSProperties
 set initial -> default
-colors also accept transparent, initial, inherit
-CSSColor
 CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
 	Compute cascading value for relative properties
 	ParsingState.findParentRule
+Ensure that base elements for relative attributes are set
 
 Don't support calc()
 
@@ -57,13 +56,13 @@ R	W
 		<image>
 		<switch>
 +	+	<style>
-		<path>
-*		<rect>
-		<circle>
-		<ellipse>
-		<line>
-		<polyline>
-		<polygon>
+*		<path>
++	+	<rect>
++	+	<circle>
++	+	<ellipse>
++	+	<line>
++	+	<polyline>
++	+	<polygon>
 		<text>
 		<tspan>
 		<tref>

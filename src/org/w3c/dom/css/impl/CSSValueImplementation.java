@@ -79,15 +79,15 @@ public class CSSValueImplementation implements CSSPrimitiveValue, CSSValueList, 
 			else {
 				SVGErrors.error("Invalid Primitive Value");
 			}
-			topValue = new CSSPrimitiveValueNumberImplementation(top);
-			rightValue = new CSSPrimitiveValueNumberImplementation(right);
-			bottomValue = new CSSPrimitiveValueNumberImplementation(bottom);
-			leftValue = new CSSPrimitiveValueNumberImplementation(left);
+			topValue = new CSSNumberPrimitiveValueImplementation(top);
+			rightValue = new CSSNumberPrimitiveValueImplementation(right);
+			bottomValue = new CSSNumberPrimitiveValueImplementation(bottom);
+			leftValue = new CSSNumberPrimitiveValueImplementation(left);
 		}
 		else if (type.equals(CSSValueType.NUMBER)) {
 			length = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parent);
 			length.setValueAsString(text);
-			lengthValue = new CSSPrimitiveValueNumberImplementation(length);
+			lengthValue = new CSSNumberPrimitiveValueImplementation(length);
 		}
 		else if (type.equals(CSSValueType.STRING)) {
 			this.text = text;
