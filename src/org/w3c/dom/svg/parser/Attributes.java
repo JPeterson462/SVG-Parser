@@ -16,6 +16,10 @@ public interface Attributes {
 	
 	public static final String EXTERNAL_RESOURCES_REQUIRED = "externalResourcesRequired";
 	
+	public static final String FILTER_RES = "filterRes";
+	
+	public static final String FILTER_UNITS = "filterUnits";
+	
 	public static final String HEIGHT = "height";
 
 	public static final String ID = "id";
@@ -23,6 +27,8 @@ public interface Attributes {
 	public static final String MEDIA = "media";
 	
 	public static final String PATH_LENGTH = "pathLength";
+	
+	public static final String PRIMITIVE_UNITS = "primitiveUnits";
 	
 	public static final String REQUIRED_EXTENSIONS = "requiredExtensions";
 

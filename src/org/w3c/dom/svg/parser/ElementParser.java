@@ -8,6 +8,7 @@ import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGException;
 import org.w3c.dom.svg.SVGMatrix;
 import org.w3c.dom.svg.SVGPointList;
@@ -222,6 +223,15 @@ public interface ElementParser<T extends SVGElement> {
 			text += points.getItem(i).getX() + "," + points.getItem(i).getY();
 		}
 		return text;
+	}
+	
+	public static String validate(String value, String... possible) {
+		for (int i = 0; i < possible.length; i++) {
+			if (value.equals(possible[i])) {
+				return value;
+			}
+		}
+		return SVGErrors.error("Invalid value: " + value);
 	}
 	
 }

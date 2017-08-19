@@ -1,4 +1,4 @@
-package org.w3c.dom.svg.parser.paths;
+package org.w3c.dom.svg.parser.text;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
@@ -15,14 +15,14 @@ import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.paths.SVGPathElement;
 import org.w3c.dom.svg.paths.SVGPathSegList;
+import org.w3c.dom.svg.text.SVGTextElement;
 
-public class SVGPathElementParser implements ElementParser<SVGPathElement> {
+public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 
 	@Override
-	public SVGPathElement readElement(Element element, ParsingState parsingState) {
-		String pathLengthStr = element.getAttribute(Attributes.PATH_LENGTH);
-		SVGAnimatedNumber aPathLength = new SVGAnimatedNumber.Implementation(Float.parseFloat(pathLengthStr), Float.parseFloat(pathLengthStr));
-		SVGPathSegList pathSegList = new SVGPathSegList.Implementation(null);//TODO
+	public SVGTextElement readElement(Element element, ParsingState parsingState) {
+		String textLengthStr;
+		
 		// Get default values
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
@@ -50,13 +50,13 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		return new SVGTextElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
-					pathSegList, null, pathSegList, null, aPathLength, nearestViewportElement, farthestViewportElement, transform);
+					textLength, lengthAdjust, nearestViewportElement, farthestViewportElement, transform);
 	}
 
 	@Override
-	public Element writeElement(SVGPathElement element, ElementFactory factory) {
+	public Element writeElement(SVGTextElement element, ElementFactory factory) {
 
 		return null;
 	}
