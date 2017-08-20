@@ -26,6 +26,8 @@ public interface Attributes {
 	
 	public static final String MEDIA = "media";
 	
+	public static final String NAME = "name";
+	
 	public static final String PATH_LENGTH = "pathLength";
 	
 	public static final String PRIMITIVE_UNITS = "primitiveUnits";
@@ -39,6 +41,8 @@ public interface Attributes {
 	public static final String RX = "rx";
 	
 	public static final String RY = "ry";
+	
+	public static final String STRING = "string";
 	
 	public static final String STYLE = "style";
 	

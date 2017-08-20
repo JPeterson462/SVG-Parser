@@ -5,10 +5,20 @@ import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGFontFaceFormatElement extends SVGElement {
 
+	public String getString();
+	
 	public static class Implementation extends SVGElement.Implementation implements SVGFontFaceFormatElement {
 
-		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
+		private String string;
+		
+		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement, String string) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
+			this.string = string;
+		}
+
+		@Override
+		public String getString() {
+			return string;
 		}
 		
 	}
