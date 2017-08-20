@@ -2,6 +2,7 @@ package org.w3c.dom.svg.parser.text;
 
 import java.util.HashMap;
 
+import org.w3c.dom.DOMErrors;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -10,7 +11,6 @@ import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedLengthList;
 import org.w3c.dom.svg.SVGAnimatedNumberList;
 import org.w3c.dom.svg.SVGAnimatedString;
-import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGLength;
@@ -23,15 +23,15 @@ import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
+import org.w3c.dom.svg.text.SVGTRefElement;
 import org.w3c.dom.svg.text.SVGTextContentElement;
-import org.w3c.dom.svg.text.SVGTextElement;
 
-public class SVGTextElementParser implements ElementParser<SVGTextElement> {
+public class SVGTRefElementParser implements ElementParser<SVGTRefElement> {
 
 	private HashMap<Short, String> enumToStr = new HashMap<>();
 	private HashMap<String, Short> strToEnum = new HashMap<>();
 	
-	public SVGTextElementParser() {
+	public SVGTRefElementParser() {
 		enumToStr.put(SVGTextContentElement.LENGTHADJUST_SPACING, "spacing");
 		strToEnum.put("spacing", SVGTextContentElement.LENGTHADJUST_SPACING);
 		enumToStr.put(SVGTextContentElement.LENGTHADJUST_SPACINGANDGLYPHS, "spacingAndGlyphs");
@@ -39,7 +39,8 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 	}
 	
 	@Override
-	public SVGTextElement readElement(Element element, ParsingState parsingState) {
+	public SVGTRefElement readElement(Element element, ParsingState parsingState) {
+		DOMErrors.notSupported();
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		SVGLengthList x = ElementParser.parseLengthList(xStr, parsingState);
 		SVGAnimatedLengthList ax = new SVGAnimatedLengthList.Implementation(x, x);
@@ -65,6 +66,8 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		String lengthAdjustStr = ElementParser.readOrDefault(element, Attributes.LENGTH_ADJUST, "spacing");
 		short lengthAdjustEnum = strToEnum.get(lengthAdjustStr);
 		SVGAnimatedEnumeration lengthAdjust = new SVGAnimatedEnumeration.Implementation(lengthAdjustEnum, lengthAdjustEnum);
+		String href = element.getAttribute(Attributes.XLINK_HREF);
+		SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
 		// Get default values
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
@@ -88,20 +91,17 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
-		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
-		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		SVGTextElement textElement = new SVGTextElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ax, ay, adx, ady,
-				arotate, xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
-				systemLanguage, externalResourcesRequired, atextLength, lengthAdjust, nearestViewportElement,
-				farthestViewportElement, transform);
+		SVGTRefElement textElement = new SVGTRefElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ax, ay, adx, ady,
+				arotate, ahref, xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
+				systemLanguage, externalResourcesRequired, atextLength, lengthAdjust);
 		textElement.setTextContent(element.getTextContent());
 		return textElement;
 	}
 
 	@Override
-	public Element writeElement(SVGTextElement element, ElementFactory factory) {
+	public Element writeElement(SVGTRefElement element, ElementFactory factory) {
+		DOMErrors.notSupported();
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put(Attributes.X, ElementParser.convertLengthList(element.getX().getBaseValue()));
 		attributes.put(Attributes.Y, ElementParser.convertLengthList(element.getY().getBaseValue()));
@@ -110,6 +110,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.ROTATE, ElementParser.convertNumberList(element.getRotate().getBaseValue()));
 		attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
 		attributes.put(Attributes.LENGTH_ADJUST, enumToStr.get(element.getLengthAdjust().getBaseValue()));
+		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
@@ -120,7 +121,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
-		Element textElement = factory.createElement(Tags.TEXT, attributes);
+		Element textElement = factory.createElement(Tags.TREF, attributes);
 		textElement.setTextContent(element.getTextContent());
 		return textElement;
 	}

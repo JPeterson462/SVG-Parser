@@ -26,6 +26,7 @@ SVG Events
 
 * = work in progress
 + = done
+. = not handled
 
 *	1. Implementations
 *	2. Parser (Reader)
@@ -43,9 +44,11 @@ Ensure that base elements for relative attributes are set
 
 Don't support calc()
 Parsing JavaScript?
+Graphical event attributes?
+Check content models
 
 Parsing the <style>... where?
-5, 8, 10, 11, 12, 14, 15, 17, 18, 19, 20, 23
+5, 8, 10, 11, 12, 14, 15, 17, 18, 19, 20
 
 R	W
 		<svg>
@@ -65,9 +68,9 @@ R	W
 +	+	<line>
 +	+	<polyline>
 +	+	<polygon>
-*		<text>
-		<tspan>
-		<tref>
++	+	<text>
++	+	<tspan>
+.	.	<tref>
 		<textPath>
 		<altGlyph>
 		<altGlyphDef>

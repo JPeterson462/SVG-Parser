@@ -10,7 +10,6 @@ import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedLengthList;
 import org.w3c.dom.svg.SVGAnimatedNumberList;
 import org.w3c.dom.svg.SVGAnimatedString;
-import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGLength;
@@ -23,15 +22,15 @@ import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
+import org.w3c.dom.svg.text.SVGTSpanElement;
 import org.w3c.dom.svg.text.SVGTextContentElement;
-import org.w3c.dom.svg.text.SVGTextElement;
 
-public class SVGTextElementParser implements ElementParser<SVGTextElement> {
+public class SVGTSpanElementParser implements ElementParser<SVGTSpanElement> {
 
 	private HashMap<Short, String> enumToStr = new HashMap<>();
 	private HashMap<String, Short> strToEnum = new HashMap<>();
 	
-	public SVGTextElementParser() {
+	public SVGTSpanElementParser() {
 		enumToStr.put(SVGTextContentElement.LENGTHADJUST_SPACING, "spacing");
 		strToEnum.put("spacing", SVGTextContentElement.LENGTHADJUST_SPACING);
 		enumToStr.put(SVGTextContentElement.LENGTHADJUST_SPACINGANDGLYPHS, "spacingAndGlyphs");
@@ -39,7 +38,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 	}
 	
 	@Override
-	public SVGTextElement readElement(Element element, ParsingState parsingState) {
+	public SVGTSpanElement readElement(Element element, ParsingState parsingState) {
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		SVGLengthList x = ElementParser.parseLengthList(xStr, parsingState);
 		SVGAnimatedLengthList ax = new SVGAnimatedLengthList.Implementation(x, x);
@@ -88,20 +87,16 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
-		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
-		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		SVGTextElement textElement = new SVGTextElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ax, ay, adx, ady,
+		SVGTSpanElement textElement = new SVGTSpanElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ax, ay, adx, ady,
 				arotate, xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
-				systemLanguage, externalResourcesRequired, atextLength, lengthAdjust, nearestViewportElement,
-				farthestViewportElement, transform);
+				systemLanguage, externalResourcesRequired, atextLength, lengthAdjust);
 		textElement.setTextContent(element.getTextContent());
 		return textElement;
 	}
 
 	@Override
-	public Element writeElement(SVGTextElement element, ElementFactory factory) {
+	public Element writeElement(SVGTSpanElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put(Attributes.X, ElementParser.convertLengthList(element.getX().getBaseValue()));
 		attributes.put(Attributes.Y, ElementParser.convertLengthList(element.getY().getBaseValue()));
@@ -120,7 +115,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
-		Element textElement = factory.createElement(Tags.TEXT, attributes);
+		Element textElement = factory.createElement(Tags.TSPAN, attributes);
 		textElement.setTextContent(element.getTextContent());
 		return textElement;
 	}

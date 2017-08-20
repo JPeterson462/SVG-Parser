@@ -13,6 +13,10 @@ public interface Attributes {
 	public static final String CY = "cy";
 
 	public static final String D = "d";
+
+	public static final String DX = "dx";
+
+	public static final String DY = "dy";
 	
 	public static final String EXTERNAL_RESOURCES_REQUIRED = "externalResourcesRequired";
 	
@@ -23,6 +27,8 @@ public interface Attributes {
 	public static final String HEIGHT = "height";
 
 	public static final String ID = "id";
+
+	public static final String LENGTH_ADJUST = "lengthAdjust";
 	
 	public static final String MEDIA = "media";
 	
@@ -38,6 +44,8 @@ public interface Attributes {
 	
 	public static final String R = "r";
 	
+	public static final String ROTATE = "rotate";
+	
 	public static final String RX = "rx";
 	
 	public static final String RY = "ry";
@@ -47,6 +55,8 @@ public interface Attributes {
 	public static final String STYLE = "style";
 	
 	public static final String SYSTEM_LANGUAGE = "systemLanguage";
+	
+	public static final String TEXT_LENGTH = "textLength";
 	
 	public static final String TITLE = "title";
 	
@@ -77,5 +87,5 @@ public interface Attributes {
 	public static final String Y1 = "y1";
 
 	public static final String Y2 = "y2";
-	
+
 }

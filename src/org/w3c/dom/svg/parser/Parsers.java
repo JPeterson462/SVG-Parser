@@ -12,6 +12,9 @@ import org.w3c.dom.svg.parser.shapes.SVGLineElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGPolygonElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGPolylineElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGRectElementParser;
+import org.w3c.dom.svg.parser.text.SVGTRefElementParser;
+import org.w3c.dom.svg.parser.text.SVGTSpanElementParser;
+import org.w3c.dom.svg.parser.text.SVGTextElementParser;
 
 @SuppressWarnings("rawtypes")
 public class Parsers {
@@ -24,7 +27,7 @@ public class Parsers {
 		// Hidden Constructor
 	}
 	
-	public static void registerParsers() {
+	public static void registerParsers() { // 17 out of 51 parsers completed
 		parsers.put(Tags.STYLE, new SVGStyleElementParser());
 		parsers.put(Tags.CURSOR, new SVGCursorElementParser());
 		parsers.put(Tags.METADATA, new SVGMetadataElementParser());
@@ -39,6 +42,9 @@ public class Parsers {
 		parsers.put(Tags.FONT_FACE_FORMAT, new SVGFontFaceFormatElementParser());
 		parsers.put(Tags.FONT_FACE_NAME, new SVGFontFaceNameElementParser());
 		parsers.put(Tags.SCRIPT, new SVGScriptElementParser());
+		parsers.put(Tags.TEXT, new SVGTextElementParser());
+		parsers.put(Tags.TSPAN, new SVGTSpanElementParser());
+		parsers.put(Tags.TREF, new SVGTRefElementParser());
 		registered = true;
 	}
 	

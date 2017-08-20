@@ -6,11 +6,16 @@ import java.util.Arrays;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
+import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGException;
+import org.w3c.dom.svg.SVGLength;
+import org.w3c.dom.svg.SVGLengthList;
 import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGNumber;
+import org.w3c.dom.svg.SVGNumberList;
 import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGTransform;
@@ -232,6 +237,78 @@ public interface ElementParser<T extends SVGElement> {
 			}
 		}
 		return SVGErrors.error("Invalid value: " + value);
+	}
+	
+	public static SVGLengthList parseLengthList(String text, ParsingState parsingState) {
+		ArrayList<String> textSplit = StringUtils.splitByWhitespace(text);
+		ArrayList<SVGLength> list = new ArrayList<>();
+		if (text.length() > 0) {
+			for (int i = 0; i < textSplit.size(); i++) {
+				String lengthStr = textSplit.get(i);
+				if (lengthStr.endsWith(",")) {
+					lengthStr = lengthStr.substring(0, lengthStr.length() - 1);
+				}
+				else if (i == textSplit.size() - 1) {
+					// Valid
+				}
+				else if (textSplit.get(i + 1).equals(",")) {
+					i++;
+				}
+				else {
+					SVGErrors.error("Invalid length list");
+				}
+				SVGLength length = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+				length.setValueAsString(lengthStr);
+				list.add(length);
+			}
+		}
+		return new SVGLengthList.Implementation(list);
+	}
+	
+	public static String convertLengthList(SVGLengthList list) {
+		String result = "";
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			if (i > 0) {
+				result += ", ";
+			}
+			result += list.getItem(i).getValueAsString();
+		}
+		return result;
+	}
+	
+	public static SVGNumberList parseNumberList(String text) {
+		ArrayList<String> textSplit = StringUtils.splitByWhitespace(text);
+		ArrayList<SVGNumber> list = new ArrayList<>();
+		if (text.length() > 0) {
+			for (int i = 0; i < textSplit.size(); i++) {
+				String numberStr = textSplit.get(i);
+				if (numberStr.endsWith(",")) {
+					numberStr = numberStr.substring(0, numberStr.length() - 1);
+				}
+				else if (i == textSplit.size() - 1) {
+					// Valid
+				}
+				else if (textSplit.get(i + 1).equals(",")) {
+					i++;
+				}
+				else {
+					SVGErrors.error("Invalid length list");
+				}
+				list.add(new SVGNumber.Implementation(Float.parseFloat(numberStr)));
+			}
+		}
+		return new SVGNumberList.Implementation(list);
+	}
+
+	public static String convertNumberList(SVGNumberList list) {
+		String result = "";
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			if (i > 0) {
+				result += ", ";
+			}
+			result += Float.toString(list.getItem(i).getValue());
+		}
+		return result;
 	}
 	
 }

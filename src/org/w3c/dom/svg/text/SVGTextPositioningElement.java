@@ -5,6 +5,7 @@ import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedLengthList;
+import org.w3c.dom.svg.SVGAnimatedNumberList;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
@@ -20,14 +21,16 @@ public interface SVGTextPositioningElement extends SVGTextContentElement {
 	
 	public SVGAnimatedLengthList getDY();
 	
-	public SVGAnimatedLengthList getRotate();
+	public SVGAnimatedNumberList getRotate();
 	
 	public static class Implementation extends SVGTextContentElement.Implementation implements SVGTextPositioningElement {
 
-		private SVGAnimatedLengthList x, y, dx, dy, rotate;
+		private SVGAnimatedLengthList x, y, dx, dy;
+		
+		private SVGAnimatedNumberList rotate;
 		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
-				SVGAnimatedLengthList x, SVGAnimatedLengthList y, SVGAnimatedLengthList dx, SVGAnimatedLengthList dy, SVGAnimatedLengthList rotate,
+				SVGAnimatedLengthList x, SVGAnimatedLengthList y, SVGAnimatedLengthList dx, SVGAnimatedLengthList dy, SVGAnimatedNumberList rotate,
 				String xmlLang, String xmlSpace,
 				SVGAnimatedString className, CSSStyleDeclaration style,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
@@ -62,7 +65,7 @@ public interface SVGTextPositioningElement extends SVGTextContentElement {
 		}
 
 		@Override
-		public SVGAnimatedLengthList getRotate() {
+		public SVGAnimatedNumberList getRotate() {
 			return rotate;
 		}
 		

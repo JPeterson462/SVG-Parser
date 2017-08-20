@@ -31,5 +31,11 @@ public interface Tags {
 	public static final String STYLE = "style";
 	
 	public static final String SVG = "svg";
+	
+	public static final String TEXT = "text";
+	
+	public static final String TREF = "tref";
+	
+	public static final String TSPAN = "tspan";
 
 }
