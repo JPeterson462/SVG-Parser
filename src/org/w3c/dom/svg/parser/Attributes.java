@@ -36,6 +36,8 @@ public interface Attributes {
 	
 	public static final String PATH_LENGTH = "pathLength";
 	
+	public static final String PRESERVE_ASPECT_RATIO = "preserveAspectRatio";
+	
 	public static final String PRIMITIVE_UNITS = "primitiveUnits";
 	
 	public static final String REQUIRED_EXTENSIONS = "requiredExtensions";
@@ -65,6 +67,8 @@ public interface Attributes {
 	public static final String TYPE = "type";
 	
 	public static final String VERSION = "version";
+	
+	public static final String VIEW_BOX = "viewBox";
 	
 	public static final String WIDTH = "width";
 	

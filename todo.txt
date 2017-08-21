@@ -52,14 +52,14 @@ Parsing the <style>... where?
 
 R	W
 		<svg>
-		<g>
-		<defs>
-		<desc>
-		<title>
-		<symbol>
++	+	<g>
++	+	<defs>
++	+	<desc>
++	+	<title>
++	+	<symbol>
 		<use>
-		<image>
-		<switch>
++	+	<image>
++	+	<switch>
 +	+	<style>
 *		<path>
 +	+	<rect>

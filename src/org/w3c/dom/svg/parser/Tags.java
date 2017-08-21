@@ -5,6 +5,10 @@ public interface Tags {
 	public static final String CIRCLE = "circle";
 		
 	public static final String CURSOR = "cursor";
+	
+	public static final String DEFS = "defs";
+	
+	public static final String DESC = "desc";
 
 	public static final String ELLIPSE = "ellipse";
 	
@@ -15,6 +19,10 @@ public interface Tags {
 	public static final String FONT_FACE_SRC = "font-face-src";
 
 	public static final String FONT_FACE_URI = "font-face-uri";
+	
+	public static final String G = "g";
+	
+	public static final String IMAGE = "image";
 
 	public static final String LINE = "line";
 		
@@ -32,10 +40,18 @@ public interface Tags {
 	
 	public static final String SVG = "svg";
 	
+	public static final String SWITCH = "switch";
+	
+	public static final String SYMBOL = "symbol";
+	
 	public static final String TEXT = "text";
+	
+	public static final String TITLE = "title";
 	
 	public static final String TREF = "tref";
 	
 	public static final String TSPAN = "tspan";
+	
+	public static final String USE = "use";
 
 }

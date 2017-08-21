@@ -2,6 +2,13 @@ package org.w3c.dom.svg.parser;
 
 import java.util.HashMap;
 
+import org.w3c.dom.svg.parser.document.SVGDefsElementParser;
+import org.w3c.dom.svg.parser.document.SVGDescElementParser;
+import org.w3c.dom.svg.parser.document.SVGGElementParser;
+import org.w3c.dom.svg.parser.document.SVGImageElementParser;
+import org.w3c.dom.svg.parser.document.SVGSwitchElementParser;
+import org.w3c.dom.svg.parser.document.SVGSymbolElementParser;
+import org.w3c.dom.svg.parser.document.SVGTitleElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceFormatElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceNameElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceSrcElementParser;
@@ -27,7 +34,7 @@ public class Parsers {
 		// Hidden Constructor
 	}
 	
-	public static void registerParsers() { // 17 out of 51 parsers completed
+	public static void registerParsers() { // 24 out of 51 parsers completed
 		parsers.put(Tags.STYLE, new SVGStyleElementParser());
 		parsers.put(Tags.CURSOR, new SVGCursorElementParser());
 		parsers.put(Tags.METADATA, new SVGMetadataElementParser());
@@ -45,6 +52,13 @@ public class Parsers {
 		parsers.put(Tags.TEXT, new SVGTextElementParser());
 		parsers.put(Tags.TSPAN, new SVGTSpanElementParser());
 		parsers.put(Tags.TREF, new SVGTRefElementParser());
+		parsers.put(Tags.G, new SVGGElementParser());
+		parsers.put(Tags.DEFS, new SVGDefsElementParser());
+		parsers.put(Tags.DESC, new SVGDescElementParser());
+		parsers.put(Tags.TITLE, new SVGTitleElementParser());
+		parsers.put(Tags.SYMBOL, new SVGSymbolElementParser());
+		parsers.put(Tags.IMAGE, new SVGImageElementParser());
+		parsers.put(Tags.SWITCH, new SVGSwitchElementParser());
 		registered = true;
 	}
 	

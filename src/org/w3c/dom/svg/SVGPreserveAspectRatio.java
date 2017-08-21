@@ -1,5 +1,7 @@
 package org.w3c.dom.svg;
 
+import java.util.HashMap;
+
 import org.w3c.dom.DOMException;
 
 public interface SVGPreserveAspectRatio {
@@ -54,6 +56,39 @@ public interface SVGPreserveAspectRatio {
 		
 		private short meetOrSlice = SVG_MEETORSLICE_UNKNOWN;
 		
+		private static HashMap<Short, String> align_enumToStr = new HashMap<>();
+		private static HashMap<String, Short> align_strToEnum = new HashMap<>();
+
+		private static HashMap<Short, String> meetOrSlice_enumToStr = new HashMap<>();
+		private static HashMap<String, Short> meetOrSlice_strToEnum = new HashMap<>();
+		
+		public Implementation() {
+			if (align_enumToStr.size() == 0) {
+				registerAlign(SVG_PRESERVEASPECTRATIO_NONE, "none");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMINYMIN, "xMinYMin");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMIDYMIN, "xMidYMin");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMAXYMIN, "xMaxYMin");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMINYMID, "xMinYMid");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMIDYMID, "xMidYMid");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMAXYMID, "xMaxYMid");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMINYMAX, "xMinYMax");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMIDYMAX, "xMidYMax");
+				registerAlign(SVG_PRESERVEASPECTRATIO_XMAXYMAX, "xMaxYMax");
+				registerMeetOrSlice(SVG_MEETORSLICE_MEET, "meet");
+				registerMeetOrSlice(SVG_MEETORSLICE_SLICE, "slice");
+			}
+		}
+		
+		private void registerAlign(short enumVal, String str) {
+			align_enumToStr.put(enumVal, str);
+			align_strToEnum.put(str, enumVal);
+		}
+		
+		private void registerMeetOrSlice(short enumVal, String str) {
+			meetOrSlice_enumToStr.put(enumVal, str);
+			meetOrSlice_strToEnum.put(str, enumVal);
+		}
+		
 		@Override
 		public short getAlign() {
 			return align;
@@ -72,6 +107,19 @@ public interface SVGPreserveAspectRatio {
 		@Override
 		public void setMeetOrSlice(short meetOrSlice) throws DOMException {
 			this.meetOrSlice = meetOrSlice;
+		}
+		
+		public void setFromString(String alignStr, String meetOrSliceStr) {
+			align = SVG_PRESERVEASPECTRATIO_UNKNOWN;
+			meetOrSlice = SVG_MEETORSLICE_UNKNOWN;
+			if (alignStr != null && align_strToEnum.containsKey(alignStr))
+				align = align_strToEnum.get(alignStr);
+			if (meetOrSliceStr != null && meetOrSlice_strToEnum.containsKey(meetOrSliceStr))
+				meetOrSlice = meetOrSlice_strToEnum.get(meetOrSliceStr);
+		}
+		
+		public String getAsString() {
+			return align_enumToStr.get(align) + (meetOrSlice != SVG_MEETORSLICE_UNKNOWN ? meetOrSlice_enumToStr.get(meetOrSlice) : "");
 		}
 		
 	}
