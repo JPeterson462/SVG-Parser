@@ -40,7 +40,7 @@ public class Parsers {
 		// Hidden Constructor
 	}
 	
-	public static void registerParsers() { // 32 out of 51 parsers completed
+	public static void registerParsers() { // 36 out of 51 parsers completed
 		parsers.put(Tags.STYLE, new SVGStyleElementParser());
 		parsers.put(Tags.CURSOR, new SVGCursorElementParser());
 		parsers.put(Tags.METADATA, new SVGMetadataElementParser());
@@ -73,6 +73,10 @@ public class Parsers {
 		parsers.put(Tags.ALT_GLYPH_DEF, new SVGAltGlyphDefElementParser());
 		parsers.put(Tags.ALT_GLYPH_ITEM, new SVGAltGlyphItemElementParser());
 		parsers.put(Tags.GLYPH_REF, new SVGGlyphRefElementParser());
+		parsers.put(Tags.COLOR_PROFILE, new SVGColorProfileElementParser());
+		parsers.put(Tags.CLIP_PATH, new SVGClipPathElementParser());
+		parsers.put(Tags.A, new SVGAElementParser());
+		parsers.put(Tags.VIEW, new SVGViewElementParser());
 		registered = true;
 	}
 	

@@ -2,6 +2,8 @@ package org.w3c.dom.svg.parser;
 
 public interface Tags {
 
+	public static final String A = "a";
+	
 	public static final String ALT_GLYPH = "altGlyph";
 	
 	public static final String ALT_GLYPH_DEF = "altGlyphDef";
@@ -9,6 +11,10 @@ public interface Tags {
 	public static final String ALT_GLYPH_ITEM = "altGlyphItem";
 	
 	public static final String CIRCLE = "circle";
+	
+	public static final String CLIP_PATH = "clipPath";
+	
+	public static final String COLOR_PROFILE = "color-profile";
 		
 	public static final String CURSOR = "cursor";
 	
@@ -70,4 +76,6 @@ public interface Tags {
 	
 	public static final String USE = "use";
 
+	public static final String VIEW = "view";
+	
 }

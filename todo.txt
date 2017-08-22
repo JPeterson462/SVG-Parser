@@ -34,7 +34,7 @@ SVG Events
 *	4. Writer
 
 CSSValueImplementation (split)
-CSSRuleBuilder @font-face
+CSSRuleBuilder @font-face, @color-profile (color profile rule in .svg)
 CSSProperties
 set initial -> default
 CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
@@ -42,11 +42,12 @@ CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
 	ParsingState.findParentRule
 Ensure that base elements for relative attributes are set
 SVGFontElementParser. 16px -> 1em
+viewportElement is different than ownerSVGElement?
 
 Don't support calc()
 Parsing JavaScript?
 Graphical event attributes?
-Check content models
+Check content models (child attributes based on parent: like clip-path), documented properties
 
 Parsing the <style>... where?
 
@@ -77,13 +78,13 @@ R	W
 +	+	<altGlyphItem>
 +	+	<glyphRef>
 +	+	<marker>
-		<color-profile>
-		<clipPath>
++	+	<color-profile>
++	+	<clipPath>
 *		<filter>
 		Filter Primitives?
 +	+	<cursor>
-		<a>
-		<view>
++	+	<a>
++	+	<view>
 +	+	<script>
 		<animate>
 		<set>

@@ -120,6 +120,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
+		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
 		Element textElement = factory.createElement(Tags.TEXT, attributes);
 		textElement.setTextContent(element.getTextContent());
 		return textElement;

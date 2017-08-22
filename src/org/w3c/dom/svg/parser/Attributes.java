@@ -8,6 +8,8 @@ public interface Attributes {
 	
 	public static final String CLASS = "class";
 	
+	public static final String CLIP_PATH_UNITS = "clipPathUnits";
+	
 	public static final String CONTENT_STYLE_TYPE = "contentStyleType";
 	
 	public static final String CX = "cx";
@@ -46,6 +48,8 @@ public interface Attributes {
 	
 	public static final String LENGTH_ADJUST = "lengthAdjust";
 	
+	public static final String LOCAL = "local";
+	
 	public static final String MARKER_HEIGHT = "markerHeight";
 	
 	public static final String MARKER_WIDTH = "markerWidth";
@@ -78,6 +82,8 @@ public interface Attributes {
 
 	public static final String REF_Y = "refY";
 	
+	public static final String RENDERING_INDENT = "rendering-intent";
+	
 	public static final String ROTATE = "rotate";
 	
 	public static final String RX = "rx";
@@ -93,6 +99,8 @@ public interface Attributes {
 	public static final String STYLE = "style";
 	
 	public static final String SYSTEM_LANGUAGE = "systemLanguage";
+	
+	public static final String TARGET = "target";
 	
 	public static final String TEXT_LENGTH = "textLength";
 	
@@ -113,6 +121,8 @@ public interface Attributes {
 	public static final String VERT_ORIGIN_Y = "vert-origin-y";
 	
 	public static final String VIEW_BOX = "viewBox";
+	
+	public static final String VIEW_TARGET = "viewTarget";
 	
 	public static final String WIDTH = "width";
 	
@@ -135,5 +145,7 @@ public interface Attributes {
 	public static final String Y1 = "y1";
 
 	public static final String Y2 = "y2";
+
+	public static final String ZOOM_AND_PAN = "zoomAndPan";
 
 }
