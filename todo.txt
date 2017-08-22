@@ -41,6 +41,7 @@ CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
 	Compute cascading value for relative properties
 	ParsingState.findParentRule
 Ensure that base elements for relative attributes are set
+SVGFontElementParser. 16px -> 1em
 
 Don't support calc()
 Parsing JavaScript?
@@ -48,7 +49,6 @@ Graphical event attributes?
 Check content models
 
 Parsing the <style>... where?
-5, 8, 10, 11, 12, 14, 15, 17, 18, 19, 20
 
 R	W
 		<svg>
@@ -71,12 +71,12 @@ R	W
 +	+	<text>
 +	+	<tspan>
 .	.	<tref>
-		<textPath>
-		<altGlyph>
-		<altGlyphDef>
-		<altGlyphItem>
-		<glyphRef>
-		<marker>
++	+	<textPath>
++	+	<altGlyph>
++	+	<altGlyphDef>
++	+	<altGlyphItem>
++	+	<glyphRef>
++	+	<marker>
 		<color-profile>
 		<clipPath>
 *		<filter>
@@ -90,7 +90,7 @@ R	W
 		<animateMotion>
 		<animateColor>
 		<animateTransform>
-*		<font>
++	+	<font>
 		<glyph>
 		<missing-glyph>
 		<hkern>
@@ -101,4 +101,4 @@ R	W
 +	+	<font-face-format>
 +	+	<font-face-name>
 +	+	<metadata>
-+		<foreignObject>
++	+	<foreignObject>

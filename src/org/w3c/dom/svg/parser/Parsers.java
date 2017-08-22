@@ -9,6 +9,7 @@ import org.w3c.dom.svg.parser.document.SVGImageElementParser;
 import org.w3c.dom.svg.parser.document.SVGSwitchElementParser;
 import org.w3c.dom.svg.parser.document.SVGSymbolElementParser;
 import org.w3c.dom.svg.parser.document.SVGTitleElementParser;
+import org.w3c.dom.svg.parser.fonts.SVGFontElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceFormatElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceNameElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceSrcElementParser;
@@ -19,9 +20,14 @@ import org.w3c.dom.svg.parser.shapes.SVGLineElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGPolygonElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGPolylineElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGRectElementParser;
+import org.w3c.dom.svg.parser.text.SVGAltGlyphDefElementParser;
+import org.w3c.dom.svg.parser.text.SVGAltGlyphElementParser;
+import org.w3c.dom.svg.parser.text.SVGAltGlyphItemElementParser;
+import org.w3c.dom.svg.parser.text.SVGGlyphRefElementParser;
 import org.w3c.dom.svg.parser.text.SVGTRefElementParser;
 import org.w3c.dom.svg.parser.text.SVGTSpanElementParser;
 import org.w3c.dom.svg.parser.text.SVGTextElementParser;
+import org.w3c.dom.svg.parser.text.SVGTextPathElementParser;
 
 @SuppressWarnings("rawtypes")
 public class Parsers {
@@ -34,7 +40,7 @@ public class Parsers {
 		// Hidden Constructor
 	}
 	
-	public static void registerParsers() { // 24 out of 51 parsers completed
+	public static void registerParsers() { // 32 out of 51 parsers completed
 		parsers.put(Tags.STYLE, new SVGStyleElementParser());
 		parsers.put(Tags.CURSOR, new SVGCursorElementParser());
 		parsers.put(Tags.METADATA, new SVGMetadataElementParser());
@@ -59,6 +65,14 @@ public class Parsers {
 		parsers.put(Tags.SYMBOL, new SVGSymbolElementParser());
 		parsers.put(Tags.IMAGE, new SVGImageElementParser());
 		parsers.put(Tags.SWITCH, new SVGSwitchElementParser());
+		parsers.put(Tags.FONT, new SVGFontElementParser());
+		parsers.put(Tags.MARKER, new SVGMarkerElementParser());
+		parsers.put(Tags.TEXT_PATH, new SVGTextPathElementParser());
+		parsers.put(Tags.FOREIGN_OBJECT, new SVGForeignObjectElementParser());
+		parsers.put(Tags.ALT_GLYPH, new SVGAltGlyphElementParser());
+		parsers.put(Tags.ALT_GLYPH_DEF, new SVGAltGlyphDefElementParser());
+		parsers.put(Tags.ALT_GLYPH_ITEM, new SVGAltGlyphItemElementParser());
+		parsers.put(Tags.GLYPH_REF, new SVGGlyphRefElementParser());
 		registered = true;
 	}
 	

@@ -2,6 +2,8 @@ package org.w3c.dom.svg.parser;
 
 public interface Attributes {
 
+	public static final String ARABIC_FORM = "arabic-form";
+	
 	public static final String BASE_PROFILE = "baseProfile";
 	
 	public static final String CLASS = "class";
@@ -24,15 +26,41 @@ public interface Attributes {
 	
 	public static final String FILTER_UNITS = "filterUnits";
 	
+	public static final String FORMAT = "format";
+	
+	public static final String GLYPH_NAME = "glyph-name";
+	
+	public static final String GLYPH_REF = "glyphRef";
+	
 	public static final String HEIGHT = "height";
+	
+	public static final String HORIZ_ADV_X = "horiz-adv-x";
+	
+	public static final String HORIZ_ORIGIN_X = "horiz-origin-x";
+	
+	public static final String HORIZ_ORIGIN_Y = "horiz-origin-y";
 
 	public static final String ID = "id";
 
+	public static final String LANG = "lang";
+	
 	public static final String LENGTH_ADJUST = "lengthAdjust";
+	
+	public static final String MARKER_HEIGHT = "markerHeight";
+	
+	public static final String MARKER_WIDTH = "markerWidth";
+	
+	public static final String MARKER_UNITS = "markerUnits";
 	
 	public static final String MEDIA = "media";
 	
+	public static final String METHOD = "method";
+	
 	public static final String NAME = "name";
+	
+	public static final String ORIENT = "orient";
+	
+	public static final String ORIENTATION = "orientation";
 	
 	public static final String PATH_LENGTH = "pathLength";
 	
@@ -46,11 +74,19 @@ public interface Attributes {
 	
 	public static final String R = "r";
 	
+	public static final String REF_X = "refX";
+
+	public static final String REF_Y = "refY";
+	
 	public static final String ROTATE = "rotate";
 	
 	public static final String RX = "rx";
 	
 	public static final String RY = "ry";
+	
+	public static final String SPACING = "spacing";
+	
+	public static final String START_OFFSET = "startOffset";
 	
 	public static final String STRING = "string";
 	
@@ -66,7 +102,15 @@ public interface Attributes {
 	
 	public static final String TYPE = "type";
 	
+	public static final String UNICODE = "unicode";
+	
 	public static final String VERSION = "version";
+	
+	public static final String VERT_ADV_Y = "vert-adv-y";
+	
+	public static final String VERT_ORIGIN_X = "vert-origin-x";
+
+	public static final String VERT_ORIGIN_Y = "vert-origin-y";
 	
 	public static final String VIEW_BOX = "viewBox";
 	

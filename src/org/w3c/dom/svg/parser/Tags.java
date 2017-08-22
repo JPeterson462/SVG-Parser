@@ -2,6 +2,12 @@ package org.w3c.dom.svg.parser;
 
 public interface Tags {
 
+	public static final String ALT_GLYPH = "altGlyph";
+	
+	public static final String ALT_GLYPH_DEF = "altGlyphDef";
+
+	public static final String ALT_GLYPH_ITEM = "altGlyphItem";
+	
 	public static final String CIRCLE = "circle";
 		
 	public static final String CURSOR = "cursor";
@@ -12,6 +18,8 @@ public interface Tags {
 
 	public static final String ELLIPSE = "ellipse";
 	
+	public static final String FONT = "font";
+	
 	public static final String FONT_FACE_FORMAT = "font-face-format";
 
 	public static final String FONT_FACE_NAME = "font-face-name";
@@ -20,12 +28,18 @@ public interface Tags {
 
 	public static final String FONT_FACE_URI = "font-face-uri";
 	
+	public static final String FOREIGN_OBJECT = "foreignObject";
+	
 	public static final String G = "g";
+	
+	public static final String GLYPH_REF = "glyphRef";
 	
 	public static final String IMAGE = "image";
 
 	public static final String LINE = "line";
 		
+	public static final String MARKER = "marker";
+	
 	public static final String METADATA = "metadata";
 
 	public static final String POLYGON = "polygon";
@@ -45,6 +59,8 @@ public interface Tags {
 	public static final String SYMBOL = "symbol";
 	
 	public static final String TEXT = "text";
+	
+	public static final String TEXT_PATH = "textPath";
 	
 	public static final String TITLE = "title";
 	

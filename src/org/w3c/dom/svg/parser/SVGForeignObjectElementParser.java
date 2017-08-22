@@ -1,5 +1,7 @@
 package org.w3c.dom.svg.parser;
 
+import java.util.HashMap;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -73,8 +75,23 @@ public class SVGForeignObjectElementParser implements ElementParser<SVGForeignOb
 
 	@Override
 	public Element writeElement(SVGForeignObjectElement element, ElementFactory factory) {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, String> attributes = new HashMap<>();
+		attributes.put(Attributes.ID, element.getID());
+		attributes.put(Attributes.XML_BASE, element.getXMLBase());
+		attributes.put(Attributes.XML_LANG, element.getXMLLang());
+		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
+		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
+		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
+		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
+		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
+		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
+		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
+		return factory.createElement(Tags.FOREIGN_OBJECT, attributes);
 	}
 
 }
