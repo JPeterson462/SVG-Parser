@@ -11,11 +11,9 @@ import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedInteger;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
-import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGLength;
-import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.filters.SVGFilterElement;
 import org.w3c.dom.svg.parser.Attributes;
@@ -93,7 +91,7 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		String xmlLang = element.getAttribute(Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
@@ -107,14 +105,8 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		SVGStringList requiredFeatures = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_FEATURES).split(" "));
-		SVGStringList requiredExtensions = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_EXTENSIONS).split(" "));
-		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
-		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
-		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		return new SVGFilterElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				href, xmlLang, xmlSpace, externalResourcesRequired, className, style, filterUnits, 
 				primitiveUnits, ax, ay, awidth, aheight, filterResX, filterResY);

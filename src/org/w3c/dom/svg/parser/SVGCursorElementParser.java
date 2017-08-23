@@ -28,7 +28,7 @@ public class SVGCursorElementParser implements ElementParser<SVGCursorElement> {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		String rawHrefAsString = element.getAttribute(Attributes.XLINK_HREF);
 		if (rawHrefAsString == null || !rawHrefAsString.startsWith("url(") || !rawHrefAsString.endsWith(")")) {
 			SVGErrors.error("Invalid Functional IRI: " + rawHrefAsString);

@@ -20,7 +20,7 @@ public class SVGScriptElementParser implements ElementParser<SVGScriptElement> {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
 		SVGScriptElement scriptElement = new SVGScriptElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 

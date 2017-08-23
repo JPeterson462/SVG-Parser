@@ -69,7 +69,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		String xmlLang = element.getAttribute(Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";

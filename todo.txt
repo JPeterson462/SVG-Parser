@@ -45,6 +45,9 @@ Ensure that base elements for relative attributes are set
 SVGFontElementParser. 16px -> 1em
 viewportElement is different than ownerSVGElement?
 Normalize pathSeg list
+Parsing URIs (url(...), local(...))
+Referencing fonts and filters
+Deduplicate join() methods
 
 AnimationTiming
 AnimationValue
@@ -85,8 +88,30 @@ R	W
 +	+	<marker>
 +	+	<color-profile>
 +	+	<clipPath>
-*		<filter>
-		Filter Primitives?
++		<filter>
++	+	<feDistantLight>
++	+	<fePointLight>
++	+	<feSpotLight>
++	+	<feBlend>
++	+	<feColorMatrix>
++	+	<feComponentTransfer>
++	+	<feFuncA>
++	+	<feFuncB>
++	+	<feFuncG>
++	+	<feFuncR>
+		<feComposite>
+		<feConvolveMatrix>
+		<feDiffuseLighting>
+		<feDisplacementMap>
+		<feFlood>
+		<feGaussianBlur>
+		<feImage>
+		<feMerge>
+		<feMorphology>
+		<feOffset>
+		<feSpecularLighting>
+		<feTile>
+		<feTurbulence>
 +	+	<cursor>
 +	+	<a>
 +	+	<view>
@@ -101,7 +126,7 @@ R	W
 		<missing-glyph>
 		<hkern>
 		<vkern>
-		<font-face>
++	+	<font-face>
 +	+	<font-face-src>
 +	+	<font-face-uri>
 +	+	<font-face-format>

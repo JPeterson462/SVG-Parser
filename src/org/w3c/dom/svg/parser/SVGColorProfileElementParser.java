@@ -39,7 +39,7 @@ public class SVGColorProfileElementParser implements ElementParser<SVGColorProfi
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGColorProfileElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ahref, local, name, renderingIntent);
 	}

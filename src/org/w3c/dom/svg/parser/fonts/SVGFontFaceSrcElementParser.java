@@ -20,7 +20,7 @@ public class SVGFontFaceSrcElementParser implements ElementParser<SVGFontFaceSrc
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGFontFaceSrcElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement);
 	}
 

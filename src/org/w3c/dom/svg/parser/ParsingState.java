@@ -33,6 +33,17 @@ public class ParsingState {
 		this.ownerSVGElement = ownerSVGElement;
 	}
 	
+	public SVGElement getViewportElement() {
+		Iterator<SVGElement> elements = elementHierarchy.iterator();
+		while (elements.hasNext()) {
+			SVGElement element = elements.next();
+			if (element instanceof SVGSVGElement) {
+				return element;
+			}
+		}
+		return ownerSVGElement;
+	}
+	
 	public SVGElement getCurrentParent() {
 		return elementHierarchy.peek();
 	}

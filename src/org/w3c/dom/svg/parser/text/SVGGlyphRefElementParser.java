@@ -34,7 +34,7 @@ public class SVGGlyphRefElementParser implements ElementParser<SVGGlyphRefElemen
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		String classNameAsString = element.getAttribute(Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());

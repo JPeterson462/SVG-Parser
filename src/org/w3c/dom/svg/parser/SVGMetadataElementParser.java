@@ -14,7 +14,7 @@ public class SVGMetadataElementParser implements ElementParser<SVGMetadataElemen
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGMetadataElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement);
 	}
 

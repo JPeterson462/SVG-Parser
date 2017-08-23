@@ -9,7 +9,18 @@ import org.w3c.dom.svg.parser.document.SVGImageElementParser;
 import org.w3c.dom.svg.parser.document.SVGSwitchElementParser;
 import org.w3c.dom.svg.parser.document.SVGSymbolElementParser;
 import org.w3c.dom.svg.parser.document.SVGTitleElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEBlendElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEColorMatrixElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEComponentTransferElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEDistantLightElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEFuncAElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEFuncBElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEFuncGElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEFuncRElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEPointLightElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFESpotLightElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontElementParser;
+import org.w3c.dom.svg.parser.fonts.SVGFontFaceElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceFormatElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceNameElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceSrcElementParser;
@@ -40,7 +51,7 @@ public class Parsers {
 		// Hidden Constructor
 	}
 	
-	public static void registerParsers() { // 36 out of 51 parsers completed
+	public static void registerParsers() {
 		parsers.put(Tags.STYLE, new SVGStyleElementParser());
 		parsers.put(Tags.CURSOR, new SVGCursorElementParser());
 		parsers.put(Tags.METADATA, new SVGMetadataElementParser());
@@ -77,6 +88,17 @@ public class Parsers {
 		parsers.put(Tags.CLIP_PATH, new SVGClipPathElementParser());
 		parsers.put(Tags.A, new SVGAElementParser());
 		parsers.put(Tags.VIEW, new SVGViewElementParser());
+		parsers.put(Tags.FONT_FACE, new SVGFontFaceElementParser());
+		parsers.put(Tags.FE_DISTANTLIGHT, new SVGFEDistantLightElementParser());
+		parsers.put(Tags.FE_POINTLIGHT, new SVGFEPointLightElementParser());
+		parsers.put(Tags.FE_SPOTLIGHT, new SVGFESpotLightElementParser());
+		parsers.put(Tags.FE_BLEND, new SVGFEBlendElementParser());
+		parsers.put(Tags.FE_COLORMATRIX, new SVGFEColorMatrixElementParser());
+		parsers.put(Tags.FE_COMPONENTTRANSFER, new SVGFEComponentTransferElementParser());
+		parsers.put(Tags.FE_FUNCA, new SVGFEFuncAElementParser());
+		parsers.put(Tags.FE_FUNCB, new SVGFEFuncBElementParser());
+		parsers.put(Tags.FE_FUNCG, new SVGFEFuncGElementParser());
+		parsers.put(Tags.FE_FUNCR, new SVGFEFuncRElementParser());
 		registered = true;
 	}
 	

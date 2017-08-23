@@ -24,7 +24,29 @@ public interface Tags {
 
 	public static final String ELLIPSE = "ellipse";
 	
+	public static final String FE_BLEND = "feBlend";
+	
+	public static final String FE_COLORMATRIX = "feColorMatrix";
+	
+	public static final String FE_COMPONENTTRANSFER = "feComponentTransfer";
+	
+	public static final String FE_DISTANTLIGHT = "feDistantLight";
+	
+	public static final String FE_FUNCA = "feFuncA";
+
+	public static final String FE_FUNCB = "feFuncB";
+
+	public static final String FE_FUNCG = "feFuncG";
+
+	public static final String FE_FUNCR = "feFuncR";
+	
+	public static final String FE_POINTLIGHT = "fePointLight";
+	
+	public static final String FE_SPOTLIGHT = "feSpotLight";
+	
 	public static final String FONT = "font";
+	
+	public static final String FONT_FACE = "font-face";
 	
 	public static final String FONT_FACE_FORMAT = "font-face-format";
 

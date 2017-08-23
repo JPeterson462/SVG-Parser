@@ -14,7 +14,7 @@ public class SVGStyleElementParser implements ElementParser<SVGStyleElement> {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
-		SVGElement viewportElement = parsingState.getOwnerSVGElement();
+		SVGElement viewportElement = parsingState.getViewportElement();
 		String xmlLang = element.getAttribute(Attributes.XML_LANG);
 		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
 		String type = ElementParser.readOrDefault(element, Attributes.TYPE, parsingState.getOwnerSVGElement().getAttribute(Attributes.CONTENT_STYLE_TYPE), "text/css");
