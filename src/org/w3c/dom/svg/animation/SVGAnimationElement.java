@@ -64,8 +64,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void beginElementAt(float offset) {
-			// TODO Auto-generated method stub
-			
+			DOMErrors.notSupported();
 		}
 
 		@Override
@@ -75,8 +74,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void endElementAt(float offset) {
-			// TODO Auto-generated method stub
-			
+			DOMErrors.notSupported();
 		}
 
 		@Override

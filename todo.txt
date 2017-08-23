@@ -4,8 +4,9 @@ https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSRule
 SVGLocatable implementation
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
 SVGTextContentElement
-ElementTimeControl implementation?
 SVGAnimationElement implementation
+SVGAnimateElement, SVGSetElement, SVGAnimateMotionElement, SVGAnimateColorElement
+SVGAnimateTransformElement (add methods)
 
 Readonly elements/attributes?
 Documentation
@@ -43,6 +44,10 @@ CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
 Ensure that base elements for relative attributes are set
 SVGFontElementParser. 16px -> 1em
 viewportElement is different than ownerSVGElement?
+Normalize pathSeg list
+
+AnimationTiming
+AnimationValue
 
 Don't support calc()
 Parsing JavaScript?

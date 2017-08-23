@@ -22,7 +22,7 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 	public SVGPathElement readElement(Element element, ParsingState parsingState) {
 		String pathLengthStr = element.getAttribute(Attributes.PATH_LENGTH);
 		SVGAnimatedNumber aPathLength = new SVGAnimatedNumber.Implementation(Float.parseFloat(pathLengthStr), Float.parseFloat(pathLengthStr));
-		SVGPathSegList pathSegList = new SVGPathSegList.Implementation(null);//TODO
+		SVGPathSegList pathSegList = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
 		// Get default values
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);

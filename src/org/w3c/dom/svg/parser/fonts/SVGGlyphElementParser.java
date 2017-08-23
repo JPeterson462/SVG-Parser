@@ -1,5 +1,9 @@
 package org.w3c.dom.svg.parser.fonts;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -13,15 +17,44 @@ import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
+import org.w3c.dom.svg.paths.SVGPathSegList;
 
 public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 
+	private HashMap<String, Short> orientation_strToEnum = new HashMap<>();
+	private HashMap<Short, String> orientation_enumToStr = new HashMap<>();
+	private HashMap<String, Short> arabicForm_strToEnum = new HashMap<>();
+	private HashMap<Short, String> arabicForm_enumToStr = new HashMap<>();
+	
+	public SVGGlyphElementParser() {
+		orientation_strToEnum.put("h", SVGGlyphElement.SVG_GLYPHORIENTATION_H);
+		orientation_strToEnum.put("v", SVGGlyphElement.SVG_GLYPHORIENTATION_V);
+		orientation_enumToStr.put(SVGGlyphElement.SVG_GLYPHORIENTATION_H, "h");
+		orientation_enumToStr.put(SVGGlyphElement.SVG_GLYPHORIENTATION_V, "v");
+		arabicForm_strToEnum.put("initial", SVGGlyphElement.SVG_ARABICFORM_INITIAL);
+		arabicForm_strToEnum.put("medial", SVGGlyphElement.SVG_ARABICFORM_MEDIAL);
+		arabicForm_strToEnum.put("terminal", SVGGlyphElement.SVG_ARABICFORM_TERMINAL);
+		arabicForm_strToEnum.put("isolated", SVGGlyphElement.SVG_ARABICFORM_ISOLATED);
+		arabicForm_enumToStr.put(SVGGlyphElement.SVG_ARABICFORM_INITIAL, "initial");
+		arabicForm_enumToStr.put(SVGGlyphElement.SVG_ARABICFORM_MEDIAL, "medial");
+		arabicForm_enumToStr.put(SVGGlyphElement.SVG_ARABICFORM_TERMINAL, "terminal");
+		arabicForm_enumToStr.put(SVGGlyphElement.SVG_ARABICFORM_ISOLATED, "isolated");
+	}
+	
 	@Override
 	public SVGGlyphElement readElement(Element element, ParsingState parsingState) {
 		String unicode = element.getAttribute(Attributes.UNICODE);
+		String[] glyphNames = element.getAttribute(Attributes.GLYPH_NAME).split(",");
+		ArrayList<String> glyphNameList = new ArrayList<>();
+		for (int i = 0; i < glyphNames.length; i++) {
+			glyphNameList.add(glyphNames[i].trim());
+		}
+		SVGStringList glyphName = new SVGStringList.Implementation(glyphNameList);
+		SVGPathSegList pathData = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
+		short orientation = orientation_strToEnum.get(element.getAttribute(Attributes.ORIENTATION));
+		short arabicForm = arabicForm_strToEnum.get(element.getAttribute(Attributes.ARABIC_FORM));
+		SVGStringList lang = new SVGStringList.Implementation(Arrays.asList(element.getAttribute(Attributes.LANG).split(",")));
 		
-//		SVGPathSegList pathData;
-		// TODO
 		// Get default values
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);

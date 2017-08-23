@@ -20,6 +20,27 @@ import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGTransform;
 import org.w3c.dom.svg.SVGTransformList;
+import org.w3c.dom.svg.paths.SVGPathSeg;
+import org.w3c.dom.svg.paths.SVGPathSegArcAbs;
+import org.w3c.dom.svg.paths.SVGPathSegArcRel;
+import org.w3c.dom.svg.paths.SVGPathSegClosePath;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToCubicAbs;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToCubicRel;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToCubicSmoothAbs;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToCubicSmoothRel;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToQuadraticAbs;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToQuadraticRel;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToQuadraticSmoothAbs;
+import org.w3c.dom.svg.paths.SVGPathSegCurveToQuadraticSmoothRel;
+import org.w3c.dom.svg.paths.SVGPathSegLineToAbs;
+import org.w3c.dom.svg.paths.SVGPathSegLineToHorizontalAbs;
+import org.w3c.dom.svg.paths.SVGPathSegLineToHorizontalRel;
+import org.w3c.dom.svg.paths.SVGPathSegLineToRel;
+import org.w3c.dom.svg.paths.SVGPathSegLineToVerticalAbs;
+import org.w3c.dom.svg.paths.SVGPathSegLineToVerticalRel;
+import org.w3c.dom.svg.paths.SVGPathSegList;
+import org.w3c.dom.svg.paths.SVGPathSegMoveToAbs;
+import org.w3c.dom.svg.paths.SVGPathSegMoveToRel;
 
 public interface ElementParser<T extends SVGElement> {
 	
@@ -309,6 +330,257 @@ public interface ElementParser<T extends SVGElement> {
 			result += Float.toString(list.getItem(i).getValue());
 		}
 		return result;
+	}
+	
+	static class PathSegTokenizer {
+		
+		private char[] data;
+		
+		private int pointer = 0;
+		
+		private PathSegTokenizer(String text) {
+			data = text.toCharArray();
+		}
+		
+		private void skipWhitespace() {
+			while (data[pointer] == ' ' || data[pointer] == '\n' || 
+					data[pointer] == '\t' || data[pointer] == '\r') {
+				pointer++;
+			}
+		}
+		
+		private boolean isNumber(char c) {
+			return Character.isDigit(c) || c == '-' || c == '.';
+		}
+		
+		private char readPathSegType() {
+			skipWhitespace();
+			return data[pointer++];
+		}
+		
+		private float readValue() {
+			skipWhitespace();
+			int digits = 0;
+			char[] array = new char[data.length - pointer];
+			while (isNumber(data[pointer])) {
+				array[digits++] = data[pointer];
+				pointer++;
+			}
+			char[] result = new char[digits];
+			System.arraycopy(array, 0, result, 0, digits);
+			return Float.parseFloat(new String(result));
+		}
+		
+		private boolean readBoolean() {
+			skipWhitespace();
+			char c = data[pointer];
+			pointer++;
+			return c == '1';
+		}
+		
+		private boolean moreValues() {
+			skipWhitespace();
+			return isNumber(data[pointer]);
+		}
+		
+		private boolean moreData() {
+			return pointer < data.length;
+		}
+		
+	}
+	
+	public static SVGPathSegList parsePathSegList(String text) {
+		PathSegTokenizer tokenizer = new PathSegTokenizer(text);
+		ArrayList<SVGPathSeg> list = new ArrayList<>();
+		while (tokenizer.moreData()) {
+			list.addAll(parsePathSeg(tokenizer));
+		}
+		return new SVGPathSegList.Implementation(list);
+	}
+	
+	static ArrayList<SVGPathSeg> parsePathSeg(PathSegTokenizer tokenizer) {
+		char type = tokenizer.readPathSegType();
+		ArrayList<SVGPathSeg> list = new ArrayList<>();
+		switch (type) {
+			case 'z':
+				list.add(new SVGPathSegClosePath.Implementation());
+				break;
+			case 'M':
+				SVGPathSegMoveToAbs moveToAbs = new SVGPathSegMoveToAbs.Implementation();
+				moveToAbs.setX(tokenizer.readValue());
+				moveToAbs.setY(tokenizer.readValue());
+				list.add(moveToAbs);
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToAbs lineToAbs = new SVGPathSegLineToAbs.Implementation();
+					lineToAbs.setX(tokenizer.readValue());
+					lineToAbs.setY(tokenizer.readValue());
+					list.add(lineToAbs);
+				}
+				break;
+			case 'm':
+				SVGPathSegMoveToRel moveToRel = new SVGPathSegMoveToRel.Implementation();
+				moveToRel.setX(tokenizer.readValue());
+				moveToRel.setY(tokenizer.readValue());
+				list.add(moveToRel);
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToRel lineToRel = new SVGPathSegLineToRel.Implementation();
+					lineToRel.setX(tokenizer.readValue());
+					lineToRel.setY(tokenizer.readValue());
+					list.add(lineToRel);
+				}
+				break;
+			case 'L':
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToAbs lineToAbs = new SVGPathSegLineToAbs.Implementation();
+					lineToAbs.setX(tokenizer.readValue());
+					lineToAbs.setY(tokenizer.readValue());
+					list.add(lineToAbs);
+				}
+				break;
+			case 'l':
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToRel lineToRel = new SVGPathSegLineToRel.Implementation();
+					lineToRel.setX(tokenizer.readValue());
+					lineToRel.setY(tokenizer.readValue());
+					list.add(lineToRel);
+				}
+				break;
+			case 'H':
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToHorizontalAbs lineToHorizontalAbs = new SVGPathSegLineToHorizontalAbs.Implementation();
+					lineToHorizontalAbs.setX(tokenizer.readValue());
+					list.add(lineToHorizontalAbs);
+				}
+				break;
+			case 'h':
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToHorizontalRel lineToHorizontalRel = new SVGPathSegLineToHorizontalRel.Implementation();
+					lineToHorizontalRel.setX(tokenizer.readValue());
+					list.add(lineToHorizontalRel);
+				}
+				break;
+			case 'V':
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToVerticalAbs lineToVerticalAbs = new SVGPathSegLineToVerticalAbs.Implementation();
+					lineToVerticalAbs.setY(tokenizer.readValue());
+					list.add(lineToVerticalAbs);
+				}
+				break;
+			case 'v':
+				while (tokenizer.moreValues()) {
+					SVGPathSegLineToVerticalRel lineToVerticalRel = new SVGPathSegLineToVerticalRel.Implementation();
+					lineToVerticalRel.setY(tokenizer.readValue());
+					list.add(lineToVerticalRel);
+				}
+				break;
+			case 'C':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToCubicAbs curveToCubicAbs = new SVGPathSegCurveToCubicAbs.Implementation();
+					curveToCubicAbs.setX1(tokenizer.readValue());
+					curveToCubicAbs.setY1(tokenizer.readValue());
+					curveToCubicAbs.setX2(tokenizer.readValue());
+					curveToCubicAbs.setY2(tokenizer.readValue());
+					curveToCubicAbs.setX(tokenizer.readValue());
+					curveToCubicAbs.setY(tokenizer.readValue());
+					list.add(curveToCubicAbs);
+				}
+				break;
+			case 'c':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToCubicRel curveToCubicRel = new SVGPathSegCurveToCubicRel.Implementation();
+					curveToCubicRel.setX1(tokenizer.readValue());
+					curveToCubicRel.setY1(tokenizer.readValue());
+					curveToCubicRel.setX2(tokenizer.readValue());
+					curveToCubicRel.setY2(tokenizer.readValue());
+					curveToCubicRel.setX(tokenizer.readValue());
+					curveToCubicRel.setY(tokenizer.readValue());
+					list.add(curveToCubicRel);
+				}
+				break;
+			case 'S':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToCubicSmoothAbs curveToCubicSmoothAbs = new SVGPathSegCurveToCubicSmoothAbs.Implementation();
+					curveToCubicSmoothAbs.setX2(tokenizer.readValue());
+					curveToCubicSmoothAbs.setY2(tokenizer.readValue());
+					curveToCubicSmoothAbs.setX(tokenizer.readValue());
+					curveToCubicSmoothAbs.setY(tokenizer.readValue());
+					list.add(curveToCubicSmoothAbs);
+				}
+				break;
+			case 's':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToCubicSmoothRel curveToCubicSmoothRel = new SVGPathSegCurveToCubicSmoothRel.Implementation();
+					curveToCubicSmoothRel.setX2(tokenizer.readValue());
+					curveToCubicSmoothRel.setY2(tokenizer.readValue());
+					curveToCubicSmoothRel.setX(tokenizer.readValue());
+					curveToCubicSmoothRel.setY(tokenizer.readValue());
+					list.add(curveToCubicSmoothRel);
+				}
+				break;
+			case 'Q':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToQuadraticAbs curveToQuadraticAbs = new SVGPathSegCurveToQuadraticAbs.Implementation();
+					curveToQuadraticAbs.setX1(tokenizer.readValue());
+					curveToQuadraticAbs.setY1(tokenizer.readValue());
+					curveToQuadraticAbs.setX(tokenizer.readValue());
+					curveToQuadraticAbs.setY(tokenizer.readValue());
+					list.add(curveToQuadraticAbs);
+				}
+				break;
+			case 'q':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToQuadraticRel curveToQuadraticRel = new SVGPathSegCurveToQuadraticRel.Implementation();
+					curveToQuadraticRel.setX1(tokenizer.readValue());
+					curveToQuadraticRel.setY1(tokenizer.readValue());
+					curveToQuadraticRel.setX(tokenizer.readValue());
+					curveToQuadraticRel.setY(tokenizer.readValue());
+					list.add(curveToQuadraticRel);
+				}
+				break;
+			case 'T':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToQuadraticSmoothAbs curveToQuadraticSmoothAbs = new SVGPathSegCurveToQuadraticSmoothAbs.Implementation();
+					curveToQuadraticSmoothAbs.setX(tokenizer.readValue());
+					curveToQuadraticSmoothAbs.setY(tokenizer.readValue());
+					list.add(curveToQuadraticSmoothAbs);
+				}
+				break;
+			case 't':
+				while (tokenizer.moreValues()) {
+					SVGPathSegCurveToQuadraticSmoothRel curveToQuadraticSmoothRel = new SVGPathSegCurveToQuadraticSmoothRel.Implementation();
+					curveToQuadraticSmoothRel.setX(tokenizer.readValue());
+					curveToQuadraticSmoothRel.setY(tokenizer.readValue());
+					list.add(curveToQuadraticSmoothRel);
+				}
+				break;
+			case 'A':
+				while (tokenizer.moreValues()) {
+					SVGPathSegArcAbs arcAbs = new SVGPathSegArcAbs.Implementation();
+					arcAbs.setR1(tokenizer.readValue());
+					arcAbs.setR2(tokenizer.readValue());
+					arcAbs.setAngle(tokenizer.readValue());
+					arcAbs.setLargeArcFlag(tokenizer.readBoolean());
+					arcAbs.setSweepFlag(tokenizer.readBoolean());
+					arcAbs.setX(tokenizer.readValue());
+					arcAbs.setY(tokenizer.readValue());
+					list.add(arcAbs);
+				}
+				break;
+			case 'a':
+				while (tokenizer.moreValues()) {
+					SVGPathSegArcRel arcRel = new SVGPathSegArcRel.Implementation();
+					arcRel.setR1(tokenizer.readValue());
+					arcRel.setR2(tokenizer.readValue());
+					arcRel.setAngle(tokenizer.readValue());
+					arcRel.setLargeArcFlag(tokenizer.readBoolean());
+					arcRel.setSweepFlag(tokenizer.readBoolean());
+					arcRel.setX(tokenizer.readValue());
+					arcRel.setY(tokenizer.readValue());
+					list.add(arcRel);
+				}
+				break;
+		}
+		return list;
 	}
 	
 }
