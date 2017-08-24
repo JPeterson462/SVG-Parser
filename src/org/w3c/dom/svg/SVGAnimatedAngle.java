@@ -8,7 +8,11 @@ public interface SVGAnimatedAngle extends Animated<SVGAngle> {
 		
 		public Implementation(SVGAngle baseValue, SVGAngle animatedValue) {
 			this.baseValue = baseValue;
-			this.animatedValue = animatedValue;
+			if (baseValue == animatedValue) {
+				this.animatedValue = new SVGAngle.Implementation(baseValue.getUnitType(), baseValue.getValueInSpecifiedUnits());
+			} else {
+				this.animatedValue = animatedValue;
+			}
 		}
 		
 		@Override

@@ -11,35 +11,31 @@ import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.document.SVGSVGElement;
-import org.w3c.dom.svg.filters.SVGFECompositeElement;
+import org.w3c.dom.svg.filters.SVGFEDisplacementMapElement;
 import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 
-public class SVGFECompositeElementParser implements ElementParser<SVGFECompositeElement> {
+public class SVGFEDisplacementMapElementParser implements ElementParser<SVGFEDisplacementMapElement> {
 
-	private HashMap<String, Short> operator_strToEnum = new HashMap<>();
-	private HashMap<Short, String> operator_enumToStr = new HashMap<>();
+	private HashMap<String, Short> channelSelector_strToEnum = new HashMap<>();
+	private HashMap<Short, String> channelSelector_enumToStr = new HashMap<>();
 	
-	public SVGFECompositeElementParser() {
-		operator_strToEnum.put("over", SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_OVER);
-		operator_strToEnum.put("in", SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_IN);
-		operator_strToEnum.put("out", SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_OUT);
-		operator_strToEnum.put("atop", SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_ATOP);
-		operator_strToEnum.put("xor", SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_XOR);
-		operator_strToEnum.put("arithmetic", SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_ARITHMETIC);
-		operator_enumToStr.put(SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_OVER, "over");
-		operator_enumToStr.put(SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_IN, "in");
-		operator_enumToStr.put(SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_OUT, "out");
-		operator_enumToStr.put(SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_ATOP, "atop");
-		operator_enumToStr.put(SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_XOR, "xor");
-		operator_enumToStr.put(SVGFECompositeElement.SVG_FECOMPOSITE_OPERATOR_ARITHMETIC, "arithmetic");
+	public SVGFEDisplacementMapElementParser() {
+		channelSelector_strToEnum.put("R", SVGFEDisplacementMapElement.SVG_CHANNEL_R);
+		channelSelector_strToEnum.put("G", SVGFEDisplacementMapElement.SVG_CHANNEL_G);
+		channelSelector_strToEnum.put("B", SVGFEDisplacementMapElement.SVG_CHANNEL_B);
+		channelSelector_strToEnum.put("A", SVGFEDisplacementMapElement.SVG_CHANNEL_A);
+		channelSelector_enumToStr.put(SVGFEDisplacementMapElement.SVG_CHANNEL_R, "R");
+		channelSelector_enumToStr.put(SVGFEDisplacementMapElement.SVG_CHANNEL_G, "G");
+		channelSelector_enumToStr.put(SVGFEDisplacementMapElement.SVG_CHANNEL_B, "B");
+		channelSelector_enumToStr.put(SVGFEDisplacementMapElement.SVG_CHANNEL_A, "A");
 	}
 	
 	@Override
-	public SVGFECompositeElement readElement(Element element, ParsingState parsingState) {
+	public SVGFEDisplacementMapElement readElement(Element element, ParsingState parsingState) {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
@@ -71,28 +67,21 @@ public class SVGFECompositeElementParser implements ElementParser<SVGFEComposite
 		SVGAnimatedString in1 = new SVGAnimatedString.Implementation(in1Str, in1Str);
 		String in2Str = element.getAttribute(Attributes.IN2);
 		SVGAnimatedString in2 = new SVGAnimatedString.Implementation(in2Str, in2Str);
-		String operatorStr = ElementParser.readOrDefault(element, Attributes.OPERATOR, "over");
-		short operatorEnum = operator_strToEnum.get(operatorStr);
-		SVGAnimatedEnumeration operator = new SVGAnimatedEnumeration.Implementation(operatorEnum, operatorEnum);
-		String k1Str = ElementParser.readOrDefault(element, Attributes.K1, "0");
-		float k1Value = Float.parseFloat(k1Str);
-		SVGAnimatedNumber k1 = new SVGAnimatedNumber.Implementation(k1Value, k1Value);
-		String k2Str = ElementParser.readOrDefault(element, Attributes.K2, "0");
-		float k2Value = Float.parseFloat(k2Str);
-		SVGAnimatedNumber k2 = new SVGAnimatedNumber.Implementation(k2Value, k2Value);
-		String k3Str = ElementParser.readOrDefault(element, Attributes.K3, "0");
-		float k3Value = Float.parseFloat(k3Str);
-		SVGAnimatedNumber k3 = new SVGAnimatedNumber.Implementation(k3Value, k3Value);
-		String k4Str = ElementParser.readOrDefault(element, Attributes.K4, "0");
-		float k4Value = Float.parseFloat(k4Str);
-		SVGAnimatedNumber k4 = new SVGAnimatedNumber.Implementation(k4Value, k4Value);
-		return new SVGFECompositeElement.Implementation(id, xmlBase, ownerSVGElement,
+		String scaleStr = ElementParser.readOrDefault(element, Attributes.SCALE, "0");
+		SVGAnimatedNumber scale = new SVGAnimatedNumber.Implementation(Float.parseFloat(scaleStr), Float.parseFloat(scaleStr));
+		String xChannelSelectorStr = ElementParser.readOrDefault(element, Attributes.X_CHANNEL_SELECTOR, "A");
+		short xChannelSelectorEnum = channelSelector_strToEnum.get(xChannelSelectorStr);
+		SVGAnimatedEnumeration xChannelSelector = new SVGAnimatedEnumeration.Implementation(xChannelSelectorEnum, xChannelSelectorEnum);
+		String yChannelSelectorStr = ElementParser.readOrDefault(element, Attributes.Y_CHANNEL_SELECTOR, "A");
+		short yChannelSelectorEnum = channelSelector_strToEnum.get(yChannelSelectorStr);
+		SVGAnimatedEnumeration yChannelSelector = new SVGAnimatedEnumeration.Implementation(yChannelSelectorEnum, yChannelSelectorEnum);
+		return new SVGFEDisplacementMapElement.Implementation(id, xmlBase, ownerSVGElement,
 				viewportElement, ax, ay, awidth, aheight, result, className, style, in1, in2,
-				operator, k1, k2, k3, k4);
+				scale, xChannelSelector, yChannelSelector);
 	}
 
 	@Override
-	public Element writeElement(SVGFECompositeElement element, ElementFactory factory) {
+	public Element writeElement(SVGFEDisplacementMapElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
@@ -105,12 +94,10 @@ public class SVGFECompositeElementParser implements ElementParser<SVGFEComposite
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
 		attributes.put(Attributes.IN, element.getIn1().getBaseValue());
 		attributes.put(Attributes.IN2, element.getIn2().getBaseValue());
-		attributes.put(Attributes.OPERATOR, operator_enumToStr.get(element.getOperator().getBaseValue()));
-		attributes.put(Attributes.K1, Float.toString(element.getK1().getBaseValue()));
-		attributes.put(Attributes.K2, Float.toString(element.getK2().getBaseValue()));
-		attributes.put(Attributes.K3, Float.toString(element.getK3().getBaseValue()));
-		attributes.put(Attributes.K4, Float.toString(element.getK4().getBaseValue()));
-		return factory.createElement(Tags.FE_COMPOSITE, attributes);
+		attributes.put(Attributes.SCALE, Float.toString(element.getScale().getBaseValue()));
+		attributes.put(Attributes.X_CHANNEL_SELECTOR, channelSelector_enumToStr.get(element.getXChannelSelector().getBaseValue()));
+		attributes.put(Attributes.Y_CHANNEL_SELECTOR, channelSelector_enumToStr.get(element.getYChannelSelector().getBaseValue()));
+		return factory.createElement(Tags.FE_DISPLACEMENTMAP, attributes);
 	}
 
 }

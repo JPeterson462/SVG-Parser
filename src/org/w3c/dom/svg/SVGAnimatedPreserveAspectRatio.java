@@ -10,7 +10,13 @@ public interface SVGAnimatedPreserveAspectRatio extends Animated<SVGPreserveAspe
 		
 		public Implementation(SVGPreserveAspectRatio baseValue, SVGPreserveAspectRatio animatedValue) {
 			this.baseValue = baseValue;
-			this.animatedValue = animatedValue;
+			if (baseValue == animatedValue) {
+				this.animatedValue = new SVGPreserveAspectRatio.Implementation();
+				this.animatedValue.setAlign(baseValue.getAlign());
+				this.animatedValue.setMeetOrSlice(baseValue.getMeetOrSlice());
+			} else {
+				this.animatedValue = animatedValue;
+			}
 		}
 		
 		@Override

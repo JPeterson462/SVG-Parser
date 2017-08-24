@@ -1,5 +1,7 @@
 package org.w3c.dom.svg;
 
+import java.util.ArrayList;
+
 public interface SVGAnimatedNumberList extends Animated<SVGNumberList> {
 
 	public static class Implementation implements SVGAnimatedNumberList {
@@ -8,7 +10,15 @@ public interface SVGAnimatedNumberList extends Animated<SVGNumberList> {
 		
 		public Implementation(SVGNumberList baseValue, SVGNumberList animatedValue) {
 			this.baseValue = baseValue;
-			this.animatedValue = animatedValue;
+			if (baseValue == animatedValue) {
+				ArrayList<SVGNumber> numbers = new ArrayList<>();
+				for (int i = 0; i < baseValue.getNumberOfItems(); i++) {
+					numbers.add(new SVGNumber.Implementation(baseValue.getItem(i).getValue()));
+				}
+				this.animatedValue = new SVGNumberList.Implementation(numbers);
+			} else {
+				this.animatedValue = animatedValue;
+			}
 		}
 		
 		@Override

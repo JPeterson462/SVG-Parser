@@ -48,6 +48,8 @@ public interface SVGLength {
 	public void newValueSpecifiedUnits(short unitType, float valueInSpecifiedUnits) throws DOMException;
 
 	public void convertToSpecifiedUnits(short unitType) throws DOMException;
+	
+	public SVGElement getBaselineElement();
 
 	public static class Implementation implements SVGLength {
 
@@ -269,6 +271,11 @@ public interface SVGLength {
 					value = valueInSpecifiedUnits * pixelsPerPica;
 					break;
 			}
+		}
+
+		@Override
+		public SVGElement getBaselineElement() {
+			return element;
 		}
 
 	}

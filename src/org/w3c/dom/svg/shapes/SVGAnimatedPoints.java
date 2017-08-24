@@ -1,6 +1,10 @@
 package org.w3c.dom.svg.shapes;
 
 import org.w3c.dom.svg.Animated;
+import org.w3c.dom.svg.SVGPoint;
+
+import java.util.ArrayList;
+
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGPointList;
 
@@ -12,7 +16,15 @@ public interface SVGAnimatedPoints extends Animated<SVGPointList> {
 		
 		public Implementation(SVGPointList baseValue, SVGPointList animatedValue) {
 			this.baseValue = baseValue;
-			this.animatedValue = animatedValue;
+			if (baseValue == animatedValue) {
+				ArrayList<SVGPoint> points = new ArrayList<>();
+				for (int i = 0; i < baseValue.getNumberOfItems(); i++) {
+					points.add(new SVGPoint.Implementation(baseValue.getItem(i).getX(), baseValue.getItem(i).getY()));
+				}
+				this.animatedValue = new SVGPointList.Implementation(points);
+			} else {
+				this.animatedValue = animatedValue;
+			}
 		}
 		
 		@Override

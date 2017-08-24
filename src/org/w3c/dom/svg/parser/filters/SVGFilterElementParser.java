@@ -20,6 +20,7 @@ import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
+import org.w3c.dom.svg.parser.Tags;
 
 public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 
@@ -114,8 +115,23 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 
 	@Override
 	public Element writeElement(SVGFilterElement element, ElementFactory factory) {
-
-		return null;
+		HashMap<String, String> attributes = new HashMap<>();
+		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.FILTER_UNITS, unitsToStr.get(element.getFilterUnits().getBaseValue()));
+		attributes.put(Attributes.PRIMITIVE_UNITS, unitsToStr.get(element.getPrimitiveUnits().getBaseValue()));
+		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+		attributes.put(Attributes.FILTER_RES, Long.toString(element.getFilterResX().getBaseValue()) + " " + Long.toString(element.getFilterResY().getBaseValue()));
+		attributes.put(Attributes.ID, element.getID());
+		attributes.put(Attributes.XML_BASE, element.getXMLBase());
+		attributes.put(Attributes.XML_LANG, element.getXMLLang());
+		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
+		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
+		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
+		return factory.createElement(Tags.FILTER, attributes);
 	}
 
 }

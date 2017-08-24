@@ -18,6 +18,8 @@ public interface Attributes {
 	
 	public static final String BBOX = "bbox";
 	
+	public static final String BIAS = "bias";
+	
 	public static final String CAP_HEIGHT = "cap-height";
 	
 	public static final String CLASS = "class";
@@ -33,17 +35,23 @@ public interface Attributes {
 	public static final String D = "d";
 	
 	public static final String DESCENT = "descent";
+	
+	public static final String DIFFUSE_CONSTANT = "diffuseConstant";
+	
+	public static final String DIVISOR = "divisor";
 
 	public static final String DX = "dx";
 
 	public static final String DY = "dy";
 	
-	public static final String EXTERNAL_RESOURCES_REQUIRED = "externalResourcesRequired";
+	public static final String EDGE_MODE = "edgeMode";
 	
 	public static final String ELEVATION = "elevation";
-	
+
 	public static final String EXPONENT = "exponent";
-	
+
+	public static final String EXTERNAL_RESOURCES_REQUIRED = "externalResourcesRequired";
+		
 	public static final String FILTER_RES = "filterRes";
 	
 	public static final String FILTER_UNITS = "filterUnits";
@@ -85,6 +93,18 @@ public interface Attributes {
 	public static final String IN2 = "in2";
 	
 	public static final String INTERCEPT = "intercept";
+	
+	public static final String K1 = "k1";
+	
+	public static final String K2 = "k2";
+	
+	public static final String K3 = "k3";
+	
+	public static final String K4 = "k4";
+	
+	public static final String KERNEL_UNIT_LENGTH = "kernelUnitLength";
+	
+	public static final String KERNEL_MATRIX = "kernelMatrix";
 
 	public static final String LANG = "lang";
 	
@@ -112,6 +132,10 @@ public interface Attributes {
 	
 	public static final String OFFSET = "offset";
 	
+	public static final String OPERATOR = "operator";
+	
+	public static final String ORDER = "order";
+	
 	public static final String ORIENT = "orient";
 	
 	public static final String ORIENTATION = "orientation";
@@ -123,6 +147,8 @@ public interface Attributes {
 	public static final String PANOSE_1 = "panose-1";
 	
 	public static final String PATH_LENGTH = "pathLength";
+	
+	public static final String PRESERVE_ALPHA = "preserveAlpha";
 	
 	public static final String PRESERVE_ASPECT_RATIO = "preserveAspectRatio";
 	
@@ -154,6 +180,8 @@ public interface Attributes {
 	
 	public static final String RY = "ry";
 	
+	public static final String SCALE = "scale";
+	
 	public static final String SLOPE = "slope";
 	
 	public static final String SPACING = "spacing";
@@ -174,11 +202,17 @@ public interface Attributes {
 	
 	public static final String STYLE = "style";
 	
+	public static final String SURFACE_SCALE = "surfaceScale";
+	
 	public static final String SYSTEM_LANGUAGE = "systemLanguage";
 	
 	public static final String TABLE_VALUES = "tableValues";
 	
 	public static final String TARGET = "target";
+
+	public static final String TARGET_X = "targetX";
+
+	public static final String TARGET_Y = "targetY";
 	
 	public static final String TEXT_LENGTH = "textLength";
 	
@@ -234,6 +268,8 @@ public interface Attributes {
 	
 	public static final String X = "x";
 	
+	public static final String X_CHANNEL_SELECTOR = "xChannelSelector";
+	
 	public static final String X_HEIGHT = "x-height";
 
 	public static final String X1 = "x1";
@@ -241,6 +277,8 @@ public interface Attributes {
 	public static final String X2 = "x2";
 	
 	public static final String Y = "y";
+	
+	public static final String Y_CHANNEL_SELECTOR = "yChannelSelector";
 
 	public static final String Y1 = "y1";
 

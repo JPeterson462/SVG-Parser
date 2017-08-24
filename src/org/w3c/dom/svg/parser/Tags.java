@@ -30,6 +30,14 @@ public interface Tags {
 	
 	public static final String FE_COMPONENTTRANSFER = "feComponentTransfer";
 	
+	public static final String FE_COMPOSITE = "feComposite";
+	
+	public static final String FE_CONVOLVEMATRIX = "feConvolveMatrix";
+	
+	public static final String FE_DIFFUSELIGHTING = "feDiffuseLighting";
+	
+	public static final String FE_DISPLACEMENTMAP = "feDisplacementMap";
+	
 	public static final String FE_DISTANTLIGHT = "feDistantLight";
 	
 	public static final String FE_FUNCA = "feFuncA";
@@ -43,6 +51,8 @@ public interface Tags {
 	public static final String FE_POINTLIGHT = "fePointLight";
 	
 	public static final String FE_SPOTLIGHT = "feSpotLight";
+	
+	public static final String FILTER = "filter";
 	
 	public static final String FONT = "font";
 	

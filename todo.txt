@@ -57,6 +57,8 @@ Parsing JavaScript?
 Graphical event attributes?
 Check content models (child attributes based on parent: like clip-path), documented properties
 
+SVGAnimatedPathData duplicate pathseglist if the same
+
 Parsing the <style>... where?
 
 R	W
@@ -88,7 +90,7 @@ R	W
 +	+	<marker>
 +	+	<color-profile>
 +	+	<clipPath>
-+		<filter>
++	+	<filter>
 +	+	<feDistantLight>
 +	+	<fePointLight>
 +	+	<feSpotLight>
@@ -99,10 +101,10 @@ R	W
 +	+	<feFuncB>
 +	+	<feFuncG>
 +	+	<feFuncR>
-		<feComposite>
-		<feConvolveMatrix>
-		<feDiffuseLighting>
-		<feDisplacementMap>
++	+	<feComposite>
++	+	<feConvolveMatrix>
++	+	<feDiffuseLighting>
++	+	<feDisplacementMap>
 		<feFlood>
 		<feGaussianBlur>
 		<feImage>

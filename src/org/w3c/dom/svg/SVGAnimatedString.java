@@ -8,7 +8,11 @@ public interface SVGAnimatedString extends Animated<String> {
 		
 		public Implementation(String baseValue, String animatedValue) {
 			this.baseValue = baseValue;
-			this.animatedValue = animatedValue;
+			if (baseValue == animatedValue) {
+				this.animatedValue = new String(baseValue);
+			} else {
+				this.animatedValue = animatedValue;
+			}
 		}
 		
 		@Override

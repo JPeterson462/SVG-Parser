@@ -12,6 +12,10 @@ import org.w3c.dom.svg.parser.document.SVGTitleElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEBlendElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEColorMatrixElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEComponentTransferElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFECompositeElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEConvolveMatrixElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEDiffuseLightingElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFEDisplacementMapElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEDistantLightElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEFuncAElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEFuncBElementParser;
@@ -19,6 +23,7 @@ import org.w3c.dom.svg.parser.filters.SVGFEFuncGElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEFuncRElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEPointLightElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFESpotLightElementParser;
+import org.w3c.dom.svg.parser.filters.SVGFilterElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceFormatElementParser;
@@ -89,6 +94,7 @@ public class Parsers {
 		parsers.put(Tags.A, new SVGAElementParser());
 		parsers.put(Tags.VIEW, new SVGViewElementParser());
 		parsers.put(Tags.FONT_FACE, new SVGFontFaceElementParser());
+		parsers.put(Tags.FILTER, new SVGFilterElementParser());
 		parsers.put(Tags.FE_DISTANTLIGHT, new SVGFEDistantLightElementParser());
 		parsers.put(Tags.FE_POINTLIGHT, new SVGFEPointLightElementParser());
 		parsers.put(Tags.FE_SPOTLIGHT, new SVGFESpotLightElementParser());
@@ -99,6 +105,10 @@ public class Parsers {
 		parsers.put(Tags.FE_FUNCB, new SVGFEFuncBElementParser());
 		parsers.put(Tags.FE_FUNCG, new SVGFEFuncGElementParser());
 		parsers.put(Tags.FE_FUNCR, new SVGFEFuncRElementParser());
+		parsers.put(Tags.FE_COMPOSITE, new SVGFECompositeElementParser());
+		parsers.put(Tags.FE_CONVOLVEMATRIX, new SVGFEConvolveMatrixElementParser());
+		parsers.put(Tags.FE_DIFFUSELIGHTING, new SVGFEDiffuseLightingElementParser());
+		parsers.put(Tags.FE_DISPLACEMENTMAP, new SVGFEDisplacementMapElementParser());
 		registered = true;
 	}
 	
