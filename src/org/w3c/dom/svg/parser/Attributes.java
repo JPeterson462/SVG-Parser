@@ -14,6 +14,8 @@ public interface Attributes {
 	
 	public static final String AZIMUTH = "azimuth";
 	
+	public static final String BASE_FREQUENCY = "baseFrequency";
+	
 	public static final String BASE_PROFILE = "baseProfile";
 	
 	public static final String BBOX = "bbox";
@@ -130,6 +132,8 @@ public interface Attributes {
 	
 	public static final String NAME = "name";
 	
+	public static final String NUM_OCTAVES = "numOctaves";
+	
 	public static final String OFFSET = "offset";
 	
 	public static final String OPERATOR = "operator";
@@ -166,6 +170,8 @@ public interface Attributes {
 	
 	public static final String R = "r";
 	
+	public static final String RADIUS = "radius";
+	
 	public static final String REF_X = "refX";
 
 	public static final String REF_Y = "refY";
@@ -182,18 +188,26 @@ public interface Attributes {
 	
 	public static final String SCALE = "scale";
 	
+	public static final String SEED = "seed";
+	
 	public static final String SLOPE = "slope";
 	
 	public static final String SPACING = "spacing";
+	
+	public static final String SPECULAR_CONSTANT = "specularConstant";
 	
 	public static final String SPECULAR_EXPONENT = "specularExponent";
 	
 	public static final String START_OFFSET = "startOffset";
 	
+	public static final String STD_DEVIATION = "stdDeviation";
+	
 	public static final String STEMH = "stemh";
 	
 	public static final String STEMV = "stemv";
 
+	public static final String STITCH_TILES = "stitchTiles";
+	
 	public static final String STRIKETHROUGH_POSITION = "strikethrough-position";
 	
 	public static final String STRIKETHROUGH_THICKNESS = "strikethrough-thickness";

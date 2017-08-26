@@ -1,7 +1,5 @@
 package org.w3c.dom.svg.parser.fonts;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.w3c.dom.Element;
@@ -9,9 +7,9 @@ import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
-import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.fonts.SVGGlyphElement;
+import org.w3c.dom.svg.fonts.SVGMissingGlyphElement;
 import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
@@ -19,14 +17,14 @@ import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 import org.w3c.dom.svg.paths.SVGPathSegList;
 
-public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
+public class SVGMissingGlyphElementParser implements ElementParser<SVGMissingGlyphElement> {
 
 	private HashMap<String, Short> orientation_strToEnum = new HashMap<>();
 	private HashMap<Short, String> orientation_enumToStr = new HashMap<>();
 	private HashMap<String, Short> arabicForm_strToEnum = new HashMap<>();
 	private HashMap<Short, String> arabicForm_enumToStr = new HashMap<>();
 	
-	public SVGGlyphElementParser() {
+	public SVGMissingGlyphElementParser() {
 		orientation_strToEnum.put("h", SVGGlyphElement.SVG_GLYPHORIENTATION_H);
 		orientation_strToEnum.put("v", SVGGlyphElement.SVG_GLYPHORIENTATION_V);
 		orientation_enumToStr.put(SVGGlyphElement.SVG_GLYPHORIENTATION_H, "h");
@@ -42,18 +40,8 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 	}
 	
 	@Override
-	public SVGGlyphElement readElement(Element element, ParsingState parsingState) {
-		String unicode = element.getAttribute(Attributes.UNICODE);
-		String[] glyphNames = element.getAttribute(Attributes.GLYPH_NAME).split(",");
-		ArrayList<String> glyphNameList = new ArrayList<>();
-		for (int i = 0; i < glyphNames.length; i++) {
-			glyphNameList.add(glyphNames[i].trim());
-		}
-		SVGStringList glyphName = new SVGStringList.Implementation(glyphNameList);
+	public SVGMissingGlyphElement readElement(Element element, ParsingState parsingState) {
 		SVGPathSegList pathData = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
-		short orientation = orientation_strToEnum.get(element.getAttribute(Attributes.ORIENTATION));
-		short arabicForm = arabicForm_strToEnum.get(element.getAttribute(Attributes.ARABIC_FORM));
-		SVGStringList lang = new SVGStringList.Implementation(Arrays.asList(element.getAttribute(Attributes.LANG).split(",")));
 		String horizontalAdvanceXStr = element.getAttribute(Attributes.HORIZ_ADV_X);
 		SVGNumber horizontalAdvanceX = new SVGNumber.Implementation(Float.parseFloat(horizontalAdvanceXStr));
 		String verticalOriginXStr = element.getAttribute(Attributes.VERT_ORIGIN_X);
@@ -72,20 +60,14 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		return new SVGGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className,
-				style, unicode, glyphName, pathData, orientation, arabicForm, lang, horizontalAdvanceX,
-				verticalOriginX, verticalOriginY, verticalAdvanceY);
+		return new SVGMissingGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className,
+				style, pathData, horizontalAdvanceX, verticalOriginX, verticalOriginY, verticalAdvanceY);
 	}
 
 	@Override
-	public Element writeElement(SVGGlyphElement element, ElementFactory factory) {
+	public Element writeElement(SVGMissingGlyphElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.UNICODE, element.getUnicode());
-		attributes.put(Attributes.GLYPH_NAME, ElementParser.join(element.getGlyphName(), ","));
 		attributes.put(Attributes.D, ElementParser.join(element.getPathData(), " "));
-		attributes.put(Attributes.ORIENTATION, orientation_enumToStr.get(element.getOrientation()));
-		attributes.put(Attributes.ARABIC_FORM, arabicForm_enumToStr.get(element.getArabicForm()));
-		attributes.put(Attributes.LANG, ElementParser.join(element.getLang(), ","));
 		attributes.put(Attributes.HORIZ_ADV_X, Float.toString(element.getHorizontalAdvanceX().getValue()));
 		attributes.put(Attributes.VERT_ORIGIN_X, Float.toString(element.getVerticalOriginX().getValue()));
 		attributes.put(Attributes.VERT_ORIGIN_Y, Float.toString(element.getVerticalOriginY().getValue()));
@@ -94,7 +76,7 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
-		return factory.createElement(Tags.GLYPH, attributes);
+		return factory.createElement(Tags.MISSING_GLYPH, attributes);
 	}
 
 }

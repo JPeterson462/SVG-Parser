@@ -389,6 +389,83 @@ public interface ElementParser<T extends SVGElement> {
 		
 	}
 	
+	public static String join(SVGPathSegList list, String joinBy) {
+		String result = "";
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			if (i > 0) {
+				result += joinBy;
+			}
+			result += toString(list.getItem(i));
+		}
+		return result;
+	}
+	
+	static String toString(SVGPathSeg pathSeg) {
+		switch (pathSeg.getPathSegTypeAsLetter().charAt(0)) {
+			case 'z':
+				return "z";
+			case 'M':
+				SVGPathSegMoveToAbs moveToAbs = (SVGPathSegMoveToAbs) pathSeg;
+				return "M " + moveToAbs.getX() + " " + moveToAbs.getY();
+			case 'm':
+				SVGPathSegMoveToRel moveToRel = (SVGPathSegMoveToRel) pathSeg;
+				return "m " + moveToRel.getX() + " " + moveToRel.getY();
+			case 'L':
+				SVGPathSegLineToAbs lineToAbs = (SVGPathSegLineToAbs) pathSeg; 
+				return "L " + lineToAbs.getX();
+			case 'l':
+				SVGPathSegLineToRel lineToRel = (SVGPathSegLineToRel) pathSeg; 
+				return "l " + lineToRel.getX();
+			case 'H':
+				SVGPathSegLineToHorizontalAbs lineToHorizontalAbs = (SVGPathSegLineToHorizontalAbs) pathSeg;
+				return "H " + lineToHorizontalAbs.getX();
+			case 'h':
+				SVGPathSegLineToHorizontalRel lineToHorizontalRel = (SVGPathSegLineToHorizontalRel) pathSeg;
+				return "h " + lineToHorizontalRel.getX();
+			case 'V':
+				SVGPathSegLineToVerticalAbs lineToVerticalAbs = (SVGPathSegLineToVerticalAbs) pathSeg;
+				return "V " + lineToVerticalAbs.getY();
+			case 'v':
+				SVGPathSegLineToVerticalRel lineToVerticalRel = (SVGPathSegLineToVerticalRel) pathSeg;
+				return "v " + lineToVerticalRel.getY();
+			case 'C':
+				SVGPathSegCurveToCubicAbs curveToCubicAbs = (SVGPathSegCurveToCubicAbs) pathSeg;
+				return "C " + curveToCubicAbs.getX1() + " " + curveToCubicAbs.getY1() + " " + 
+						curveToCubicAbs.getX2() + " " + curveToCubicAbs.getY2() + " " + curveToCubicAbs.getX() + " " + curveToCubicAbs.getY();
+			case 'c':
+				SVGPathSegCurveToCubicRel curveToCubicRel = (SVGPathSegCurveToCubicRel) pathSeg;
+				return "c " + curveToCubicRel.getX1() + " " + curveToCubicRel.getY1() + " " + 
+					curveToCubicRel.getX2() + " " + curveToCubicRel.getY2() + " " + curveToCubicRel.getX() + " " + curveToCubicRel.getY();
+			case 'S':
+				SVGPathSegCurveToCubicSmoothAbs curveToCubicSmoothAbs = (SVGPathSegCurveToCubicSmoothAbs) pathSeg;
+				return "S " + curveToCubicSmoothAbs.getX2() + " " + curveToCubicSmoothAbs.getY2() + " " + curveToCubicSmoothAbs.getX() + " " + curveToCubicSmoothAbs.getY();
+			case 's':
+				SVGPathSegCurveToCubicSmoothRel curveToCubicSmoothRel = (SVGPathSegCurveToCubicSmoothRel) pathSeg;
+				return "s " + curveToCubicSmoothRel.getX2() + " " + curveToCubicSmoothRel.getY2() + " " + curveToCubicSmoothRel.getX() + " " + curveToCubicSmoothRel.getY();
+			case 'Q':
+				SVGPathSegCurveToQuadraticAbs curveToQuadraticAbs = (SVGPathSegCurveToQuadraticAbs) pathSeg;
+				return "Q " + curveToQuadraticAbs.getX1() + " " + curveToQuadraticAbs.getY1() + " " + curveToQuadraticAbs.getX() + "  " + curveToQuadraticAbs.getY();
+			case 'q':
+				SVGPathSegCurveToQuadraticRel curveToQuadraticRel = (SVGPathSegCurveToQuadraticRel) pathSeg;
+				return "q " + curveToQuadraticRel.getX1() + " " + curveToQuadraticRel.getY1() + " " + curveToQuadraticRel.getX() + " " + curveToQuadraticRel.getY();
+			case 'T':
+				SVGPathSegCurveToQuadraticSmoothAbs curveToQuadraticSmoothAbs = (SVGPathSegCurveToQuadraticSmoothAbs) pathSeg;
+				return "T " + curveToQuadraticSmoothAbs.getX() + " " + curveToQuadraticSmoothAbs.getY();
+			case 't':
+				SVGPathSegCurveToQuadraticSmoothRel curveToQuadraticSmoothRel = (SVGPathSegCurveToQuadraticSmoothRel) pathSeg;
+				return "t " + curveToQuadraticSmoothRel.getX() + " " + curveToQuadraticSmoothRel.getY();
+			case 'A':
+				SVGPathSegArcAbs arcAbs = (SVGPathSegArcAbs) pathSeg;
+				return "A " + arcAbs.getR1() + " " + arcAbs.getR2() + " " + arcAbs.getAngle() + " " + 
+						(arcAbs.getLargeArcFlag() ? 1 : 0) + " " + (arcAbs.getSweepFlag() ? 1 : 0) + " " + arcAbs.getX() + " " + arcAbs.getY(); 
+			case 'a':
+				SVGPathSegArcRel arcRel = (SVGPathSegArcRel) pathSeg;
+				return "a " + arcRel.getR1() + " " + arcRel.getR2() + " " + arcRel.getAngle() + " " + 
+						(arcRel.getLargeArcFlag() ? 1 : 0) + " " + (arcRel.getSweepFlag() ? 1 : 0) + " " + arcRel.getX() + " " + arcRel.getY(); 
+		}
+		return SVGErrors.error("Invalid path seg type: " + pathSeg.getPathSegTypeAsLetter() + "(" + pathSeg.getPathSegType() + ")");
+	}
+	
 	public static SVGPathSegList parsePathSegList(String text) {
 		PathSegTokenizer tokenizer = new PathSegTokenizer(text);
 		ArrayList<SVGPathSeg> list = new ArrayList<>();

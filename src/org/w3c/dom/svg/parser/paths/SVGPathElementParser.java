@@ -1,5 +1,7 @@
 package org.w3c.dom.svg.parser.paths;
 
+import java.util.HashMap;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -13,6 +15,8 @@ import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
+import org.w3c.dom.svg.parser.Tags;
+import org.w3c.dom.svg.paths.NormalizedPathSegListBuilder;
 import org.w3c.dom.svg.paths.SVGPathElement;
 import org.w3c.dom.svg.paths.SVGPathSegList;
 
@@ -23,7 +27,8 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 		String pathLengthStr = element.getAttribute(Attributes.PATH_LENGTH);
 		SVGAnimatedNumber aPathLength = new SVGAnimatedNumber.Implementation(Float.parseFloat(pathLengthStr), Float.parseFloat(pathLengthStr));
 		SVGPathSegList pathSegList = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
-		// Get default values
+		NormalizedPathSegListBuilder builder1 = new NormalizedPathSegListBuilder();
+		SVGPathSegList normalizedPathSegList = builder1.process(pathSegList);
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
@@ -52,13 +57,25 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 		// Construct the implementation
 		return new SVGPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
-					pathSegList, null, pathSegList, null, aPathLength, nearestViewportElement, farthestViewportElement, transform);
+					pathSegList, normalizedPathSegList, new SVGPathSegList.Implementation(pathSegList), new SVGPathSegList.Implementation(normalizedPathSegList), aPathLength, nearestViewportElement, farthestViewportElement, transform);
 	}
 
 	@Override
 	public Element writeElement(SVGPathElement element, ElementFactory factory) {
-
-		return null;
+		HashMap<String, String> attributes = new HashMap<>();
+		attributes.put(Attributes.PATH_LENGTH, Float.toString(element.getPathLength().getBaseValue()));
+		attributes.put(Attributes.D, ElementParser.join(element.getPathSegList(), " "));
+		attributes.put(Attributes.ID, element.getID());
+		attributes.put(Attributes.XML_BASE, element.getXMLBase());
+		attributes.put(Attributes.XML_LANG, element.getXMLLang());
+		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
+		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
+		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
+		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
+		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
+		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
+		return factory.createElement(Tags.PATH, attributes);
 	}
 
 }

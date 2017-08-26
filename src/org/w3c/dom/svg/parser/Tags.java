@@ -40,6 +40,8 @@ public interface Tags {
 	
 	public static final String FE_DISTANTLIGHT = "feDistantLight";
 	
+	public static final String FE_FLOOD = "feFlood";
+	
 	public static final String FE_FUNCA = "feFuncA";
 
 	public static final String FE_FUNCB = "feFuncB";
@@ -48,9 +50,27 @@ public interface Tags {
 
 	public static final String FE_FUNCR = "feFuncR";
 	
+	public static final String FE_GAUSSIANBLUR = "feGaussianBlur";
+	
+	public static final String FE_IMAGE = "feImage";
+	
+	public static final String FE_MERGE = "feMerge";
+	
+	public static final String FE_MERGENODE = "feMergeNode";
+	
+	public static final String FE_MORPHOLOGY = "feMorphology";
+	
+	public static final String FE_OFFSET = "feOffset";
+	
 	public static final String FE_POINTLIGHT = "fePointLight";
 	
+	public static final String FE_SPECULARLIGHTING = "feSpecularLighting";
+	
 	public static final String FE_SPOTLIGHT = "feSpotLight";
+	
+	public static final String FE_TILE = "feTile";
+	
+	public static final String FE_TURBULENCE = "feTurbulence";
 	
 	public static final String FILTER = "filter";
 	
@@ -70,6 +90,8 @@ public interface Tags {
 	
 	public static final String G = "g";
 	
+	public static final String GLYPH = "glyph";
+	
 	public static final String GLYPH_REF = "glyphRef";
 	
 	public static final String IMAGE = "image";
@@ -79,6 +101,10 @@ public interface Tags {
 	public static final String MARKER = "marker";
 	
 	public static final String METADATA = "metadata";
+	
+	public static final String MISSING_GLYPH = "missing-glyph";
+	
+	public static final String PATH = "path";
 
 	public static final String POLYGON = "polygon";
 

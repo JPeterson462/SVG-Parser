@@ -8,7 +8,7 @@ import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGFEFloodElement extends SVGFEElement {
 
-	public static class Implementation extends SVGFEElement.Implementation {
+	public static class Implementation extends SVGFEElement.Implementation implements SVGFEFloodElement {
 
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width, SVGAnimatedLength height,

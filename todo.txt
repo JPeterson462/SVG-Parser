@@ -15,13 +15,11 @@ For implementations duplicate() should it recurse?
 Better adoptNode() implementation
 Setting viewport element each layer?
 
-** Standardize regexes
-
 Parsing styling elements
-Standardized error messages
 Validate SVG using required features and extensions
 
 Add license https://github.com/regebro/svg.path/blob/master/LICENSE.txt
+Add batik license of computing the Arc2D
 
 SVG Events
 
@@ -56,6 +54,7 @@ Don't support calc()
 Parsing JavaScript?
 Graphical event attributes?
 Check content models (child attributes based on parent: like clip-path), documented properties
+Setting values (i.e. glyph) based on font attributes
 
 SVGAnimatedPathData duplicate pathseglist if the same
 
@@ -72,7 +71,7 @@ R	W
 +	+	<image>
 +	+	<switch>
 +	+	<style>
-*		<path>
++	+	<path>
 +	+	<rect>
 +	+	<circle>
 +	+	<ellipse>
@@ -105,15 +104,15 @@ R	W
 +	+	<feConvolveMatrix>
 +	+	<feDiffuseLighting>
 +	+	<feDisplacementMap>
-		<feFlood>
-		<feGaussianBlur>
-		<feImage>
-		<feMerge>
-		<feMorphology>
-		<feOffset>
-		<feSpecularLighting>
-		<feTile>
-		<feTurbulence>
++	+	<feFlood>
++	+	<feGaussianBlur>
++	+	<feImage>
++	+	<feMerge>
++	+	<feMorphology>
++	+	<feOffset>
++	+	<feSpecularLighting>
++	+	<feTile>
++	+	<feTurbulence>
 +	+	<cursor>
 +	+	<a>
 +	+	<view>
@@ -124,8 +123,8 @@ R	W
 		<animateColor>
 		<animateTransform>
 +	+	<font>
-		<glyph>
-		<missing-glyph>
++	+	<glyph>
++	+	<missing-glyph>
 		<hkern>
 		<vkern>
 +	+	<font-face>

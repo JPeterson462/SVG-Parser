@@ -51,7 +51,6 @@ public class SVGPathMath {
 						controlPoint[0], controlPoint[1], pathSegCurveToCubicSmoothAbs.getX2(), pathSegCurveToCubicSmoothAbs.getY2(), 1);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL:
 				SVGPathSegCurveToCubicSmoothRel pathSegCurveToCubicSmoothRel = (SVGPathSegCurveToCubicSmoothRel) segment;
-				
 				if (state.lastControlPoint == null) {
 					state.lastControlPoint = new float[] { state.point.getX(), state.point.getY() };
 				}

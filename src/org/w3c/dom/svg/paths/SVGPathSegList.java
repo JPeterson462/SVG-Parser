@@ -17,6 +17,13 @@ public interface SVGPathSegList extends ElementList<SVGPathSeg> {
 			list = new ArrayList<>(source);
 		}
 		
+		public Implementation(SVGPathSegList source) {
+			list = new ArrayList<>();
+			for (int i = 0; i < source.getNumberOfItems(); i++) {
+				list.add(source.getItem(i));
+			}
+		}
+		
 		@Override
 		public long getNumberOfItems() {
 			return list.size();
