@@ -18,8 +18,16 @@ public interface SVGAnimatedPathData {
 				SVGPathSegList animatedPathSegList, SVGPathSegList animatedNormalizedPathSegList) {
 			this.pathSegList = pathSegList;
 			this.normalizedPathSegList = normalizedPathSegList;
-			this.animatedPathSegList = animatedPathSegList;
-			this.animatedNormalizedPathSegList = animatedNormalizedPathSegList;
+			if (animatedPathSegList == pathSegList) {
+				this.animatedPathSegList = new SVGPathSegList.Implementation(pathSegList);
+			} else {
+				this.animatedPathSegList = animatedPathSegList;
+			}
+			if (animatedNormalizedPathSegList == normalizedPathSegList) {
+				this.animatedNormalizedPathSegList = new SVGPathSegList.Implementation(normalizedPathSegList);
+			} else {
+				this.animatedNormalizedPathSegList = animatedNormalizedPathSegList;
+			}
 		}
 
 		@Override

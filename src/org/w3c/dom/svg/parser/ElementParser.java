@@ -78,9 +78,19 @@ public interface ElementParser<T extends SVGElement> {
 		for (int i = 0; i < list.getLength(); i++) {
 			if (i > 0) {
 				concatenated += joinBy;
-			} else {
-				concatenated += list.item(i);
 			}
+			concatenated += list.item(i);
+		}
+		return concatenated;
+	}
+	
+	public static String concatenate(SVGNumberList list, String joinBy) {
+		String concatenated = "";
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			if (i > 0) {
+				concatenated += joinBy;
+			}
+			concatenated += Float.toString(list.getItem(i).getValue());
 		}
 		return concatenated;
 	}

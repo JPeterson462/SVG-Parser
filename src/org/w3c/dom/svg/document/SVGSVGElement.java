@@ -18,6 +18,7 @@ import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedPreserveAspectRatio;
 import org.w3c.dom.svg.SVGAnimatedRect;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGFitToViewBox;
@@ -41,6 +42,10 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 			SVGExternalResourcesRequired, SVGStylable, SVGLocatable, 
 			SVGFitToViewBox, SVGZoomAndPan, DocumentEvent, ViewCSS, 
 			DocumentCSS {
+	
+	public SVGNumber getVersion();
+	
+	public String getBaseProfile();
 	
 	public SVGAnimatedLength getX();
 	
@@ -148,23 +153,57 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		
 		private String contentScriptType, contentStyleType;
 		
-		private SVGRect viewport;
+		private SVGRect viewport;//FIXME
 		
-		private float pixelUnitToMillimeterX, pixelUnitToMillimeterY;
+		private float pixelUnitToMillimeterX, pixelUnitToMillimeterY;//FIXME
 		
-		private float screenPixelToMillimeterX, screenPixelToMillimeterY;
+		private float screenPixelToMillimeterX, screenPixelToMillimeterY;//FIXME
 		
-		private boolean useCurrentView;
+		private boolean useCurrentView;//FIXME
 		
-		private SVGViewSpec currentView;
+		private SVGViewSpec currentView;//FIXME
 
-		private float currentScale;
+		private float currentScale;//FIXME
 		
-		private SVGPoint currentTranslate;
+		private SVGPoint currentTranslate;//FIXME
 		
-		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
+		private SVGNumber version;
+		
+		private String baseProfile;
+		
+		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGAnimatedString className, CSSStyleDeclaration style, String xmlLang, String xmlSpace, SVGAnimatedTransformList transform,
+				SVGAnimatedBoolean externalResourcesRequired, SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width,
+				SVGAnimatedLength height, SVGAnimatedRect viewBox, SVGAnimatedPreserveAspectRatio preserveAspectRatio,
+				short zoomAndPan, SVGNumber version, String baseProfile, String contentScriptType, String contentStyleType) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
-			// TODO Auto-generated constructor stub
+			this.className = className;
+			this.style = style;
+			this.xmlLang = xmlLang;
+			this.xmlSpace = xmlSpace;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.viewBox = viewBox;
+			this.preserveAspectRatio = preserveAspectRatio;
+			this.zoomAndPan = zoomAndPan;
+			this.version = version;
+			this.baseProfile = baseProfile;
+			this.contentScriptType = contentScriptType;
+			this.contentStyleType = contentStyleType;
+			transformableBase = new SVGTransformable.Implementation(this, transform);
+		}
+		
+		@Override
+		public SVGNumber getVersion() {
+			return version;
+		}
+		
+		@Override
+		public String getBaseProfile() {
+			return baseProfile;
 		}
 
 		@Override

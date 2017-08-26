@@ -1,37 +1,17 @@
 https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
 https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSRule
 
+Add license https://github.com/regebro/svg.path/blob/master/LICENSE.txt
+Add batik license of computing the Arc2D
+
+TODO:
+-----
 SVGLocatable implementation
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
 SVGTextContentElement
 SVGAnimationElement implementation
 SVGAnimateElement, SVGSetElement, SVGAnimateMotionElement, SVGAnimateColorElement
 SVGAnimateTransformElement (add methods)
-
-Readonly elements/attributes?
-Documentation
-Validate setting of constants?
-For implementations duplicate() should it recurse?
-Better adoptNode() implementation
-Setting viewport element each layer?
-
-Parsing styling elements
-Validate SVG using required features and extensions
-
-Add license https://github.com/regebro/svg.path/blob/master/LICENSE.txt
-Add batik license of computing the Arc2D
-
-SVG Events
-
-* = work in progress
-+ = done
-. = not handled
-
-*	1. Implementations
-*	2. Parser (Reader)
-	3. Renderer
-*	4. Writer
-
 CSSValueImplementation (split)
 CSSRuleBuilder @font-face, @color-profile (color profile rule in .svg)
 CSSProperties
@@ -41,24 +21,35 @@ CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
 	ParsingState.findParentRule
 Ensure that base elements for relative attributes are set
 SVGFontElementParser. 16px -> 1em
-viewportElement is different than ownerSVGElement?
-Normalize pathSeg list
 Parsing URIs (url(...), local(...))
 Referencing fonts and filters
-Deduplicate join() methods
-
 AnimationTiming
 AnimationValue
-
-Don't support calc()
-Parsing JavaScript?
-Graphical event attributes?
+Graphical event attributes, document event attributes
 Check content models (child attributes based on parent: like clip-path), documented properties
 Setting values (i.e. glyph) based on font attributes
-
-SVGAnimatedPathData duplicate pathseglist if the same
-
 Parsing the <style>... where?
+
+FUTURE:
+-------
+Readonly elements/attributes?
+Documentation
+Validate setting of constants?
+For implementations duplicate() should it recurse?
+Better adoptNode() implementation
+Setting viewport element each layer?
+Validate SVG using required features and extensions
+Don't support calc()
+Parsing JavaScript?
+
+* = work in progress
++ = done
+. = not handled
+
+*	1. Implementations
+*	2. Parser (Reader)
+	3. Renderer
+*	4. Writer
 
 R	W
 		<svg>

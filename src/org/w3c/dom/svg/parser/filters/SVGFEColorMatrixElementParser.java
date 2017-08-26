@@ -97,19 +97,8 @@ public class SVGFEColorMatrixElementParser implements ElementParser<SVGFEColorMa
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
 		attributes.put(Attributes.IN, element.getIn1().getBaseValue());
 		attributes.put(Attributes.TYPE, type_enumToStr.get(element.getType().getBaseValue()));
-		attributes.put(Attributes.VALUES, join(element.getValues().getBaseValue(), " "));
+		attributes.put(Attributes.VALUES, ElementParser.concatenate(element.getValues().getBaseValue(), " "));
 		return factory.createElement(Tags.FE_COLORMATRIX, attributes);
 	}
 	
-	private String join(SVGNumberList list, String joinBy) {
-		String result = "";
-		for (int i = 0; i < list.getNumberOfItems(); i++) {
-			if (i > 0) {
-				result += joinBy;
-			}
-			result += Float.toString(list.getItem(i).getValue());
-		}
-		return result;
-	}
-
 }

@@ -74,7 +74,7 @@ public class SVGFEFuncBElementParser implements ElementParser<SVGFEFuncBElement>
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.TYPE, type_enumToStr.get(element.getType().getBaseValue()));
-		attributes.put(Attributes.VALUES, join(element.getTableValues().getBaseValue(), " "));
+		attributes.put(Attributes.VALUES, ElementParser.concatenate(element.getTableValues().getBaseValue(), " "));
 		attributes.put(Attributes.SLOPE, Float.toString(element.getSlope().getBaseValue()));
 		attributes.put(Attributes.INTERCEPT, Float.toString(element.getIntercept().getBaseValue()));
 		attributes.put(Attributes.AMPLITUDE, Float.toString(element.getAmplitude().getBaseValue()));
@@ -83,15 +83,4 @@ public class SVGFEFuncBElementParser implements ElementParser<SVGFEFuncBElement>
 		return factory.createElement(Tags.FE_FUNCR, attributes);
 	}
 	
-	private String join(SVGNumberList list, String joinBy) {
-		String result = "";
-		for (int i = 0; i < list.getNumberOfItems(); i++) {
-			if (i > 0) {
-				result += joinBy;
-			}
-			result += Float.toString(list.getItem(i).getValue());
-		}
-		return result;
-	}
-
 }

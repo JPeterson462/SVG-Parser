@@ -20,7 +20,7 @@ public interface SVGPathSegList extends ElementList<SVGPathSeg> {
 		public Implementation(SVGPathSegList source) {
 			list = new ArrayList<>();
 			for (int i = 0; i < source.getNumberOfItems(); i++) {
-				list.add(source.getItem(i));
+				list.add(PathSegDuplicator.duplicate(source.getItem(i)));
 			}
 		}
 		

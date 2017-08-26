@@ -149,7 +149,7 @@ public class SVGFEConvolveMatrixElementParser implements ElementParser<SVGFEConv
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
 		attributes.put(Attributes.IN, element.getIn1().getBaseValue());
 		attributes.put(Attributes.ORDER, Long.toString(element.getOrderX().getBaseValue()) + " " + Long.toString(element.getOrderY().getBaseValue()));
-		attributes.put(Attributes.KERNEL_MATRIX, join(element.getKernelMatrix().getBaseValue(), " "));
+		attributes.put(Attributes.KERNEL_MATRIX, ElementParser.concatenate(element.getKernelMatrix().getBaseValue(), " "));
 		attributes.put(Attributes.DIVISOR, Float.toString(element.getDivisor().getBaseValue()));
 		attributes.put(Attributes.BIAS, Float.toString(element.getBias().getBaseValue()));
 		attributes.put(Attributes.TARGET_X, Float.toString(element.getTargetX().getBaseValue()));
@@ -158,17 +158,6 @@ public class SVGFEConvolveMatrixElementParser implements ElementParser<SVGFEConv
 		attributes.put(Attributes.KERNEL_UNIT_LENGTH, Float.toString(element.getKernelUnitLengthX().getBaseValue()) + " " + Float.toString(element.getKernelUnitLengthY().getBaseValue()));
 		attributes.put(Attributes.PRESERVE_ALPHA, Boolean.toString(element.getPreserveAlpha().getBaseValue()));
 		return factory.createElement(Tags.FE_CONVOLVEMATRIX, attributes);
-	}
-
-	private String join(SVGNumberList list, String joinBy) {
-		String result = "";
-		for (int i = 0; i < list.getNumberOfItems(); i++) {
-			if (i > 0) {
-				result += joinBy;
-			}
-			result += Float.toString(list.getItem(i).getValue());
-		}
-		return result;
 	}
 
 }
