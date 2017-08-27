@@ -27,9 +27,15 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 		
 		private SVGElement targetElement;
 		
-		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
+		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
+				SVGAnimatedBoolean externalResourcesRequired, SVGElement targetElement) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
-			// TODO Auto-generated constructor stub
+			this.requiredFeatures = requiredFeatures;
+			this.requiredExtensions = requiredExtensions;
+			this.systemLanguage = systemLanguage;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.targetElement = targetElement;
 		}
 
 		@Override
@@ -64,7 +70,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void beginElementAt(float offset) {
-			DOMErrors.notSupported();
+			//TODO
 		}
 
 		@Override
@@ -74,7 +80,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void endElementAt(float offset) {
-			DOMErrors.notSupported();
+			//TODO
 		}
 
 		@Override

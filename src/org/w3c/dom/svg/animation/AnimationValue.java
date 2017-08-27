@@ -1,5 +1,7 @@
 package org.w3c.dom.svg.animation;
 
+import org.w3c.dom.svg.SVGStringList;
+
 public interface AnimationValue {
 	
 	public static final short CALCMODE_DISCRETE = 0;
@@ -9,16 +11,16 @@ public interface AnimationValue {
 	
 	public short getCalcMode();
 	
-	//values TODO
+	public SVGStringList getValues();
 	
-	//keyTimes
+	public SVGStringList getKeyTimes();
 	
-	//keySplines
+	public SVGStringList getKeySplines();
 	
-	//from
+	public String getFrom();
 	
-	//to
+	public String getTo();
 	
-	//by
+	public String getBy();
 
 }

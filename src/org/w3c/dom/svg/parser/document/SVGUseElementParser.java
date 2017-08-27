@@ -22,7 +22,8 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 	@Override
 	public SVGUseElement readElement(Element element, ParsingState parsingState) {
 		// TODO
-		SVGElementInstance instanceRoot = new SVGElementInstance.Implementation(correspondingElement, correspondingUseElement, parentNode, childNodes, firstChild, lastChild, previousSibling, nextSibling)
+		SVGElementInstance instanceRoot = new SVGElementInstance.Implementation(correspondingElement, null, parentNode, childNodes, firstChild, lastChild, previousSibling, nextSibling);
+		SVGElementInstance animatedInstanceRoot = new SVGElementInstance.Implementation(correspondingElement, null, parentNode, childNodes, firstChild, lastChild, previousSibling, nextSibling);
 		// Attributes
 		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
@@ -68,11 +69,14 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		return new SVGUseElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGUseElement useElement = new SVGUseElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
 				systemLanguage, externalResourcesRequired, nearestViewportElement, 
 				farthestViewportElement, transform, href, ax, ay, awidth, aheight,
 				instanceRoot, animatedInstanceRoot);
+		((SVGElementInstance.Implementation) useElement.getInstanceRoot()).connect(useElement);
+		((SVGElementInstance.Implementation) useElement.getAnimatedInstanceRoot()).connect(useElement);
+		return useElement;
 	}
 
 	@Override

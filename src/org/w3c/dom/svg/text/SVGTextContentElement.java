@@ -161,8 +161,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@Override
 		public float getComputedTextLength() {
-			// TODO Auto-generated method stub
-			return 0;
+			return getSubStringLength(0, getNumberOfChars());
 		}
 
 		@Override

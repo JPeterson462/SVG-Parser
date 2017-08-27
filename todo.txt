@@ -9,9 +9,6 @@ TODO:
 SVGLocatable implementation
 SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
 SVGTextContentElement
-SVGAnimationElement implementation
-SVGAnimateElement, SVGSetElement, SVGAnimateMotionElement, SVGAnimateColorElement
-SVGAnimateTransformElement (add methods)
 CSSValueImplementation (split)
 CSSRuleBuilder @font-face, @color-profile (color profile rule in .svg)
 CSSProperties
@@ -23,8 +20,7 @@ Ensure that base elements for relative attributes are set
 SVGFontElementParser. 16px -> 1em
 Parsing URIs (url(...), local(...))
 Referencing fonts and filters
-AnimationTiming
-AnimationValue
+SVGAnimationElement implementation
 Graphical event attributes, document event attributes
 Check content models (child attributes based on parent: like clip-path), documented properties
 Setting values (i.e. glyph) based on font attributes
@@ -113,6 +109,7 @@ R	W
 		<animateMotion>
 		<animateColor>
 		<animateTransform>
+		<mpath>
 +	+	<font>
 +	+	<glyph>
 +	+	<missing-glyph>

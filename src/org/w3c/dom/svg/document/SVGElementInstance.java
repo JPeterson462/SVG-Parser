@@ -46,6 +46,10 @@ public interface SVGElementInstance extends EventTarget {
 			this.nextSibling = nextSibling;
 		}
 		
+		public void connect(SVGUseElement useElement) {
+			correspondingUseElement = useElement;
+		}
+		
 		@Override
 		public SVGElement getCorrespondingElement() {
 			return correspondingElement;

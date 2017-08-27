@@ -4,6 +4,10 @@ import org.w3c.dom.svg.SVGErrors;
 
 public interface SMILClockValue {
 
+	public static final short INDEFINITE = 1 << 0;
+	public static final short MEDIA = 1 << 1;
+	public static final short INDEFINITE_MEDIA = INDEFINITE | MEDIA;
+	
 	public float getHours();
 	
 	public float getMinutes();
@@ -25,10 +29,6 @@ public interface SMILClockValue {
 		private float hours, minutes, seconds;
 		
 		private String clockValue;
-		
-		public static final short INDEFINITE = 1 << 0;
-		public static final short MEDIA = 1 << 1;
-		public static final short INDEFINITE_MEDIA = INDEFINITE | MEDIA;
 		
 		private short type;
 		
