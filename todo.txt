@@ -54,7 +54,7 @@ R	W
 +	+	<desc>
 +	+	<title>
 +	+	<symbol>
-		<use>
++	+	<use>
 +	+	<image>
 +	+	<switch>
 +	+	<style>

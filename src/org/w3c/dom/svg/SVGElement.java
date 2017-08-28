@@ -2,6 +2,7 @@ package org.w3c.dom.svg;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
+import org.w3c.dom.svg.document.SVGElementInstance;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.impl.ElementImplementation;
 
@@ -22,6 +23,8 @@ public interface SVGElement extends Element {
 
 	/** The element which established the current viewport. Often, the nearest ancestor ‘svg’ element. Null if the given element is the outermost svg element.  */
 	public SVGElement getViewportElement();
+	
+	public SVGElementInstance createInstance();
 	
 	public static class Implementation extends ElementImplementation implements SVGElement {
 
@@ -67,6 +70,11 @@ public interface SVGElement extends Element {
 		@Override
 		public SVGElement getViewportElement() {
 			return viewportElement;
+		}
+
+		@Override
+		public SVGElementInstance createInstance() {
+			return new SVGElementInstance.Implementation(this, null);
 		}
 
 	}

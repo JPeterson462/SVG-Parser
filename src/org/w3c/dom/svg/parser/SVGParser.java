@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
 public class SVGParser {
@@ -39,10 +40,27 @@ public class SVGParser {
 		}
 	}
 	
+	private String removeNamespace(String tag, String... validNamespaces) {
+		String[] split = tag.split(":");
+		if (split.length == 1) {
+			return tag;
+		}
+		if (split.length > 2) {
+			SVGErrors.error("Invalid namespace: " + tag);
+		}
+		for (int i = 0; i < validNamespaces.length; i++) {
+			if (split[0].equals(validNamespaces[i])) {
+				return split[1];
+			}
+		}
+		return SVGErrors.error("Invalid namespace: " + tag);
+	}
+	
 	@SuppressWarnings("rawtypes")
 	private SVGElement parseElementRecursively(Element root, ParsingState parsingState) {
-		ElementParser parser = Parsers.getParser(root.getTagName());
+		ElementParser parser = Parsers.getParser(removeNamespace(root.getTagName(), "svg"));
 		SVGElement element = parser.readElement(root, parsingState);
+		parsingState.addElement(element);
 		if (element instanceof SVGSVGElement) {
 			if (parsingState.getOwnerSVGElement() == null) {
 				parsingState.setOwnerSVGElement((SVGSVGElement) element);

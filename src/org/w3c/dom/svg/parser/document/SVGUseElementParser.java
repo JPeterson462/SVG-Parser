@@ -1,5 +1,7 @@
 package org.w3c.dom.svg.parser.document;
 
+import java.util.HashMap;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -16,17 +18,16 @@ import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
+import org.w3c.dom.svg.parser.Tags;
 
 public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 
 	@Override
 	public SVGUseElement readElement(Element element, ParsingState parsingState) {
-		// TODO
-		SVGElementInstance instanceRoot = new SVGElementInstance.Implementation(correspondingElement, null, parentNode, childNodes, firstChild, lastChild, previousSibling, nextSibling);
-		SVGElementInstance animatedInstanceRoot = new SVGElementInstance.Implementation(correspondingElement, null, parentNode, childNodes, firstChild, lastChild, previousSibling, nextSibling);
 		// Attributes
 		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
+		SVGElementInstance instanceRoot = parsingState.getElement(hrefStr).createInstance();
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
 		String widthStr = element.getAttribute(Attributes.WIDTH);
@@ -73,16 +74,32 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 				xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
 				systemLanguage, externalResourcesRequired, nearestViewportElement, 
 				farthestViewportElement, transform, href, ax, ay, awidth, aheight,
-				instanceRoot, animatedInstanceRoot);
-		((SVGElementInstance.Implementation) useElement.getInstanceRoot()).connect(useElement);
-		((SVGElementInstance.Implementation) useElement.getAnimatedInstanceRoot()).connect(useElement);
+				instanceRoot, instanceRoot);
+		useElement.getInstanceRoot().connect(useElement);
+		useElement.getAnimatedInstanceRoot().connect(useElement);
 		return useElement;
 	}
 
 	@Override
 	public Element writeElement(SVGUseElement element, ElementFactory factory) {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, String> attributes = new HashMap<>();
+		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+		attributes.put(Attributes.ID, element.getID());
+		attributes.put(Attributes.XML_BASE, element.getXMLBase());
+		attributes.put(Attributes.XML_LANG, element.getXMLLang());
+		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
+		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
+		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
+		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
+		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
+		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
+		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
+		return factory.createElement(Tags.USE, attributes);
 	}
 
 }

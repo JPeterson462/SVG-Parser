@@ -1,5 +1,9 @@
 package org.w3c.dom.svg.document;
 
+import java.util.ArrayList;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.impl.EventTargetImplementation;
@@ -22,6 +26,8 @@ public interface SVGElementInstance extends EventTarget {
 
 	public SVGElementInstance getNextSibling();
 	
+	public void connect(SVGUseElement useElement);
+	
 	public static class Implementation extends EventTargetImplementation implements SVGElementInstance {
 
 		private SVGElement correspondingElement;
@@ -32,22 +38,31 @@ public interface SVGElementInstance extends EventTarget {
 		
 		private SVGElementInstanceList childNodes;
 		
-		public Implementation(SVGElement correspondingElement, SVGUseElement correspondingUseElement,
-				SVGElementInstance parentNode, SVGElementInstanceList childNodes,
-				SVGElementInstance firstChild, SVGElementInstance lastChild,
-				SVGElementInstance previousSibling, SVGElementInstance nextSibling) {
+		public Implementation(SVGElement correspondingElement, SVGUseElement correspondingUseElement) {
 			this.correspondingElement = correspondingElement;
 			this.correspondingUseElement = correspondingUseElement;
-			this.parentNode = parentNode;
-			this.childNodes = childNodes;
-			this.firstChild = firstChild;
-			this.lastChild = lastChild;
-			this.previousSibling = previousSibling;
-			this.nextSibling = nextSibling;
-		}
-		
-		public void connect(SVGUseElement useElement) {
-			correspondingUseElement = useElement;
+			parentNode = ((SVGElement) correspondingElement.getParentNode()).createInstance();
+			firstChild = ((SVGElement) correspondingElement.getFirstChild()).createInstance();
+			lastChild = ((SVGElement) correspondingElement.getLastChild()).createInstance();
+			previousSibling = ((SVGElement) correspondingElement.getPreviousSibling()).createInstance();
+			nextSibling = ((SVGElement) correspondingElement.getNextSibling()).createInstance();
+			ArrayList<SVGElementInstance> children = new ArrayList<>();
+			NodeList childNodes = correspondingElement.getChildNodes();
+			for (int i = 0; i < childNodes.getLength(); i++) {
+				Node child = childNodes.item(i);
+				if (child instanceof SVGElement) {
+					children.add(((SVGElement) child).createInstance());
+				}
+			}
+			parentNode.connect(correspondingUseElement);
+			firstChild.connect(correspondingUseElement);
+			lastChild.connect(correspondingUseElement);
+			previousSibling.connect(correspondingUseElement);
+			nextSibling.connect(correspondingUseElement);
+			for (int i = 0; i < children.size(); i++) {
+				children.get(i).connect(correspondingUseElement);
+			}
+			this.childNodes = new SVGElementInstanceList.Implementation(children);
 		}
 		
 		@Override
@@ -88,6 +103,19 @@ public interface SVGElementInstance extends EventTarget {
 		@Override
 		public SVGElementInstance getNextSibling() {
 			return nextSibling;
+		}
+
+		@Override
+		public void connect(SVGUseElement useElement) {
+			correspondingUseElement = useElement;
+			parentNode.connect(correspondingUseElement);
+			firstChild.connect(correspondingUseElement);
+			lastChild.connect(correspondingUseElement);
+			previousSibling.connect(correspondingUseElement);
+			nextSibling.connect(correspondingUseElement);
+			for (int i = 0; i < childNodes.getNumberOfItems(); i++) {
+				childNodes.getItem(i).connect(correspondingUseElement);
+			}
 		}
 		
 	}
