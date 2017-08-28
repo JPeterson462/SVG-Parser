@@ -6,17 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
-import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.animation.SMILClockValue;
 import org.w3c.dom.svg.animation.SMILTimingValue;
 import org.w3c.dom.svg.animation.SMILTimingValueList;
-import org.w3c.dom.svg.animation.SVGAnimateElement;
+import org.w3c.dom.svg.animation.SVGAnimateTransformElement;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
@@ -24,7 +22,7 @@ import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 
-public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement> {
+public class SVGAnimateTransformElementParser implements ElementParser<SVGAnimateTransformElement> {
 
 	private HashMap<String, Short> restart_strToEnum = new HashMap<>();
 	private HashMap<Short, String> restart_enumToStr = new HashMap<>();
@@ -43,44 +41,57 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 
 	private HashMap<String, Short> accumulate_strToEnum = new HashMap<>();
 	private HashMap<Short, String> accumulate_enumToStr = new HashMap<>();
+
+	private HashMap<String, Short> transformType_strToEnum = new HashMap<>();
+	private HashMap<Short, String> transformType_enumToStr = new HashMap<>();
 	
-	public SVGAnimateElementParser() {
-		restart_strToEnum.put("always", SVGAnimateElement.RESTART_ALWAYS);
-		restart_strToEnum.put("never", SVGAnimateElement.RESTART_NEVER);
-		restart_strToEnum.put("whenNotActive", SVGAnimateElement.RESTART_WHENNOTACTIVE);
-		restart_enumToStr.put(SVGAnimateElement.RESTART_ALWAYS, "always");
-		restart_enumToStr.put(SVGAnimateElement.RESTART_NEVER, "never");
-		restart_enumToStr.put(SVGAnimateElement.RESTART_WHENNOTACTIVE, "whenNotActive");
-		fill_strToEnum.put("freeze", SVGAnimateElement.FILL_FREEZE);
-		fill_strToEnum.put("remove", SVGAnimateElement.FILL_REMOVE);
-		fill_enumToStr.put(SVGAnimateElement.FILL_FREEZE, "freeze");
-		fill_enumToStr.put(SVGAnimateElement.FILL_REMOVE, "remove");
-		attributeType_strToEnum.put("auto", SVGAnimateElement.ANIMATIONTARGET_AUTO);
-		attributeType_strToEnum.put("CSS", SVGAnimateElement.ANIMATIONTARGET_CSS);
-		attributeType_strToEnum.put("XML", SVGAnimateElement.ANIMATIONTARGET_XML);
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_AUTO, "auto");
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_CSS, "CSS");
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_XML, "XML");
-		calcMode_strToEnum.put("discrete", SVGAnimateElement.CALCMODE_DISCRETE);
-		calcMode_strToEnum.put("linear", SVGAnimateElement.CALCMODE_LINEAR);
-		calcMode_strToEnum.put("paced", SVGAnimateElement.CALCMODE_PACED);
-		calcMode_strToEnum.put("spline", SVGAnimateElement.CALCMODE_SPLINE);
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_DISCRETE, "discrete");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_LINEAR, "linear");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_PACED, "paced");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_SPLINE, "spline");
-		additive_strToEnum.put("replace", SVGAnimateElement.ADDITIVE_REPLACE);
-		additive_strToEnum.put("sum", SVGAnimateElement.ADDITIVE_SUM);
-		additive_enumToStr.put(SVGAnimateElement.ADDITIVE_REPLACE, "replace");
-		additive_enumToStr.put(SVGAnimateElement.ADDITIVE_SUM, "sum");
-		accumulate_strToEnum.put("none", SVGAnimateElement.ACCUMULATE_NONE);
-		accumulate_strToEnum.put("sum", SVGAnimateElement.ACCUMULATE_SUM);
-		accumulate_enumToStr.put(SVGAnimateElement.ACCUMULATE_NONE, "none");
-		accumulate_enumToStr.put(SVGAnimateElement.ACCUMULATE_SUM, "sum");
+	public SVGAnimateTransformElementParser() {
+		restart_strToEnum.put("always", SVGAnimateTransformElement.RESTART_ALWAYS);
+		restart_strToEnum.put("never", SVGAnimateTransformElement.RESTART_NEVER);
+		restart_strToEnum.put("whenNotActive", SVGAnimateTransformElement.RESTART_WHENNOTACTIVE);
+		restart_enumToStr.put(SVGAnimateTransformElement.RESTART_ALWAYS, "always");
+		restart_enumToStr.put(SVGAnimateTransformElement.RESTART_NEVER, "never");
+		restart_enumToStr.put(SVGAnimateTransformElement.RESTART_WHENNOTACTIVE, "whenNotActive");
+		fill_strToEnum.put("freeze", SVGAnimateTransformElement.FILL_FREEZE);
+		fill_strToEnum.put("remove", SVGAnimateTransformElement.FILL_REMOVE);
+		fill_enumToStr.put(SVGAnimateTransformElement.FILL_FREEZE, "freeze");
+		fill_enumToStr.put(SVGAnimateTransformElement.FILL_REMOVE, "remove");
+		attributeType_strToEnum.put("auto", SVGAnimateTransformElement.ANIMATIONTARGET_AUTO);
+		attributeType_strToEnum.put("CSS", SVGAnimateTransformElement.ANIMATIONTARGET_CSS);
+		attributeType_strToEnum.put("XML", SVGAnimateTransformElement.ANIMATIONTARGET_XML);
+		attributeType_enumToStr.put(SVGAnimateTransformElement.ANIMATIONTARGET_AUTO, "auto");
+		attributeType_enumToStr.put(SVGAnimateTransformElement.ANIMATIONTARGET_CSS, "CSS");
+		attributeType_enumToStr.put(SVGAnimateTransformElement.ANIMATIONTARGET_XML, "XML");
+		calcMode_strToEnum.put("discrete", SVGAnimateTransformElement.CALCMODE_DISCRETE);
+		calcMode_strToEnum.put("linear", SVGAnimateTransformElement.CALCMODE_LINEAR);
+		calcMode_strToEnum.put("paced", SVGAnimateTransformElement.CALCMODE_PACED);
+		calcMode_strToEnum.put("spline", SVGAnimateTransformElement.CALCMODE_SPLINE);
+		calcMode_enumToStr.put(SVGAnimateTransformElement.CALCMODE_DISCRETE, "discrete");
+		calcMode_enumToStr.put(SVGAnimateTransformElement.CALCMODE_LINEAR, "linear");
+		calcMode_enumToStr.put(SVGAnimateTransformElement.CALCMODE_PACED, "paced");
+		calcMode_enumToStr.put(SVGAnimateTransformElement.CALCMODE_SPLINE, "spline");
+		additive_strToEnum.put("replace", SVGAnimateTransformElement.ADDITIVE_REPLACE);
+		additive_strToEnum.put("sum", SVGAnimateTransformElement.ADDITIVE_SUM);
+		additive_enumToStr.put(SVGAnimateTransformElement.ADDITIVE_REPLACE, "replace");
+		additive_enumToStr.put(SVGAnimateTransformElement.ADDITIVE_SUM, "sum");
+		accumulate_strToEnum.put("none", SVGAnimateTransformElement.ACCUMULATE_NONE);
+		accumulate_strToEnum.put("sum", SVGAnimateTransformElement.ACCUMULATE_SUM);
+		accumulate_enumToStr.put(SVGAnimateTransformElement.ACCUMULATE_NONE, "none");
+		accumulate_enumToStr.put(SVGAnimateTransformElement.ACCUMULATE_SUM, "sum");
+		transformType_strToEnum.put("rotate", SVGAnimateTransformElement.TRANSFORMTYPE_ROTATE);
+		transformType_strToEnum.put("scale", SVGAnimateTransformElement.TRANSFORMTYPE_SCALE);
+		transformType_strToEnum.put("skewX", SVGAnimateTransformElement.TRANSFORMTYPE_SKEWX);
+		transformType_strToEnum.put("skewY", SVGAnimateTransformElement.TRANSFORMTYPE_SKEWY);
+		transformType_strToEnum.put("translate", SVGAnimateTransformElement.TRANSFORMTYPE_TRANSLATE);
+		transformType_enumToStr.put(SVGAnimateTransformElement.TRANSFORMTYPE_ROTATE, "rotate");
+		transformType_enumToStr.put(SVGAnimateTransformElement.TRANSFORMTYPE_SCALE, "scale");
+		transformType_enumToStr.put(SVGAnimateTransformElement.TRANSFORMTYPE_SKEWX, "skewX");
+		transformType_enumToStr.put(SVGAnimateTransformElement.TRANSFORMTYPE_SKEWY, "skewY");
+		transformType_enumToStr.put(SVGAnimateTransformElement.TRANSFORMTYPE_TRANSLATE, "translate");
 	}
 	
 	@Override
-	public SVGAnimateElement readElement(Element element, ParsingState parsingState) {
+	public SVGAnimateTransformElement readElement(Element element, ParsingState parsingState) {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
@@ -90,11 +101,6 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
-		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
-		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
-		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
-		ElementParser.parseStyleFromAttributes(element, style);
 		String onBegin = ElementParser.readOrDefault(element, Attributes.ON_BEGIN, "");
 		String onEnd = ElementParser.readOrDefault(element, Attributes.ON_END, "");
 		String onLoad = ElementParser.readOrDefault(element, Attributes.ON_LOAD, "");
@@ -172,21 +178,21 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		String from = element.getAttribute(Attributes.FROM);
 		String to = element.getAttribute(Attributes.TO);
 		String by = element.getAttribute(Attributes.BY);
-		return new SVGAnimateElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
-				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, 
-				null, className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, 
-				attributeName, begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, 
-				repeatDuration, fill, calcMode, additive, accumulate, values, keyTimes, keySplines, 
-				from, to, by);
+		String transformTypeStr = ElementParser.readOrDefault(element, Attributes.TYPE, "translate");
+		short transformType = transformType_strToEnum.get(transformTypeStr);
+		return new SVGAnimateTransformElement.Implementation(id, xmlBase, ownerSVGElement, 
+				viewportElement, requiredFeatures, requiredExtensions, systemLanguage, 
+				externalResourcesRequired, null, onBegin, onEnd, onRepeat, onLoad, 
+				attributeType, attributeName, begin, duration, end, min, max, restart,
+				repeatCount, repeatIndefinite, repeatDuration, fill, calcMode, additive,
+				accumulate, transformType, values, keyTimes, keySplines, from, to, by);
 	}
 
 	@Override
-	public Element writeElement(SVGAnimateElement element, ElementFactory factory) {
+	public Element writeElement(SVGAnimateTransformElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
-		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
@@ -215,7 +221,8 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		attributes.put(Attributes.FROM, element.getFrom());
 		attributes.put(Attributes.TO, element.getTo());
 		attributes.put(Attributes.BY, element.getBy());
-		return factory.createElement(Tags.ANIMATE, attributes);
+		attributes.put(Attributes.TYPE, transformType_enumToStr.get(element.getTransformType()));
+		return factory.createElement(Tags.ANIMATE_TRANSFORM, attributes);
 	}
 
 }

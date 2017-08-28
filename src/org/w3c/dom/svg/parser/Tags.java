@@ -10,6 +10,14 @@ public interface Tags {
 
 	public static final String ALT_GLYPH_ITEM = "altGlyphItem";
 	
+	public static final String ANIMATE = "animate";
+	
+	public static final String ANIMATE_COLOR = "animateColor";
+	
+	public static final String ANIMATE_MOTION = "animateMotion";
+	
+	public static final String ANIMATE_TRANSFORM = "animateTransform";
+	
 	public static final String CIRCLE = "circle";
 	
 	public static final String CLIP_PATH = "clipPath";
@@ -104,6 +112,8 @@ public interface Tags {
 	
 	public static final String MISSING_GLYPH = "missing-glyph";
 	
+	public static final String MPATH = "mpath";
+	
 	public static final String PATH = "path";
 
 	public static final String POLYGON = "polygon";
@@ -113,6 +123,8 @@ public interface Tags {
 	public static final String RECT = "rect";
 
 	public static final String SCRIPT = "script";
+	
+	public static final String SET = "set";
 		
 	public static final String STYLE = "style";
 	

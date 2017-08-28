@@ -16,7 +16,7 @@ import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.animation.SMILClockValue;
 import org.w3c.dom.svg.animation.SMILTimingValue;
 import org.w3c.dom.svg.animation.SMILTimingValueList;
-import org.w3c.dom.svg.animation.SVGAnimateElement;
+import org.w3c.dom.svg.animation.SVGAnimateColorElement;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
@@ -24,7 +24,7 @@ import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 
-public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement> {
+public class SVGAnimateColorElementParser implements ElementParser<SVGAnimateColorElement> {
 
 	private HashMap<String, Short> restart_strToEnum = new HashMap<>();
 	private HashMap<Short, String> restart_enumToStr = new HashMap<>();
@@ -44,43 +44,42 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 	private HashMap<String, Short> accumulate_strToEnum = new HashMap<>();
 	private HashMap<Short, String> accumulate_enumToStr = new HashMap<>();
 	
-	public SVGAnimateElementParser() {
-		restart_strToEnum.put("always", SVGAnimateElement.RESTART_ALWAYS);
-		restart_strToEnum.put("never", SVGAnimateElement.RESTART_NEVER);
-		restart_strToEnum.put("whenNotActive", SVGAnimateElement.RESTART_WHENNOTACTIVE);
-		restart_enumToStr.put(SVGAnimateElement.RESTART_ALWAYS, "always");
-		restart_enumToStr.put(SVGAnimateElement.RESTART_NEVER, "never");
-		restart_enumToStr.put(SVGAnimateElement.RESTART_WHENNOTACTIVE, "whenNotActive");
-		fill_strToEnum.put("freeze", SVGAnimateElement.FILL_FREEZE);
-		fill_strToEnum.put("remove", SVGAnimateElement.FILL_REMOVE);
-		fill_enumToStr.put(SVGAnimateElement.FILL_FREEZE, "freeze");
-		fill_enumToStr.put(SVGAnimateElement.FILL_REMOVE, "remove");
-		attributeType_strToEnum.put("auto", SVGAnimateElement.ANIMATIONTARGET_AUTO);
-		attributeType_strToEnum.put("CSS", SVGAnimateElement.ANIMATIONTARGET_CSS);
-		attributeType_strToEnum.put("XML", SVGAnimateElement.ANIMATIONTARGET_XML);
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_AUTO, "auto");
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_CSS, "CSS");
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_XML, "XML");
-		calcMode_strToEnum.put("discrete", SVGAnimateElement.CALCMODE_DISCRETE);
-		calcMode_strToEnum.put("linear", SVGAnimateElement.CALCMODE_LINEAR);
-		calcMode_strToEnum.put("paced", SVGAnimateElement.CALCMODE_PACED);
-		calcMode_strToEnum.put("spline", SVGAnimateElement.CALCMODE_SPLINE);
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_DISCRETE, "discrete");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_LINEAR, "linear");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_PACED, "paced");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_SPLINE, "spline");
-		additive_strToEnum.put("replace", SVGAnimateElement.ADDITIVE_REPLACE);
-		additive_strToEnum.put("sum", SVGAnimateElement.ADDITIVE_SUM);
-		additive_enumToStr.put(SVGAnimateElement.ADDITIVE_REPLACE, "replace");
-		additive_enumToStr.put(SVGAnimateElement.ADDITIVE_SUM, "sum");
-		accumulate_strToEnum.put("none", SVGAnimateElement.ACCUMULATE_NONE);
-		accumulate_strToEnum.put("sum", SVGAnimateElement.ACCUMULATE_SUM);
-		accumulate_enumToStr.put(SVGAnimateElement.ACCUMULATE_NONE, "none");
-		accumulate_enumToStr.put(SVGAnimateElement.ACCUMULATE_SUM, "sum");
+	public SVGAnimateColorElementParser() {
+		restart_strToEnum.put("always", SVGAnimateColorElement.RESTART_ALWAYS);
+		restart_strToEnum.put("never", SVGAnimateColorElement.RESTART_NEVER);
+		restart_strToEnum.put("whenNotActive", SVGAnimateColorElement.RESTART_WHENNOTACTIVE);
+		restart_enumToStr.put(SVGAnimateColorElement.RESTART_ALWAYS, "always");
+		restart_enumToStr.put(SVGAnimateColorElement.RESTART_NEVER, "never");
+		restart_enumToStr.put(SVGAnimateColorElement.RESTART_WHENNOTACTIVE, "whenNotActive");
+		fill_strToEnum.put("freeze", SVGAnimateColorElement.FILL_FREEZE);
+		fill_strToEnum.put("remove", SVGAnimateColorElement.FILL_REMOVE);
+		fill_enumToStr.put(SVGAnimateColorElement.FILL_FREEZE, "freeze");
+		fill_enumToStr.put(SVGAnimateColorElement.FILL_REMOVE, "remove");
+		attributeType_strToEnum.put("auto", SVGAnimateColorElement.ANIMATIONTARGET_AUTO);
+		attributeType_strToEnum.put("CSS", SVGAnimateColorElement.ANIMATIONTARGET_CSS);
+		attributeType_strToEnum.put("XML", SVGAnimateColorElement.ANIMATIONTARGET_XML);
+		attributeType_enumToStr.put(SVGAnimateColorElement.ANIMATIONTARGET_AUTO, "auto");
+		attributeType_enumToStr.put(SVGAnimateColorElement.ANIMATIONTARGET_CSS, "CSS");
+		attributeType_enumToStr.put(SVGAnimateColorElement.ANIMATIONTARGET_XML, "XML");
+		calcMode_strToEnum.put("discrete", SVGAnimateColorElement.CALCMODE_DISCRETE);
+		calcMode_strToEnum.put("linear", SVGAnimateColorElement.CALCMODE_LINEAR);
+		calcMode_strToEnum.put("paced", SVGAnimateColorElement.CALCMODE_PACED);
+		calcMode_strToEnum.put("spline", SVGAnimateColorElement.CALCMODE_SPLINE);
+		calcMode_enumToStr.put(SVGAnimateColorElement.CALCMODE_DISCRETE, "discrete");
+		calcMode_enumToStr.put(SVGAnimateColorElement.CALCMODE_LINEAR, "linear");
+		calcMode_enumToStr.put(SVGAnimateColorElement.CALCMODE_PACED, "paced");
+		calcMode_enumToStr.put(SVGAnimateColorElement.CALCMODE_SPLINE, "spline");
+		additive_strToEnum.put("replace", SVGAnimateColorElement.ADDITIVE_REPLACE);
+		additive_strToEnum.put("sum", SVGAnimateColorElement.ADDITIVE_SUM);
+		additive_enumToStr.put(SVGAnimateColorElement.ADDITIVE_REPLACE, "replace");
+		additive_enumToStr.put(SVGAnimateColorElement.ADDITIVE_SUM, "sum");
+		accumulate_strToEnum.put("none", SVGAnimateColorElement.ACCUMULATE_NONE);
+		accumulate_strToEnum.put("sum", SVGAnimateColorElement.ACCUMULATE_SUM);
+		accumulate_enumToStr.put(SVGAnimateColorElement.ACCUMULATE_NONE, "none");
 	}
 	
 	@Override
-	public SVGAnimateElement readElement(Element element, ParsingState parsingState) {
+	public SVGAnimateColorElement readElement(Element element, ParsingState parsingState) {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
@@ -172,16 +171,15 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		String from = element.getAttribute(Attributes.FROM);
 		String to = element.getAttribute(Attributes.TO);
 		String by = element.getAttribute(Attributes.BY);
-		return new SVGAnimateElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
-				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, 
-				null, className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, 
-				attributeName, begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, 
-				repeatDuration, fill, calcMode, additive, accumulate, values, keyTimes, keySplines, 
-				from, to, by);
+		return new SVGAnimateColorElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, null, 
+				className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, attributeName, 
+				begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, repeatDuration, 
+				fill, calcMode, additive, accumulate, values, keyTimes, keySplines, from, to, by);
 	}
 
 	@Override
-	public Element writeElement(SVGAnimateElement element, ElementFactory factory) {
+	public Element writeElement(SVGAnimateColorElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
@@ -215,7 +213,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		attributes.put(Attributes.FROM, element.getFrom());
 		attributes.put(Attributes.TO, element.getTo());
 		attributes.put(Attributes.BY, element.getBy());
-		return factory.createElement(Tags.ANIMATE, attributes);
+		return factory.createElement(Tags.ANIMATE_COLOR, attributes);
 	}
 
 }

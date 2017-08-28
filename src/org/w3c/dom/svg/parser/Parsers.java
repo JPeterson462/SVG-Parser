@@ -2,6 +2,12 @@ package org.w3c.dom.svg.parser;
 
 import java.util.HashMap;
 
+import org.w3c.dom.svg.parser.animation.SVGAnimateColorElementParser;
+import org.w3c.dom.svg.parser.animation.SVGAnimateElementParser;
+import org.w3c.dom.svg.parser.animation.SVGAnimateMotionElementParser;
+import org.w3c.dom.svg.parser.animation.SVGAnimateTransformElementParser;
+import org.w3c.dom.svg.parser.animation.SVGMPathElementParser;
+import org.w3c.dom.svg.parser.animation.SVGSetElementParser;
 import org.w3c.dom.svg.parser.document.SVGDefsElementParser;
 import org.w3c.dom.svg.parser.document.SVGDescElementParser;
 import org.w3c.dom.svg.parser.document.SVGGElementParser;
@@ -137,6 +143,12 @@ public class Parsers {
 		parsers.put(Tags.GLYPH, new SVGGlyphElementParser());
 		parsers.put(Tags.MISSING_GLYPH, new SVGMissingGlyphElementParser());
 		parsers.put(Tags.USE, new SVGUseElementParser());
+		parsers.put(Tags.ANIMATE, new SVGAnimateElementParser());
+		parsers.put(Tags.SET, new SVGSetElementParser());
+		parsers.put(Tags.ANIMATE_COLOR, new SVGAnimateColorElementParser());
+		parsers.put(Tags.ANIMATE_TRANSFORM, new SVGAnimateTransformElementParser());
+		parsers.put(Tags.ANIMATE_MOTION, new SVGAnimateMotionElementParser());
+		parsers.put(Tags.MPATH, new SVGMPathElementParser());
 		registered = true;
 	}
 	

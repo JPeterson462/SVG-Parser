@@ -25,6 +25,7 @@ Graphical event attributes, document event attributes
 Check content models (child attributes based on parent: like clip-path), documented properties
 Setting values (i.e. glyph) based on font attributes
 Parsing the <style>... where?
+values, keyTimes, etc. can be null
 
 FUTURE:
 -------
@@ -104,12 +105,12 @@ R	W
 +	+	<a>
 +	+	<view>
 +	+	<script>
-*		<animate>
-		<set>
-		<animateMotion>
-		<animateColor>
-		<animateTransform>
-		<mpath>
++	+	<animate>
++	+	<set>
++	+	<animateMotion>
++	+	<animateColor>
++	+	<animateTransform>
++	+	<mpath>
 +	+	<font>
 +	+	<glyph>
 +	+	<missing-glyph>

@@ -2,6 +2,7 @@ package org.w3c.dom.svg.animation;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMErrors;
+import org.w3c.dom.svg.ElementFinder;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
@@ -12,6 +13,8 @@ import org.w3c.dom.svg.document.SVGSVGElement;
 public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalResourcesRequired, ElementTimeControl {
 
 	public SVGElement getTargetElement();
+	
+	public void searchForTargetElement(ElementFinder elementFinder);
 	
 	public float getStartTime() throws DOMException;
 
@@ -104,6 +107,16 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 		public float getSimpleDuration() throws DOMException {
 			// TODO Auto-generated method stub
 			return 0;
+		}
+
+		@Override
+		public void searchForTargetElement(ElementFinder elementFinder) {
+			if (this instanceof AnimationTarget) {
+				AnimationTarget target = (AnimationTarget) this;
+				if (target.getAttributeType() == AnimationTarget.ANIMATIONTARGET_AUTO) {
+					targetElement = elementFinder.findElement(target.getAttributeName());
+				}
+			}
 		}
 		
 	}

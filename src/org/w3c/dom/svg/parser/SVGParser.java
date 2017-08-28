@@ -19,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
+import org.w3c.dom.svg.animation.SVGAnimationElement;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
 public class SVGParser {
@@ -34,7 +35,13 @@ public class SVGParser {
 		Element root = document.getDocumentElement();
 		if (root.getTagName().equals(Tags.SVG)) {
 			ParsingState parsingState = new ParsingState();
-			return (SVGSVGElement) parseElementRecursively(root, parsingState);
+			SVGSVGElement rootElement = (SVGSVGElement) parseElementRecursively(root, parsingState);
+			parsingState.traverseHierarchy(element -> {
+				if (element instanceof SVGAnimationElement) {
+					((SVGAnimationElement) element).searchForTargetElement(parsingState::getElement);
+				}
+			});
+			return rootElement;
 		} else {
 			throw new DOMException(DOMException.INVALID_STATE_ERR, "Invalid SVG Document");
 		}

@@ -129,10 +129,12 @@ public interface Attributes {
 	public static final String KERNEL_UNIT_LENGTH = "kernelUnitLength";
 	
 	public static final String KERNEL_MATRIX = "kernelMatrix";
-	
-	public static final String KEY_TIMES = "keyTimes";
+
+	public static final String KEY_POINTS = "keyPoints";
 	
 	public static final String KEY_SPLINES = "keySplines";
+
+	public static final String KEY_TIMES = "keyTimes";
 
 	public static final String LANG = "lang";
 	
@@ -181,12 +183,16 @@ public interface Attributes {
 	public static final String ORIENT = "orient";
 	
 	public static final String ORIENTATION = "orientation";
+	
+	public static final String ORIGIN = "origin";
 
 	public static final String OVERLINE_POSITION = "overline-position";
 	
 	public static final String OVERLINE_THICKNESS = "overline-thickness";
 	
 	public static final String PANOSE_1 = "panose-1";
+	
+	public static final String PATH = "path";
 	
 	public static final String PATH_LENGTH = "pathLength";
 	

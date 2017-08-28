@@ -1,22 +1,16 @@
 package org.w3c.dom.svg.parser.animation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import org.w3c.dom.Element;
-import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
-import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
-import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.animation.SMILClockValue;
 import org.w3c.dom.svg.animation.SMILTimingValue;
 import org.w3c.dom.svg.animation.SMILTimingValueList;
-import org.w3c.dom.svg.animation.SVGAnimateElement;
+import org.w3c.dom.svg.animation.SVGSetElement;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
@@ -24,7 +18,7 @@ import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 
-public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement> {
+public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 
 	private HashMap<String, Short> restart_strToEnum = new HashMap<>();
 	private HashMap<Short, String> restart_enumToStr = new HashMap<>();
@@ -35,52 +29,27 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 	private HashMap<String, Short> attributeType_strToEnum = new HashMap<>();
 	private HashMap<Short, String> attributeType_enumToStr = new HashMap<>();
 	
-	private HashMap<String, Short> calcMode_strToEnum = new HashMap<>();
-	private HashMap<Short, String> calcMode_enumToStr = new HashMap<>();
-
-	private HashMap<String, Short> additive_strToEnum = new HashMap<>();
-	private HashMap<Short, String> additive_enumToStr = new HashMap<>();
-
-	private HashMap<String, Short> accumulate_strToEnum = new HashMap<>();
-	private HashMap<Short, String> accumulate_enumToStr = new HashMap<>();
-	
-	public SVGAnimateElementParser() {
-		restart_strToEnum.put("always", SVGAnimateElement.RESTART_ALWAYS);
-		restart_strToEnum.put("never", SVGAnimateElement.RESTART_NEVER);
-		restart_strToEnum.put("whenNotActive", SVGAnimateElement.RESTART_WHENNOTACTIVE);
-		restart_enumToStr.put(SVGAnimateElement.RESTART_ALWAYS, "always");
-		restart_enumToStr.put(SVGAnimateElement.RESTART_NEVER, "never");
-		restart_enumToStr.put(SVGAnimateElement.RESTART_WHENNOTACTIVE, "whenNotActive");
-		fill_strToEnum.put("freeze", SVGAnimateElement.FILL_FREEZE);
-		fill_strToEnum.put("remove", SVGAnimateElement.FILL_REMOVE);
-		fill_enumToStr.put(SVGAnimateElement.FILL_FREEZE, "freeze");
-		fill_enumToStr.put(SVGAnimateElement.FILL_REMOVE, "remove");
-		attributeType_strToEnum.put("auto", SVGAnimateElement.ANIMATIONTARGET_AUTO);
-		attributeType_strToEnum.put("CSS", SVGAnimateElement.ANIMATIONTARGET_CSS);
-		attributeType_strToEnum.put("XML", SVGAnimateElement.ANIMATIONTARGET_XML);
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_AUTO, "auto");
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_CSS, "CSS");
-		attributeType_enumToStr.put(SVGAnimateElement.ANIMATIONTARGET_XML, "XML");
-		calcMode_strToEnum.put("discrete", SVGAnimateElement.CALCMODE_DISCRETE);
-		calcMode_strToEnum.put("linear", SVGAnimateElement.CALCMODE_LINEAR);
-		calcMode_strToEnum.put("paced", SVGAnimateElement.CALCMODE_PACED);
-		calcMode_strToEnum.put("spline", SVGAnimateElement.CALCMODE_SPLINE);
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_DISCRETE, "discrete");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_LINEAR, "linear");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_PACED, "paced");
-		calcMode_enumToStr.put(SVGAnimateElement.CALCMODE_SPLINE, "spline");
-		additive_strToEnum.put("replace", SVGAnimateElement.ADDITIVE_REPLACE);
-		additive_strToEnum.put("sum", SVGAnimateElement.ADDITIVE_SUM);
-		additive_enumToStr.put(SVGAnimateElement.ADDITIVE_REPLACE, "replace");
-		additive_enumToStr.put(SVGAnimateElement.ADDITIVE_SUM, "sum");
-		accumulate_strToEnum.put("none", SVGAnimateElement.ACCUMULATE_NONE);
-		accumulate_strToEnum.put("sum", SVGAnimateElement.ACCUMULATE_SUM);
-		accumulate_enumToStr.put(SVGAnimateElement.ACCUMULATE_NONE, "none");
-		accumulate_enumToStr.put(SVGAnimateElement.ACCUMULATE_SUM, "sum");
+	public SVGSetElementParser() {
+		restart_strToEnum.put("always", SVGSetElement.RESTART_ALWAYS);
+		restart_strToEnum.put("never", SVGSetElement.RESTART_NEVER);
+		restart_strToEnum.put("whenNotActive", SVGSetElement.RESTART_WHENNOTACTIVE);
+		restart_enumToStr.put(SVGSetElement.RESTART_ALWAYS, "always");
+		restart_enumToStr.put(SVGSetElement.RESTART_NEVER, "never");
+		restart_enumToStr.put(SVGSetElement.RESTART_WHENNOTACTIVE, "whenNotActive");
+		fill_strToEnum.put("freeze", SVGSetElement.FILL_FREEZE);
+		fill_strToEnum.put("remove", SVGSetElement.FILL_REMOVE);
+		fill_enumToStr.put(SVGSetElement.FILL_FREEZE, "freeze");
+		fill_enumToStr.put(SVGSetElement.FILL_REMOVE, "remove");
+		attributeType_strToEnum.put("auto", SVGSetElement.ANIMATIONTARGET_AUTO);
+		attributeType_strToEnum.put("CSS", SVGSetElement.ANIMATIONTARGET_CSS);
+		attributeType_strToEnum.put("XML", SVGSetElement.ANIMATIONTARGET_XML);
+		attributeType_enumToStr.put(SVGSetElement.ANIMATIONTARGET_AUTO, "auto");
+		attributeType_enumToStr.put(SVGSetElement.ANIMATIONTARGET_CSS, "CSS");
+		attributeType_enumToStr.put(SVGSetElement.ANIMATIONTARGET_XML, "XML");
 	}
 	
 	@Override
-	public SVGAnimateElement readElement(Element element, ParsingState parsingState) {
+	public SVGSetElement readElement(Element element, ParsingState parsingState) {
 		String id = element.getAttribute(Attributes.ID);
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
@@ -90,11 +59,6 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
-		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
-		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
-		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
-		ElementParser.parseStyleFromAttributes(element, style);
 		String onBegin = ElementParser.readOrDefault(element, Attributes.ON_BEGIN, "");
 		String onEnd = ElementParser.readOrDefault(element, Attributes.ON_END, "");
 		String onLoad = ElementParser.readOrDefault(element, Attributes.ON_LOAD, "");
@@ -150,43 +114,18 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		}
 		String fillStr = ElementParser.readOrDefault(element, Attributes.FILL, "remove");
 		short fill = fill_strToEnum.get(fillStr); 
-		String calcModeStr = ElementParser.readOrDefault(element, Attributes.CALC_MODE, "linear");
-		short calcMode = calcMode_strToEnum.get(calcModeStr);
-		String additiveStr = ElementParser.readOrDefault(element, Attributes.ADDITIVE, "replace");
-		short additive = additive_strToEnum.get(additiveStr);
-		String accumulateStr = ElementParser.readOrDefault(element, Attributes.ACCUMULATE, "none");
-		short accumulate = accumulate_strToEnum.get(accumulateStr);
-		SVGStringList values = new SVGStringList.Implementation(Arrays.asList(element.getAttribute(Attributes.VALUES).split(";")));
-		SVGStringList keyTimes = new SVGStringList.Implementation(Arrays.asList(element.getAttribute(Attributes.KEY_TIMES).split(";")));
-		String keySplinesStr = element.getAttribute(Attributes.KEY_SPLINES);
-		List<String> keySplinesValues;
-		if (keySplinesStr.contains(",")) {
-			keySplinesValues = Arrays.asList(keySplinesStr.split(","));
-		} else {
-			keySplinesValues = StringUtils.splitByWhitespace(keySplinesStr);
-		}
-		for (int i = keySplinesValues.size() - 1; i >= 0; i--) {
-			keySplinesValues.set(i, keySplinesValues.get(i).trim());
-		}
-		SVGStringList keySplines = new SVGStringList.Implementation(keySplinesValues);
-		String from = element.getAttribute(Attributes.FROM);
 		String to = element.getAttribute(Attributes.TO);
-		String by = element.getAttribute(Attributes.BY);
-		return new SVGAnimateElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
-				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, 
-				null, className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, 
-				attributeName, begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, 
-				repeatDuration, fill, calcMode, additive, accumulate, values, keyTimes, keySplines, 
-				from, to, by);
+		return new SVGSetElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures,
+				requiredExtensions, systemLanguage, externalResourcesRequired, null, onBegin, onEnd,
+				onRepeat, onLoad, attributeType, attributeName, begin, duration, end, min, max, restart,
+				repeatCount, repeatIndefinite, repeatDuration, fill, to);
 	}
 
 	@Override
-	public Element writeElement(SVGAnimateElement element, ElementFactory factory) {
+	public Element writeElement(SVGSetElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
-		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
@@ -206,16 +145,8 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		attributes.put(Attributes.REPEAT_COUNT, element.isRepeatIndefinite() ? "indefinite" : Float.toString(element.getRepeatCount().getValue()));
 		attributes.put(Attributes.REPEAT_DUR, element.getRepeatDuration().getValue());
 		attributes.put(Attributes.FILL, fill_enumToStr.get(element.getFill()));
-		attributes.put(Attributes.CALC_MODE, calcMode_enumToStr.get(element.getCalcMode()));
-		attributes.put(Attributes.ADDITIVE, additive_enumToStr.get(element.getAdditive()));
-		attributes.put(Attributes.ACCUMULATE, accumulate_enumToStr.get(element.getAccumulate()));
-		attributes.put(Attributes.VALUES, ElementParser.concatenate(element.getValues(), ";"));
-		attributes.put(Attributes.KEY_TIMES, ElementParser.concatenate(element.getKeyTimes(), ";"));
-		attributes.put(Attributes.KEY_SPLINES, ElementParser.concatenate(element.getKeySplines(), ","));
-		attributes.put(Attributes.FROM, element.getFrom());
 		attributes.put(Attributes.TO, element.getTo());
-		attributes.put(Attributes.BY, element.getBy());
-		return factory.createElement(Tags.ANIMATE, attributes);
+		return factory.createElement(Tags.SET, attributes);
 	}
 
 }
