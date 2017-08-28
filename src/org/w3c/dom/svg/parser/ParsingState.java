@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.Stack;
 
 import org.w3c.dom.css.CSSRule;
+import org.w3c.dom.css.impl.CSSStyleSheetImplementation;
+import org.w3c.dom.css.impl.MediaListImplementation;
+import org.w3c.dom.stylesheets.StyleSheet;
+import org.w3c.dom.stylesheets.StyleSheetList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.document.SVGSVGElement;
@@ -16,6 +20,8 @@ public class ParsingState {
 	private Stack<SVGElement> elementHierarchy = new Stack<>();
 	
 	private ArrayList<SVGElement> elementsAdded = new ArrayList<>();
+	
+	private ArrayList<StyleSheet> stylesheets = new ArrayList<>();
 
 	public SVGSVGElement getOwnerSVGElement() {
 		return ownerSVGElement;
@@ -23,6 +29,35 @@ public class ParsingState {
 	
 	public void addElement(SVGElement element) {
 		elementsAdded.add(element);
+	}
+	
+	public void addStyleSheet(String cssText) {
+		CSSStyleSheetImplementation stylesheet = new CSSStyleSheetImplementation(null, false, null, new MediaListImplementation(), ownerSVGElement, null, null, null, null);
+		stylesheet.setCssText(cssText);
+		stylesheets.add(stylesheet);
+	}
+	
+	public StyleSheetList toStyleSheetList() {
+		class StyleSheetListImplementation implements StyleSheetList {
+
+			private ArrayList<StyleSheet> stylesheets = new ArrayList<>();
+			
+			public StyleSheetListImplementation(ArrayList<StyleSheet> stylesheets) {
+				this.stylesheets = stylesheets;
+			}
+			
+			@Override
+			public int getLength() {
+				return stylesheets.size();
+			}
+
+			@Override
+			public StyleSheet item(int index) {
+				return stylesheets.get(index);
+			}
+			
+		}
+		return new StyleSheetListImplementation(stylesheets);
 	}
 	
 	public SVGElement getElement(String href) {

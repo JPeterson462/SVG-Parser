@@ -107,7 +107,10 @@ public class SVGParser {
 		Document document = builder.newDocument();
 		ElementFactory factory = (name, attributes) -> {
 			Element node = document.createElement(name);
-			attributes.entrySet().forEach((entry) -> node.setAttribute(entry.getKey(), entry.getValue()));
+			attributes.entrySet().forEach((entry) -> { 
+				if (entry.getValue() != null) 
+					node.setAttribute(entry.getKey(), entry.getValue());
+			});
 			return node;
 		};
 		Element rootElement = parseElementRecursively(element, factory);

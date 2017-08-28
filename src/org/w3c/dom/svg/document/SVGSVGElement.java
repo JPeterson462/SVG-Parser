@@ -8,6 +8,8 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.DocumentCSS;
 import org.w3c.dom.css.ViewCSS;
+import org.w3c.dom.css.impl.CSSProperties;
+import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.stylesheets.StyleSheetList;
@@ -129,6 +131,8 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 	
 	public Element getElementById(String elementId);
 
+	public void setStyleSheets(StyleSheetList stylesheets);
+	
 	public static class Implementation extends SVGElement.Implementation implements SVGSVGElement {
 		
 		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;
@@ -163,13 +167,15 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		
 		private SVGViewSpec currentView;//FIXME
 
-		private float currentScale;//FIXME
+		private float currentScale;
 		
-		private SVGPoint currentTranslate;//FIXME
+		private SVGPoint currentTranslate;
 		
 		private SVGNumber version;
 		
 		private String baseProfile;
+		
+		private StyleSheetList stylesheetList;
 		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedString className, CSSStyleDeclaration style, String xmlLang, String xmlSpace, SVGAnimatedTransformList transform,
@@ -194,6 +200,8 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 			this.contentScriptType = contentScriptType;
 			this.contentStyleType = contentStyleType;
 			transformableBase = new SVGTransformable.Implementation(this, transform);
+			currentTranslate = new SVGPoint.Implementation(0, 0);
+			currentScale = 1;
 		}
 		
 		@Override
@@ -326,9 +334,15 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		}
 
 		@Override
-		public CSSStyleDeclaration getComputedStyle(Element arg0, String arg1) {
-			// TODO Auto-generated method stub
-			return null;
+		public CSSStyleDeclaration getComputedStyle(Element element, String pseudoElement) {
+			CSSStyleDeclarationImplementation defaultValues = new CSSStyleDeclarationImplementation(null);
+			CSSProperties.storeDefaults(defaultValues);
+			CSSStyleDeclaration inlineValues = element instanceof SVGStylable ? ((SVGStylable) element).getStyle() : null;
+			// 1. Use absolute values in inlineValues or from defaultValues for 'initial' values
+			// 2. Traverse the parent hierarchy for absolute values 
+			// 3. Compute relative values based on hierarchy (until first absolute value)
+			// 4. Add in default values for unspecified values
+			return null;//TODO
 		}
 
 		@Override
@@ -345,8 +359,7 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public StyleSheetList getStyleSheets() {
-			// TODO Auto-generated method stub
-			return null;
+			return stylesheetList;
 		}
 
 		@Override
@@ -586,6 +599,11 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 				}
 			}
 			return null;
+		}
+		
+		@Override
+		public void setStyleSheets(StyleSheetList stylesheets) {
+			stylesheetList = stylesheets;
 		}
 		
 	}

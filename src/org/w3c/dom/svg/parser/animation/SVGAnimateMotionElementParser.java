@@ -99,9 +99,9 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		String xmlBase = element.getAttribute(Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		SVGStringList requiredFeatures = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_FEATURES).split(" "));
-		SVGStringList requiredExtensions = ElementParser.concatenate(element.getAttribute(Attributes.REQUIRED_EXTENSIONS).split(" "));
-		SVGStringList systemLanguage = ElementParser.concatenate(element.getAttribute(Attributes.SYSTEM_LANGUAGE).split(" "));
+		SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
+		SVGStringList requiredExtensions = ElementParser.readOrNull(element, Attributes.REQUIRED_EXTENSIONS, " ", true);
+		SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
 		String onBegin = ElementParser.readOrDefault(element, Attributes.ON_BEGIN, "");
@@ -162,19 +162,22 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		short additive = additive_strToEnum.get(additiveStr);
 		String accumulateStr = ElementParser.readOrDefault(element, Attributes.ACCUMULATE, "none");
 		short accumulate = accumulate_strToEnum.get(accumulateStr);
-		SVGStringList values = new SVGStringList.Implementation(Arrays.asList(element.getAttribute(Attributes.VALUES).split(";")));
-		SVGStringList keyTimes = new SVGStringList.Implementation(Arrays.asList(element.getAttribute(Attributes.KEY_TIMES).split(";")));
+		SVGStringList values = ElementParser.readOrNull(element, Attributes.VALUES, ";", false);
+		SVGStringList keyTimes = ElementParser.readOrNull(element, Attributes.KEY_TIMES, ";", false);
 		String keySplinesStr = element.getAttribute(Attributes.KEY_SPLINES);
-		List<String> keySplinesValues;
-		if (keySplinesStr.contains(",")) {
-			keySplinesValues = Arrays.asList(keySplinesStr.split(","));
-		} else {
-			keySplinesValues = StringUtils.splitByWhitespace(keySplinesStr);
+		SVGStringList keySplines = null;
+		if (keySplinesStr != null) {
+			List<String> keySplinesValues;
+			if (keySplinesStr.contains(",")) {
+				keySplinesValues = Arrays.asList(keySplinesStr.split(","));
+			} else {
+				keySplinesValues = StringUtils.splitByWhitespace(keySplinesStr);
+			}
+			for (int i = keySplinesValues.size() - 1; i >= 0; i--) {
+				keySplinesValues.set(i, keySplinesValues.get(i).trim());
+			}
+			keySplines = new SVGStringList.Implementation(keySplinesValues);
 		}
-		for (int i = keySplinesValues.size() - 1; i >= 0; i--) {
-			keySplinesValues.set(i, keySplinesValues.get(i).trim());
-		}
-		SVGStringList keySplines = new SVGStringList.Implementation(keySplinesValues);
 		String from = element.getAttribute(Attributes.FROM);
 		String to = element.getAttribute(Attributes.TO);
 		String by = element.getAttribute(Attributes.BY);

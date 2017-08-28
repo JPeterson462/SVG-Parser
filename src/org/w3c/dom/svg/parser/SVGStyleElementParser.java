@@ -22,6 +22,7 @@ public class SVGStyleElementParser implements ElementParser<SVGStyleElement> {
 		String title = element.getAttribute(Attributes.TITLE);
 		SVGStyleElement styleElement = new SVGStyleElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, type, media, title);
 		styleElement.setTextContent(element.getTextContent());
+		parsingState.addStyleSheet(element.getTextContent());
 		return styleElement;
 	}
 

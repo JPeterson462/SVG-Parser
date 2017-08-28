@@ -49,6 +49,22 @@ public interface ElementParser<T extends SVGElement> {
 	public T readElement(Element element, ParsingState parsingState);
 	
 	public Element writeElement(T element, ElementFactory factory);
+	
+	public static SVGStringList readOrNull(Element element, String attribute, String splitBy, boolean ignoreWhitespace) {
+		if (!element.hasAttribute(attribute)) {
+			return null;
+		}
+		String[] parts = element.getAttribute(attribute).split(splitBy);
+		ArrayList<String> list = new ArrayList<>();
+		for (int i = 0; i < parts.length; i++) {
+			if (ignoreWhitespace) {
+				list.add(parts[i].trim());
+			} else {
+				list.add(parts[i]);
+			}
+		}
+		return new SVGStringList.Implementation(list);
+	}
 
 	public static SVGElement getNearestViewportElement(ParsingState parsingState) {
 		SVGElement[] result = { null };

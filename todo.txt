@@ -6,26 +6,27 @@ Add batik license of computing the Arc2D
 
 TODO:
 -----
-SVGLocatable implementation
-SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
-SVGTextContentElement
-CSSValueImplementation (split)
-CSSRuleBuilder @font-face, @color-profile (color profile rule in .svg)
-CSSProperties
 set initial -> default
 CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
 	Compute cascading value for relative properties
 	ParsingState.findParentRule
+Setting values (i.e. glyph) based on font attributes
+CSSValueImplementation (split)
+CSSRuleBuilder @font-face, @color-profile (color profile rule in .svg)
+CSSProperties
 Ensure that base elements for relative attributes are set
+
 SVGFontElementParser. 16px -> 1em
 Parsing URIs (url(...), local(...))
 Referencing fonts and filters
+
+SVGLocatable implementation
+SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
+SVGTextContentElement (and parser?)
 SVGAnimationElement implementation
+
 Graphical event attributes, document event attributes
 Check content models (child attributes based on parent: like clip-path), documented properties
-Setting values (i.e. glyph) based on font attributes
-Parsing the <style>... where?
-values, keyTimes, etc. can be null
 
 FUTURE:
 -------
