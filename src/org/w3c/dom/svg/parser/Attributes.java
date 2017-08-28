@@ -3,26 +3,40 @@ package org.w3c.dom.svg.parser;
 public interface Attributes {
 
 	public static final String ACCENT_HEIGHT = "accent-height";
+
+	public static final String ACCUMULATE = "accumulate";
+	
+	public static final String ADDITIVE = "additive";
 	
 	public static final String ALPHABETIC = "alphabetic";
 	
 	public static final String AMPLITUDE = "amplitude";
+
+	public static final String ARABIC_FORM = "arabic-form";
 	
 	public static final String ASCENT = "ascent";
+
+	public static final String ATTRIBUTE_NAME = "attributeName";
 	
-	public static final String ARABIC_FORM = "arabic-form";
+	public static final String ATTRIBUTE_TYPE = "attributeType";
 	
 	public static final String AZIMUTH = "azimuth";
 	
 	public static final String BASE_FREQUENCY = "baseFrequency";
 	
-	public static final String BASE_PROFILE = "baseProfile";
+	public static final String BASE_PROFILE = "baseProfile";	
 	
 	public static final String BBOX = "bbox";
 	
+	public static final String BEGIN = "begin";
+	
 	public static final String BIAS = "bias";
 	
+	public static final String BY = "by";
+	
 	public static final String CAP_HEIGHT = "cap-height";
+	
+	public static final String CALC_MODE = "calcMode";
 	
 	public static final String CLASS = "class";
 	
@@ -41,6 +55,8 @@ public interface Attributes {
 	public static final String DIFFUSE_CONSTANT = "diffuseConstant";
 	
 	public static final String DIVISOR = "divisor";
+	
+	public static final String DUR = "dur";
 
 	public static final String DX = "dx";
 
@@ -49,11 +65,15 @@ public interface Attributes {
 	public static final String EDGE_MODE = "edgeMode";
 	
 	public static final String ELEVATION = "elevation";
+	
+	public static final String END = "end";
 
 	public static final String EXPONENT = "exponent";
 
 	public static final String EXTERNAL_RESOURCES_REQUIRED = "externalResourcesRequired";
 		
+	public static final String FILL = "fill";
+	
 	public static final String FILTER_RES = "filterRes";
 	
 	public static final String FILTER_UNITS = "filterUnits";
@@ -71,6 +91,8 @@ public interface Attributes {
 	public static final String FONT_WEIGHT = "font-weight";
 
 	public static final String FORMAT = "format";
+	
+	public static final String FROM = "from";
 
 	public static final String GLYPH_NAME = "glyph-name";
 	
@@ -107,6 +129,10 @@ public interface Attributes {
 	public static final String KERNEL_UNIT_LENGTH = "kernelUnitLength";
 	
 	public static final String KERNEL_MATRIX = "kernelMatrix";
+	
+	public static final String KEY_TIMES = "keyTimes";
+	
+	public static final String KEY_SPLINES = "keySplines";
 
 	public static final String LANG = "lang";
 	
@@ -124,9 +150,13 @@ public interface Attributes {
 	
 	public static final String MATHEMATICAL = "mathematical";
 	
+	public static final String MAX = "max";
+	
 	public static final String MEDIA = "media";
 	
 	public static final String METHOD = "method";
+	
+	public static final String MIN = "min";
 	
 	public static final String MODE = "mode";
 	
@@ -135,6 +165,14 @@ public interface Attributes {
 	public static final String NUM_OCTAVES = "numOctaves";
 	
 	public static final String OFFSET = "offset";
+	
+	public static final String ON_BEGIN = "onbegin";
+
+	public static final String ON_END = "onend";
+
+	public static final String ON_LOAD = "onload";
+
+	public static final String ON_REPEAT = "onrepeat";
 	
 	public static final String OPERATOR = "operator";
 	
@@ -163,11 +201,7 @@ public interface Attributes {
 	public static final String POINTSATZ = "pointsAtZ";
 	
 	public static final String PRIMITIVE_UNITS = "primitiveUnits";
-	
-	public static final String REQUIRED_EXTENSIONS = "requiredExtensions";
 
-	public static final String REQUIRED_FEATURES = "requiredFeatures";
-	
 	public static final String R = "r";
 	
 	public static final String RADIUS = "radius";
@@ -177,6 +211,16 @@ public interface Attributes {
 	public static final String REF_Y = "refY";
 	
 	public static final String RENDERING_INDENT = "rendering-intent";
+	
+	public static final String REPEAT_COUNT = "repeatCount";
+
+	public static final String REPEAT_DUR = "repeatDur";
+	
+	public static final String REQUIRED_EXTENSIONS = "requiredExtensions";
+
+	public static final String REQUIRED_FEATURES = "requiredFeatures";
+
+	public static final String RESTART = "restart";
 	
 	public static final String RESULT = "result";
 	
@@ -231,6 +275,8 @@ public interface Attributes {
 	public static final String TEXT_LENGTH = "textLength";
 	
 	public static final String TITLE = "title";
+	
+	public static final String TO = "to";
 	
 	public static final String TRANSFORM = "transform";
 	

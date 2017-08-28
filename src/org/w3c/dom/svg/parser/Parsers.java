@@ -9,6 +9,7 @@ import org.w3c.dom.svg.parser.document.SVGImageElementParser;
 import org.w3c.dom.svg.parser.document.SVGSwitchElementParser;
 import org.w3c.dom.svg.parser.document.SVGSymbolElementParser;
 import org.w3c.dom.svg.parser.document.SVGTitleElementParser;
+import org.w3c.dom.svg.parser.document.SVGUseElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEBlendElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEColorMatrixElementParser;
 import org.w3c.dom.svg.parser.filters.SVGFEComponentTransferElementParser;
@@ -135,6 +136,7 @@ public class Parsers {
 		parsers.put(Tags.PATH, new SVGPathElementParser());
 		parsers.put(Tags.GLYPH, new SVGGlyphElementParser());
 		parsers.put(Tags.MISSING_GLYPH, new SVGMissingGlyphElementParser());
+		parsers.put(Tags.USE, new SVGUseElementParser());
 		registered = true;
 	}
 	

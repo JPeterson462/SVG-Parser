@@ -104,7 +104,7 @@ R	W
 +	+	<a>
 +	+	<view>
 +	+	<script>
-		<animate>
+*		<animate>
 		<set>
 		<animateMotion>
 		<animateColor>

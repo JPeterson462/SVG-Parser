@@ -1,6 +1,5 @@
 package org.w3c.dom.svg.filters;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.DOMErrors;
