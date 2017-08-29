@@ -7,12 +7,8 @@ Add batik license of computing the Arc2D
 TODO:
 -----
 set initial -> default
-CSSStyleDeclarationImplementation.getCascadingPropertyCSSValue
-	Compute cascading value for relative properties
-	ParsingState.findParentRule
+Compute cascading value for relative properties
 Setting values (i.e. glyph) based on font attributes
-CSSValueImplementation (split)
-CSSRuleBuilder @font-face, @color-profile (color profile rule in .svg)
 CSSProperties
 Ensure that base elements for relative attributes are set
 

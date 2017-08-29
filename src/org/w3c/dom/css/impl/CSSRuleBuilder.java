@@ -1,12 +1,16 @@
 package org.w3c.dom.css.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.MediaList;
+import org.w3c.dom.svg.SVGColorProfileRule;
 import org.w3c.dom.svg.SVGErrors;
+import org.w3c.dom.svg.fonts.SVGFontFaceParser;
+import org.w3c.dom.svg.parser.ParsingState;
 
 public class CSSRuleBuilder {
 
@@ -40,7 +44,7 @@ public class CSSRuleBuilder {
 		return new String[] { header, body };
 	}
 	
-	public static CSSRuleListImplementation createRuleList(String text, CSSRule parentRule, CSSStyleDeclarationImplementation declaration, CSSStyleSheet stylesheet) {
+	public static CSSRuleListImplementation createRuleList(String text, CSSRule parentRule, CSSStyleDeclarationImplementation declaration, CSSStyleSheet stylesheet, ParsingState parsingState) {
 		// go until { (+1) and } (-1) is zero
 		int tally = 0;
 		boolean foundBrace = false;
@@ -60,7 +64,7 @@ public class CSSRuleBuilder {
 			seek++;
 			if (foundBrace && tally == 0) {
 				String subText = text.substring(start);
-				rules.add(createRule(subText, parentRule, declaration, stylesheet));
+				rules.add(createRule(subText, parentRule, declaration, stylesheet, parsingState));
 				start = seek;
 				foundBrace = false;
 			}
@@ -68,7 +72,7 @@ public class CSSRuleBuilder {
 		return new CSSRuleListImplementation(rules);
 	}
 	
-	public static CSSRule createRule(String text, CSSRule parentRule, CSSStyleDeclarationImplementation declaration, CSSStyleSheet stylesheet) {
+	public static CSSRule createRule(String text, CSSRule parentRule, CSSStyleDeclarationImplementation declaration, CSSStyleSheet stylesheet, ParsingState parsingState) {
 		text = text.trim();
 		String[] headerBody = splitHeader(text);
 		String[] header = StringUtils.splitByWhitespace(headerBody[0]).toArray(new String[0]);
@@ -83,9 +87,22 @@ public class CSSRuleBuilder {
 		}
 		if (text.startsWith(CSSRulePrefixes.FONT_FACE)) {
 			if (header.length == 1) {
-				// TODO parse sub rules
+				HashMap<String, String> properties = new HashMap<>();
+				String[] rules = body.split(";");
+				for (int i = 0; i < rules.length; i++) {
+					String ruleRaw = rules[i].trim();
+					if (ruleRaw.length() == 0) {
+						continue;
+					}
+					String[] rule = ruleRaw.split(":");
+					String propertyName = rule[0].trim();
+					String cssText = rule[1];
+					properties.put(propertyName, cssText);
+				}
+				SVGFontFaceParser parser = new SVGFontFaceParser();
+				return new CSSFontFaceRuleImplementation(parentRule, stylesheet, declaration, parser.parseFontFace(properties::getOrDefault, parsingState));
 			} else {
-				SVGErrors.error("Invalid " + CSSRulePrefixes.FONT_FACE);
+				return SVGErrors.error("Invalid " + CSSRulePrefixes.FONT_FACE);
 			}
 		}
 		if (text.startsWith(CSSRulePrefixes.IMPORT)) {
@@ -113,7 +130,7 @@ public class CSSRuleBuilder {
 			MediaList mediaList = new MediaListImplementation();
 			mediaList.setMediaText(join(header, " ", 1));
 			return new CSSMediaRuleImplementation(parentRule, stylesheet,
-					new CSSStyleDeclarationImplementation(parentRule, declaration), createRuleList(body, parentRule, declaration, stylesheet), mediaList);
+					new CSSStyleDeclarationImplementation(parentRule, declaration), createRuleList(body, parentRule, declaration, stylesheet, parsingState), mediaList, parsingState);
 		}
 		if (text.startsWith(CSSRulePrefixes.PAGE) || text.startsWith(CSSRulePrefixes.KEYFRAMES) ||
 				text.startsWith(CSSRulePrefixes.KEYFRAME) || text.startsWith(CSSRulePrefixes.NAMESPACE) ||
@@ -121,6 +138,39 @@ public class CSSRuleBuilder {
 				text.startsWith(CSSRulePrefixes.DOCUMENT) || text.startsWith(CSSRulePrefixes.FONT_FEATURE_VALUES) ||
 				text.startsWith(CSSRulePrefixes.VIEWPORT) || text.startsWith(CSSRulePrefixes.REGION_STYLE)) {
 			DOMErrors.notSupported();
+		}
+		if (text.startsWith(CSSRulePrefixes.COLOR_PROFILE)) {
+			String src = "sRGB", name = null;
+			short renderingIntent = SVGColorProfileRule.RENDERING_INTENT_AUTO;
+			String[] rules = body.split(";");
+			for (int i = 0; i < rules.length; i++) {
+				String ruleRaw = rules[i].trim();
+				if (ruleRaw.length() == 0) {
+					continue;
+				}
+				String[] rule = ruleRaw.split(":");
+				String propertyName = rule[0].trim();
+				String cssText = rule[1].trim();
+				if (propertyName.equals("src")) {
+					src = cssText;
+				}
+				else if (propertyName.equals("name")) {
+					name = cssText;
+				}
+				else if (propertyName.equals("rendering-intent")) {
+					if (cssText.equals("auto"))
+						renderingIntent = SVGColorProfileRule.RENDERING_INTENT_AUTO;
+					else if (cssText.equals("perceptual"))
+						renderingIntent = SVGColorProfileRule.RENDERING_INTENT_PERCEPTUAL;
+					else if (cssText.equals("relative-colorimetric"))
+						renderingIntent = SVGColorProfileRule.RENDERING_INTENT_RELATIVE_COLORIMETRIC;
+					else if (cssText.equals("saturation"))
+						renderingIntent = SVGColorProfileRule.RENDERING_INTENT_SATURATION;
+					else if (cssText.equals("absolute-colorimetric"))
+						renderingIntent = SVGColorProfileRule.RENDERING_INTENT_ABSOLUTE_COLORIMETRIC;
+				}
+			}
+			return new SVGColorProfileRule.Implementation(body, parentRule, stylesheet, src, name, renderingIntent);
 		}
 		if (text.startsWith(CSSRulePrefixes.PREFIX)) {
 			return new CSSUnknownRuleImplementation(parentRule, stylesheet, new CSSStyleDeclarationImplementation(parentRule, declaration));
@@ -134,7 +184,7 @@ public class CSSRuleBuilder {
 			}
 			String[] rule = ruleRaw.split(":");
 			String name = rule[0].trim();
-			String cssText = rule[0].trim();
+			String cssText = rule[1].trim();
 			CSSProperties.tryCreateProperties();
 			CSSProperties.parseValue(name, cssText, declarationSub);
 		}

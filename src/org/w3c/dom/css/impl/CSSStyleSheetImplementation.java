@@ -8,6 +8,7 @@ import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.MediaList;
 import org.w3c.dom.stylesheets.StyleSheet;
+import org.w3c.dom.svg.parser.ParsingState;
 
 public class CSSStyleSheetImplementation implements CSSStyleSheet {
 
@@ -25,7 +26,9 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 	
 	private CSSRuleListImplementation ruleList;
 	
-	public CSSStyleSheetImplementation(String href, Node ownerNode, String title, String type) {
+	private transient ParsingState parsingState;
+	
+	public CSSStyleSheetImplementation(String href, Node ownerNode, String title, String type, ParsingState parsingState) {
 		ownerRule = null;
 		disabled = false;
 		this.href = href;
@@ -34,9 +37,11 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 		parentStyleSheet = null;
 		this.title = title;
 		this.type = type;
+		this.parsingState = parsingState;
 	}
 	
-	public CSSStyleSheetImplementation(CSSImportRuleImplementation ownerRule, boolean disabled, String href, MediaList media, Node ownerNode, CSSStyleSheet parentStyleSheet, String title, String type, CSSRuleListImplementation ruleList) {
+	public CSSStyleSheetImplementation(CSSImportRuleImplementation ownerRule, boolean disabled, String href, MediaList media, Node ownerNode, 
+			CSSStyleSheet parentStyleSheet, String title, String type, CSSRuleListImplementation ruleList, ParsingState parsingState) {
 		this.ownerRule = ownerRule;
 		this.disabled = disabled;
 		this.href = href;
@@ -46,10 +51,11 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 		this.title = title;
 		this.type = type;
 		this.ruleList = ruleList;
+		this.parsingState = parsingState;
 	}
 	
 	public void setCssText(String cssText) {
-		ruleList = CSSRuleBuilder.createRuleList(cssText, null, new CSSStyleDeclarationImplementation(ownerRule), this);
+		ruleList = CSSRuleBuilder.createRuleList(cssText, null, new CSSStyleDeclarationImplementation(ownerRule), this, parsingState);
 	}
 	
 	@Override
@@ -109,7 +115,7 @@ public class CSSStyleSheetImplementation implements CSSStyleSheet {
 
 	@Override
 	public int insertRule(String text, int index) throws DOMException {
-		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, ownerRule, (CSSStyleDeclarationImplementation) ((CSSRuleImplementation) ownerRule).declaration, this));
+		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, ownerRule, (CSSStyleDeclarationImplementation) ((CSSRuleImplementation) ownerRule).declaration, this, parsingState));
 		return ruleList.getLength();
 	}
 

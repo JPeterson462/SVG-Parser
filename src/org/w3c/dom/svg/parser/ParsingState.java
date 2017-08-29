@@ -32,7 +32,7 @@ public class ParsingState {
 	}
 	
 	public void addStyleSheet(String cssText) {
-		CSSStyleSheetImplementation stylesheet = new CSSStyleSheetImplementation(null, false, null, new MediaListImplementation(), ownerSVGElement, null, null, null, null);
+		CSSStyleSheetImplementation stylesheet = new CSSStyleSheetImplementation(null, false, null, new MediaListImplementation(), ownerSVGElement, null, null, null, null, this);
 		stylesheet.setCssText(cssText);
 		stylesheets.add(stylesheet);
 	}
@@ -105,7 +105,7 @@ public class ParsingState {
 	}
 	
 	public CSSRule findParentRule() {
-		return null;//TODO
+		return null;
 	}
 	
 	public void pushParent(SVGElement element) {

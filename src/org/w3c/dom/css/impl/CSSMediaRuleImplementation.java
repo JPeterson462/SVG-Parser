@@ -7,6 +7,7 @@ import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.stylesheets.MediaList;
+import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.DOMErrors;
 
 public class CSSMediaRuleImplementation extends CSSRuleImplementation implements CSSMediaRule {
@@ -15,11 +16,14 @@ public class CSSMediaRuleImplementation extends CSSRuleImplementation implements
 	
 	private MediaList media;
 	
+	private transient ParsingState parsingState;
+	
 	public CSSMediaRuleImplementation(CSSRule parentRule, CSSStyleSheet stylesheet,
-			CSSStyleDeclaration declaration, CSSRuleListImplementation ruleList, MediaList media) {
+			CSSStyleDeclaration declaration, CSSRuleListImplementation ruleList, MediaList media, ParsingState parsingState) {
 		super(parentRule, stylesheet, declaration);
 		this.ruleList = ruleList;
 		this.media = media;
+		this.parsingState = parsingState;
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class CSSMediaRuleImplementation extends CSSRuleImplementation implements
 		if (index > ruleList.getLength()) {
 			DOMErrors.indexTooHigh();
 		}
-		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, getParentRule(), (CSSStyleDeclarationImplementation) declaration, getParentStyleSheet()));
+		ruleList.insertRule(index, CSSRuleBuilder.createRule(text, getParentRule(), (CSSStyleDeclarationImplementation) declaration, getParentStyleSheet(), parsingState));
 		return index;
 	}
 	

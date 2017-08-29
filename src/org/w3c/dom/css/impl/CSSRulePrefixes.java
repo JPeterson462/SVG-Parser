@@ -31,5 +31,7 @@ public class CSSRulePrefixes {
 	public static final String VIEWPORT = PREFIX + "viewport";
 	
 	public static final String REGION_STYLE = PREFIX + "region-style";
+	
+	public static final String COLOR_PROFILE = PREFIX + "color-profile";
 
 }

@@ -62,11 +62,6 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 		return parentRule;
 	}
 	
-	public CSSValue getCascadingPropertyCSSValue(String propertyName) {
-		//TODO;
-		return null;
-	}
-
 	@Override
 	public CSSValue getPropertyCSSValue(String propertyName) {
 		return values.get(propertyName);
