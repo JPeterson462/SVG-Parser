@@ -1,14 +1,15 @@
-package org.w3c.dom.css.impl;
+package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSEnumValue;
+import org.w3c.dom.css.impl.StringUtils;
 
-public class CSSEnumValueImplementation implements CSSValue {
+public class CSSEnumValueImplementation implements CSSEnumValue {
 	
 	private String[] possibleValues;
 	
-	private String value;
+	private String value = "inherit";
 	
 	public CSSEnumValueImplementation(String[] possibleValues) {
 		this.possibleValues = possibleValues;
@@ -30,6 +31,16 @@ public class CSSEnumValueImplementation implements CSSValue {
 		if (!StringUtils.contains(text, possibleValues, true)) {
 			DOMErrors.invalidValue();
 		}
+	}
+
+	@Override
+	public String getValue() {
+		return value;
+	}
+
+	@Override
+	public String[] getPossibleValues() {
+		return possibleValues;
 	}
 
 }

@@ -1,11 +1,11 @@
-package org.w3c.dom.css.impl;
+package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSLengthValue;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 
-public class CSSLengthValueImplementation implements CSSValue {
+public class CSSLengthValueImplementation implements CSSLengthValue {
 	
 	private boolean autoOrNormal; // true = auto, false = inherit
 	

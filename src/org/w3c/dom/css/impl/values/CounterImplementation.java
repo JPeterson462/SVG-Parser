@@ -1,4 +1,4 @@
-package org.w3c.dom.css.impl;
+package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.css.Counter;
 import org.w3c.dom.DOMErrors;

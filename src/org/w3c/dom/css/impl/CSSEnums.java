@@ -88,6 +88,14 @@ public interface CSSEnums {
 	public static final String[] TEXT_ANCHOR_VALUES = {
 		"start", "middle", "end", "inherit"
 	};
+	
+	public static final String[] TEXT_DECORATION_DEFAULT_VALUES = {
+		"none", "inherit"	
+	};
+	
+	public static final String[] TEXT_DECORATION_LIST_VALUES = {
+		"underline", "overline", "line-through", "blink"	
+	};
 
 	public static final String[] TEXT_RENDERING_VALUES = {
 		"auto", "optimizeSpeed", "optimizeLegibility", "geometricPrecision", "inherit"	

@@ -68,7 +68,11 @@ public interface SVGPaint extends SVGColor {
 		public void setPaint(short paintType, String uri, String rgbColor, String iccColor) throws SVGException {
 			this.paintType = paintType;
 			this.uri = uri;
-			setRGBColorICCColor(rgbColor, iccColor);
+			if (iccColor != null) {
+				setRGBColorICCColor(rgbColor, iccColor);
+			} else if (rgbColor != null) {
+				setRGBColor(rgbColor);
+			}
 		}
 		
 	}

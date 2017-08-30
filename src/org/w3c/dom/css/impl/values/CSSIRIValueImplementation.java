@@ -1,9 +1,10 @@
-package org.w3c.dom.css.impl;
+package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSIRIValue;
+import org.w3c.dom.css.impl.StringUtils;
 
-public class CSSIRIValueImplementation implements CSSValue {
+public class CSSIRIValueImplementation implements CSSIRIValue {
 	
 	private String value;
 

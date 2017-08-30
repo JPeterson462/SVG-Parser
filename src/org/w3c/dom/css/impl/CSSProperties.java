@@ -3,6 +3,13 @@ package org.w3c.dom.css.impl;
 import java.util.HashMap;
 
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.impl.values.CSSEnumListValueImplementation;
+import org.w3c.dom.css.impl.values.CSSEnumValueImplementation;
+import org.w3c.dom.css.impl.values.CSSIRIValueImplementation;
+import org.w3c.dom.css.impl.values.CSSLengthValueImplementation;
+import org.w3c.dom.css.impl.values.CSSNumberValueImplementation;
+import org.w3c.dom.css.impl.values.CSSPaintValueImplementation;
+import org.w3c.dom.css.impl.values.CSSStringListValueImplementation;
 import org.w3c.dom.svg.SVGErrors;
 
 // https://www.w3.org/TR/SVG/propidx.html
@@ -30,14 +37,14 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.DISPLAY, createEnum(CSSEnums.DISPLAY_VALUES, "inline"));
 		declaration.storeValue(CSSPropertyNames.DOMINANT_BASELINE, createEnum(CSSEnums.DOMINANT_BASELINE_VALUES, "auto"));
 		// enable-background
-		// fill
+		declaration.storeValue(CSSPropertyNames.STROKE, createPaint("black"));
 		declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.FILL_RULE, createEnum(CSSEnums.FILL_RULE_VALUES, "nonzero"));
 		declaration.storeValue(CSSPropertyNames.FILTER, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColor("black"));
 		declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber("1"));
 		// font
-		// font-family
+		declaration.storeValue(CSSPropertyNames.FONT_FAMILY, createStringList("inherit"));
 		// font-size
 		// font-size-adjust
 		declaration.storeValue(CSSPropertyNames.FONT_STRETCH, createEnum(CSSEnums.FONT_STRETCH_VALUES, "normal"));
@@ -61,7 +68,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.SHAPE_RENDERING, createEnum(CSSEnums.SHAPE_RENDERING_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColor("black"));
 		declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber("1"));
-		// stroke
+		declaration.storeValue(CSSPropertyNames.STROKE, createPaint("none"));
 		// stroke-dasharray
 		// stroke-dashoffset
 		declaration.storeValue(CSSPropertyNames.STROKE_LINECAP, createEnum(CSSEnums.STROKE_LINECAP_VALUES, "butt"));
@@ -70,7 +77,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.STROKE_OPACITY, createNumber("1"));
 		// stroke-width
 		declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, "start"));
-		// text-decoration
+		declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, "none"));
 		declaration.storeValue(CSSPropertyNames.TEXT_RENDERING, createEnum(CSSEnums.TEXT_RENDERING_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.UNICODE_BIDI, createEnum(CSSEnums.FONT_STYLE_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.VISIBILITY, createEnum(CSSEnums.VISIBILITY_VALUES, "visible"));
@@ -119,7 +126,9 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.DOMINANT_BASELINE, createEnum(CSSEnums.DOMINANT_BASELINE_VALUES, cssText));
 			});
 			// enable-background
-			// fill
+			properties.put(CSSPropertyNames.FILL, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));
+			});
 			properties.put(CSSPropertyNames.FILL_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber(cssText));
 			});
@@ -136,7 +145,9 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber(cssText));
 			});
 			// font
-			// font-family
+			properties.put(CSSPropertyNames.FONT_FAMILY, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.FONT_FAMILY, createStringList(cssText));
+			});
 			// font-size
 			// font-size-adjust
 			properties.put(CSSPropertyNames.FONT_STRETCH, (cssText, declaration) -> {
@@ -165,7 +176,7 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.LIGHTING_COLOR, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColor("white"));
 			});
-			// marker
+			// !marker
 			properties.put(CSSPropertyNames.MARKER_END, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.MARKER_END, createIRI(cssText));
 			});
@@ -196,7 +207,9 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.STOP_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber(cssText));
 			});
-			// stroke
+			properties.put(CSSPropertyNames.STROKE, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));
+			});
 			// stroke-dasharray
 			// stroke-dashoffset
 			properties.put(CSSPropertyNames.STROKE_LINECAP, (cssText, declaration) -> {
@@ -215,7 +228,9 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.TEXT_ANCHOR, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, cssText));
 			});
-			// text-decoration
+			properties.put(CSSPropertyNames.TEXT_DECORATION, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, cssText));
+			});
 			properties.put(CSSPropertyNames.TEXT_RENDERING, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.TEXT_RENDERING, createEnum(CSSEnums.TEXT_RENDERING_VALUES, cssText));
 			});
@@ -250,6 +265,24 @@ public class CSSProperties {
 		CSSValue value = new CSSNumberValueImplementation();
 		value.setCssText(cssText);
 		return value;
+	}
+	
+	private static CSSValue createEnumList(String[] defaultValues, String[] listValues, String cssText) {
+		CSSValue enumListValue = new CSSEnumListValueImplementation(defaultValues, listValues);
+		enumListValue.setCssText(cssText);
+		return enumListValue;
+	}
+	
+	private static CSSValue createStringList(String cssText) {
+		CSSValue stringListValue = new CSSStringListValueImplementation();
+		stringListValue.setCssText(cssText);
+		return stringListValue;
+	}
+	
+	private static CSSValue createPaint(String cssText) {
+		CSSValue paintValue = new CSSPaintValueImplementation();
+		paintValue.setCssText(cssText);
+		return paintValue;
 	}
 	
 	public static void parseValue(String propertyName, String cssText, CSSStyleDeclarationImplementation declaration) {

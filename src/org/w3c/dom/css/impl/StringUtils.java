@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import org.w3c.dom.svg.SVGErrors;
 
 public class StringUtils {
+	
+	public static final String URI_PREFIX = "url(", URI_SUFFIX = ")";
 
 	public static ArrayList<String> splitByWhitespace(String text) {
 		ArrayList<String> list = new ArrayList<>();
@@ -49,8 +51,8 @@ public class StringUtils {
 	}
 	
 	public static String parseUri(String text) {
-		if (text.startsWith("url(") && text.endsWith(")")) {
-			return unquote(text.substring(4, text.length() - 1));
+		if (text.startsWith(URI_PREFIX) && text.endsWith(URI_SUFFIX)) {
+			return unquote(text.substring(URI_PREFIX.length(), text.length() - URI_SUFFIX.length()));
 		}
 		return SVGErrors.error("Invalid Functional URI: " + text);
 	}
