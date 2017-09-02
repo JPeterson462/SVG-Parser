@@ -4,6 +4,15 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSAdvancedColorValue;
+import org.w3c.dom.css.CSSColorValue;
+import org.w3c.dom.css.CSSEnumListValue;
+import org.w3c.dom.css.CSSEnumValue;
+import org.w3c.dom.css.CSSIRIValue;
+import org.w3c.dom.css.CSSLengthValue;
+import org.w3c.dom.css.CSSNumberValue;
+import org.w3c.dom.css.CSSPaintValue;
+import org.w3c.dom.css.CSSStringListValue;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.DocumentCSS;
@@ -133,6 +142,10 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 	public void setStyleSheets(StyleSheetList stylesheets);
 	
+	public SVGState getState();
+	
+	public SVGRenderingState getRenderingState();
+	
 	public static class Implementation extends SVGElement.Implementation implements SVGSVGElement {
 		
 		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;
@@ -157,15 +170,15 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		
 		private String contentScriptType, contentStyleType;
 		
-		private SVGRect viewport;//FIXME
+		private SVGRect viewport;
 		
-		private float pixelUnitToMillimeterX, pixelUnitToMillimeterY;//FIXME
+		private float pixelUnitToMillimeterX, pixelUnitToMillimeterY;
 		
-		private float screenPixelToMillimeterX, screenPixelToMillimeterY;//FIXME
+		private float screenPixelToMillimeterX, screenPixelToMillimeterY;
 		
-		private boolean useCurrentView;//FIXME
+		private boolean useCurrentView;
 		
-		private SVGViewSpec currentView;//FIXME
+		private SVGViewSpec currentView;
 
 		private float currentScale;
 		
@@ -177,12 +190,26 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		
 		private StyleSheetList stylesheetList;
 		
-		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+		private SVGState state;
+		
+		private SVGRenderingState renderingState;
+		
+		public Implementation(float pixelsPerInch, String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedString className, CSSStyleDeclaration style, String xmlLang, String xmlSpace, SVGAnimatedTransformList transform,
 				SVGAnimatedBoolean externalResourcesRequired, SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width,
 				SVGAnimatedLength height, SVGAnimatedRect viewBox, SVGAnimatedPreserveAspectRatio preserveAspectRatio,
-				short zoomAndPan, SVGNumber version, String baseProfile, String contentScriptType, String contentStyleType) {
+				short zoomAndPan, SVGNumber version, String baseProfile, String contentScriptType, String contentStyleType,
+				SVGState state, SVGRenderingState renderingState) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
+			this.state = state;
+			this.renderingState = renderingState;
+			final float inchesPerCentimeter = 1f / 2.54f;
+			final float centimetersPerMillimeter = 1f / 10f;
+			float pixelsPerMillimeter = pixelsPerInch * inchesPerCentimeter * centimetersPerMillimeter;
+			pixelUnitToMillimeterX = pixelsPerMillimeter;
+			pixelUnitToMillimeterY = pixelsPerMillimeter;
+			screenPixelToMillimeterX = pixelsPerMillimeter;
+			screenPixelToMillimeterY = pixelsPerMillimeter;
 			this.className = className;
 			this.style = style;
 			this.xmlLang = xmlLang;
@@ -202,6 +229,8 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 			transformableBase = new SVGTransformable.Implementation(this, transform);
 			currentTranslate = new SVGPoint.Implementation(0, 0);
 			currentScale = 1;
+			viewport = new SVGRect.Implementation(x.getBaseValue().getValue(), y.getBaseValue().getValue(),
+					width.getBaseValue().getValue(), height.getBaseValue().getValue());
 		}
 		
 		@Override
@@ -338,11 +367,34 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 			CSSStyleDeclarationImplementation defaultValues = new CSSStyleDeclarationImplementation(null);
 			CSSProperties.storeDefaults(defaultValues);
 			CSSStyleDeclaration inlineValues = element instanceof SVGStylable ? ((SVGStylable) element).getStyle() : null;
+			CSSStyleDeclarationImplementation computeValues = new CSSStyleDeclarationImplementation(inlineValues.getParentRule());
+			for (int i = 0; i < defaultValues.getLength(); i++) {
+				String propertyName = defaultValues.item(i);
+				CSSValue value = inlineValues.getPropertyCSSValue(propertyName);
+				if (value != null) {
+					if (value instanceof CSSEnumListValue || value instanceof CSSEnumValue || value instanceof CSSIRIValue ||
+							value instanceof CSSStringListValue) {
+						computeValues.storeValue(propertyName, value);
+					}
+					else if (value instanceof CSSColorValue || value instanceof CSSAdvancedColorValue) {
+						computeValues.storeValue(propertyName, value);
+					}					
+					else if (value instanceof CSSPaintValue) {
+						
+					}
+					else if (value instanceof CSSLengthValue) {
+						
+					}
+					else if (value instanceof CSSNumberValue) {
+						
+					}
+				}
+			}
 			// 1. Use absolute values in inlineValues or from defaultValues for 'initial' values
 			// 2. Traverse the parent hierarchy for absolute values 
 			// 3. Compute relative values based on hierarchy (until first absolute value)
 			// 4. Add in default values for unspecified values
-			return null;//TODO
+			return computeValues;//TODO
 		}
 
 		@Override
@@ -429,11 +481,13 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public boolean useCurrentView() {
+			DOMErrors.notSupported();
 			return useCurrentView;
 		}
 
 		@Override
 		public SVGViewSpec getCurrentView() {
+			DOMErrors.notSupported();
 			return currentView;
 		}
 
@@ -454,86 +508,72 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public long suspendRedraw(long maxWaitMilliseconds) {
-			// TODO Auto-generated method stub
-			return 0;
+			return state.suspendRedraw(maxWaitMilliseconds);
 		}
 
 		@Override
 		public void unsuspendRedraw(long suspendHandleID) {
-			// TODO Auto-generated method stub
-			
+			state.unsuspendRedraw(suspendHandleID);
 		}
 
 		@Override
 		public void unsuspendRedrawAll() {
-			// TODO Auto-generated method stub
-			
+			state.unsuspendRedrawAll();
 		}
 
 		@Override
 		public void forceRedraw() {
-			// TODO Auto-generated method stub
-			
+			state.forceRedraw();
 		}
 
 		@Override
 		public void pauseAnimations() {
-			// TODO Auto-generated method stub
-			
+			state.pauseAnimations();
 		}
 
 		@Override
 		public void unpauseAnimations() {
-			// TODO Auto-generated method stub
-			
+			state.unpauseAnimations();
 		}
 
 		@Override
 		public boolean animationsPaused() {
-			// TODO Auto-generated method stub
-			return false;
+			return state.animationsPaused();
 		}
 
 		@Override
 		public float getCurrentTime() {
-			// TODO Auto-generated method stub
-			return 0;
+			return state.getCurrentTime();
 		}
 
 		@Override
 		public void setCurrentTime(float seconds) {
-			// TODO Auto-generated method stub
-			
+			state.setCurrentTime(seconds);
 		}
 
 		@Override
 		public NodeList getIntersectionList(SVGRect rect, SVGElement referenceElement) {
-			// TODO Auto-generated method stub
-			return null;
+			return renderingState.getIntersectionList(rect, referenceElement);
 		}
 
 		@Override
 		public NodeList getEnclosureList(SVGRect rect, SVGElement referenceElement) {
-			// TODO Auto-generated method stub
-			return null;
+			return renderingState.getEnclosureList(rect, referenceElement);
 		}
 
 		@Override
 		public boolean checkIntersection(SVGElement element, SVGRect rect) {
-			// TODO Auto-generated method stub
-			return false;
+			return renderingState.checkIntersection(element, rect);
 		}
 
 		@Override
 		public boolean checkEnclosure(SVGElement element, SVGRect rect) {
-			// TODO Auto-generated method stub
-			return false;
+			return renderingState.checkEnclosure(element, rect);
 		}
 
 		@Override
 		public void deselectAll() {
-			// TODO Auto-generated method stub
-			
+			renderingState.deselectAll();
 		}
 
 		@Override
@@ -604,6 +644,16 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		@Override
 		public void setStyleSheets(StyleSheetList stylesheets) {
 			stylesheetList = stylesheets;
+		}
+
+		@Override
+		public SVGState getState() {
+			return state;
+		}
+
+		@Override
+		public SVGRenderingState getRenderingState() {
+			return renderingState;
 		}
 		
 	}

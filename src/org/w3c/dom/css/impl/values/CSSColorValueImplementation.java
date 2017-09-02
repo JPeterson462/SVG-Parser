@@ -1,20 +1,20 @@
-package org.w3c.dom.css.impl;
+package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSColorValue;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.svg.Colors;
 import org.w3c.dom.svg.SVGException;
 import org.w3c.dom.svg.SVGRegex;
 import org.w3c.dom.svg.impl.RGBColorImplementation;
 
-public class CSSColor implements CSSValue {
+public class CSSColorValueImplementation implements CSSColorValue {
 	
 	private RGBColor rgbColor;
 	
 	private String cssText;
 	
-	public CSSColor(String cssText) {
+	public CSSColorValueImplementation(String cssText) {
 		setCssText(cssText);
 	}
 	

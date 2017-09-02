@@ -1,16 +1,16 @@
-package org.w3c.dom.css.impl;
+package org.w3c.dom.css.impl.values;
 
 import java.util.ArrayList;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.CSSAdvancedColorValue;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.svg.Colors;
 import org.w3c.dom.svg.SVGException;
 import org.w3c.dom.svg.SVGRegex;
 import org.w3c.dom.svg.impl.RGBColorImplementation;
 
-public class CSSAdvancedColor implements CSSValue {
+public class CSSAdvancedColorValueImplementation implements CSSAdvancedColorValue {
 
 	private RGBColor rgbColor;
 	
@@ -22,7 +22,7 @@ public class CSSAdvancedColor implements CSSValue {
 	
 	private boolean currentColor;
 	
-	public CSSAdvancedColor(String cssText) {
+	public CSSAdvancedColorValueImplementation(String cssText) {
 		setCssText(cssText);
 	}
 	

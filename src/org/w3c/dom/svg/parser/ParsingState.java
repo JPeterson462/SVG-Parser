@@ -11,6 +11,7 @@ import org.w3c.dom.stylesheets.StyleSheet;
 import org.w3c.dom.stylesheets.StyleSheetList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
+import org.w3c.dom.svg.document.SVGRenderingState;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
 public class ParsingState {
@@ -22,6 +23,16 @@ public class ParsingState {
 	private ArrayList<SVGElement> elementsAdded = new ArrayList<>();
 	
 	private ArrayList<StyleSheet> stylesheets = new ArrayList<>();
+	
+	private SVGRenderingState renderingState;
+	
+	public ParsingState(SVGRenderingState renderingState) {
+		this.renderingState = renderingState;
+	}
+	
+	public SVGRenderingState getRenderingState() {
+		return renderingState;
+	}
 
 	public SVGSVGElement getOwnerSVGElement() {
 		return ownerSVGElement;

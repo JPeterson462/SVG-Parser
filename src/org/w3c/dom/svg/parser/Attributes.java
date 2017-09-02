@@ -42,6 +42,8 @@ public interface Attributes {
 	
 	public static final String CLIP_PATH_UNITS = "clipPathUnits";
 	
+	public static final String CONTENT_SCRIPT_TYPE = "contentScriptType";
+	
 	public static final String CONTENT_STYLE_TYPE = "contentStyleType";
 	
 	public static final String CX = "cx";
@@ -93,6 +95,10 @@ public interface Attributes {
 	public static final String FORMAT = "format";
 	
 	public static final String FROM = "from";
+	
+	public static final String G1 = "g1";
+	
+	public static final String G2 = "g2";
 
 	public static final String GLYPH_NAME = "glyph-name";
 	
@@ -117,6 +123,8 @@ public interface Attributes {
 	public static final String IN2 = "in2";
 	
 	public static final String INTERCEPT = "intercept";
+	
+	public static final String K = "k";
 	
 	public static final String K1 = "k1";
 	
@@ -287,6 +295,10 @@ public interface Attributes {
 	public static final String TRANSFORM = "transform";
 	
 	public static final String TYPE = "type";
+	
+	public static final String U1 = "u1";
+	
+	public static final String U2 = "u2";
 	
 	public static final String UNDERLINE_POSITION = "underline-position";
 	

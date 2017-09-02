@@ -20,11 +20,12 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.animation.SVGAnimationElement;
+import org.w3c.dom.svg.document.SVGRenderingState;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
 public class SVGParser {
 	
-	public SVGSVGElement readDocument(InputStream stream) throws Exception {
+	public SVGSVGElement readDocument(InputStream stream, SVGRenderingState renderingState) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(stream);
@@ -34,7 +35,7 @@ public class SVGParser {
 		}
 		Element root = document.getDocumentElement();
 		if (root.getTagName().equals(Tags.SVG)) {
-			ParsingState parsingState = new ParsingState();
+			ParsingState parsingState = new ParsingState(renderingState);
 			SVGSVGElement rootElement = (SVGSVGElement) parseElementRecursively(root, parsingState);
 			parsingState.traverseHierarchy(element -> {
 				if (element instanceof SVGAnimationElement) {

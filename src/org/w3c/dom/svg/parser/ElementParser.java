@@ -20,6 +20,7 @@ import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGTransform;
 import org.w3c.dom.svg.SVGTransformList;
+import org.w3c.dom.svg.SVGUnicodeRangeList;
 import org.w3c.dom.svg.animation.SMILTimingValue;
 import org.w3c.dom.svg.animation.SMILTimingValueList;
 import org.w3c.dom.svg.paths.SVGPathSeg;
@@ -120,6 +121,17 @@ public interface ElementParser<T extends SVGElement> {
 				concatenated += joinBy;
 			}
 			concatenated += SMILTimingValue.convertTimingValue(list.getItem(i));
+		}
+		return concatenated;
+	}
+	
+	public static String concatenate(SVGUnicodeRangeList list, String joinBy) {
+		String concatenated = "";
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			if (i > 0) {
+				concatenated += joinBy;
+			}
+			concatenated += list.getItem(i).getValue();
 		}
 		return concatenated;
 	}

@@ -6,18 +6,19 @@ Add batik license of computing the Arc2D
 
 TODO:
 -----
-set initial -> default
-Compute cascading value for relative properties
+Computing style values:
+	set initial -> default
+	Compute cascading value for relative properties
+	Ensure that base elements for relative attributes are set
+	SVGSVGElement
+	
 Setting values (i.e. glyph) based on font attributes
 CSSProperties
-Ensure that base elements for relative attributes are set
-
 SVGFontElementParser. 16px -> 1em
 Parsing URIs (url(...), local(...))
 Referencing fonts and filters
 
 SVGLocatable implementation
-SVGSVGElement (might have an abstract implementation to be completed by the LWJGL element)
 SVGTextContentElement (and parser?)
 SVGAnimationElement implementation
 
@@ -41,12 +42,12 @@ Parsing JavaScript?
 . = not handled
 
 *	1. Implementations
-*	2. Parser (Reader)
++	2. Parser (Reader)
 	3. Renderer
-*	4. Writer
++	4. Writer
 
 R	W
-		<svg>
++	+	<svg>
 +	+	<g>
 +	+	<defs>
 +	+	<desc>
@@ -111,8 +112,8 @@ R	W
 +	+	<font>
 +	+	<glyph>
 +	+	<missing-glyph>
-		<hkern>
-		<vkern>
++	+	<hkern>
++	+	<vkern>
 +	+	<font-face>
 +	+	<font-face-src>
 +	+	<font-face-uri>

@@ -3,6 +3,8 @@ package org.w3c.dom.css.impl;
 import java.util.HashMap;
 
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.impl.values.CSSAdvancedColorValueImplementation;
+import org.w3c.dom.css.impl.values.CSSColorValueImplementation;
 import org.w3c.dom.css.impl.values.CSSEnumListValueImplementation;
 import org.w3c.dom.css.impl.values.CSSEnumValueImplementation;
 import org.w3c.dom.css.impl.values.CSSIRIValueImplementation;
@@ -27,7 +29,7 @@ public class CSSProperties {
 		// clip
 		declaration.storeValue(CSSPropertyNames.CLIP_PATH, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.CLIP_RULE, createEnum(CSSEnums.CLIP_RULE_VALUES, "nonzero"));
-		declaration.storeValue(CSSPropertyNames.COLOR, new CSSColor("#000"));
+		declaration.storeValue(CSSPropertyNames.COLOR, new CSSColorValueImplementation("#000"));
 		declaration.storeValue(CSSPropertyNames.COLOR_INTERPOLATION, createEnum(CSSEnums.COLOR_INTERPOLATION_VALUES, "sRGB"));
 		declaration.storeValue(CSSPropertyNames.COLOR_INTERPOLATION_FILTERS, createEnum(CSSEnums.COLOR_INTERPOLATION_VALUES, "linearRGB"));
 		declaration.storeValue(CSSPropertyNames.COLOR_PROFILE, new CSSColorProfile("auto"));
@@ -41,7 +43,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.FILL_RULE, createEnum(CSSEnums.FILL_RULE_VALUES, "nonzero"));
 		declaration.storeValue(CSSPropertyNames.FILTER, createIRI("none"));
-		declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColor("black"));
+		declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColorValueImplementation("black"));
 		declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber("1"));
 		// font
 		declaration.storeValue(CSSPropertyNames.FONT_FAMILY, createStringList("inherit"));
@@ -56,7 +58,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.IMAGE_RENDERING, createEnum(CSSEnums.IMAGE_RENDERING_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation("auto", true));
 		declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation("normal", false));
-		declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColor("white"));
+		declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColorValueImplementation("white"));
 		// !marker
 		declaration.storeValue(CSSPropertyNames.MARKER_END, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.MARKER_MID, createIRI("none"));
@@ -66,7 +68,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.OVERFLOW, createEnum(CSSEnums.OVERFLOW_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.POINTER_EVENTS, createEnum(CSSEnums.POINTER_EVENTS_VALUES, "visiblePainted"));
 		declaration.storeValue(CSSPropertyNames.SHAPE_RENDERING, createEnum(CSSEnums.SHAPE_RENDERING_VALUES, "auto"));
-		declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColor("black"));
+		declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColorValueImplementation("black"));
 		declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.STROKE, createPaint("none"));
 		// stroke-dasharray
@@ -99,7 +101,7 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.CLIP_RULE, createEnum(CSSEnums.CLIP_RULE_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.COLOR, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.COLOR, new CSSColor(cssText));
+				declaration.storeValue(CSSPropertyNames.COLOR, new CSSColorValueImplementation(cssText));
 			});
 			properties.put(CSSPropertyNames.COLOR_INTERPOLATION, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.COLOR_INTERPOLATION, createEnum(CSSEnums.COLOR_INTERPOLATION_VALUES, cssText));
@@ -139,7 +141,7 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.FILTER, createIRI(cssText));
 			});
 			properties.put(CSSPropertyNames.FLOOD_COLOR, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColor("black"));
+				declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColorValueImplementation("black"));
 			});
 			properties.put(CSSPropertyNames.FLOOD_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber(cssText));
@@ -174,7 +176,7 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation(cssText, false));
 			});
 			properties.put(CSSPropertyNames.LIGHTING_COLOR, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColor("white"));
+				declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColorValueImplementation("white"));
 			});
 			// !marker
 			properties.put(CSSPropertyNames.MARKER_END, (cssText, declaration) -> {
@@ -202,7 +204,7 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.SHAPE_RENDERING, createEnum(CSSEnums.SHAPE_RENDERING_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.STOP_COLOR, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColor("black"));
+				declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColorValueImplementation("black"));
 			});
 			properties.put(CSSPropertyNames.STOP_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber(cssText));

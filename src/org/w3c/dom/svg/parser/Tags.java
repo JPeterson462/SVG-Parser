@@ -102,6 +102,8 @@ public interface Tags {
 	
 	public static final String GLYPH_REF = "glyphRef";
 	
+	public static final String HKERN = "hkern";
+	
 	public static final String IMAGE = "image";
 
 	public static final String LINE = "line";
@@ -147,5 +149,7 @@ public interface Tags {
 	public static final String USE = "use";
 
 	public static final String VIEW = "view";
+	
+	public static final String VKERN = "vkern";
 	
 }

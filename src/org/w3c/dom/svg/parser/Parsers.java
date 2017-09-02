@@ -12,6 +12,7 @@ import org.w3c.dom.svg.parser.document.SVGDefsElementParser;
 import org.w3c.dom.svg.parser.document.SVGDescElementParser;
 import org.w3c.dom.svg.parser.document.SVGGElementParser;
 import org.w3c.dom.svg.parser.document.SVGImageElementParser;
+import org.w3c.dom.svg.parser.document.SVGSVGElementParser;
 import org.w3c.dom.svg.parser.document.SVGSwitchElementParser;
 import org.w3c.dom.svg.parser.document.SVGSymbolElementParser;
 import org.w3c.dom.svg.parser.document.SVGTitleElementParser;
@@ -48,7 +49,9 @@ import org.w3c.dom.svg.parser.fonts.SVGFontFaceNameElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceSrcElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGFontFaceUriElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGGlyphElementParser;
+import org.w3c.dom.svg.parser.fonts.SVGHKernElementParser;
 import org.w3c.dom.svg.parser.fonts.SVGMissingGlyphElementParser;
+import org.w3c.dom.svg.parser.fonts.SVGVKernElementParser;
 import org.w3c.dom.svg.parser.paths.SVGPathElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGCircleElementParser;
 import org.w3c.dom.svg.parser.shapes.SVGEllipseElementParser;
@@ -149,6 +152,9 @@ public class Parsers {
 		parsers.put(Tags.ANIMATE_TRANSFORM, new SVGAnimateTransformElementParser());
 		parsers.put(Tags.ANIMATE_MOTION, new SVGAnimateMotionElementParser());
 		parsers.put(Tags.MPATH, new SVGMPathElementParser());
+		parsers.put(Tags.SVG, new SVGSVGElementParser());
+		parsers.put(Tags.HKERN, new SVGHKernElementParser());
+		parsers.put(Tags.VKERN, new SVGVKernElementParser());
 		registered = true;
 	}
 	
