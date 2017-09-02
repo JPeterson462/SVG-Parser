@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.impl.values.CSSAdvancedColorValueImplementation;
+import org.w3c.dom.css.impl.values.CSSAngleValueImplementation;
 import org.w3c.dom.css.impl.values.CSSColorValueImplementation;
 import org.w3c.dom.css.impl.values.CSSEnumListValueImplementation;
 import org.w3c.dom.css.impl.values.CSSEnumValueImplementation;
@@ -14,7 +15,7 @@ import org.w3c.dom.css.impl.values.CSSPaintValueImplementation;
 import org.w3c.dom.css.impl.values.CSSStringListValueImplementation;
 import org.w3c.dom.svg.SVGErrors;
 
-// https://www.w3.org/TR/SVG/propidx.html
+// TODO https:// TODOwww.w3.org/TR/SVG/propidx.html
 public class CSSProperties {
 
 	private static HashMap<String, CSSProperty> properties = new HashMap<>();
@@ -25,8 +26,8 @@ public class CSSProperties {
 	
 	public static void storeDefaults(CSSStyleDeclarationImplementation declaration) {
 		declaration.storeValue(CSSPropertyNames.ALIGNMENT_BASELINE, createEnum(CSSEnums.ALIGNMENT_BASELINE_VALUES, "auto"));
-		// baseline-shift
-		// clip
+		// TODO baseline-shift
+		// TODO clip
 		declaration.storeValue(CSSPropertyNames.CLIP_PATH, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.CLIP_RULE, createEnum(CSSEnums.CLIP_RULE_VALUES, "nonzero"));
 		declaration.storeValue(CSSPropertyNames.COLOR, new CSSColorValueImplementation("#000"));
@@ -38,26 +39,26 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.DIRECTION, createEnum(CSSEnums.DIRECTION_VALUES, "ltr"));
 		declaration.storeValue(CSSPropertyNames.DISPLAY, createEnum(CSSEnums.DISPLAY_VALUES, "inline"));
 		declaration.storeValue(CSSPropertyNames.DOMINANT_BASELINE, createEnum(CSSEnums.DOMINANT_BASELINE_VALUES, "auto"));
-		// enable-background
+		// TODO enable-background
 		declaration.storeValue(CSSPropertyNames.STROKE, createPaint("black"));
 		declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.FILL_RULE, createEnum(CSSEnums.FILL_RULE_VALUES, "nonzero"));
 		declaration.storeValue(CSSPropertyNames.FILTER, createIRI("none"));
 		declaration.storeValue(CSSPropertyNames.FLOOD_COLOR, new CSSAdvancedColorValueImplementation("black"));
 		declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber("1"));
-		// font
+		// TODO font
 		declaration.storeValue(CSSPropertyNames.FONT_FAMILY, createStringList("inherit"));
-		// font-size
-		// font-size-adjust
+		// TODO font-size
+		// TODO font-size-adjust
 		declaration.storeValue(CSSPropertyNames.FONT_STRETCH, createEnum(CSSEnums.FONT_STRETCH_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.FONT_STYLE, createEnum(CSSEnums.FONT_STYLE_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.FONT_VARIANT, createEnum(CSSEnums.FONT_VARIANT_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.FONT_WEIGHT, createEnum(CSSEnums.FONT_WEIGHT_VALUES, "normal"));
-		// glyph-orientation-horizontal
-		// glyph-orientation-vertical
+		declaration.storeValue(CSSPropertyNames.GLYPH_ORIENTATION_HORIZONTAL, createAngle(false, "0deg"));
+		declaration.storeValue(CSSPropertyNames.GLYPH_ORIENTATION_VERTICAL, createAngle(true, "auto"));
 		declaration.storeValue(CSSPropertyNames.IMAGE_RENDERING, createEnum(CSSEnums.IMAGE_RENDERING_VALUES, "auto"));
-		declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation("auto", true));
-		declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation("normal", false));
+		declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation("auto", CSSLengthValueImplementation.VALUE_AUTO | CSSLengthValueImplementation.VALUE_INHERIT));
+		declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation("normal", CSSLengthValueImplementation.VALUE_NORMAL | CSSLengthValueImplementation.VALUE_INHERIT));
 		declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColorValueImplementation("white"));
 		// !marker
 		declaration.storeValue(CSSPropertyNames.MARKER_END, createIRI("none"));
@@ -71,19 +72,19 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.STOP_COLOR, new CSSAdvancedColorValueImplementation("black"));
 		declaration.storeValue(CSSPropertyNames.STOP_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.STROKE, createPaint("none"));
-		// stroke-dasharray
-		// stroke-dashoffset
+		// TODO stroke-dasharray
+		declaration.storeValue(CSSPropertyNames.STROKE_DASHOFFSET, new CSSLengthValueImplementation("0", CSSLengthValueImplementation.VALUE_INHERIT));
 		declaration.storeValue(CSSPropertyNames.STROKE_LINECAP, createEnum(CSSEnums.STROKE_LINECAP_VALUES, "butt"));
 		declaration.storeValue(CSSPropertyNames.STROKE_LINEJOIN, createEnum(CSSEnums.STROKE_LINEJOIN_VALUES, "miter"));
 		declaration.storeValue(CSSPropertyNames.STROKE_MITERLIMIT, createNumber("4"));
 		declaration.storeValue(CSSPropertyNames.STROKE_OPACITY, createNumber("1"));
-		// stroke-width
+		declaration.storeValue(CSSPropertyNames.STROKE_WIDTH, new CSSLengthValueImplementation("1", CSSLengthValueImplementation.VALUE_INHERIT));
 		declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, "start"));
 		declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, "none"));
 		declaration.storeValue(CSSPropertyNames.TEXT_RENDERING, createEnum(CSSEnums.TEXT_RENDERING_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.UNICODE_BIDI, createEnum(CSSEnums.FONT_STYLE_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.VISIBILITY, createEnum(CSSEnums.VISIBILITY_VALUES, "visible"));
-		declaration.storeValue(CSSPropertyNames.WORD_SPACING, new CSSLengthValueImplementation("normal", false));
+		declaration.storeValue(CSSPropertyNames.WORD_SPACING, new CSSLengthValueImplementation("normal", CSSLengthValueImplementation.VALUE_NORMAL | CSSLengthValueImplementation.VALUE_INHERIT));
 		declaration.storeValue(CSSPropertyNames.WRITING_MODE, createEnum(CSSEnums.WRITING_MODE_VALUES, "writing-mode"));
 	}
 	
@@ -92,8 +93,8 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.ALIGNMENT_BASELINE, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.ALIGNMENT_BASELINE, createEnum(CSSEnums.ALIGNMENT_BASELINE_VALUES, cssText));
 			});
-			// baseline-shift
-			// clip
+			// TODO baseline-shift
+			// TODO clip
 			properties.put(CSSPropertyNames.CLIP_PATH, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.CLIP_PATH, createIRI(cssText));
 			});
@@ -127,7 +128,7 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.DOMINANT_BASELINE, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.DOMINANT_BASELINE, createEnum(CSSEnums.DOMINANT_BASELINE_VALUES, cssText));
 			});
-			// enable-background
+			// TODO enable-background
 			properties.put(CSSPropertyNames.FILL, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));
 			});
@@ -146,12 +147,12 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.FLOOD_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FLOOD_OPACITY, createNumber(cssText));
 			});
-			// font
+			// TODO font
 			properties.put(CSSPropertyNames.FONT_FAMILY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FONT_FAMILY, createStringList(cssText));
 			});
-			// font-size
-			// font-size-adjust
+			// TODO font-size
+			// TODO font-size-adjust
 			properties.put(CSSPropertyNames.FONT_STRETCH, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FONT_STRETCH, createEnum(CSSEnums.FONT_STRETCH_VALUES, cssText));
 			});
@@ -164,16 +165,20 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.FONT_WEIGHT, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FONT_WEIGHT, createEnum(CSSEnums.FONT_WEIGHT_VALUES, cssText));
 			});
-			// glyph-orientation-horizontal
-			// glyph-orientation-vertical
+			properties.put(CSSPropertyNames.GLYPH_ORIENTATION_HORIZONTAL, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.GLYPH_ORIENTATION_HORIZONTAL, createAngle(false, cssText));
+			});
+			properties.put(CSSPropertyNames.GLYPH_ORIENTATION_VERTICAL, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.GLYPH_ORIENTATION_VERTICAL, createAngle(true, cssText));
+			});
 			properties.put(CSSPropertyNames.IMAGE_RENDERING, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.IMAGE_RENDERING, createEnum(CSSEnums.IMAGE_RENDERING_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.KERNING, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation(cssText, true));
+				declaration.storeValue(CSSPropertyNames.KERNING, new CSSLengthValueImplementation(cssText, CSSLengthValueImplementation.VALUE_AUTO | CSSLengthValueImplementation.VALUE_INHERIT));
 			});
 			properties.put(CSSPropertyNames.LETTER_SPACING, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation(cssText, false));
+				declaration.storeValue(CSSPropertyNames.LETTER_SPACING, new CSSLengthValueImplementation(cssText, CSSLengthValueImplementation.VALUE_NORMAL | CSSLengthValueImplementation.VALUE_INHERIT));
 			});
 			properties.put(CSSPropertyNames.LIGHTING_COLOR, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.LIGHTING_COLOR, new CSSAdvancedColorValueImplementation("white"));
@@ -212,8 +217,10 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.STROKE, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));
 			});
-			// stroke-dasharray
-			// stroke-dashoffset
+			// TODO stroke-dasharray
+			properties.put(CSSPropertyNames.STROKE_DASHOFFSET, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STROKE_DASHOFFSET, new CSSLengthValueImplementation(cssText, CSSLengthValueImplementation.VALUE_INHERIT));
+			});
 			properties.put(CSSPropertyNames.STROKE_LINECAP, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STROKE_LINECAP, createEnum(CSSEnums.STROKE_LINECAP_VALUES, cssText));
 			});
@@ -226,7 +233,9 @@ public class CSSProperties {
 			properties.put(CSSPropertyNames.STROKE_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.STROKE_OPACITY, createNumber(cssText));
 			});
-			// stroke-width
+			properties.put(CSSPropertyNames.STROKE_WIDTH, (cssText, declaration) -> {
+				declaration.storeValue(CSSPropertyNames.STROKE_WIDTH, new CSSLengthValueImplementation(cssText, CSSLengthValueImplementation.VALUE_INHERIT));
+			});
 			properties.put(CSSPropertyNames.TEXT_ANCHOR, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, cssText));
 			});
@@ -243,7 +252,7 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.VISIBILITY, createEnum(CSSEnums.VISIBILITY_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.WORD_SPACING, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.WORD_SPACING, new CSSLengthValueImplementation(cssText, false));
+				declaration.storeValue(CSSPropertyNames.WORD_SPACING, new CSSLengthValueImplementation(cssText, CSSLengthValueImplementation.VALUE_NORMAL | CSSLengthValueImplementation.VALUE_INHERIT));
 			});
 			properties.put(CSSPropertyNames.WRITING_MODE, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.WRITING_MODE, createEnum(CSSEnums.WRITING_MODE_VALUES, cssText));
@@ -285,6 +294,12 @@ public class CSSProperties {
 		CSSValue paintValue = new CSSPaintValueImplementation();
 		paintValue.setCssText(cssText);
 		return paintValue;
+	}
+	
+	private static CSSValue createAngle(boolean canBeAuto, String cssText) {
+		CSSValue angleValue = new CSSAngleValueImplementation(canBeAuto);
+		angleValue.setCssText(cssText);
+		return angleValue;
 	}
 	
 	public static void parseValue(String propertyName, String cssText, CSSStyleDeclarationImplementation declaration) {

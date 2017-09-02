@@ -7,10 +7,9 @@ Add batik license of computing the Arc2D
 TODO:
 -----
 Computing style values:
-	set initial -> default
-	Compute cascading value for relative properties
-	Ensure that base elements for relative attributes are set
+	Compute cascading value for relative properties (recurse until defaultValues)
 	SVGSVGElement
+CSSLengthValueImplementation.setBaseElement
 	
 Setting values (i.e. glyph) based on font attributes
 CSSProperties

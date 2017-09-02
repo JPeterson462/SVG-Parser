@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSAdvancedColorValue;
+import org.w3c.dom.css.CSSAngleValue;
 import org.w3c.dom.css.CSSColorValue;
 import org.w3c.dom.css.CSSEnumListValue;
 import org.w3c.dom.css.CSSEnumValue;
@@ -368,33 +369,63 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 			CSSProperties.storeDefaults(defaultValues);
 			CSSStyleDeclaration inlineValues = element instanceof SVGStylable ? ((SVGStylable) element).getStyle() : null;
 			CSSStyleDeclarationImplementation computeValues = new CSSStyleDeclarationImplementation(inlineValues.getParentRule());
+			final String INITIAL = "initial";
+			// 1. Use absolute values in inlineValues or from defaultValues for 'initial' values
 			for (int i = 0; i < defaultValues.getLength(); i++) {
 				String propertyName = defaultValues.item(i);
 				CSSValue value = inlineValues.getPropertyCSSValue(propertyName);
 				if (value != null) {
 					if (value instanceof CSSEnumListValue || value instanceof CSSEnumValue || value instanceof CSSIRIValue ||
-							value instanceof CSSStringListValue) {
-						computeValues.storeValue(propertyName, value);
+							value instanceof CSSStringListValue || value instanceof CSSAngleValue) {
+						if (value.getCssText().equals(INITIAL)) {
+							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
+						} else {
+							computeValues.storeValue(propertyName, value);			
+						}
 					}
 					else if (value instanceof CSSColorValue || value instanceof CSSAdvancedColorValue) {
-						computeValues.storeValue(propertyName, value);
+						if (value.getCssText().equals(INITIAL)) {
+							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
+						} else {
+							computeValues.storeValue(propertyName, value);			
+						}
 					}					
 					else if (value instanceof CSSPaintValue) {
-						
+						if (value.getCssText().equals(INITIAL)) {
+							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
+						} else {
+							//TODO
+						}
 					}
 					else if (value instanceof CSSLengthValue) {
-						
+						if (value.getCssText().equals(INITIAL)) {
+							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
+						} else {
+							//TODO
+						}
 					}
 					else if (value instanceof CSSNumberValue) {
-						
+						if (value.getCssText().equals(INITIAL)) {
+							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
+						} else {
+							//TODO
+						}
 					}
 				}
 			}
-			// 1. Use absolute values in inlineValues or from defaultValues for 'initial' values
 			// 2. Traverse the parent hierarchy for absolute values 
+			//...
 			// 3. Compute relative values based on hierarchy (until first absolute value)
+			//...
 			// 4. Add in default values for unspecified values
-			return computeValues;//TODO
+			for (int i = 0; i < defaultValues.getLength(); i++) {
+				String propertyName = defaultValues.item(i);
+				CSSValue value = defaultValues.getPropertyCSSValue(propertyName);
+				if (computeValues.getPropertyCSSValue(propertyName) == null) {
+					computeValues.storeValue(propertyName, value);
+				}
+			}
+			return computeValues;
 		}
 
 		@Override
