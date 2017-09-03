@@ -86,24 +86,44 @@ public interface SVGElementInstance extends EventTarget {
 		@Override
 		public void connect(SVGUseElement useElement) {
 			correspondingUseElement = useElement;
-			parentNode = ((SVGElement) correspondingElement.getParentNode()).createInstance();
-			firstChild = ((SVGElement) correspondingElement.getFirstChild()).createInstance();
-			lastChild = ((SVGElement) correspondingElement.getLastChild()).createInstance();
-			previousSibling = ((SVGElement) correspondingElement.getPreviousSibling()).createInstance();
-			nextSibling = ((SVGElement) correspondingElement.getNextSibling()).createInstance();
+			if (correspondingElement.getParentNode() != null) {
+				parentNode = ((SVGElement) correspondingElement.getParentNode()).createInstance();		
+			}
+			if (correspondingElement.getFirstChild() != null) {
+				firstChild = ((SVGElement) correspondingElement.getFirstChild()).createInstance();
+			}
+			if (correspondingElement.getLastChild() != null) {
+				lastChild = ((SVGElement) correspondingElement.getLastChild()).createInstance();
+			}
+			if (correspondingElement.getPreviousSibling() != null) {
+				previousSibling = ((SVGElement) correspondingElement.getPreviousSibling()).createInstance();
+			}
+			if (correspondingElement.getNextSibling() != null) {
+				nextSibling = ((SVGElement) correspondingElement.getNextSibling()).createInstance();
+			}
 			ArrayList<SVGElementInstance> children = new ArrayList<>();
 			NodeList childNodes = correspondingElement.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i++) {
+			for (int i = 0; childNodes != null && i < childNodes.getLength(); i++) {
 				Node child = childNodes.item(i);
 				if (child instanceof SVGElement) {
 					children.add(((SVGElement) child).createInstance());
 				}
 			}
-			parentNode.connect(correspondingUseElement);
-			firstChild.connect(correspondingUseElement);
-			lastChild.connect(correspondingUseElement);
-			previousSibling.connect(correspondingUseElement);
-			nextSibling.connect(correspondingUseElement);
+//			if (parentNode != null) {
+//				parentNode.connect(correspondingUseElement);
+//			}
+			if (firstChild != null) {
+				firstChild.connect(correspondingUseElement);
+			}
+			if (lastChild != null) {
+				lastChild.connect(correspondingUseElement);
+			}
+//			if (previousSibling != null) {
+//				previousSibling.connect(correspondingUseElement);
+//			}
+			if (nextSibling != null) {
+				nextSibling.connect(correspondingUseElement);
+			}
 			for (int i = 0; i < children.size(); i++) {
 				children.get(i).connect(correspondingUseElement);
 			}

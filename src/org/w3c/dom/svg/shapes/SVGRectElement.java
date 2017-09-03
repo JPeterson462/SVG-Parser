@@ -5,11 +5,12 @@ import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
+import org.w3c.dom.svg.SVGDimensioned;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
-public interface SVGRectElement extends SVGShapeElement {
+public interface SVGRectElement extends SVGShapeElement, SVGDimensioned {
 
 	public SVGAnimatedLength getX();
 

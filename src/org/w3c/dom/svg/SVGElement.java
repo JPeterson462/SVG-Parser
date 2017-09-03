@@ -104,7 +104,7 @@ public interface SVGElement extends Element {
 		}
 		
 		public String getAsString() {
-			return "SVGElement id[" + getID() + "] xmlBase[" + getXMLBase() + "]";
+			return getTag() + " id[" + getID() + "] xmlBase[" + getXMLBase() + "]";
 		}
 
 		@Override

@@ -32,6 +32,7 @@ import org.w3c.dom.svg.SVGAnimatedPreserveAspectRatio;
 import org.w3c.dom.svg.SVGAnimatedRect;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
+import org.w3c.dom.svg.SVGDimensioned;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGFitToViewBox;
@@ -54,7 +55,7 @@ import org.w3c.dom.views.DocumentView;
 public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace, 
 			SVGExternalResourcesRequired, SVGStylable, SVGLocatable, 
 			SVGFitToViewBox, SVGZoomAndPan, DocumentEvent, ViewCSS, 
-			DocumentCSS {
+			DocumentCSS, SVGDimensioned {
 	
 	public SVGNumber getVersion();
 	

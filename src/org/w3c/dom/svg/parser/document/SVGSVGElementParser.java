@@ -151,10 +151,10 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
-		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
-		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
-		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
-		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
@@ -169,6 +169,7 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 			attributes.put(Attributes.VIEW_BOX, viewBox.getX() + " " + viewBox.getY() + " " + viewBox.getWidth() + " " + viewBox.getHeight());	
 		}
 		attributes.put("xmlns", "http://www.w3.org/2000/svg");
+		attributes.put("xmlns:xlink", "https://www.w3.org/1999/xlink");
 		return factory.createElement(Tags.SVG, attributes);
 	}
 

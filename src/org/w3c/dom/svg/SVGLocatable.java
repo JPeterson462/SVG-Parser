@@ -50,8 +50,19 @@ public interface SVGLocatable {
 
 		@Override
 		public SVGRect getBBox() {
-			// TODO
-			return null;
+			SVGElement parent = (SVGElement) element.getParentNode();
+			SVGRect parentBoundingBox = null;
+			while (parent != null && parentBoundingBox == null) {
+				if (parent instanceof SVGLocatable) {
+					parentBoundingBox = ((SVGLocatable) parent).getBBox();
+				}
+				parent = (SVGElement) parent.getParentNode();
+			}
+			if (parentBoundingBox == null) {
+				parentBoundingBox = new SVGRect.Implementation(0, 0, 0, 0); // TODO
+			}
+			// TODO apply transforms, compute for shapes and paths
+			return new SVGRect.Implementation(parentBoundingBox.getX(), parentBoundingBox.getY(), parentBoundingBox.getWidth(), parentBoundingBox.getHeight());
 		}
 
 		@Override

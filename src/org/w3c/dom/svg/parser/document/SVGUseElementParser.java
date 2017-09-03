@@ -8,8 +8,11 @@ import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
+import org.w3c.dom.svg.SVGDimensioned;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
+import org.w3c.dom.svg.SVGLocatable;
+import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGElementInstance;
 import org.w3c.dom.svg.document.SVGSVGElement;
@@ -22,6 +25,19 @@ import org.w3c.dom.svg.parser.Tags;
 
 public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 
+	private float[] computeBounds(Element element, SVGElementInstance instanceRoot) {
+		SVGElement svgElement = instanceRoot.getCorrespondingElement();
+		if (svgElement instanceof SVGLocatable) {
+			SVGRect bounds = ((SVGLocatable) svgElement).getBBox();
+			return new float[] { bounds.getWidth(), bounds.getHeight() };
+		}
+		if (svgElement instanceof SVGDimensioned) {
+			SVGDimensioned dimensioned = (SVGDimensioned) svgElement;
+			return new float[] { dimensioned.getWidth().getBaseValue().getValue(), dimensioned.getHeight().getBaseValue().getValue() };
+		}
+		return new float[] { 0, 0 }; // TODO
+	}
+	
 	@Override
 	public SVGUseElement readElement(Element element, ParsingState parsingState) {
 		// Attributes
@@ -30,8 +46,9 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 		SVGElementInstance instanceRoot = parsingState.getElement(hrefStr).createInstance();
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = element.getAttribute(Attributes.WIDTH);
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		float[] bounds = computeBounds(element, instanceRoot);
+		String widthStr = ElementParser.readOrDefault(element, Attributes.WIDTH, Float.toString(bounds[0]));
+		String heightStr = ElementParser.readOrDefault(element, Attributes.HEIGHT, Float.toString(bounds[1]));
 		SVGLength x = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		x.setValueAsString(xStr);
 		SVGLength y = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
@@ -84,10 +101,10 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 	public Element writeElement(SVGUseElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
-		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
-		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
-		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
-		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());

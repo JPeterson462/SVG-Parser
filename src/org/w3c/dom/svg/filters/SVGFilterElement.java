@@ -9,6 +9,7 @@ import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedInteger;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGDimensioned;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
@@ -17,7 +18,7 @@ import org.w3c.dom.svg.SVGURIReference;
 import org.w3c.dom.svg.SVGUnitTypes;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
-public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGUnitTypes {
+public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGUnitTypes, SVGDimensioned {
 
 	public SVGAnimatedEnumeration getFilterUnits();
 	
