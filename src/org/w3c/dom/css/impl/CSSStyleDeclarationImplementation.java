@@ -98,7 +98,7 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 			}
 			String[] keyValue = line.split(":");
 			String key = keyValue[0];
-			String value = line.substring(key.length());
+			String value = line.substring(key.length() + 1);
 			key = key.trim();
 			value = value.trim();
 			String priority = "";

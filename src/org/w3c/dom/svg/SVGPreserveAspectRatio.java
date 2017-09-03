@@ -119,7 +119,7 @@ public interface SVGPreserveAspectRatio {
 		}
 		
 		public String getAsString() {
-			return align_enumToStr.get(align) + (meetOrSlice != SVG_MEETORSLICE_UNKNOWN ? meetOrSlice_enumToStr.get(meetOrSlice) : "");
+			return align_enumToStr.get(align) + (meetOrSlice != SVG_MEETORSLICE_UNKNOWN ? " " + meetOrSlice_enumToStr.get(meetOrSlice) : "");
 		}
 		
 	}

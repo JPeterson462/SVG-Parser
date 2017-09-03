@@ -29,13 +29,16 @@ public class SVGSymbolElementParser implements ElementParser<SVGSymbolElement> {
 		SVGAnimatedRect viewBox = null;
 		if (viewBoxStr != null) {
 			ArrayList<String> viewBoxStrValues = StringUtils.splitByWhitespace(viewBoxStr);
-			SVGRect viewBoxValue = new SVGRect.Implementation(Float.parseFloat(viewBoxStrValues.get(0)), Float.parseFloat(viewBoxStrValues.get(1)),
+			SVGRect viewBoxValue = null;
+			if (viewBoxStrValues.size() >= 4) {
+				viewBoxValue = new SVGRect.Implementation(Float.parseFloat(viewBoxStrValues.get(0)), Float.parseFloat(viewBoxStrValues.get(1)),
 					Float.parseFloat(viewBoxStrValues.get(2)), Float.parseFloat(viewBoxStrValues.get(3)));
+			}
 			viewBox = new SVGAnimatedRect.Implementation(viewBoxValue, viewBoxValue);
 		}
 		SVGPreserveAspectRatio.Implementation preserveAspectRatioValue = new SVGPreserveAspectRatio.Implementation();
-		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(element.getAttribute(Attributes.PRESERVE_ASPECT_RATIO));
-		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() > 1 ? null : preserveAspectRatioParts.get(1));
+		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, "xMidYMid meet"));
+		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		// Get default values
 		String id = element.getAttribute(Attributes.ID);

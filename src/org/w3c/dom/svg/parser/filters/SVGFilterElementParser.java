@@ -41,10 +41,10 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 	public SVGFilterElement readElement(Element element, ParsingState parsingState) {
 		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
-		String filterUnitsStr = ElementParser.validate(element.getAttribute(Attributes.FILTER_UNITS), "userSpaceOnUse", "objectBoundingBox");
+		String filterUnitsStr = ElementParser.validate(ElementParser.readOrDefault(element, Attributes.FILTER_UNITS, "objectBoundingBox"), "userSpaceOnUse", "objectBoundingBox");
 		short filterUnitsValue = strToUnits.get(filterUnitsStr);
 		SVGAnimatedEnumeration filterUnits = new SVGAnimatedEnumeration.Implementation(filterUnitsValue, filterUnitsValue);
-		String primitiveUnitsStr = ElementParser.validate(element.getAttribute(Attributes.PRIMITIVE_UNITS), "userSpaceOnUse", "objectBoundingBox");
+		String primitiveUnitsStr = ElementParser.validate(ElementParser.readOrDefault(element, Attributes.PRIMITIVE_UNITS, "userSpaceOnUse"), "userSpaceOnUse", "objectBoundingBox");
 		short primitiveUnitsValue = strToUnits.get(primitiveUnitsStr);
 		SVGAnimatedEnumeration primitiveUnits = new SVGAnimatedEnumeration.Implementation(primitiveUnitsValue, primitiveUnitsValue);
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "-10%");
@@ -83,7 +83,7 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 			filterResXRaw = Float.parseFloat(filterResStr.get(0));
 			filterResYRaw = Float.parseFloat(filterResStr.get(2));
 		}
-		else {
+		else if (filterResStr.size() > 0) {
 			SVGErrors.error("Invalid filterRes: " + element.getAttribute(Attributes.FILTER_RES));
 		}
 		SVGAnimatedInteger filterResX = new SVGAnimatedInteger.Implementation((int) filterResXRaw, (int) filterResXRaw);

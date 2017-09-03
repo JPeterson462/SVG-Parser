@@ -137,14 +137,14 @@ public class SVGFontFaceParser {
 			panose1Values.add(new SVGNumber.Implementation(Float.parseFloat(panose1Parts.get(i))));
 		}
 		SVGNumberList panose1 = new SVGNumberList.Implementation(panose1Values);
-		SVGNumber stemV = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMV, null)));
-		SVGNumber stemH = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMH, null)));
+		SVGNumber stemV = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMV, "0")));
+		SVGNumber stemH = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMH, "0")));
 		SVGNumber slope = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.SLOPE, "0")));
-		SVGNumber capHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.CAP_HEIGHT, null)));
-		SVGNumber xHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.X_HEIGHT, null)));
-		SVGNumber accentHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ACCENT_HEIGHT, null)));
-		SVGNumber ascent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ASCENT, null)));
-		SVGNumber descent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.DESCENT, null)));
+		SVGNumber capHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.CAP_HEIGHT, "0")));
+		SVGNumber xHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.X_HEIGHT, "0")));
+		SVGNumber accentHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ACCENT_HEIGHT, "0")));
+		SVGNumber ascent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ASCENT, "0")));
+		SVGNumber descent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.DESCENT, "0")));
 		HashMap<Integer, SVGNumber> widths = new HashMap<>();
 		String widthsStr = element.getAttribute(Attributes.WIDTHS, "0");
 		String[] widthsParts = widthsStr.split(",");
@@ -170,11 +170,14 @@ public class SVGFontFaceParser {
 			}
 		}
 		String[] bBoxValues = element.getAttribute(Attributes.BBOX, null).split(",");
-		SVGRect bBox = new SVGRect.Implementation(Float.parseFloat(bBoxValues[0].trim()), Float.parseFloat(bBoxValues[1].trim()), 
-				Float.parseFloat(bBoxValues[2].trim()), Float.parseFloat(bBoxValues[3].trim()));
-		SVGNumber ideographic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.IDEOGRAPHIC, null)));
-		SVGNumber alphabetic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ALPHABETIC, null)));
-		SVGNumber mathematical = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.MATHEMATICAL, null)));
+		SVGRect bBox = null;
+		if (bBoxValues.length >= 4) {
+			bBox = new SVGRect.Implementation(Float.parseFloat(bBoxValues[0].trim()), Float.parseFloat(bBoxValues[1].trim()), 
+					Float.parseFloat(bBoxValues[2].trim()), Float.parseFloat(bBoxValues[3].trim()));
+		}
+		SVGNumber ideographic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.IDEOGRAPHIC, "0")));
+		SVGNumber alphabetic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ALPHABETIC, "0")));
+		SVGNumber mathematical = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.MATHEMATICAL, "0")));
 		SVGNumber hanging = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.HANGING, null)));
 		SVGNumber vIdeographic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.V_IDEOGRAPHIC, null)));
 		SVGNumber vAlphabetic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.V_ALPHABETIC, null)));

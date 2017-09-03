@@ -37,6 +37,12 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		}
 		String rxStr = element.getAttribute(Attributes.RX);
 		String ryStr = element.getAttribute(Attributes.RY);
+		if (rxStr == "" ) {
+			rxStr = "0";
+		}
+		if (ryStr == "" ) {
+			ryStr = rxStr;
+		}
 		if (rxStr == null && ryStr != null) {
 			rxStr = ryStr;
 		}

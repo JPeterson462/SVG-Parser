@@ -39,8 +39,8 @@ public class SVGViewElementParser implements ElementParser<SVGViewElement> {
 			viewBox = new SVGAnimatedRect.Implementation(viewBoxValue, viewBoxValue);
 		}
 		SVGPreserveAspectRatio.Implementation preserveAspectRatioValue = new SVGPreserveAspectRatio.Implementation();
-		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(element.getAttribute(Attributes.PRESERVE_ASPECT_RATIO));
-		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() > 1 ? null : preserveAspectRatioParts.get(1));
+		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, "xMidYMid meet"));
+		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		SVGStringList viewTarget = new SVGStringList.Implementation(StringUtils.splitByWhitespace(element.getAttribute(Attributes.VIEW_TARGET)));
 		String zoomAndPanStr = element.getAttribute(Attributes.ZOOM_AND_PAN);

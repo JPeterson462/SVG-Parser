@@ -303,10 +303,9 @@ public class CSSProperties {
 	}
 	
 	public static void parseValue(String propertyName, String cssText, CSSStyleDeclarationImplementation declaration) {
-		if (!properties.containsKey(propertyName)) {
-			SVGErrors.error("Invalid CSS Property: " + propertyName);
+		if (properties.containsKey(propertyName)) {
+			properties.get(propertyName).parseValue(cssText, declaration);
 		}
-		properties.get(propertyName).parseValue(cssText, declaration);
 	}
 	
 }

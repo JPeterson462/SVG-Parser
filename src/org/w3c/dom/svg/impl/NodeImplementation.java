@@ -33,6 +33,8 @@ public class NodeImplementation implements Node, NodeList {
 	
 	protected List<AttrImplementation> attributes = new ArrayList<>();
 	
+	private String textContent;
+	
 	public NodeImplementation(String nodeName) {
 		this.nodeName = nodeName;
 	}
@@ -166,7 +168,7 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public String getTextContent() throws DOMException {
-		return DOMErrors.notSupported();
+		return textContent;
 	}
 
 	@Override
@@ -326,7 +328,7 @@ public class NodeImplementation implements Node, NodeList {
 
 	@Override
 	public void setTextContent(String textContent) throws DOMException {
-		DOMErrors.notSupported();
+		this.textContent = textContent;
 	}
 
 	@Override

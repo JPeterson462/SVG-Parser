@@ -6,4 +6,6 @@ public interface CSSPaintValue extends CSSValue {
 
 	public SVGPaint getPaint();
 	
+	public String getPaintUri();
+	
 }

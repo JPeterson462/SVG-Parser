@@ -9,10 +9,12 @@ public interface SVGMatrix {
 		setA(1);
 		setB(0);
 		setC(0);
-		setD(0);
-		setE(1);
+		setD(1);
+		setE(0);
 		setF(0);
 	}
+	
+	public void set(float a, float b, float c, float d, float e, float f) throws DOMException;
 	
 	public float getA();
 	
@@ -76,42 +78,42 @@ public interface SVGMatrix {
 
 		@Override
 		public float getB() {
-			return matrix.m10;
-		}
-
-		@Override
-		public void setB(float b) throws DOMException {
-			matrix.m10(b);
-		}
-
-		@Override
-		public float getC() {
-			return matrix.m20;
-		}
-
-		@Override
-		public void setC(float c) throws DOMException {
-			matrix.m20(c);
-		}
-
-		@Override
-		public float getD() {
 			return matrix.m01;
 		}
 
 		@Override
-		public void setD(float d) throws DOMException {
-			matrix.m01(d);
+		public void setB(float b) throws DOMException {
+			matrix.m01(b);
 		}
 
 		@Override
-		public float getE() {
+		public float getC() {
+			return matrix.m10;
+		}
+
+		@Override
+		public void setC(float c) throws DOMException {
+			matrix.m10(c);
+		}
+
+		@Override
+		public float getD() {
 			return matrix.m11;
 		}
 
 		@Override
+		public void setD(float d) throws DOMException {
+			matrix.m11(d);
+		}
+
+		@Override
+		public float getE() {
+			return matrix.m20;
+		}
+
+		@Override
 		public void setE(float e) throws DOMException {
-			matrix.m11(e);
+			matrix.m20(e);
 		}
 
 		@Override
@@ -128,10 +130,10 @@ public interface SVGMatrix {
 		public SVGMatrix multiply(SVGMatrix right) {
 			Matrix3f matrix = new Matrix3f();
 			matrix.m00(right.getA());
-			matrix.m10(right.getB());
-			matrix.m20(right.getC());
-			matrix.m01(right.getD());
-			matrix.m11(right.getE());
+			matrix.m01(right.getB());
+			matrix.m10(right.getC());
+			matrix.m11(right.getD());
+			matrix.m20(right.getE());
 			matrix.m21(right.getF());
 			this.matrix.mul(matrix);
 			return this;
@@ -146,8 +148,10 @@ public interface SVGMatrix {
 
 		@Override
 		public SVGMatrix translate(float x, float y) {
-			matrix.m20(matrix.m00 * x + matrix.m10 * y);
-			matrix.m21(matrix.m01 * x + matrix.m11 * y);
+			Matrix3f transformation = new Matrix3f().identity();
+			transformation.m20(x);
+			transformation.m21(y);
+			matrix.mul(transformation);
 			return this;
 		}
 
@@ -158,10 +162,9 @@ public interface SVGMatrix {
 
 		@Override
 		public SVGMatrix scaleNonUniform(float scaleFactorX, float scaleFactorY) {
-			matrix.m00(matrix.m00 * scaleFactorX);
-			matrix.m10(matrix.m10 * scaleFactorX);
-			matrix.m01(matrix.m01 * scaleFactorY);
-			matrix.m11(matrix.m11 * scaleFactorY);
+			Matrix3f transformation = new Matrix3f().identity();
+			transformation.scale(scaleFactorX, scaleFactorY, 1);
+			matrix.mul(transformation);
 			return this;
 		}
 
@@ -204,6 +207,16 @@ public interface SVGMatrix {
 			transformation.m01((float) Math.tan(angle));
 			matrix.mul(transformation);
 			return this;
+		}
+
+		@Override
+		public void set(float a, float b, float c, float d, float e, float f) throws DOMException {
+			setA(a);
+			setB(b);
+			setC(c);
+			setD(d);
+			setE(e);
+			setF(f);
 		}
 		
 	}

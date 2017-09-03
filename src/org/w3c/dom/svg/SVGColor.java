@@ -221,7 +221,7 @@ public interface SVGColor extends CSSValue {
 			if (byName != null) {
 				return new RGBColorImplementation(byName);
 			}
-			throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color name.");
+			throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color name: '" + text + "'");
 		}
 		return new RGBColorImplementation(red, green, blue);
 	}

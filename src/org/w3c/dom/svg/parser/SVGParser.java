@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -18,7 +19,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.svg.SVGElement;
-import org.w3c.dom.svg.SVGErrors;
+import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.animation.SVGAnimationElement;
 import org.w3c.dom.svg.document.SVGRenderingState;
 import org.w3c.dom.svg.document.SVGSVGElement;
@@ -42,6 +43,7 @@ public class SVGParser {
 					((SVGAnimationElement) element).searchForTargetElement(parsingState::getElement);
 				}
 			});
+			SVGLength.Pool.calculate();
 			return rootElement;
 		} else {
 			throw new DOMException(DOMException.INVALID_STATE_ERR, "Invalid SVG Document");
@@ -54,20 +56,29 @@ public class SVGParser {
 			return tag;
 		}
 		if (split.length > 2) {
-			SVGErrors.error("Invalid namespace: " + tag);
+			return null;
 		}
 		for (int i = 0; i < validNamespaces.length; i++) {
 			if (split[0].equals(validNamespaces[i])) {
 				return split[1];
 			}
 		}
-		return SVGErrors.error("Invalid namespace: " + tag);
+		return null;
 	}
 	
 	@SuppressWarnings("rawtypes")
 	private SVGElement parseElementRecursively(Element root, ParsingState parsingState) {
-		ElementParser parser = Parsers.getParser(removeNamespace(root.getTagName(), "svg"));
+		String strippedTag = removeNamespace(root.getTagName(), "svg");
+		if (strippedTag == null) {
+			return null;
+		}
+		ElementParser parser = Parsers.getParser(strippedTag);
+		if (parser == null) {
+			return null;
+		}
+		System.out.println("'" + root.getTagName() + "'");
 		SVGElement element = parser.readElement(root, parsingState);
+		element.setTag(root.getTagName());
 		parsingState.addElement(element);
 		if (element instanceof SVGSVGElement) {
 			if (parsingState.getOwnerSVGElement() == null) {
@@ -81,7 +92,10 @@ public class SVGParser {
 			if (!(child instanceof Element)) {
 				continue;
 			}
-			element.appendChild(parseElementRecursively((Element) child, parsingState));
+			Node childNode = parseElementRecursively((Element) child, parsingState);
+			if (childNode != null) {
+				element.appendChild(childNode);
+			}
 		}
 		parsingState.popParent();
 		return element;
@@ -89,7 +103,7 @@ public class SVGParser {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Element parseElementRecursively(SVGElement root, ElementFactory factory) {
-		ElementParser parser = Parsers.getParser(root.getTagName());
+		ElementParser parser = Parsers.getParser(root.getTag());
 		Element element = parser.writeElement(root, factory);
 		NodeList children = root.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
@@ -102,6 +116,13 @@ public class SVGParser {
 		return element;
 	}
 	
+	private boolean isInvalidNumber(String text) {
+		if (text.equals("NaN")) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void writeDocument(SVGSVGElement element, OutputStream stream) throws ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbFactory.newDocumentBuilder();
@@ -109,8 +130,9 @@ public class SVGParser {
 		ElementFactory factory = (name, attributes) -> {
 			Element node = document.createElement(name);
 			attributes.entrySet().forEach((entry) -> { 
-				if (entry.getValue() != null) 
+				if (entry.getValue() != null && entry.getValue().length() > 0 && !isInvalidNumber(entry.getValue())) {
 					node.setAttribute(entry.getKey(), entry.getValue());
+				}
 			});
 			return node;
 		};
@@ -118,6 +140,8 @@ public class SVGParser {
 		document.appendChild(rootElement);
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		DOMSource source = new DOMSource(document);
 		StreamResult result = new StreamResult(stream);
 		transformer.transform(source, result);

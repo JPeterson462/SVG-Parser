@@ -82,4 +82,9 @@ public class CSSLengthValueImplementation implements CSSLengthValue {
 		}
 	}
 
+	@Override
+	public int getValueFlags() {
+		return valueFlags;
+	}
+
 }

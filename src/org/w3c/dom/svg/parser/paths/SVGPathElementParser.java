@@ -18,6 +18,7 @@ import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 import org.w3c.dom.svg.paths.NormalizedPathSegListBuilder;
 import org.w3c.dom.svg.paths.SVGPathElement;
+import org.w3c.dom.svg.paths.SVGPathMath;
 import org.w3c.dom.svg.paths.SVGPathSegList;
 
 public class SVGPathElementParser implements ElementParser<SVGPathElement> {
@@ -25,8 +26,11 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 	@Override
 	public SVGPathElement readElement(Element element, ParsingState parsingState) {
 		String pathLengthStr = element.getAttribute(Attributes.PATH_LENGTH);
-		SVGAnimatedNumber aPathLength = new SVGAnimatedNumber.Implementation(Float.parseFloat(pathLengthStr), Float.parseFloat(pathLengthStr));
 		SVGPathSegList pathSegList = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
+		if (pathLengthStr == null || pathLengthStr.length() == 0) {
+			pathLengthStr = Float.toString(SVGPathMath.getPathLength(pathSegList));
+		}
+		SVGAnimatedNumber aPathLength = new SVGAnimatedNumber.Implementation(Float.parseFloat(pathLengthStr), Float.parseFloat(pathLengthStr));
 		NormalizedPathSegListBuilder builder1 = new NormalizedPathSegListBuilder();
 		SVGPathSegList normalizedPathSegList = builder1.process(pathSegList);
 		String id = element.getAttribute(Attributes.ID);
@@ -75,6 +79,7 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
+		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
 		return factory.createElement(Tags.PATH, attributes);
 	}
 

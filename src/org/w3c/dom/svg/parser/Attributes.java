@@ -96,6 +96,10 @@ public interface Attributes {
 	
 	public static final String FROM = "from";
 	
+	public static final String FX = "fx";
+	
+	public static final String FY = "fy";
+	
 	public static final String G1 = "g1";
 	
 	public static final String G2 = "g2";
@@ -103,6 +107,10 @@ public interface Attributes {
 	public static final String GLYPH_NAME = "glyph-name";
 	
 	public static final String GLYPH_REF = "glyphRef";
+	
+	public static final String GRADIENT_TRANSFORM = "gradientTransform";
+	
+	public static final String GRADIENT_UNITS = "gradientUnits";
 	
 	public static final String HANGING = "hanging";
 	
@@ -255,6 +263,8 @@ public interface Attributes {
 	public static final String SPECULAR_CONSTANT = "specularConstant";
 	
 	public static final String SPECULAR_EXPONENT = "specularExponent";
+	
+	public static final String SPREAD_METHOD = "spreadMethod";
 	
 	public static final String START_OFFSET = "startOffset";
 	

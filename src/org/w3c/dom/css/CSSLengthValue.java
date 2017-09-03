@@ -13,4 +13,6 @@ public interface CSSLengthValue extends CSSValue {
 	
 	public SVGLength getValue();
 	
+	public int getValueFlags();
+	
 }

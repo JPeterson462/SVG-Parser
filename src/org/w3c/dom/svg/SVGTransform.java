@@ -44,6 +44,12 @@ public interface SVGTransform {
 		private SVGMatrix matrix;
 		
 		private float angle;
+		
+		public float[] rotateValues;
+		
+		public Implementation() {
+			matrix = new SVGMatrix.Implementation();
+		}
 
 		@Override
 		public short getType() {
@@ -64,28 +70,26 @@ public interface SVGTransform {
 		public void setMatrix(SVGMatrix matrix) throws DOMException {
 			type = SVG_TRANSFORM_MATRIX;
 			angle = 0;
-			matrix.setA(matrix.getA());
-			matrix.setB(matrix.getB());
-			matrix.setC(matrix.getC());
-			matrix.setD(matrix.getD());
-			matrix.setE(matrix.getE());
-			matrix.setF(matrix.getF());
+			this.matrix.setA(matrix.getA());
+			this.matrix.setB(matrix.getB());
+			this.matrix.setC(matrix.getC());
+			this.matrix.setD(matrix.getD());
+			this.matrix.setE(matrix.getE());
+			this.matrix.setF(matrix.getF());
 		}
 
 		@Override
 		public void setTranslate(float tx, float ty) throws DOMException {
 			type = SVG_TRANSFORM_TRANSLATE;
 			angle = 0;
-			matrix.identity();
-			matrix.translate(tx, ty);
+			matrix.set(1, 0, 0, 1, tx, ty);
 		}
 
 		@Override
 		public void setScale(float sx, float sy) throws DOMException {
 			type = SVG_TRANSFORM_SCALE;
 			angle = 0;
-			matrix.identity();
-			matrix.scaleNonUniform(sx, sy);
+			matrix.set(sx, 0, 0, sy, 0, 0);
 		}
 
 		@Override
@@ -96,22 +100,23 @@ public interface SVGTransform {
 			matrix.translate(cx, cy);
 			matrix.rotate(angle);
 			matrix.translate(-cx, -cy);
+			rotateValues = new float[] { angle, cx, cy };
 		}
 
 		@Override
 		public void setSkewX(float angle) throws DOMException {
+			type = SVG_TRANSFORM_SKEWX;
 			this.angle = angle;
-			matrix.identity();
-			matrix.skewX(angle);
+			matrix.set(1, 0, (float) Math.tan(angle), 1, 0, 0);;
 		}
 
 		@Override
 		public void setSkewY(float angle) throws DOMException {
+			type = SVG_TRANSFORM_SKEWY;
 			this.angle = angle;
-			matrix.identity();
-			matrix.skewY(angle);
+			matrix.set(1, (float) Math.tan(angle), 0, 1, 0, 0);
 		}
-		
+
 	}
 
 }

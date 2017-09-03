@@ -154,6 +154,11 @@ public interface SVGAElement extends SVGElement, SVGURIReference, SVGTests, SVGL
 		public SVGAnimatedString getTarget() {
 			return target;
 		}
+
+		@Override
+		public String getAsString() {
+			return "SVGAElement ";
+		}
 		
 	}
 	

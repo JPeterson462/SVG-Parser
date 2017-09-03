@@ -1,6 +1,9 @@
 package org.w3c.dom.svg;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.DOMException;
+import org.w3c.dom.css.impl.StringUtils;
 
 public interface SVGLength {
 
@@ -50,6 +53,18 @@ public interface SVGLength {
 	public void convertToSpecifiedUnits(short unitType) throws DOMException;
 	
 	public SVGElement getBaselineElement();
+	
+	public static class Pool {
+		
+		public static ArrayList<Implementation> instances = new ArrayList<>();
+		
+		public static void calculate() {
+			for (int i = 0; i < instances.size(); i++) {
+				instances.get(i).convertToSpecifiedUnits(instances.get(i).unitType);
+			}
+		}
+		
+	}
 
 	public static class Implementation implements SVGLength {
 
@@ -69,6 +84,7 @@ public interface SVGLength {
 		private SVGElement element;
 
 		public Implementation(short unitType, float valueInSpecifiedUnits, SVGElement element) {
+			Pool.instances.add(this);
 			this.valueInSpecifiedUnits = valueInSpecifiedUnits;
 			this.element = element;
 			convertToSpecifiedUnits(unitType);
@@ -144,6 +160,9 @@ public interface SVGLength {
 
 		@Override
 		public String getValueAsString() {
+			if (unitType == SVG_LENGTHTYPE_PX) {
+				return getValueInSpecifiedUnitsAsString();
+			}
 			String extension = "";
 			switch (unitType) {
 				case SVG_LENGTHTYPE_PERCENTAGE:
@@ -174,7 +193,11 @@ public interface SVGLength {
 					extension = "pc";
 					break;
 			}
-			return Float.toString(valueInSpecifiedUnits) + extension;
+			return getValueInSpecifiedUnitsAsString() + extension;
+		}
+		
+		private String getValueInSpecifiedUnitsAsString() {
+			return StringUtils.convertToWritable(valueInSpecifiedUnits);
 		}
 
 		@Override
@@ -183,37 +206,40 @@ public interface SVGLength {
 				value = value.substring(0, value.length() - 1);
 				unitType = SVG_LENGTHTYPE_PERCENTAGE;
 			} else {
-				String extension = value.substring(value.length() - 2).toLowerCase();
-				switch (extension) {
-					case "em":
-						unitType = SVG_LENGTHTYPE_EMS;
-						break;
-					case "ex":
-						unitType = SVG_LENGTHTYPE_EXS;
-						break;
-					case "px":
-						unitType = SVG_LENGTHTYPE_PX;
-						break;
-					case "cm":
-						unitType = SVG_LENGTHTYPE_CM;
-						break;
-					case "mm":
-						unitType = SVG_LENGTHTYPE_MM;
-						break;
-					case "in":
-						unitType = SVG_LENGTHTYPE_IN;
-						break;
-					case "pt":
-						unitType = SVG_LENGTHTYPE_PT;
-						break;
-					case "pc":
-						unitType = SVG_LENGTHTYPE_PC;
-						break;
-					default:
-						throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid unit type constant");
+				if (value.endsWith("em") || value.endsWith("ex") || value.endsWith("px") || value.endsWith("cm") || 
+						value.endsWith("mm") || value.endsWith("in") || value.endsWith("pt") || value.endsWith("pc")) {
+					String extension = value.substring(value.length() - 2).toLowerCase();
+					switch (extension) {
+						case "em":
+							unitType = SVG_LENGTHTYPE_EMS;
+							break;
+						case "ex":
+							unitType = SVG_LENGTHTYPE_EXS;
+							break;
+						case "px":
+							unitType = SVG_LENGTHTYPE_PX;
+							break;
+						case "cm":
+							unitType = SVG_LENGTHTYPE_CM;
+							break;
+						case "mm":
+							unitType = SVG_LENGTHTYPE_MM;
+							break;
+						case "in":
+							unitType = SVG_LENGTHTYPE_IN;
+							break;
+						case "pt":
+							unitType = SVG_LENGTHTYPE_PT;
+							break;
+						case "pc":
+							unitType = SVG_LENGTHTYPE_PC;
+							break;
+					}
+					value = value.substring(0, value.length() - 2);
+				} else {
+					unitType = SVG_LENGTHTYPE_PX;
 				}
-				value = value.substring(0, value.length() - 2);
-			}
+			}System.out.println(value);
 			setValueInSpecifiedUnits(Float.parseFloat(value));
 		}
 
@@ -235,15 +261,20 @@ public interface SVGLength {
 					}
 					break;
 				case SVG_LENGTHTYPE_PERCENTAGE:
-					SVGElement viewportElement = element.getViewportElement();
-					if (viewportElement != null) {
-						if (viewportElement instanceof SVGLocatable) {
-							value = (valueInSpecifiedUnits * 0.01f) * ((SVGLocatable) viewportElement).getBBox().getWidth();
+					if (element != null) {
+						SVGElement viewportElement = element.getViewportElement();
+						if (viewportElement != null) {
+							SVGRect boundingBox = ((SVGLocatable) viewportElement).getBBox();
+							if (viewportElement instanceof SVGLocatable) {
+								if (boundingBox != null) {
+									value = (valueInSpecifiedUnits * 0.01f) * boundingBox.getWidth();
+								}
+							} else {
+								throw new DOMException(DOMException.INVALID_STATE_ERR, "This element (" + viewportElement + ") cannot be used for relative positioning");
+							}
 						} else {
-							throw new DOMException(DOMException.INVALID_STATE_ERR, "This element (" + viewportElement + ") cannot be used for relative positioning");
+							throw new DOMException(DOMException.INVALID_STATE_ERR, "Root elements cannot use relative positioning"); 
 						}
-					} else {
-						throw new DOMException(DOMException.INVALID_STATE_ERR, "Root elements cannot use relative positioning"); 
 					}
 					break;
 				case SVG_LENGTHTYPE_EMS:

@@ -11,6 +11,13 @@ public class StringUtils {
 	
 	public static final String URI_PREFIX = "url(", URI_SUFFIX = ")";
 
+	public static String convertToWritable(float value) {
+		if (Math.floor(value) == value) {
+			return Integer.toString((int) Math.floor(value));
+		}
+		return Float.toString(value);
+	}
+	
 	public static ArrayList<String> splitByWhitespace(String text) {
 		ArrayList<String> list = new ArrayList<>();
 		Matcher matcher = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(text);

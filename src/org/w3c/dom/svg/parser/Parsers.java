@@ -155,6 +155,9 @@ public class Parsers {
 		parsers.put(Tags.SVG, new SVGSVGElementParser());
 		parsers.put(Tags.HKERN, new SVGHKernElementParser());
 		parsers.put(Tags.VKERN, new SVGVKernElementParser());
+		parsers.put(Tags.LINEAR_GRADIENT, new SVGLinearGradientElementParser());
+		parsers.put(Tags.RADIAL_GRADIENT, new SVGRadialGradientElementParser());
+		parsers.put(Tags.STOP, new SVGStopElementParser());
 		registered = true;
 	}
 	

@@ -10,8 +10,12 @@ public interface SVGAnimatedRect extends Animated<SVGRect> {
 		
 		public Implementation(SVGRect baseValue, SVGRect animatedValue) {
 			this.baseValue = baseValue;
-			if (baseValue == animatedValue) {
-				this.animatedValue = new SVGRect.Implementation(baseValue.getX(), baseValue.getY(), baseValue.getWidth(), baseValue.getHeight());
+			if (baseValue != null) {
+				if (baseValue == animatedValue) {
+					this.animatedValue = new SVGRect.Implementation(baseValue.getX(), baseValue.getY(), baseValue.getWidth(), baseValue.getHeight());
+				} else {
+					this.animatedValue = animatedValue;
+				}
 			} else {
 				this.animatedValue = animatedValue;
 			}

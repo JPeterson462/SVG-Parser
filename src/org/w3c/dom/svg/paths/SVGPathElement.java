@@ -18,6 +18,7 @@ import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTests;
 import org.w3c.dom.svg.SVGTransformable;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.SVGMatrix;
 
 public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, SVGTests, SVGExternalResourcesRequired, SVGTransformable, SVGAnimatedPathData {
@@ -475,6 +476,11 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		@Override
 		public SVGMatrix getTransformToElement(SVGElement element) throws DOMException {
 			return transformableBase.getTransformToElement(element);
+		}
+		
+		@Override
+		public String getAsString() {
+			return "SVGPathElement transform[" + ElementParser.getTransforms(transformableBase.getTransform()) + "] d[" + ElementParser.join(getPathSegList(), " ") + "] pathLength[" + getPathLength().getBaseValue() + "]";
 		}
 		
 	}

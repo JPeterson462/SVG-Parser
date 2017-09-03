@@ -94,6 +94,9 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static String concatenate(SVGStringList list, String joinBy) {
 		String concatenated = "";
+		if (list == null) {
+			return null;
+		}
 		for (int i = 0; i < list.getLength(); i++) {
 			if (i > 0) {
 				concatenated += joinBy;
@@ -105,6 +108,9 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static String concatenate(SVGNumberList list, String joinBy) {
 		String concatenated = "";
+		if (list == null) {
+			return null;
+		}
 		for (int i = 0; i < list.getNumberOfItems(); i++) {
 			if (i > 0) {
 				concatenated += joinBy;
@@ -116,6 +122,9 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static String concatenate(SMILTimingValueList list, String joinBy) {
 		String concatenated = "";
+		if (list == null) {
+			return null;
+		}
 		for (int i = 0; i < list.getNumberOfItems(); i++) {
 			if (i > 0) {
 				concatenated += joinBy;
@@ -127,6 +136,9 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static String concatenate(SVGUnicodeRangeList list, String joinBy) {
 		String concatenated = "";
+		if (list == null) {
+			return null;
+		}
 		for (int i = 0; i < list.getNumberOfItems(); i++) {
 			if (i > 0) {
 				concatenated += joinBy;
@@ -149,6 +161,7 @@ public interface ElementParser<T extends SVGElement> {
 		String[] properties = CSSPropertyNames.PROPERTIES;
 		for (int i = 0; i < properties.length; i++) {
 			if (element.hasAttribute(properties[i])) {
+				System.out.println(properties[i]);
 				declaration.setProperty(properties[i], element.getAttribute(properties[i]), "important");
 			}
 		}
@@ -252,19 +265,46 @@ public interface ElementParser<T extends SVGElement> {
 	}
 	
 	public static SVGAnimatedTransformList parseTransforms(Element element) {
-		ArrayList<SVGTransform> transforms = new ArrayList<>();
 		String attribute = readOrDefault(element, Attributes.TRANSFORM, "");
-		String[] rawTransforms = attribute.split("[ ]+");
-		for (int i = 0; i < rawTransforms.length; i++) {
-			transforms.add(parseTransform(rawTransforms[i]));
+		return parseTransforms(attribute);
+	}
+	
+	public static SVGAnimatedTransformList parseTransforms(String attribute) {
+		ArrayList<SVGTransform> transforms = new ArrayList<>();
+		if (attribute.length() > 0) {
+			String[] rawTransforms = attribute.split("\\)");
+			for (int i = 0; i < rawTransforms.length; i++) {
+				transforms.add(parseTransform((rawTransforms[i] + ")").trim()));
+			}
 		}
 		return new SVGAnimatedTransformList.Implementation(new SVGTransformList.Implementation(transforms),
 				new SVGTransformList.Implementation(transforms));
 	}
 	
 	public static String getTransform(SVGTransform transform) {
-		return "matrix(" + transform.getMatrix().getA() + ", " + transform.getMatrix().getB() + ", " + transform.getMatrix().getC() + ", "
-				+ transform.getMatrix().getD() + ", " + transform.getMatrix().getE() + ", " + transform.getMatrix().getF() + ")";
+		if (transform.getType() == SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+			return "translate(" + StringUtils.convertToWritable(transform.getMatrix().getE()) + ", " + StringUtils.convertToWritable(transform.getMatrix().getF()) + ")";
+		}
+		if (transform.getType() == SVGTransform.SVG_TRANSFORM_SCALE) {
+			return "scale(" + StringUtils.convertToWritable(transform.getMatrix().getA()) + ", " + StringUtils.convertToWritable(transform.getMatrix().getD()) + ")";
+		}
+		if (transform.getType() == SVGTransform.SVG_TRANSFORM_ROTATE && transform instanceof SVGTransform.Implementation) {
+			float[] values = ((SVGTransform.Implementation) transform).rotateValues;
+			if (values[1] == 0 && values[2] == 0) {
+				return "rotate(" + StringUtils.convertToWritable(values[0]) + ")";
+			}
+			return "rotate(" + StringUtils.convertToWritable(values[0]) + ", " + StringUtils.convertToWritable(values[1]) + ", " + StringUtils.convertToWritable(values[2]) + ")";
+		}
+		if (transform.getType() == SVGTransform.SVG_TRANSFORM_SKEWX) {
+			return "skewX(" + StringUtils.convertToWritable((float) Math.atan(transform.getMatrix().getC())) + ")";
+		}
+		if (transform.getType() == SVGTransform.SVG_TRANSFORM_SKEWY) {
+			return "skewY(" + StringUtils.convertToWritable((float) Math.atan(transform.getMatrix().getB())) + ")";
+		}
+		return "matrix(" + StringUtils.convertToWritable(transform.getMatrix().getA()) + ", " + 
+				StringUtils.convertToWritable(transform.getMatrix().getB()) + ", " + StringUtils.convertToWritable(transform.getMatrix().getC()) + ", " +
+				StringUtils.convertToWritable(transform.getMatrix().getD()) + ", " + StringUtils.convertToWritable(transform.getMatrix().getE()) + ", " +
+				StringUtils.convertToWritable(transform.getMatrix().getF()) + ")";
 	}
 	
 	public static String getTransforms(SVGAnimatedTransformList transforms) {
@@ -282,6 +322,9 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static String join(SVGStringList list, String joinBy) {
 		String text = "";
+		if (list == null) {
+			return null;
+		}
 		for (int i = 0; i < list.getLength(); i++) {
 			if (i > 0) {
 				text += joinBy;
@@ -293,6 +336,9 @@ public interface ElementParser<T extends SVGElement> {
 	
 	public static String getPointList(SVGPointList points) {
 		String text = "";
+		if (points == null) {
+			return null;
+		}
 		for (int i = 0; i < points.getNumberOfItems(); i++) {
 			if (i > 0) {
 				text += " ";
@@ -394,8 +440,8 @@ public interface ElementParser<T extends SVGElement> {
 		}
 		
 		private void skipWhitespace() {
-			while (data[pointer] == ' ' || data[pointer] == '\n' || 
-					data[pointer] == '\t' || data[pointer] == '\r') {
+			while (pointer < data.length && (data[pointer] == ' ' || data[pointer] == '\n' || 
+					data[pointer] == '\t' || data[pointer] == '\r' || data[pointer] == ',')) {
 				pointer++;
 			}
 		}
@@ -413,9 +459,10 @@ public interface ElementParser<T extends SVGElement> {
 			skipWhitespace();
 			int digits = 0;
 			char[] array = new char[data.length - pointer];
-			while (isNumber(data[pointer])) {
+			while (pointer < data.length && digits < array.length && (Character.isDigit(data[pointer]) || data[pointer] == '.' || (digits == 0 && data[pointer] == '-'))) {
 				array[digits++] = data[pointer];
 				pointer++;
+				System.out.println(pointer + " " + data.length);
 			}
 			char[] result = new char[digits];
 			System.arraycopy(array, 0, result, 0, digits);
@@ -431,7 +478,7 @@ public interface ElementParser<T extends SVGElement> {
 		
 		private boolean moreValues() {
 			skipWhitespace();
-			return isNumber(data[pointer]);
+			return pointer < data.length && isNumber(data[pointer]);
 		}
 		
 		private boolean moreData() {
@@ -453,66 +500,76 @@ public interface ElementParser<T extends SVGElement> {
 	
 	static String toString(SVGPathSeg pathSeg) {
 		switch (pathSeg.getPathSegTypeAsLetter().charAt(0)) {
-			case 'z':
+			case 'z': case 'Z':
 				return "z";
 			case 'M':
 				SVGPathSegMoveToAbs moveToAbs = (SVGPathSegMoveToAbs) pathSeg;
-				return "M " + moveToAbs.getX() + " " + moveToAbs.getY();
+				return "M " + StringUtils.convertToWritable(moveToAbs.getX()) + " " + StringUtils.convertToWritable(moveToAbs.getY());
 			case 'm':
 				SVGPathSegMoveToRel moveToRel = (SVGPathSegMoveToRel) pathSeg;
-				return "m " + moveToRel.getX() + " " + moveToRel.getY();
+				return "m " + StringUtils.convertToWritable(moveToRel.getX()) + " " + StringUtils.convertToWritable(moveToRel.getY());
 			case 'L':
 				SVGPathSegLineToAbs lineToAbs = (SVGPathSegLineToAbs) pathSeg; 
-				return "L " + lineToAbs.getX();
+				return "L " + StringUtils.convertToWritable(lineToAbs.getX()) + " " + StringUtils.convertToWritable(lineToAbs.getY());
 			case 'l':
 				SVGPathSegLineToRel lineToRel = (SVGPathSegLineToRel) pathSeg; 
-				return "l " + lineToRel.getX();
+				return "l " + StringUtils.convertToWritable(lineToRel.getX()) + " " + StringUtils.convertToWritable(lineToRel.getY());
 			case 'H':
 				SVGPathSegLineToHorizontalAbs lineToHorizontalAbs = (SVGPathSegLineToHorizontalAbs) pathSeg;
-				return "H " + lineToHorizontalAbs.getX();
+				return "H " + StringUtils.convertToWritable(lineToHorizontalAbs.getX());
 			case 'h':
 				SVGPathSegLineToHorizontalRel lineToHorizontalRel = (SVGPathSegLineToHorizontalRel) pathSeg;
-				return "h " + lineToHorizontalRel.getX();
+				return "h " + StringUtils.convertToWritable(lineToHorizontalRel.getX());
 			case 'V':
 				SVGPathSegLineToVerticalAbs lineToVerticalAbs = (SVGPathSegLineToVerticalAbs) pathSeg;
-				return "V " + lineToVerticalAbs.getY();
+				return "V " + StringUtils.convertToWritable(lineToVerticalAbs.getY());
 			case 'v':
 				SVGPathSegLineToVerticalRel lineToVerticalRel = (SVGPathSegLineToVerticalRel) pathSeg;
-				return "v " + lineToVerticalRel.getY();
+				return "v " + StringUtils.convertToWritable(lineToVerticalRel.getY());
 			case 'C':
 				SVGPathSegCurveToCubicAbs curveToCubicAbs = (SVGPathSegCurveToCubicAbs) pathSeg;
-				return "C " + curveToCubicAbs.getX1() + " " + curveToCubicAbs.getY1() + " " + 
-						curveToCubicAbs.getX2() + " " + curveToCubicAbs.getY2() + " " + curveToCubicAbs.getX() + " " + curveToCubicAbs.getY();
+				return "C " + StringUtils.convertToWritable(curveToCubicAbs.getX1()) + " " + StringUtils.convertToWritable(curveToCubicAbs.getY1()) + " " + 
+					StringUtils.convertToWritable(curveToCubicAbs.getX2()) + " " + StringUtils.convertToWritable(curveToCubicAbs.getY2()) +
+					" " + StringUtils.convertToWritable(curveToCubicAbs.getX()) + " " + StringUtils.convertToWritable(curveToCubicAbs.getY());
 			case 'c':
 				SVGPathSegCurveToCubicRel curveToCubicRel = (SVGPathSegCurveToCubicRel) pathSeg;
-				return "c " + curveToCubicRel.getX1() + " " + curveToCubicRel.getY1() + " " + 
-					curveToCubicRel.getX2() + " " + curveToCubicRel.getY2() + " " + curveToCubicRel.getX() + " " + curveToCubicRel.getY();
+				return "c " + StringUtils.convertToWritable(curveToCubicRel.getX1()) + " " + StringUtils.convertToWritable(curveToCubicRel.getY1()) + " " + 
+					StringUtils.convertToWritable(curveToCubicRel.getX2()) + " " + StringUtils.convertToWritable(curveToCubicRel.getY2()) +
+					" " + StringUtils.convertToWritable(curveToCubicRel.getX()) + " " + StringUtils.convertToWritable(curveToCubicRel.getY());
 			case 'S':
 				SVGPathSegCurveToCubicSmoothAbs curveToCubicSmoothAbs = (SVGPathSegCurveToCubicSmoothAbs) pathSeg;
-				return "S " + curveToCubicSmoothAbs.getX2() + " " + curveToCubicSmoothAbs.getY2() + " " + curveToCubicSmoothAbs.getX() + " " + curveToCubicSmoothAbs.getY();
+				return "S " + StringUtils.convertToWritable(curveToCubicSmoothAbs.getX2()) + " " + StringUtils.convertToWritable(curveToCubicSmoothAbs.getY2()) +
+						" " + StringUtils.convertToWritable(curveToCubicSmoothAbs.getX()) + " " + StringUtils.convertToWritable(curveToCubicSmoothAbs.getY());
 			case 's':
 				SVGPathSegCurveToCubicSmoothRel curveToCubicSmoothRel = (SVGPathSegCurveToCubicSmoothRel) pathSeg;
-				return "s " + curveToCubicSmoothRel.getX2() + " " + curveToCubicSmoothRel.getY2() + " " + curveToCubicSmoothRel.getX() + " " + curveToCubicSmoothRel.getY();
+				return "s " + StringUtils.convertToWritable(curveToCubicSmoothRel.getX2()) + " " + StringUtils.convertToWritable(curveToCubicSmoothRel.getY2()) +
+						" " + StringUtils.convertToWritable(curveToCubicSmoothRel.getX()) + " " + StringUtils.convertToWritable(curveToCubicSmoothRel.getY());
 			case 'Q':
 				SVGPathSegCurveToQuadraticAbs curveToQuadraticAbs = (SVGPathSegCurveToQuadraticAbs) pathSeg;
-				return "Q " + curveToQuadraticAbs.getX1() + " " + curveToQuadraticAbs.getY1() + " " + curveToQuadraticAbs.getX() + "  " + curveToQuadraticAbs.getY();
+				return "Q " + StringUtils.convertToWritable(curveToQuadraticAbs.getX1()) + " " + StringUtils.convertToWritable(curveToQuadraticAbs.getY1()) +
+						" " + StringUtils.convertToWritable(curveToQuadraticAbs.getX()) + "  " + StringUtils.convertToWritable(curveToQuadraticAbs.getY());
 			case 'q':
 				SVGPathSegCurveToQuadraticRel curveToQuadraticRel = (SVGPathSegCurveToQuadraticRel) pathSeg;
-				return "q " + curveToQuadraticRel.getX1() + " " + curveToQuadraticRel.getY1() + " " + curveToQuadraticRel.getX() + " " + curveToQuadraticRel.getY();
+				return "q " + StringUtils.convertToWritable(curveToQuadraticRel.getX1()) + " " + StringUtils.convertToWritable(curveToQuadraticRel.getY1()) +
+						" " + StringUtils.convertToWritable(curveToQuadraticRel.getX()) + " " + StringUtils.convertToWritable(curveToQuadraticRel.getY());
 			case 'T':
 				SVGPathSegCurveToQuadraticSmoothAbs curveToQuadraticSmoothAbs = (SVGPathSegCurveToQuadraticSmoothAbs) pathSeg;
-				return "T " + curveToQuadraticSmoothAbs.getX() + " " + curveToQuadraticSmoothAbs.getY();
+				return "T " + StringUtils.convertToWritable(curveToQuadraticSmoothAbs.getX()) + " " +
+					StringUtils.convertToWritable(curveToQuadraticSmoothAbs.getY());
 			case 't':
 				SVGPathSegCurveToQuadraticSmoothRel curveToQuadraticSmoothRel = (SVGPathSegCurveToQuadraticSmoothRel) pathSeg;
-				return "t " + curveToQuadraticSmoothRel.getX() + " " + curveToQuadraticSmoothRel.getY();
+				return "t " + StringUtils.convertToWritable(curveToQuadraticSmoothRel.getX()) + " " + 
+						StringUtils.convertToWritable(curveToQuadraticSmoothRel.getY());
 			case 'A':
 				SVGPathSegArcAbs arcAbs = (SVGPathSegArcAbs) pathSeg;
-				return "A " + arcAbs.getR1() + " " + arcAbs.getR2() + " " + arcAbs.getAngle() + " " + 
-						(arcAbs.getLargeArcFlag() ? 1 : 0) + " " + (arcAbs.getSweepFlag() ? 1 : 0) + " " + arcAbs.getX() + " " + arcAbs.getY(); 
+				return "A " + StringUtils.convertToWritable(arcAbs.getR1()) + " " + StringUtils.convertToWritable(arcAbs.getR2()) + " " +
+						StringUtils.convertToWritable(arcAbs.getAngle()) + " " + (arcAbs.getLargeArcFlag() ? 1 : 0) + " " + (arcAbs.getSweepFlag() ? 1 : 0) +
+						" " + StringUtils.convertToWritable(arcAbs.getX()) + " " + StringUtils.convertToWritable(arcAbs.getY()); 
 			case 'a':
 				SVGPathSegArcRel arcRel = (SVGPathSegArcRel) pathSeg;
-				return "a " + arcRel.getR1() + " " + arcRel.getR2() + " " + arcRel.getAngle() + " " + 
-						(arcRel.getLargeArcFlag() ? 1 : 0) + " " + (arcRel.getSweepFlag() ? 1 : 0) + " " + arcRel.getX() + " " + arcRel.getY(); 
+				return "a " + StringUtils.convertToWritable(arcRel.getR1()) + " " + StringUtils.convertToWritable(arcRel.getR2()) + " " +
+						StringUtils.convertToWritable(arcRel.getAngle()) + " " + (arcRel.getLargeArcFlag() ? 1 : 0) + " " + (arcRel.getSweepFlag() ? 1 : 0) +
+						" " + StringUtils.convertToWritable(arcRel.getX()) + " " + StringUtils.convertToWritable(arcRel.getY()); 
 		}
 		return SVGErrors.error("Invalid path seg type: " + pathSeg.getPathSegTypeAsLetter() + "(" + pathSeg.getPathSegType() + ")");
 	}
@@ -530,7 +587,7 @@ public interface ElementParser<T extends SVGElement> {
 		char type = tokenizer.readPathSegType();
 		ArrayList<SVGPathSeg> list = new ArrayList<>();
 		switch (type) {
-			case 'z':
+			case 'z': case 'Z':
 				list.add(new SVGPathSegClosePath.Implementation());
 				break;
 			case 'M':
@@ -569,6 +626,7 @@ public interface ElementParser<T extends SVGElement> {
 				while (tokenizer.moreValues()) {
 					SVGPathSegLineToRel lineToRel = new SVGPathSegLineToRel.Implementation();
 					lineToRel.setX(tokenizer.readValue());
+					System.out.println(lineToRel.getX());
 					lineToRel.setY(tokenizer.readValue());
 					list.add(lineToRel);
 				}

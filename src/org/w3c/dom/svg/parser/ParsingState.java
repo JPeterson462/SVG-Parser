@@ -112,6 +112,9 @@ public class ParsingState {
 	}
 	
 	public SVGElement getCurrentParent() {
+		if (elementHierarchy.isEmpty()) {
+			return null;
+		}
 		return elementHierarchy.peek();
 	}
 	

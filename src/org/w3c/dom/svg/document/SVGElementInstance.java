@@ -41,28 +41,6 @@ public interface SVGElementInstance extends EventTarget {
 		public Implementation(SVGElement correspondingElement, SVGUseElement correspondingUseElement) {
 			this.correspondingElement = correspondingElement;
 			this.correspondingUseElement = correspondingUseElement;
-			parentNode = ((SVGElement) correspondingElement.getParentNode()).createInstance();
-			firstChild = ((SVGElement) correspondingElement.getFirstChild()).createInstance();
-			lastChild = ((SVGElement) correspondingElement.getLastChild()).createInstance();
-			previousSibling = ((SVGElement) correspondingElement.getPreviousSibling()).createInstance();
-			nextSibling = ((SVGElement) correspondingElement.getNextSibling()).createInstance();
-			ArrayList<SVGElementInstance> children = new ArrayList<>();
-			NodeList childNodes = correspondingElement.getChildNodes();
-			for (int i = 0; i < childNodes.getLength(); i++) {
-				Node child = childNodes.item(i);
-				if (child instanceof SVGElement) {
-					children.add(((SVGElement) child).createInstance());
-				}
-			}
-			parentNode.connect(correspondingUseElement);
-			firstChild.connect(correspondingUseElement);
-			lastChild.connect(correspondingUseElement);
-			previousSibling.connect(correspondingUseElement);
-			nextSibling.connect(correspondingUseElement);
-			for (int i = 0; i < children.size(); i++) {
-				children.get(i).connect(correspondingUseElement);
-			}
-			this.childNodes = new SVGElementInstanceList.Implementation(children);
 		}
 		
 		@Override
@@ -108,14 +86,28 @@ public interface SVGElementInstance extends EventTarget {
 		@Override
 		public void connect(SVGUseElement useElement) {
 			correspondingUseElement = useElement;
+			parentNode = ((SVGElement) correspondingElement.getParentNode()).createInstance();
+			firstChild = ((SVGElement) correspondingElement.getFirstChild()).createInstance();
+			lastChild = ((SVGElement) correspondingElement.getLastChild()).createInstance();
+			previousSibling = ((SVGElement) correspondingElement.getPreviousSibling()).createInstance();
+			nextSibling = ((SVGElement) correspondingElement.getNextSibling()).createInstance();
+			ArrayList<SVGElementInstance> children = new ArrayList<>();
+			NodeList childNodes = correspondingElement.getChildNodes();
+			for (int i = 0; i < childNodes.getLength(); i++) {
+				Node child = childNodes.item(i);
+				if (child instanceof SVGElement) {
+					children.add(((SVGElement) child).createInstance());
+				}
+			}
 			parentNode.connect(correspondingUseElement);
 			firstChild.connect(correspondingUseElement);
 			lastChild.connect(correspondingUseElement);
 			previousSibling.connect(correspondingUseElement);
 			nextSibling.connect(correspondingUseElement);
-			for (int i = 0; i < childNodes.getNumberOfItems(); i++) {
-				childNodes.getItem(i).connect(correspondingUseElement);
+			for (int i = 0; i < children.size(); i++) {
+				children.get(i).connect(correspondingUseElement);
 			}
+			this.childNodes = new SVGElementInstanceList.Implementation(children);
 		}
 		
 	}

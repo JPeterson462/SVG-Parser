@@ -29,10 +29,12 @@ import org.w3c.dom.svg.parser.Tags;
 
 public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 
-	private HashMap<String, Short> strToEnum = new HashMap<>();
-	private HashMap<Short, String> enumToStr = new HashMap<>();
+	private HashMap<String, Short> strToEnum;
+	private HashMap<Short, String> enumToStr;
 	
 	public SVGSVGElementParser() {
+		strToEnum = new HashMap<>();
+		enumToStr = new HashMap<>();
 		strToEnum.put("disable", SVGZoomAndPan.SVG_ZOOMANDPAN_DISABLE);
 		strToEnum.put("magnify", SVGZoomAndPan.SVG_ZOOMANDPAN_MAGNIFY);
 		enumToStr.put(SVGZoomAndPan.SVG_ZOOMANDPAN_DISABLE, "disable");
@@ -43,8 +45,8 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 	public SVGSVGElement readElement(Element element, ParsingState parsingState) {
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = element.getAttribute(Attributes.WIDTH);
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		String widthStr = ElementParser.readOrDefault(element, Attributes.WIDTH, "100%");
+		String heightStr = ElementParser.readOrDefault(element, Attributes.HEIGHT, "100%");
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Width: " + widthStr);
 		}
@@ -64,8 +66,8 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
 		SVGPreserveAspectRatio.Implementation preserveAspectRatioValue = new SVGPreserveAspectRatio.Implementation();
-		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(element.getAttribute(Attributes.PRESERVE_ASPECT_RATIO));
-		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() > 1 ? null : preserveAspectRatioParts.get(1));
+		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, "xMidYMid meet"));
+		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		// Get default values
 		String id = element.getAttribute(Attributes.ID);
@@ -88,36 +90,40 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		float versionValue = Float.parseFloat(element.getAttribute(Attributes.VERSION));
+		float versionValue = Float.parseFloat(ElementParser.readOrDefault(element, Attributes.VERSION, "1.1"));
 		SVGNumber version = new SVGNumber.Implementation(versionValue);
 		String baseProfile = ElementParser.readOrDefault(element, Attributes.BASE_PROFILE, "none");
 		String contentScriptType = ElementParser.readOrDefault(element, Attributes.CONTENT_SCRIPT_TYPE, "application/ecmascript");
 		String contentStyleType = ElementParser.readOrDefault(element, Attributes.CONTENT_STYLE_TYPE, "text/css");
 		SVGState state = new SVGState.Implementation();
-		String zoomAndPanStr = element.getAttribute(Attributes.ZOOM_AND_PAN);
+		String zoomAndPanStr = ElementParser.readOrDefault(element, Attributes.ZOOM_AND_PAN, "magnify");
 		short zoomAndPan = strToEnum.get(zoomAndPanStr);
 		String viewBoxStr = element.getAttribute(Attributes.VIEW_BOX);
-		SVGRect viewBoxBase;
+		SVGRect viewBoxBase = null;
 		if (viewBoxStr.contains(",")) {
 			String[] viewBoxParts = viewBoxStr.split(",");
-			float xValue = Float.parseFloat(viewBoxParts[0].trim());
-			float yValue = Float.parseFloat(viewBoxParts[1].trim());
-			float widthValue = Float.parseFloat(viewBoxParts[2].trim());
-			float heightValue = Float.parseFloat(viewBoxParts[3].trim());
-			if (widthValue < 0 || heightValue < 0) {
-				SVGErrors.error("Invalid viewBox: " + viewBoxStr);
+			if (viewBoxParts.length > 0) {
+				float xValue = Float.parseFloat(viewBoxParts[0].trim());
+				float yValue = Float.parseFloat(viewBoxParts[1].trim());
+				float widthValue = Float.parseFloat(viewBoxParts[2].trim());
+				float heightValue = Float.parseFloat(viewBoxParts[3].trim());
+				if (widthValue < 0 || heightValue < 0) {
+					SVGErrors.error("Invalid viewBox: " + viewBoxStr);
+				}
+				viewBoxBase = new SVGRect.Implementation(xValue, yValue, widthValue, heightValue);
 			}
-			viewBoxBase = new SVGRect.Implementation(xValue, yValue, widthValue, heightValue);
 		} else {
 			ArrayList<String> viewBoxParts = StringUtils.splitByWhitespace(viewBoxStr);
-			float xValue = Float.parseFloat(viewBoxParts.get(0).trim());
-			float yValue = Float.parseFloat(viewBoxParts.get(1).trim());
-			float widthValue = Float.parseFloat(viewBoxParts.get(2).trim());
-			float heightValue = Float.parseFloat(viewBoxParts.get(3).trim());
-			if (widthValue < 0 || heightValue < 0) {
-				SVGErrors.error("Invalid viewBox: " + viewBoxStr);
+			if (viewBoxParts.size() > 0) {
+				float xValue = Float.parseFloat(viewBoxParts.get(0).trim());
+				float yValue = Float.parseFloat(viewBoxParts.get(1).trim());
+				float widthValue = Float.parseFloat(viewBoxParts.get(2).trim());
+				float heightValue = Float.parseFloat(viewBoxParts.get(3).trim());
+				if (widthValue < 0 || heightValue < 0) {
+					SVGErrors.error("Invalid viewBox: " + viewBoxStr);
+				}
+				viewBoxBase = new SVGRect.Implementation(xValue, yValue, widthValue, heightValue);
 			}
-			viewBoxBase = new SVGRect.Implementation(xValue, yValue, widthValue, heightValue);
 		}
 		SVGAnimatedRect viewBox = new SVGAnimatedRect.Implementation(viewBoxBase, viewBoxBase);
 		return new SVGSVGElement.Implementation(parsingState.getRenderingState().getPixelsPerInch(), id, xmlBase, ownerSVGElement,
@@ -159,7 +165,10 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		attributes.put(Attributes.CONTENT_SCRIPT_TYPE, element.getContentScriptType());
 		attributes.put(Attributes.CONTENT_STYLE_TYPE, element.getContentStyleType());
 		attributes.put(Attributes.ZOOM_AND_PAN, enumToStr.get(element.getZoomAndPan()));
-		attributes.put(Attributes.VIEW_BOX, viewBox.getX() + " " + viewBox.getY() + " " + viewBox.getWidth() + " " + viewBox.getHeight());
+		if (viewBox != null) {
+			attributes.put(Attributes.VIEW_BOX, viewBox.getX() + " " + viewBox.getY() + " " + viewBox.getWidth() + " " + viewBox.getHeight());	
+		}
+		attributes.put("xmlns", "http://www.w3.org/2000/svg");
 		return factory.createElement(Tags.SVG, attributes);
 	}
 

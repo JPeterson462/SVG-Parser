@@ -107,6 +107,8 @@ public interface Tags {
 	public static final String IMAGE = "image";
 
 	public static final String LINE = "line";
+	
+	public static final String LINEAR_GRADIENT = "linearGradient";
 		
 	public static final String MARKER = "marker";
 	
@@ -122,12 +124,16 @@ public interface Tags {
 
 	public static final String POLYLINE = "polyline";
 		
+	public static final String RADIAL_GRADIENT = "radialGradient";
+	
 	public static final String RECT = "rect";
 
 	public static final String SCRIPT = "script";
 	
 	public static final String SET = "set";
 		
+	public static final String STOP = "stop";
+	
 	public static final String STYLE = "style";
 	
 	public static final String SVG = "svg";

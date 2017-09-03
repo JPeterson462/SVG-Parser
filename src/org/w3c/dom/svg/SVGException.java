@@ -13,6 +13,7 @@ public class SVGException extends RuntimeException {
 	public String message;
 	
 	public SVGException(short code, String message) {
+		super("SVG Exception [" + code + "]: " + message);
 		this.code = code;
 		this.message = message;
 	}

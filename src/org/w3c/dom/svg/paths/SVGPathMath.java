@@ -10,8 +10,20 @@ public class SVGPathMath {
 
 		public float[] lastControlPoint;
 		
-		public SVGPoint point, start;
+		public SVGPoint point = new SVGPoint.Implementation(0, 0), start = new SVGPoint.Implementation(0, 0);
 		
+	}
+	
+	public static float getPathLength(SVGPathSegList list) {
+		State state = new State();
+		state.point = new SVGPoint.Implementation(0, 0);
+		state.start = new SVGPoint.Implementation(0, 0);
+		float length = 0;
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			System.out.println(list.getItem(i).getPathSegTypeAsLetter() + " -> " + length);
+			length += getSegmentLength(list.getItem(i), state);
+		}
+		return length;
 	}
 	
 	public static float getSegmentLength(SVGPathSeg segment, State state) {

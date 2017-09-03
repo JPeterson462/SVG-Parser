@@ -20,6 +20,7 @@ import org.w3c.dom.css.DocumentCSS;
 import org.w3c.dom.css.ViewCSS;
 import org.w3c.dom.css.impl.CSSProperties;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
+import org.w3c.dom.css.impl.values.CSSLengthValueImplementation;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.stylesheets.StyleSheetList;
@@ -394,29 +395,62 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 						if (value.getCssText().equals(INITIAL)) {
 							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
 						} else {
-							//TODO
+							computeValues.storeValue(propertyName, value);
 						}
 					}
 					else if (value instanceof CSSLengthValue) {
 						if (value.getCssText().equals(INITIAL)) {
 							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
 						} else {
-							//TODO
+							CSSLengthValue lengthValue = (CSSLengthValue) value;
+							SVGLength length = lengthValue.getValue();
+							if (length.getUnitType() == SVGLength.SVG_LENGTHTYPE_PERCENTAGE) {
+								// Compute as relative
+							} else {
+								computeValues.storeValue(propertyName, value);
+							}
 						}
 					}
 					else if (value instanceof CSSNumberValue) {
 						if (value.getCssText().equals(INITIAL)) {
 							computeValues.storeValue(propertyName, defaultValues.getPropertyCSSValue(propertyName));
 						} else {
-							//TODO
+							computeValues.storeValue(propertyName, value);
 						}
 					}
 				}
 			}
 			// 2. Traverse the parent hierarchy for absolute values 
-			//...
 			// 3. Compute relative values based on hierarchy (until first absolute value)
-			//...
+			for (int i = 0; i < defaultValues.getLength(); i++) {
+				String propertyName = defaultValues.item(i);
+				CSSValue value = inlineValues.getPropertyCSSValue(propertyName);
+				if (value instanceof CSSLengthValue) {
+					float valueInSpecifiedUnits = ((CSSLengthValue) value).getValue().getValueInSpecifiedUnits();
+					SVGElement parent = (SVGElement) element.getParentNode();
+					boolean foundAbsolute = false;
+					while (parent != null && !foundAbsolute) {
+						if (parent instanceof SVGStylable) {
+							CSSStyleDeclaration style = ((SVGStylable) parent).getStyle();
+							CSSLengthValue valueNested = (CSSLengthValue) style.getPropertyCSSValue(propertyName);
+							if (valueNested.getValue().getUnitType() == SVGLength.SVG_LENGTHTYPE_PERCENTAGE) {
+								valueInSpecifiedUnits *= valueNested.getValue().getValueInSpecifiedUnits();
+							} else {
+								foundAbsolute = true;
+								valueInSpecifiedUnits = (valueInSpecifiedUnits / 100) * valueNested.getValue().getValue();
+							}
+						}
+						parent = (SVGElement) parent.getParentNode();
+					}
+					if (!foundAbsolute) {
+						CSSLengthValue valueNested = (CSSLengthValue) defaultValues.getPropertyCSSValue(propertyName);
+						valueInSpecifiedUnits = (valueInSpecifiedUnits / 100) * valueNested.getValue().getValue();
+					}
+					SVGLength length = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, (SVGElement) element.getParentNode());
+					length.setValue(valueInSpecifiedUnits);
+					computeValues.storeValue(propertyName, new CSSLengthValueImplementation(length.getValueAsString(), ((CSSLengthValue) value).getValueFlags()));
+				}
+			}
 			// 4. Add in default values for unspecified values
 			for (int i = 0; i < defaultValues.getLength(); i++) {
 				String propertyName = defaultValues.item(i);
@@ -430,14 +464,12 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 
 		@Override
 		public DocumentView getDocument() {
-			// TODO Auto-generated method stub
-			return null;
+			return DOMErrors.notSupported();
 		}
 
 		@Override
-		public CSSStyleDeclaration getOverrideStyle(Element arg0, String arg1) {
-			// TODO Auto-generated method stub
-			return null;
+		public CSSStyleDeclaration getOverrideStyle(Element element, String pseudoElement) {
+			return DOMErrors.notSupported();
 		}
 
 		@Override
@@ -686,7 +718,7 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		public SVGRenderingState getRenderingState() {
 			return renderingState;
 		}
-		
+
 	}
 	
 }

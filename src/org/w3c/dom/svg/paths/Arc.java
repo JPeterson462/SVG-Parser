@@ -79,7 +79,7 @@ public class Arc {
 	
 	public static final int MIN_DEPTH = 5;
 	
-	public static final float ERROR = 1e-12f;
+	public static final float ERROR = 1e-10f;
 	
 	public static float arcLength(float x0, float y0, float x1, float y1, float rx, float ry, float xAxisRotation, int largeArcFlag, int sweepFlag, float t) {
 		return segmentLength((s) -> arc(x0, y0, x1, y1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag, s),
@@ -100,10 +100,11 @@ public class Arc {
 		float firstHalf = SVGMath.sqrt(firstDx * firstDx + firstDy * firstDy);
 		float secondHalf = SVGMath.sqrt(secondDx * secondDx + secondDy * secondDy);
 		float length2 = firstHalf + secondHalf;
-		if (length2 - length > error || depth < minDepth) {
+		if (length2 - length > error && depth < minDepth) {
 			depth++;
-			length2 = segmentLength(curve, t0, mid, x0, y0, midPoint[0], midPoint[1], error, minDepth, depth) +
-					segmentLength(curve, mid, t1, midPoint[0], midPoint[1], x1, y1, error, minDepth, depth);
+			float length2first = t0 == mid ? 0 : segmentLength(curve, t0, mid, x0, y0, midPoint[0], midPoint[1], error, minDepth, depth);
+			float length2second = mid == t1 ? 0 : segmentLength(curve, mid, t1, midPoint[0], midPoint[1], x1, y1, error, minDepth, depth);
+			length2 = length2first + length2second;
 		}
 		return length2;
 	}

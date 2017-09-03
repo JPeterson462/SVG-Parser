@@ -6,14 +6,13 @@ Add batik license of computing the Arc2D
 
 TODO:
 -----
-Computing style values:
-	Compute cascading value for relative properties (recurse until defaultValues)
-	SVGSVGElement
 CSSLengthValueImplementation.setBaseElement
-	
-Setting values (i.e. glyph) based on font attributes
+Get default CSSLengthValue values; are CSSLengthValue based on viewport element or cascading?
+Recursive CSSNumberValue?
+
 CSSProperties
 SVGFontElementParser. 16px -> 1em
+SVGFontFaceParser read font attributes
 Parsing URIs (url(...), local(...))
 Referencing fonts and filters
 
@@ -35,6 +34,7 @@ Setting viewport element each layer?
 Validate SVG using required features and extensions
 Don't support calc()
 Parsing JavaScript?
+Cascading CSSNumberValue?
 
 * = work in progress
 + = done
@@ -46,6 +46,9 @@ Parsing JavaScript?
 +	4. Writer
 
 R	W
++	+	<stop>
++	+	<linearGradient>
++	+	<radialGradient>
 +	+	<svg>
 +	+	<g>
 +	+	<defs>
