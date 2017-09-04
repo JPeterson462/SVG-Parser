@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.svg.ElementFinder;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.impl.EventTargetImplementation;
 
@@ -26,7 +27,7 @@ public interface SVGElementInstance extends EventTarget {
 
 	public SVGElementInstance getNextSibling();
 	
-	public void connect(SVGUseElement useElement);
+	public void connect(SVGUseElement useElement, ElementFinder elementFinder);
 	
 	public static class Implementation extends EventTargetImplementation implements SVGElementInstance {
 
@@ -38,9 +39,10 @@ public interface SVGElementInstance extends EventTarget {
 		
 		private SVGElementInstanceList childNodes;
 		
-		public Implementation(SVGElement correspondingElement, SVGUseElement correspondingUseElement) {
-			this.correspondingElement = correspondingElement;
-			this.correspondingUseElement = correspondingUseElement;
+		private String elementHref;
+		
+		public Implementation(String elementHref) {
+			this.elementHref = elementHref;
 		}
 		
 		@Override
@@ -84,8 +86,9 @@ public interface SVGElementInstance extends EventTarget {
 		}
 
 		@Override
-		public void connect(SVGUseElement useElement) {
+		public void connect(SVGUseElement useElement, ElementFinder elementFinder) {
 			correspondingUseElement = useElement;
+			correspondingElement = elementFinder.findElement(elementHref);
 			if (correspondingElement.getParentNode() != null) {
 				parentNode = ((SVGElement) correspondingElement.getParentNode()).createInstance();		
 			}
@@ -113,19 +116,19 @@ public interface SVGElementInstance extends EventTarget {
 //				parentNode.connect(correspondingUseElement);
 //			}
 			if (firstChild != null) {
-				firstChild.connect(correspondingUseElement);
+				firstChild.connect(correspondingUseElement, elementFinder);
 			}
 			if (lastChild != null) {
-				lastChild.connect(correspondingUseElement);
+				lastChild.connect(correspondingUseElement, elementFinder);
 			}
 //			if (previousSibling != null) {
 //				previousSibling.connect(correspondingUseElement);
 //			}
 			if (nextSibling != null) {
-				nextSibling.connect(correspondingUseElement);
+				nextSibling.connect(correspondingUseElement, elementFinder);
 			}
 			for (int i = 0; i < children.size(); i++) {
-				children.get(i).connect(correspondingUseElement);
+				children.get(i).connect(correspondingUseElement, elementFinder);
 			}
 			this.childNodes = new SVGElementInstanceList.Implementation(children);
 		}

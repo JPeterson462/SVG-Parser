@@ -17,17 +17,17 @@ public class TestSVG1 {
 		SVGParser parser = new SVGParser();
 		// inherit font face attributes (default other than "0")
 		// path length NaN for curves
-		// delay <use> connections until afterwards
 		// animation and document events
 		// 30 left; 371 files; 7 others; 364 ~ 2x - 30, x ~ 200
-		final String SVG_FILE = "svg-files/gallardo";
+		// fill for animation elements
+		final String SVG_FILE = "svg-files/pservers-grad-03-b";
 		// DroidSans-Bold, DroidSans, DroidSansMono, DroidSerif-Bold,
 		// DroidSerif-BoldItalic, DroidSerif-Italic, DroidSerif-Regular,
 		// juanmontoya_lingerie, gallardo, pservers-grad-03-b-anim, anim3,
 		// mouseEvents, ny1, patch, pservers-grad-03-b, rg1024_green_grapes,
 		// rg1024_metal_effect, scimitar-anim, preserveAspectRatio,
 		// gump-bench, displayWebStats, compuserver_msn_Ford_Focus,
-		// anim2, The United States of America, Steps, scimitar, snake, 
+		// anim2, The United States of America (mostly right), Steps, scimitar, snake, 
 		// video1 (<video> tag), svg2009, gaussian1
 		if (!Parsers.hasRegistered()) Parsers.registerParsers();
 		FileInputStream stream = new FileInputStream(SVG_FILE + ".svg");

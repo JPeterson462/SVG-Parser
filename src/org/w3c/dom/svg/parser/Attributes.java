@@ -184,13 +184,25 @@ public interface Attributes {
 	
 	public static final String OFFSET = "offset";
 	
+	public static final String ON_ABORT = "onabort";
+	
 	public static final String ON_BEGIN = "onbegin";
 
 	public static final String ON_END = "onend";
+	
+	public static final String ON_ERROR = "onerror";
 
 	public static final String ON_LOAD = "onload";
 
 	public static final String ON_REPEAT = "onrepeat";
+	
+	public static final String ON_RESIZE = "onresize";
+	
+	public static final String ON_SCROLL = "onscroll";
+	
+	public static final String ON_UNLOAD = "onunload";
+	
+	public static final String ON_ZOOM = "onzoom";
 	
 	public static final String OPERATOR = "operator";
 	
@@ -211,6 +223,12 @@ public interface Attributes {
 	public static final String PATH = "path";
 	
 	public static final String PATH_LENGTH = "pathLength";
+	
+	public static final String PATTERN_CONTENT_UNITS = "patternContentUnits";
+
+	public static final String PATTERN_TRANSFORM = "patternTransform";
+
+	public static final String PATTERN_UNITS = "patternUnits";
 	
 	public static final String PRESERVE_ALPHA = "preserveAlpha";
 	

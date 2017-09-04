@@ -34,6 +34,27 @@ public interface SVGElement extends Element {
 	
 	public String getTag();
 	
+	public void connectEventListeners(String onFocusIn, String onFocusOut, String onActivate, String onClick,
+			String onMouseDown, String onMouseUp, String onMouseOver, String onMouseMove, String onMouseOut);
+	
+	public String getOnFocusIn();
+	
+	public String getOnFocusOut();
+	
+	public String getOnActivate();
+	
+	public String getOnClick();
+	
+	public String getOnMouseDown();
+	
+	public String getOnMouseUp();
+	
+	public String getOnMouseOver();
+	
+	public String getOnMouseMove();
+	
+	public String getOnMouseOut();
+	
 	public static class Implementation extends ElementImplementation implements SVGElement {
 
 		private String id, xmlBase;
@@ -43,6 +64,8 @@ public interface SVGElement extends Element {
 		private SVGElement viewportElement;
 		
 		private String tagName;
+		
+		private String onFocusIn, onFocusOut, onActivate, onClick, onMouseDown, onMouseUp, onMouseOver, onMouseMove, onMouseOut;
 		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
 			super(id);
@@ -84,7 +107,7 @@ public interface SVGElement extends Element {
 
 		@Override
 		public SVGElementInstance createInstance() {
-			return new SVGElementInstance.Implementation(this, null);
+			return new SVGElementInstance.Implementation(getID());
 		}
 		
 		public String toString() {
@@ -115,6 +138,65 @@ public interface SVGElement extends Element {
 		@Override
 		public String getTag() {
 			return tagName;
+		}
+
+		@Override
+		public void connectEventListeners(String onFocusIn, String onFocusOut, String onActivate, String onClick,
+				String onMouseDown, String onMouseUp, String onMouseOver, String onMouseMove, String onMouseOut) {
+			this.onActivate = onActivate;
+			this.onClick = onClick;
+			this.onFocusIn = onFocusIn;
+			this.onFocusOut = onFocusOut;
+			this.onMouseDown = onMouseDown;
+			this.onMouseMove = onMouseMove;
+			this.onMouseOut = onMouseOut;
+			this.onMouseOver = onMouseOver;
+			this.onMouseUp = onMouseUp;
+		}
+
+		@Override
+		public String getOnFocusIn() {
+			return onFocusIn;
+		}
+
+		@Override
+		public String getOnFocusOut() {
+			return onFocusOut;
+		}
+
+		@Override
+		public String getOnActivate() {
+			return onActivate;
+		}
+
+		@Override
+		public String getOnClick() {
+			return onClick;
+		}
+
+		@Override
+		public String getOnMouseDown() {
+			return onMouseDown;
+		}
+
+		@Override
+		public String getOnMouseUp() {
+			return onMouseUp;
+		}
+
+		@Override
+		public String getOnMouseOver() {
+			return onMouseOver;
+		}
+
+		@Override
+		public String getOnMouseMove() {
+			return onMouseMove;
+		}
+
+		@Override
+		public String getOnMouseOut() {
+			return onMouseOut;
 		}
 
 	}

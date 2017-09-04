@@ -23,6 +23,7 @@ import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.animation.SVGAnimationElement;
 import org.w3c.dom.svg.document.SVGRenderingState;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.document.SVGUseElement;
 
 public class SVGParser {
 	
@@ -44,6 +45,12 @@ public class SVGParser {
 				}
 			});
 			SVGLength.Pool.calculate();
+			parsingState.traverseHierarchy(element -> {
+				if (element instanceof SVGUseElement) {
+					((SVGUseElement) element).getInstanceRoot().connect((SVGUseElement) element, parsingState::getElement);
+					((SVGUseElement) element).getAnimatedInstanceRoot().connect((SVGUseElement) element, parsingState::getElement);
+				}
+			});
 			return rootElement;
 		} else {
 			throw new DOMException(DOMException.INVALID_STATE_ERR, "Invalid SVG Document");
@@ -78,6 +85,36 @@ public class SVGParser {
 		}
 		System.out.println("'" + root.getTagName() + "'");
 		SVGElement element = parser.readElement(root, parsingState);
+		String onFocusIn = null, onFocusOut = null, onActivate = null, onClick = null,
+				onMouseDown = null, onMouseUp = null, onMouseOver = null, onMouseMove = null, onMouseOut = null;
+		if (root.hasAttribute("onfocusin")) {
+			onFocusIn = root.getAttribute("onfocusin");
+		}
+		if (root.hasAttribute("onfocusout")) {
+			onFocusOut = root.getAttribute("onfocusout");
+		}
+		if (root.hasAttribute("onactivate")) {
+			onActivate = root.getAttribute("onactivate");
+		}
+		if (root.hasAttribute("onclick")) {
+			onClick = root.getAttribute("onclick");
+		}
+		if (root.hasAttribute("onmousedown")) {
+			onMouseDown = root.getAttribute("onmousedown");
+		}
+		if (root.hasAttribute("onmouseup")) {
+			onMouseUp = root.getAttribute("onmouseup");
+		}
+		if (root.hasAttribute("onmouseover")) {
+			onMouseOver = root.getAttribute("onmouseover");
+		}
+		if (root.hasAttribute("onmousemove")) {
+			onMouseMove = root.getAttribute("onmousemove");
+		}
+		if (root.hasAttribute("onmouseout")) {
+			onMouseOut = root.getAttribute("onmouseout");
+		}
+		element.connectEventListeners(onFocusIn, onFocusOut, onActivate, onClick, onMouseDown, onMouseUp, onMouseOver, onMouseMove, onMouseOut);
 		element.setTag(root.getTagName());
 		parsingState.addElement(element);
 		if (element instanceof SVGSVGElement) {
@@ -105,6 +142,33 @@ public class SVGParser {
 	private Element parseElementRecursively(SVGElement root, ElementFactory factory) {
 		ElementParser parser = Parsers.getParser(root.getTag());
 		Element element = parser.writeElement(root, factory);
+		if (root.getOnFocusIn() != null) {
+			element.setAttribute("onfocusin", root.getOnFocusIn());
+		}
+		if (root.getOnFocusOut() != null) {
+			element.setAttribute("onfocusout", root.getOnFocusOut());
+		}
+		if (root.getOnActivate() != null) {
+			element.setAttribute("onactivate", root.getOnActivate());
+		}
+		if (root.getOnClick() != null) {
+			element.setAttribute("onclick", root.getOnClick());
+		}
+		if (root.getOnMouseDown() != null) {
+			element.setAttribute("onmousedown", root.getOnMouseDown());
+		}
+		if (root.getOnMouseUp() != null) {
+			element.setAttribute("onmouseup", root.getOnMouseUp());
+		}
+		if (root.getOnMouseOver() != null) {
+			element.setAttribute("onmouseover", root.getOnMouseOver());
+		}
+		if (root.getOnMouseMove() != null) {
+			element.setAttribute("onmousemove", root.getOnMouseMove());
+		}
+		if (root.getOnMouseOut() != null) {
+			element.setAttribute("onmouseout", root.getOnMouseOut());
+		}
 		NodeList children = root.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);

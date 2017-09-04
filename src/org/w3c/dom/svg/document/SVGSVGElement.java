@@ -149,6 +149,23 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 	
 	public SVGRenderingState getRenderingState();
 	
+	public void connectDocumentEventListeners(String onLoad, String onAbort, String onError, String onResize, 
+			String onScroll, String onUnload, String onZoom);
+	
+	public String getOnLoad();
+	
+	public String getOnAbort();
+	
+	public String getOnError();
+	
+	public String getOnResize();
+	
+	public String getOnScroll();
+	
+	public String getOnUnload();
+	
+	public String getOnZoom();
+	
 	public static class Implementation extends SVGElement.Implementation implements SVGSVGElement {
 		
 		private SVGStringList requiredFeatures, requiredExtensions, systemLanguage;
@@ -196,6 +213,8 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		private SVGState state;
 		
 		private SVGRenderingState renderingState;
+		
+		private String onLoad, onAbort, onError, onResize, onScroll, onUnload, onZoom;
 		
 		public Implementation(float pixelsPerInch, String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedString className, CSSStyleDeclaration style, String xmlLang, String xmlSpace, SVGAnimatedTransformList transform,
@@ -718,6 +737,53 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		@Override
 		public SVGRenderingState getRenderingState() {
 			return renderingState;
+		}
+
+		@Override
+		public void connectDocumentEventListeners(String onLoad, String onAbort, String onError, String onResize,
+				String onScroll, String onUnload, String onZoom) {
+			this.onLoad = onLoad;
+			this.onAbort = onAbort;
+			this.onError = onError;
+			this.onResize = onResize;
+			this.onScroll = onScroll;
+			this.onUnload = onUnload;
+			this.onZoom = onZoom;
+		}
+
+		@Override
+		public String getOnLoad() {
+			return onLoad;
+		}
+
+		@Override
+		public String getOnAbort() {
+			return onAbort;
+		}
+
+		@Override
+		public String getOnError() {
+			return onError;
+		}
+
+		@Override
+		public String getOnResize() {
+			return onResize;
+		}
+
+		@Override
+		public String getOnScroll() {
+			return onScroll;
+		}
+
+		@Override
+		public String getOnUnload() {
+			return onUnload;
+		}
+
+		@Override
+		public String getOnZoom() {
+			return onZoom;
 		}
 
 	}

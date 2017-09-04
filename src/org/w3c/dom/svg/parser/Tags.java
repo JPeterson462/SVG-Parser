@@ -119,6 +119,8 @@ public interface Tags {
 	public static final String MPATH = "mpath";
 	
 	public static final String PATH = "path";
+	
+	public static final String PATTERN = "pattern";
 
 	public static final String POLYGON = "polygon";
 

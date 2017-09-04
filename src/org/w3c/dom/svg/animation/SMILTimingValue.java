@@ -304,7 +304,7 @@ public interface SMILTimingValue {
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
 				sign = signedClockValue.startsWith("+") ? 1 : -1;
-				clockValue.setValue(signedClockValue.substring(1));
+				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingAccessKeyValue.Implementation(accessKey, sign, clockValue);
 		}
@@ -322,7 +322,7 @@ public interface SMILTimingValue {
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
 				sign = signedClockValue.startsWith("+") ? 1 : -1;
-				clockValue.setValue(signedClockValue.substring(1));
+				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingRepeatValue.Implementation(idValue, repeatCount, sign, clockValue);
 		}
@@ -339,7 +339,7 @@ public interface SMILTimingValue {
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
 				sign = signedClockValue.startsWith("+") ? 1 : -1;
-				clockValue.setValue(signedClockValue.substring(1));
+				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingSyncbaseValue.Implementation(idValue, suffix, sign, clockValue);
 		}
@@ -355,7 +355,7 @@ public interface SMILTimingValue {
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
 				sign = signedClockValue.startsWith("+") ? 1 : -1;
-				clockValue.setValue(signedClockValue.substring(1));
+				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingEventValue.Implementation(idValue, eventRef, sign, clockValue);
 		}
@@ -363,7 +363,7 @@ public interface SMILTimingValue {
 		SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 		if (text.length() > 0) {
 			sign = text.startsWith("+") ? 1 : -1;
-			clockValue.setValue(text.substring(1));
+			clockValue.setValue(text.startsWith("+") || text.startsWith("-") ? text.substring(1) : text);
 		}
 		return new SMILTimingOffsetValue.Implementation(sign, clockValue);
 	}

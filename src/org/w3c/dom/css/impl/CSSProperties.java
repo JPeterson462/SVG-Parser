@@ -130,7 +130,11 @@ public class CSSProperties {
 			});
 			// TODO enable-background
 			properties.put(CSSPropertyNames.FILL, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));
+				if (cssText.equals("remove") || cssText.equals("freeze")) {
+					// Different Context
+				} else {
+					declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));		
+				}
 			});
 			properties.put(CSSPropertyNames.FILL_OPACITY, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber(cssText));

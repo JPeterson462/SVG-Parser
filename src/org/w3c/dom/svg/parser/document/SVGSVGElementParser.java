@@ -126,10 +126,19 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 			}
 		}
 		SVGAnimatedRect viewBox = new SVGAnimatedRect.Implementation(viewBoxBase, viewBoxBase);
-		return new SVGSVGElement.Implementation(parsingState.getRenderingState().getPixelsPerInch(), id, xmlBase, ownerSVGElement,
+		SVGSVGElement svgElement = new SVGSVGElement.Implementation(parsingState.getRenderingState().getPixelsPerInch(), id, xmlBase, ownerSVGElement,
 				viewportElement, className, style, xmlLang, xmlSpace, transform, externalResourcesRequired, 
 				ax, ay, awidth, aheight, viewBox, preserveAspectRatio, zoomAndPan, version, baseProfile,
 				contentScriptType, contentStyleType, state, parsingState.getRenderingState());
+		String onLoad = ElementParser.read(element, Attributes.ON_LOAD);
+		String onAbort = ElementParser.read(element, Attributes.ON_ABORT);
+		String onError = ElementParser.read(element, Attributes.ON_ERROR);
+		String onResize = ElementParser.read(element, Attributes.ON_RESIZE);
+		String onScroll = ElementParser.read(element, Attributes.ON_SCROLL);
+		String onUnload = ElementParser.read(element, Attributes.ON_UNLOAD);
+		String onZoom = ElementParser.read(element, Attributes.ON_ZOOM);
+		svgElement.connectDocumentEventListeners(onLoad, onAbort, onError, onResize, onScroll, onUnload, onZoom);
+		return svgElement;
 	}
 
 	@Override
@@ -170,6 +179,13 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		}
 		attributes.put("xmlns", "http://www.w3.org/2000/svg");
 		attributes.put("xmlns:xlink", "https://www.w3.org/1999/xlink");
+		attributes.put(Attributes.ON_ABORT, element.getOnAbort());
+		attributes.put(Attributes.ON_LOAD, element.getOnLoad());
+		attributes.put(Attributes.ON_ERROR, element.getOnError());
+		attributes.put(Attributes.ON_RESIZE, element.getOnResize());
+		attributes.put(Attributes.ON_SCROLL, element.getOnScroll());
+		attributes.put(Attributes.ON_UNLOAD, element.getOnUnload());
+		attributes.put(Attributes.ON_ZOOM, element.getOnZoom());
 		return factory.createElement(Tags.SVG, attributes);
 	}
 

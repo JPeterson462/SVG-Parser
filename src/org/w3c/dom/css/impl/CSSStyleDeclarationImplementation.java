@@ -47,7 +47,7 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 			if (i > 0) {
 				buffer.append('\n');
 			}
-			buffer.append(propertyName + ": " + property.value + (property.priority.length() > 0 ? (" !" + property.priority) : "") + ";");
+			buffer.append(propertyName + ": " + property.value + (property.priority != null && property.priority.length() > 0 ? (" !" + property.priority) : "") + ";");
 		}
 		return buffer.toString();
 	}

@@ -43,7 +43,7 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 		// Attributes
 		String hrefStr = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
-		SVGElementInstance instanceRoot = parsingState.getElement(hrefStr).createInstance();
+		SVGElementInstance instanceRoot = new SVGElementInstance.Implementation(hrefStr);
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
 		float[] bounds = computeBounds(element, instanceRoot);
@@ -92,8 +92,6 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 				systemLanguage, externalResourcesRequired, nearestViewportElement, 
 				farthestViewportElement, transform, href, ax, ay, awidth, aheight,
 				instanceRoot, instanceRoot);
-		useElement.getInstanceRoot().connect(useElement);
-		useElement.getAnimatedInstanceRoot().connect(useElement);
 		return useElement;
 	}
 

@@ -176,7 +176,7 @@ public interface ElementParser<T extends SVGElement> {
 		for (int i = 0; i < properties.length; i++) {
 			if (element.hasAttribute(properties[i])) {
 				System.out.println(properties[i]);
-				declaration.setProperty(properties[i], element.getAttribute(properties[i]), "important");
+				declaration.setProperty(properties[i], element.getAttribute(properties[i]), null);
 			}
 		}
 	}
