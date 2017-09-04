@@ -25,7 +25,7 @@ public class SVGSymbolElementParser implements ElementParser<SVGSymbolElement> {
 
 	@Override
 	public SVGSymbolElement readElement(Element element, ParsingState parsingState) {
-		String viewBoxStr = element.getAttribute(Attributes.VIEW_BOX);
+		String viewBoxStr = ElementParser.read(element, Attributes.VIEW_BOX);
 		SVGAnimatedRect viewBox = null;
 		if (viewBoxStr != null) {
 			ArrayList<String> viewBoxStrValues = StringUtils.splitByWhitespace(viewBoxStr);
@@ -41,19 +41,19 @@ public class SVGSymbolElementParser implements ElementParser<SVGSymbolElement> {
 		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -67,8 +67,10 @@ public class SVGSymbolElementParser implements ElementParser<SVGSymbolElement> {
 	@Override
 	public Element writeElement(SVGSymbolElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.VIEW_BOX, element.getViewBox().getBaseValue().getX() + " " + element.getViewBox().getBaseValue().getY() + " " + 
+		if (element.getViewBox().getBaseValue() != null) {
+			attributes.put(Attributes.VIEW_BOX, element.getViewBox().getBaseValue().getX() + " " + element.getViewBox().getBaseValue().getY() + " " + 
 				element.getViewBox().getBaseValue().getWidth() + " " + element.getViewBox().getBaseValue().getHeight());
+		}
 		SVGPreserveAspectRatio preserveAspectRatio = element.getPreserveAspectRatio().getBaseValue();
 		SVGPreserveAspectRatio.Implementation preserveAspectRatioImpl = null;
 		if (preserveAspectRatio instanceof SVGPreserveAspectRatio.Implementation) {

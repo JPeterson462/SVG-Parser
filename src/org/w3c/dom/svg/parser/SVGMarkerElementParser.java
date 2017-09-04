@@ -36,7 +36,7 @@ public class SVGMarkerElementParser implements ElementParser<SVGMarkerElement> {
 	
 	@Override
 	public SVGMarkerElement readElement(Element element, ParsingState parsingState) {
-		String viewBoxStr = element.getAttribute(Attributes.VIEW_BOX);
+		String viewBoxStr = ElementParser.read(element, Attributes.VIEW_BOX);
 		SVGAnimatedRect viewBox = null;
 		if (viewBoxStr != null) {
 			ArrayList<String> viewBoxStrValues = StringUtils.splitByWhitespace(viewBoxStr);
@@ -66,7 +66,7 @@ public class SVGMarkerElementParser implements ElementParser<SVGMarkerElement> {
 		SVGLength markerHeight = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		markerHeight.setValueAsString(markerHeightStr);
 		SVGAnimatedLength amarkerHeight = new SVGAnimatedLength.Implementation(markerHeight, markerHeight);
-		String orientStr = element.getAttribute(Attributes.ORIENT);
+		String orientStr = ElementParser.read(element, Attributes.ORIENT);
 		SVGAnimatedAngle aorientAngle = null;
 		short orientTypeEnum;
 		if (orientStr.equals("auto")) {
@@ -82,19 +82,19 @@ public class SVGMarkerElementParser implements ElementParser<SVGMarkerElement> {
 		short markerUnitsEnum = strToEnum.get(markerUnitsStr);
 		SVGAnimatedEnumeration markerUnits = new SVGAnimatedEnumeration.Implementation(markerUnitsEnum, markerUnitsEnum);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

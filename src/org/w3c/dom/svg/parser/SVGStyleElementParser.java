@@ -11,15 +11,15 @@ public class SVGStyleElementParser implements ElementParser<SVGStyleElement> {
 
 	@Override
 	public SVGStyleElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		String type = ElementParser.readOrDefault(element, Attributes.TYPE, parsingState.getOwnerSVGElement().getAttribute(Attributes.CONTENT_STYLE_TYPE), "text/css");
 		String media = ElementParser.readOrDefault(element, Attributes.MEDIA, "all");
-		String title = element.getAttribute(Attributes.TITLE);
+		String title = ElementParser.read(element, Attributes.TITLE);
 		SVGStyleElement styleElement = new SVGStyleElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, type, media, title);
 		styleElement.setTextContent(element.getTextContent());
 		parsingState.addStyleSheet(element.getTextContent());

@@ -70,19 +70,19 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -98,7 +98,7 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		SVGState state = new SVGState.Implementation();
 		String zoomAndPanStr = ElementParser.readOrDefault(element, Attributes.ZOOM_AND_PAN, "magnify");
 		short zoomAndPan = strToEnum.get(zoomAndPanStr);
-		String viewBoxStr = element.getAttribute(Attributes.VIEW_BOX);
+		String viewBoxStr = ElementParser.read(element, Attributes.VIEW_BOX);
 		SVGRect viewBoxBase = null;
 		if (viewBoxStr.contains(",")) {
 			String[] viewBoxParts = viewBoxStr.split(",");
@@ -151,10 +151,10 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
-//		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
-//		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
-//		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
-//		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));

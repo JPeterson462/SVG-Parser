@@ -19,19 +19,19 @@ public class SVGDescElementParser implements ElementParser<SVGDescElement> {
 	@Override
 	public SVGDescElement readElement(Element element, ParsingState parsingState) {
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

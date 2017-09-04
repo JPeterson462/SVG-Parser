@@ -16,10 +16,10 @@ public class SVGFontFaceFormatElementParser implements ElementParser<SVGFontFace
 
 	@Override
 	public SVGFontFaceFormatElement readElement(Element element, ParsingState parsingState) {
-		String string = element.getAttribute(Attributes.STRING);
+		String string = ElementParser.read(element, Attributes.STRING);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGFontFaceFormatElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, string);

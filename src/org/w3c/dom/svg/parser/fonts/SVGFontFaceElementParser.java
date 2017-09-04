@@ -25,13 +25,13 @@ public class SVGFontFaceElementParser implements ElementParser<SVGFontFaceElemen
 //				if (!element.hasAttribute(attribute)) {
 //					SVGErrors.error("Attribute not found: " + attribute);
 //				}
-				return element.getAttribute(attribute);
+				return ElementParser.read(element, attribute);
 			}
 			return ElementParser.readOrDefault(element, attribute, defaultValue);
 		}, parsingState);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGFontFaceElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,

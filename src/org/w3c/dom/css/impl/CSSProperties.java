@@ -80,7 +80,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.STROKE_OPACITY, createNumber("1"));
 		declaration.storeValue(CSSPropertyNames.STROKE_WIDTH, new CSSLengthValueImplementation("1", CSSLengthValueImplementation.VALUE_INHERIT));
 		declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, "start"));
-		declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, "none"));
+		declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_LIST_VALUES, "none"));
 		declaration.storeValue(CSSPropertyNames.TEXT_RENDERING, createEnum(CSSEnums.TEXT_RENDERING_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.UNICODE_BIDI, createEnum(CSSEnums.FONT_STYLE_VALUES, "normal"));
 		declaration.storeValue(CSSPropertyNames.VISIBILITY, createEnum(CSSEnums.VISIBILITY_VALUES, "visible"));
@@ -240,7 +240,7 @@ public class CSSProperties {
 				declaration.storeValue(CSSPropertyNames.TEXT_ANCHOR, createEnum(CSSEnums.TEXT_ANCHOR_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.TEXT_DECORATION, (cssText, declaration) -> {
-				declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, cssText));
+				declaration.storeValue(CSSPropertyNames.TEXT_DECORATION, createEnumList(CSSEnums.TEXT_DECORATION_DEFAULT_VALUES, CSSEnums.TEXT_DECORATION_LIST_VALUES, cssText));
 			});
 			properties.put(CSSPropertyNames.TEXT_RENDERING, (cssText, declaration) -> {
 				declaration.storeValue(CSSPropertyNames.TEXT_RENDERING, createEnum(CSSEnums.TEXT_RENDERING_VALUES, cssText));

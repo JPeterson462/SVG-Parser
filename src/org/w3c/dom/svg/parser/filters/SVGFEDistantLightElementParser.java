@@ -18,13 +18,13 @@ public class SVGFEDistantLightElementParser implements ElementParser<SVGFEDistan
 
 	@Override
 	public SVGFEDistantLightElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		SVGNumber azimuthBase = new SVGNumber.Implementation(Float.parseFloat(element.getAttribute(Attributes.AZIMUTH)));
+		SVGNumber azimuthBase = new SVGNumber.Implementation(Float.parseFloat(ElementParser.read(element, Attributes.AZIMUTH)));
 		SVGAnimatedNumber azimuth = new SVGAnimatedNumber.Implementation(azimuthBase.getValue(), azimuthBase.getValue());
-		SVGNumber elevationBase = new SVGNumber.Implementation(Float.parseFloat(element.getAttribute(Attributes.ELEVATION)));
+		SVGNumber elevationBase = new SVGNumber.Implementation(Float.parseFloat(ElementParser.read(element, Attributes.ELEVATION)));
 		SVGAnimatedNumber elevation = new SVGAnimatedNumber.Implementation(elevationBase.getValue(), elevationBase.getValue());
 		return new SVGFEDistantLightElement.Implementation(id, xmlBase, ownerSVGElement,
 				viewportElement, azimuth, elevation);

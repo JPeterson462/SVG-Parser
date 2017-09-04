@@ -6,6 +6,7 @@ import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSEnumListValue;
 import org.w3c.dom.css.impl.StringUtils;
+import org.w3c.dom.svg.SVGErrors;
 
 public class CSSEnumListValueImplementation implements CSSEnumListValue {
 
@@ -49,7 +50,7 @@ public class CSSEnumListValueImplementation implements CSSEnumListValue {
 			selectedDefaultValue = null;
 			for (int i = 0; i < selectedValues.length; i++) {
 				if (!StringUtils.contains(selectedValues[i], possibleListValues, true)) {
-					DOMErrors.invalidValue();
+					SVGErrors.error("Invalid value: " + selectedValues[i] + " / " + java.util.Arrays.toString(possibleListValues));
 				}
 			}
 		}

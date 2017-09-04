@@ -49,21 +49,27 @@ public class CSSRuleBuilder {
 		int tally = 0;
 		boolean foundBrace = false;
 		char[] textArray = text.toCharArray();
-		int seek = 0, start = 0;
+		int seek = 0, start = 0, end = 0;
 		ArrayList<CSSRule> rules = new ArrayList<>();
 		while (seek < textArray.length) {
 			if (textArray[seek] == '{') {
+				if (tally == 0) {
+					start = seek;
+				}
 				tally++;
 			}
 			if (textArray[seek] == '}') {
 				tally--;
+				if (tally == 0) {
+					end = seek;
+				}
 			}
 			if (textArray[seek] == '{' || textArray[seek] == '}') {
 				foundBrace = true;
 			}
 			seek++;
 			if (foundBrace && tally == 0) {
-				String subText = text.substring(start);
+				String subText = text.substring(start, end + 1);
 				rules.add(createRule(subText, parentRule, declaration, stylesheet, parsingState));
 				start = seek;
 				foundBrace = false;
@@ -175,6 +181,7 @@ public class CSSRuleBuilder {
 		if (text.startsWith(CSSRulePrefixes.PREFIX)) {
 			return new CSSUnknownRuleImplementation(parentRule, stylesheet, new CSSStyleDeclarationImplementation(parentRule, declaration));
 		}
+		System.out.println(body);
 		CSSStyleDeclarationImplementation declarationSub = new CSSStyleDeclarationImplementation(parentRule, declaration);
 		String[] rules = body.split(";");
 		for (int i = 0; i < rules.length; i++) {

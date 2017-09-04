@@ -5,12 +5,10 @@ import java.util.HashMap;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
-import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
-import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
@@ -24,37 +22,46 @@ import org.w3c.dom.svg.shapes.SVGPolygonElement;
 
 public class SVGPolygonElementParser implements ElementParser<SVGPolygonElement> {
 
+	class PolylineTokenizer extends ElementParser.ValueTokenizer {
+
+		public PolylineTokenizer(char[] data) {
+			super(data);
+		}
+		
+		public SVGPoint readPoint() {
+			skipWhitespace();
+			float x = readValue();
+			skipWhitespace();
+			float y = readValue();
+			return new SVGPoint.Implementation(x, y);
+		}
+		
+	}
+	
 	@Override
 	public SVGPolygonElement readElement(Element element, ParsingState parsingState) {
 		// Read and validate
 		ArrayList<SVGPoint> pointList = new ArrayList<>();
-		ArrayList<String> parts = StringUtils.splitByWhitespace(element.getAttribute("points"));
-		if (parts.size() % 3 != 0) {
-			SVGErrors.error("Invalid Points List");
-		}
-		for (int i = 0; i < parts.size(); i += 2) {
-			if (parts.get(i).endsWith(",")) {
-				pointList.add(new SVGPoint.Implementation(Float.parseFloat(parts.get(i).substring(0, parts.get(i).length() - 1)), Float.parseFloat(parts.get(i + 1))));
-			} else {
-				SVGErrors.error("Invalid Points List");
-			}
+		PolylineTokenizer tokenizer = new PolylineTokenizer(ElementParser.read(element, Attributes.POINTS).toCharArray());
+		while (tokenizer.moreData()) {
+			pointList.add(tokenizer.readPoint());
 		}
 		// Convert
 		SVGPointList points = new SVGPointList.Implementation(pointList);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -83,7 +90,7 @@ public class SVGPolygonElementParser implements ElementParser<SVGPolygonElement>
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
-		
+		attributes.put(Attributes.POINTS, ElementParser.concatenate(element.getBaseValue(), " "));
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));

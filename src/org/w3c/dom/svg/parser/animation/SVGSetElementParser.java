@@ -50,8 +50,8 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 	
 	@Override
 	public SVGSetElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
@@ -65,8 +65,8 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 		String onRepeat = ElementParser.readOrDefault(element, Attributes.ON_REPEAT, "");
 		String attributeTypeStr = ElementParser.readOrDefault(element, Attributes.ATTRIBUTE_TYPE, "auto");
 		short attributeType = attributeType_strToEnum.get(attributeTypeStr);
-		String attributeName = element.getAttribute(Attributes.ATTRIBUTE_NAME);
-		String beginStr = element.getAttribute(Attributes.BEGIN);
+		String attributeName = ElementParser.read(element, Attributes.ATTRIBUTE_NAME);
+		String beginStr = ElementParser.read(element, Attributes.BEGIN);
 		SMILTimingValueList begin = null;
 		if (beginStr != null) {
 			String[] listed = beginStr.split(";");
@@ -79,7 +79,7 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 		String durationStr = ElementParser.readOrDefault(element, Attributes.DUR, "indefinite");
 		SMILClockValue duration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE_MEDIA);
 		duration.setValue(durationStr);
-		String endStr = element.getAttribute(Attributes.END);
+		String endStr = ElementParser.read(element, Attributes.END);
 		SMILTimingValueList end = null;
 		if (endStr != null) {
 			String[] listed = endStr.split(";");
@@ -92,7 +92,7 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 		String minStr = ElementParser.readOrDefault(element, Attributes.MIN, "0");
 		SMILClockValue min = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
 		min.setValue(minStr);
-		String maxStr = element.getAttribute(Attributes.MAX);
+		String maxStr = ElementParser.read(element, Attributes.MAX);
 		SMILClockValue max = null;
 		if (maxStr != null) {
 			max = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
@@ -106,7 +106,7 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 		if (!repeatIndefinite) {
 			repeatCount = new SVGNumber.Implementation(Float.parseFloat(repeatCountStr));
 		}
-		String repeatDurStr = element.getAttribute(Attributes.REPEAT_DUR);
+		String repeatDurStr = ElementParser.read(element, Attributes.REPEAT_DUR);
 		SMILClockValue repeatDuration = null;
 		if (repeatDurStr != null) {
 			repeatDuration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE);
@@ -114,7 +114,7 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 		}
 		String fillStr = ElementParser.readOrDefault(element, Attributes.FILL, "remove");
 		short fill = fill_strToEnum.get(fillStr); 
-		String to = element.getAttribute(Attributes.TO);
+		String to = ElementParser.read(element, Attributes.TO);
 		return new SVGSetElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures,
 				requiredExtensions, systemLanguage, externalResourcesRequired, null, onBegin, onEnd,
 				onRepeat, onLoad, attributeType, attributeName, begin, duration, end, min, max, restart,

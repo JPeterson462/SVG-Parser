@@ -216,6 +216,8 @@ public interface Attributes {
 	
 	public static final String PRESERVE_ASPECT_RATIO = "preserveAspectRatio";
 	
+	public static final String POINTS = "points";
+	
 	public static final String POINTSATX = "pointsAtX";
 
 	public static final String POINTSATY = "pointsAtY";
@@ -346,7 +348,7 @@ public interface Attributes {
 	
 	public static final String WIDTHS = "widths";
 	
-	public static final String XLINK_HREF = "xlink:href";
+	public static final String[] XLINK_HREF = { "xlink:href", "href" };
 	
 	public static final String XML_BASE = "xml:base";
 

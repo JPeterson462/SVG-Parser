@@ -8,8 +8,12 @@ public interface SVGAnimatedLength extends Animated<SVGLength> {
 		
 		public Implementation(SVGLength baseValue, SVGLength animatedValue) {
 			this.baseValue = baseValue;
-			if (baseValue == animatedValue) {
-				this.animatedValue = new SVGLength.Implementation(baseValue.getUnitType(), baseValue.getValueInSpecifiedUnits(), baseValue.getBaselineElement());
+			if (baseValue != null) {
+				if (baseValue == animatedValue) {
+					this.animatedValue = new SVGLength.Implementation(baseValue.getUnitType(), baseValue.getValueInSpecifiedUnits(), baseValue.getBaselineElement());
+				} else {
+					this.animatedValue = animatedValue;
+				}
 			} else {
 				this.animatedValue = animatedValue;
 			}

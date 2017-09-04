@@ -25,27 +25,27 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 
 	@Override
 	public SVGPathElement readElement(Element element, ParsingState parsingState) {
-		String pathLengthStr = element.getAttribute(Attributes.PATH_LENGTH);
-		SVGPathSegList pathSegList = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
+		String pathLengthStr = ElementParser.read(element, Attributes.PATH_LENGTH);
+		SVGPathSegList pathSegList = ElementParser.parsePathSegList(ElementParser.read(element, Attributes.D));
 		if (pathLengthStr == null || pathLengthStr.length() == 0) {
 			pathLengthStr = Float.toString(SVGPathMath.getPathLength(pathSegList));
 		}
 		SVGAnimatedNumber aPathLength = new SVGAnimatedNumber.Implementation(Float.parseFloat(pathLengthStr), Float.parseFloat(pathLengthStr));
 		NormalizedPathSegListBuilder builder1 = new NormalizedPathSegListBuilder();
 		SVGPathSegList normalizedPathSegList = builder1.process(pathSegList);
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

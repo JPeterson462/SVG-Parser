@@ -43,7 +43,7 @@ public class CSSCursor implements CSSValue {
 	public void setCssText(String cssText) throws DOMException {
 		this.cssText = cssText;
 		if (!cssText.equals("inherit")) {
-			String[] parts = cssText.split("),");
+			String[] parts = cssText.split("\\),");
 			urls = new String[parts.length - 1];
 			for (int i = 0; i < parts.length - 1; i++) {
 				urls[i] = StringUtils.parseUri((parts[i] + ")").trim());

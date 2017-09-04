@@ -27,16 +27,16 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		// Read and validate
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = element.getAttribute(Attributes.WIDTH);
+		String widthStr = ElementParser.read(element, Attributes.WIDTH);
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Width must be >= 0");
 		}
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		String heightStr = ElementParser.read(element, Attributes.HEIGHT);
 		if (heightStr.startsWith("-")) {
 			SVGErrors.error("Height must be >= 0");
 		}
-		String rxStr = element.getAttribute(Attributes.RX);
-		String ryStr = element.getAttribute(Attributes.RY);
+		String rxStr = ElementParser.read(element, Attributes.RX);
+		String ryStr = ElementParser.read(element, Attributes.RY);
 		if (rxStr == "" ) {
 			rxStr = "0";
 		}
@@ -88,19 +88,19 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		SVGAnimatedLength arx = new SVGAnimatedLength.Implementation(rx, rx);
 		SVGAnimatedLength ary = new SVGAnimatedLength.Implementation(ry, ry);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

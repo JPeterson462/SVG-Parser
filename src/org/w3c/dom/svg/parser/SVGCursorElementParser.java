@@ -25,11 +25,11 @@ public class SVGCursorElementParser implements ElementParser<SVGCursorElement> {
 		y.setValueAsString(yStr);
 		SVGAnimatedLength ax = new SVGAnimatedLength.Implementation(x, x);
 		SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String rawHrefAsString = element.getAttribute(Attributes.XLINK_HREF);
+		String rawHrefAsString = ElementParser.read(element, Attributes.XLINK_HREF);
 		if (rawHrefAsString == null || !rawHrefAsString.startsWith("url(") || !rawHrefAsString.endsWith(")")) {
 			SVGErrors.error("Invalid Functional IRI: " + rawHrefAsString);
 		}
@@ -51,7 +51,7 @@ public class SVGCursorElementParser implements ElementParser<SVGCursorElement> {
 		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		if (element.getRequiredFeatures().getLength() > 0) {
 			attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.concatenate(element.getRequiredFeatures(), " "));
 		}

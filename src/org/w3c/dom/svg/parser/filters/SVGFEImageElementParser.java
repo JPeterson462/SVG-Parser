@@ -25,40 +25,40 @@ public class SVGFEImageElementParser implements ElementParser<SVGFEImageElement>
 
 	@Override
 	public SVGFEImageElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xStr = element.getAttribute(Attributes.X);
+		String xStr = ElementParser.read(element, Attributes.X);
 		SVGLength x = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		x.setValueAsString(xStr);
 		SVGAnimatedLength ax = new SVGAnimatedLength.Implementation(x, x);
-		String yStr = element.getAttribute(Attributes.Y);
+		String yStr = ElementParser.read(element, Attributes.Y);
 		SVGLength y = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		y.setValueAsString(yStr);
 		SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
-		String widthStr = element.getAttribute(Attributes.WIDTH);
+		String widthStr = ElementParser.read(element, Attributes.WIDTH);
 		SVGLength width = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		width.setValueAsString(widthStr);
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		String heightStr = ElementParser.read(element, Attributes.HEIGHT);
 		SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		height.setValueAsString(heightStr);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
-		String resultStr = element.getAttribute(Attributes.RESULT);
+		String resultStr = ElementParser.read(element, Attributes.RESULT);
 		SVGAnimatedString result = new SVGAnimatedString.Implementation(resultStr, resultStr);
-		String classNameStr = element.getAttribute(Attributes.CLASS);
+		String classNameStr = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameStr, classNameStr);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
+		String hrefStr = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
@@ -85,7 +85,7 @@ public class SVGFEImageElementParser implements ElementParser<SVGFEImageElement>
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));

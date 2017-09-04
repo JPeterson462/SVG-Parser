@@ -41,21 +41,21 @@ public class SVGMissingGlyphElementParser implements ElementParser<SVGMissingGly
 	
 	@Override
 	public SVGMissingGlyphElement readElement(Element element, ParsingState parsingState) {
-		SVGPathSegList pathData = ElementParser.parsePathSegList(element.getAttribute(Attributes.D));
-		String horizontalAdvanceXStr = element.getAttribute(Attributes.HORIZ_ADV_X);
+		SVGPathSegList pathData = ElementParser.parsePathSegList(ElementParser.read(element, Attributes.D));
+		String horizontalAdvanceXStr = ElementParser.read(element, Attributes.HORIZ_ADV_X);
 		SVGNumber horizontalAdvanceX = new SVGNumber.Implementation(Float.parseFloat(horizontalAdvanceXStr));
-		String verticalOriginXStr = element.getAttribute(Attributes.VERT_ORIGIN_X);
+		String verticalOriginXStr = ElementParser.read(element, Attributes.VERT_ORIGIN_X);
 		SVGNumber verticalOriginX = new SVGNumber.Implementation(Float.parseFloat(verticalOriginXStr));
-		String verticalOriginYStr = element.getAttribute(Attributes.VERT_ORIGIN_Y);
+		String verticalOriginYStr = ElementParser.read(element, Attributes.VERT_ORIGIN_Y);
 		SVGNumber verticalOriginY = new SVGNumber.Implementation(Float.parseFloat(verticalOriginYStr));
-		String verticalAdvanceYStr = element.getAttribute(Attributes.VERT_ADV_Y);
+		String verticalAdvanceYStr = ElementParser.read(element, Attributes.VERT_ADV_Y);
 		SVGNumber verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(verticalAdvanceYStr));
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

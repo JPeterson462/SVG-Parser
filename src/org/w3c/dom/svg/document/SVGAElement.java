@@ -1,10 +1,22 @@
-package org.w3c.dom.svg;
+package org.w3c.dom.svg.document;
 
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
-import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.SVGAnimatedBoolean;
+import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGAnimatedTransformList;
+import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGExternalResourcesRequired;
+import org.w3c.dom.svg.SVGLangSpace;
+import org.w3c.dom.svg.SVGMatrix;
+import org.w3c.dom.svg.SVGRect;
+import org.w3c.dom.svg.SVGStringList;
+import org.w3c.dom.svg.SVGStylable;
+import org.w3c.dom.svg.SVGTests;
+import org.w3c.dom.svg.SVGTransformable;
+import org.w3c.dom.svg.SVGURIReference;
 
 public interface SVGAElement extends SVGElement, SVGURIReference, SVGTests, SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGTransformable {
 
@@ -153,11 +165,6 @@ public interface SVGAElement extends SVGElement, SVGURIReference, SVGTests, SVGL
 		@Override
 		public SVGAnimatedString getTarget() {
 			return target;
-		}
-
-		@Override
-		public String getAsString() {
-			return "SVGAElement ";
 		}
 		
 	}

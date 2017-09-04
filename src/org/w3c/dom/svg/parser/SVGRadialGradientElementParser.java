@@ -38,14 +38,14 @@ public class SVGRadialGradientElementParser implements ElementParser<SVGRadialGr
 	
 	@Override
 	public SVGRadialGradientElement readElement(Element element, ParsingState parsingState) {
-		String href = element.getAttribute(Attributes.XLINK_HREF);
+		String href = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -99,7 +99,7 @@ public class SVGRadialGradientElementParser implements ElementParser<SVGRadialGr
 		attributes.put(Attributes.R, element.getRadius().getBaseValue().getValueAsString());
 		attributes.put(Attributes.FX, element.getFX().getBaseValue().getValueAsString());
 		attributes.put(Attributes.FY, element.getFY().getBaseValue().getValueAsString());
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		return factory.createElement(Tags.RADIAL_GRADIENT, attributes);
 	}
 

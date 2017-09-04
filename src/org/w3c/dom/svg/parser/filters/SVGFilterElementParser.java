@@ -39,7 +39,7 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 	
 	@Override
 	public SVGFilterElement readElement(Element element, ParsingState parsingState) {
-		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
+		String hrefStr = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
 		String filterUnitsStr = ElementParser.validate(ElementParser.readOrDefault(element, Attributes.FILTER_UNITS, "objectBoundingBox"), "userSpaceOnUse", "objectBoundingBox");
 		short filterUnitsValue = strToUnits.get(filterUnitsStr);
@@ -69,7 +69,7 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 		SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
-		ArrayList<String> filterResStr = StringUtils.splitByWhitespace(element.getAttribute(Attributes.FILTER_RES));
+		ArrayList<String> filterResStr = StringUtils.splitByWhitespace(ElementParser.read(element, Attributes.FILTER_RES));
 		float filterResXRaw = 0, filterResYRaw = 0;
 		if (filterResStr.size() == 1) {
 			filterResXRaw = Float.parseFloat(filterResStr.get(0));
@@ -84,24 +84,24 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 			filterResYRaw = Float.parseFloat(filterResStr.get(2));
 		}
 		else if (filterResStr.size() > 0) {
-			SVGErrors.error("Invalid filterRes: " + element.getAttribute(Attributes.FILTER_RES));
+			SVGErrors.error("Invalid filterRes: " + ElementParser.read(element, Attributes.FILTER_RES));
 		}
 		SVGAnimatedInteger filterResX = new SVGAnimatedInteger.Implementation((int) filterResXRaw, (int) filterResXRaw);
 		SVGAnimatedInteger filterResY = new SVGAnimatedInteger.Implementation((int) filterResYRaw, (int) filterResYRaw);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -116,7 +116,7 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 	@Override
 	public Element writeElement(SVGFilterElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.FILTER_UNITS, unitsToStr.get(element.getFilterUnits().getBaseValue()));
 		attributes.put(Attributes.PRIMITIVE_UNITS, unitsToStr.get(element.getPrimitiveUnits().getBaseValue()));
 		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());

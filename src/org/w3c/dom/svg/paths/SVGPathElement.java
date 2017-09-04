@@ -480,7 +480,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		
 		@Override
 		public String getAsString() {
-			return "SVGPathElement transform[" + ElementParser.getTransforms(transformableBase.getTransform()) + "] d[" + ElementParser.join(getPathSegList(), " ") + "] pathLength[" + getPathLength().getBaseValue() + "]";
+			return getTag() + " transform[" + ElementParser.getTransforms(transformableBase.getTransform()) + "] d[" + ElementParser.join(getPathSegList(), " ") + "] pathLength[" + getPathLength().getBaseValue() + "]";
 		}
 		
 	}

@@ -23,23 +23,23 @@ public class SVGFontElementParser implements ElementParser<SVGFontElement> {
 	public SVGFontElement readElement(Element element, ParsingState parsingState) {
 		SVGNumber horizontalOriginX = new SVGNumber.Implementation(Float.parseFloat(ElementParser.readOrDefault(element, Attributes.HORIZ_ORIGIN_X, "0")));
 		SVGNumber horizontalOriginY = new SVGNumber.Implementation(Float.parseFloat(ElementParser.readOrDefault(element, Attributes.HORIZ_ORIGIN_Y, "0")));
-		SVGNumber horizontalAdvanceX = new SVGNumber.Implementation(Float.parseFloat(element.getAttribute(Attributes.HORIZ_ADV_X)));
+		SVGNumber horizontalAdvanceX = new SVGNumber.Implementation(Float.parseFloat(ElementParser.read(element, Attributes.HORIZ_ADV_X)));
 		if (horizontalAdvanceX.getValue() < 0) {
-			SVGErrors.error("Invalid " + Attributes.HORIZ_ADV_X + ": " + element.getAttribute(Attributes.HORIZ_ADV_X));
+			SVGErrors.error("Invalid " + Attributes.HORIZ_ADV_X + ": " + ElementParser.read(element, Attributes.HORIZ_ADV_X));
 		}
 		SVGNumber verticalOriginX = new SVGNumber.Implementation(Float.parseFloat(ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_X, Float.toString(horizontalOriginX.getValue()))));
 		SVGNumber verticalOriginY = new SVGNumber.Implementation(Float.parseFloat(ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_Y, Float.toString(horizontalOriginY.getValue()))));
 		SVGNumber verticalAdvanceY = null;
 		if (element.hasAttribute(Attributes.VERT_ADV_Y)) {
-			verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(element.getAttribute(Attributes.VERT_ADV_Y)));
+			verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(ElementParser.read(element, Attributes.VERT_ADV_Y)));
 			// TODO: compute VERT_ADV_Y based on <font-face> child
 		}
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

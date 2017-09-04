@@ -17,13 +17,13 @@ public class SVGFEPointLightElementParser implements ElementParser<SVGFEPointLig
 
 	@Override
 	public SVGFEPointLightElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		float xBase = Float.parseFloat(element.getAttribute(Attributes.X));
-		float yBase = Float.parseFloat(element.getAttribute(Attributes.Y));
-		float zBase = Float.parseFloat(element.getAttribute(Attributes.Z));
+		float xBase = Float.parseFloat(ElementParser.read(element, Attributes.X));
+		float yBase = Float.parseFloat(ElementParser.read(element, Attributes.Y));
+		float zBase = Float.parseFloat(ElementParser.read(element, Attributes.Z));
 		SVGAnimatedNumber x = new SVGAnimatedNumber.Implementation(xBase, xBase);
 		SVGAnimatedNumber y = new SVGAnimatedNumber.Implementation(yBase, yBase);
 		SVGAnimatedNumber z = new SVGAnimatedNumber.Implementation(zBase, zBase);

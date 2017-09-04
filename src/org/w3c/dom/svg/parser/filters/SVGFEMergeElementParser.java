@@ -20,8 +20,8 @@ public class SVGFEMergeElementParser implements ElementParser<SVGFEMergeElement>
 
 	@Override
 	public SVGFEMergeElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
@@ -40,9 +40,9 @@ public class SVGFEMergeElementParser implements ElementParser<SVGFEMergeElement>
 		SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		height.setValueAsString(heightStr);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
-		String resultStr = element.getAttribute(Attributes.RESULT);
+		String resultStr = ElementParser.read(element, Attributes.RESULT);
 		SVGAnimatedString result = new SVGAnimatedString.Implementation(resultStr, resultStr);
-		String classNameStr = element.getAttribute(Attributes.CLASS);
+		String classNameStr = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameStr, classNameStr);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

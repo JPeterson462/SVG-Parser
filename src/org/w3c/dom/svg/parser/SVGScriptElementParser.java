@@ -13,12 +13,12 @@ public class SVGScriptElementParser implements ElementParser<SVGScriptElement> {
 
 	@Override
 	public SVGScriptElement readElement(Element element, ParsingState parsingState) {
-		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
+		String hrefStr = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
-		String type = element.getAttribute(Attributes.TYPE);
+		String type = ElementParser.read(element, Attributes.TYPE);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
@@ -32,7 +32,7 @@ public class SVGScriptElementParser implements ElementParser<SVGScriptElement> {
 	@Override
 	public Element writeElement(SVGScriptElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.TYPE, element.getType());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());

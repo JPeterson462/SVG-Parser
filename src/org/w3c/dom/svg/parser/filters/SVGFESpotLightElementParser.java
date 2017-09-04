@@ -17,24 +17,24 @@ public class SVGFESpotLightElementParser implements ElementParser<SVGFESpotLight
 
 	@Override
 	public SVGFESpotLightElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		float xBase = Float.parseFloat(element.getAttribute(Attributes.X));
-		float yBase = Float.parseFloat(element.getAttribute(Attributes.Y));
-		float zBase = Float.parseFloat(element.getAttribute(Attributes.Z));
+		float xBase = Float.parseFloat(ElementParser.read(element, Attributes.X));
+		float yBase = Float.parseFloat(ElementParser.read(element, Attributes.Y));
+		float zBase = Float.parseFloat(ElementParser.read(element, Attributes.Z));
 		SVGAnimatedNumber x = new SVGAnimatedNumber.Implementation(xBase, xBase);
 		SVGAnimatedNumber y = new SVGAnimatedNumber.Implementation(yBase, yBase);
 		SVGAnimatedNumber z = new SVGAnimatedNumber.Implementation(zBase, zBase);
-		float pointsxBase = Float.parseFloat(element.getAttribute(Attributes.POINTSATX));
-		float pointsyBase = Float.parseFloat(element.getAttribute(Attributes.POINTSATY));
-		float pointszBase = Float.parseFloat(element.getAttribute(Attributes.POINTSATZ));
+		float pointsxBase = Float.parseFloat(ElementParser.read(element, Attributes.POINTSATX));
+		float pointsyBase = Float.parseFloat(ElementParser.read(element, Attributes.POINTSATY));
+		float pointszBase = Float.parseFloat(ElementParser.read(element, Attributes.POINTSATZ));
 		SVGAnimatedNumber pointsAtX = new SVGAnimatedNumber.Implementation(pointsxBase, pointsxBase);
 		SVGAnimatedNumber pointsAtY = new SVGAnimatedNumber.Implementation(pointsyBase, pointsyBase);
 		SVGAnimatedNumber pointsAtZ = new SVGAnimatedNumber.Implementation(pointszBase, pointszBase);
-		float specularExponentBase = Float.parseFloat(element.getAttribute(Attributes.SPECULAR_EXPONENT));
-		float limitingConeAngleBase = Float.parseFloat(element.getAttribute(Attributes.LIMITING_CONE_ANGLE));
+		float specularExponentBase = Float.parseFloat(ElementParser.read(element, Attributes.SPECULAR_EXPONENT));
+		float limitingConeAngleBase = Float.parseFloat(ElementParser.read(element, Attributes.LIMITING_CONE_ANGLE));
 		SVGAnimatedNumber specularExponent = new SVGAnimatedNumber.Implementation(specularExponentBase, specularExponentBase);
 		SVGAnimatedNumber limitingConeAngle = new SVGAnimatedNumber.Implementation(limitingConeAngleBase, limitingConeAngleBase);
 		return new SVGFESpotLightElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,

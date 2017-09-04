@@ -14,17 +14,17 @@ public class SVGStopElementParser implements ElementParser<SVGStopElement> {
 
 	@Override
 	public SVGStopElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
 		String offsetStr = ElementParser.readOrDefault(element, Attributes.OFFSET, "0");
-		float offsetValue = Float.parseFloat(offsetStr);
+		float offsetValue =  offsetStr.endsWith("%") ? Float.parseFloat(offsetStr.substring(0, offsetStr.length() - 1)) / 100f : Float.parseFloat(offsetStr);
 		SVGAnimatedNumber offset = new SVGAnimatedNumber.Implementation(offsetValue, offsetValue);
 		return new SVGStopElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className, style, offset);
 	}

@@ -43,29 +43,29 @@ public class SVGFETurbulenceElementParser implements ElementParser<SVGFETurbulen
 	
 	@Override
 	public SVGFETurbulenceElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xStr = element.getAttribute(Attributes.X);
+		String xStr = ElementParser.read(element, Attributes.X);
 		SVGLength x = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		x.setValueAsString(xStr);
 		SVGAnimatedLength ax = new SVGAnimatedLength.Implementation(x, x);
-		String yStr = element.getAttribute(Attributes.Y);
+		String yStr = ElementParser.read(element, Attributes.Y);
 		SVGLength y = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		y.setValueAsString(yStr);
 		SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
-		String widthStr = element.getAttribute(Attributes.WIDTH);
+		String widthStr = ElementParser.read(element, Attributes.WIDTH);
 		SVGLength width = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		width.setValueAsString(widthStr);
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		String heightStr = ElementParser.read(element, Attributes.HEIGHT);
 		SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		height.setValueAsString(heightStr);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
-		String resultStr = element.getAttribute(Attributes.RESULT);
+		String resultStr = ElementParser.read(element, Attributes.RESULT);
 		SVGAnimatedString result = new SVGAnimatedString.Implementation(resultStr, resultStr);
-		String classNameStr = element.getAttribute(Attributes.CLASS);
+		String classNameStr = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameStr, classNameStr);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

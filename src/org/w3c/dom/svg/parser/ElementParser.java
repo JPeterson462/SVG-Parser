@@ -106,6 +106,20 @@ public interface ElementParser<T extends SVGElement> {
 		return concatenated;
 	}
 	
+	public static String concatenate(SVGPointList list, String joinBy) {
+		String concatenated = "";
+		if (list == null) {
+			return null;
+		}
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			if (i > 0) {
+				concatenated += joinBy;
+			}
+			concatenated += list.getItem(i).getX() + "," + list.getItem(i).getY();
+		}
+		return concatenated;
+	}
+	
 	public static String concatenate(SVGNumberList list, String joinBy) {
 		String concatenated = "";
 		if (list == null) {
@@ -148,14 +162,14 @@ public interface ElementParser<T extends SVGElement> {
 		return concatenated;
 	}
 	
-	public static float[] parseFloatArray(String text) {
-		String[] strings = text.split(",");
-		float[] array = new float[strings.length];
-		for (int i = 0; i < array.length; i++) {
-			array[i] = Float.parseFloat(strings[i]);
-		}
-		return array;
-	}
+//	public static float[] parseFloatArray(String text) {
+//		String[] strings = text.split(",");
+//		float[] array = new float[strings.length];
+//		for (int i = 0; i < array.length; i++) {
+//			array[i] = Float.parseFloat(strings[i]);
+//		}
+//		return array;
+//	}
 	
 	public static void parseStyleFromAttributes(Element element, CSSStyleDeclarationImplementation declaration) {
 		String[] properties = CSSPropertyNames.PROPERTIES;
@@ -165,6 +179,19 @@ public interface ElementParser<T extends SVGElement> {
 				declaration.setProperty(properties[i], element.getAttribute(properties[i]), "important");
 			}
 		}
+	}
+	
+	public static String read(Element element, String attribute) {
+		return element.getAttribute(attribute);
+	}
+
+	public static String read(Element element, String[] attribute) {
+		for (int i = 0; i < attribute.length; i++) {
+			if (element.hasAttribute(attribute[i])) {
+				return element.getAttribute(attribute[i]);
+			}
+		}
+		return null;
 	}
 	
 	public static String readOrDefault(Element element, String attribute, String... defaultValue) {
@@ -182,77 +209,100 @@ public interface ElementParser<T extends SVGElement> {
 		return defaultValue[defaultValue.length - 1];
 	}
 	
+	public static String readOrDefault(Element element, String[] attribute, String... defaultValue) {
+		for (int i = 0; i < attribute.length; i++) {
+			if (element.hasAttribute(attribute[i])) {
+				return element.getAttribute(attribute[i]);
+			}
+		}
+		for (int i = 0; i < defaultValue.length - 1; i++) {
+			if (defaultValue[i] != null) {
+				return defaultValue[i];
+			}
+		}
+		if (defaultValue.length == 0) {
+			return null;
+		}
+		return defaultValue[defaultValue.length - 1];
+	}
+	
+	public static ArrayList<Float> parseValues(String prefix, String text) {
+		text = text.substring(prefix.length() + 1, text.length() - 1);
+		ValueTokenizer tokenizer = new ValueTokenizer(text.toCharArray());
+		ArrayList<Float> values = new ArrayList<>();
+		tokenizer.skipWhitespace();
+		while (tokenizer.moreValues()) {
+			tokenizer.skipWhitespace();
+			values.add(tokenizer.readValue());
+		}
+		return values;
+	}
+	
 	public static SVGTransform parseTransform(String text) {
 		SVGTransform transform = new SVGTransform.Implementation();
 		if (text.startsWith("matrix(") && text.endsWith(")")) {
-			text = text.substring(7, text.length() - 1).replaceAll(" ", "");
-			float[] values = parseFloatArray(text);
+			ArrayList<Float> values = parseValues("matrix", text);
 			SVGMatrix matrix = new SVGMatrix.Implementation();
-			if (values.length != 6) {
-				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text);
+			if (values.size() != 6) {
+				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text + " " + values);
 			}
-			matrix.setA(values[0]);
-			matrix.setB(values[1]);
-			matrix.setC(values[2]);
-			matrix.setD(values[3]);
-			matrix.setE(values[4]);
-			matrix.setF(values[5]);
+			matrix.setA(values.get(0));
+			matrix.setB(values.get(1));
+			matrix.setC(values.get(2));
+			matrix.setD(values.get(3));
+			matrix.setE(values.get(4));
+			matrix.setF(values.get(5));
 			transform.setMatrix(matrix);
 		}
 		else if (text.startsWith("translate(") && text.endsWith(")")) {
-			text = text.substring(10, text.length() - 1).replaceAll(" ", "");
-			float[] values = parseFloatArray(text);
-			if (values.length == 1) {
-				transform.setTranslate(values[0], 0);
+			ArrayList<Float> values = parseValues("translate", text);
+			if (values.size() == 1) {
+				transform.setTranslate(values.get(0), 0);
 			}
-			else if (values.length == 2) {
-				transform.setTranslate(values[0], values[1]);
+			else if (values.size() == 2) {
+				transform.setTranslate(values.get(0), values.get(1));
 			}
 			else {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text);
 			}
 		}
 		else if (text.startsWith("scale(") && text.endsWith(")")) {
-			text = text.substring(6, text.length() - 1).replaceAll(" ", "");
-			float[] values = parseFloatArray(text);
-			if (values.length == 1) {
-				transform.setScale(values[0], values[0]);
+			ArrayList<Float> values = parseValues("scale", text);
+			if (values.size() == 1) {
+				transform.setScale(values.get(0), values.get(0));
 			}
-			else if (values.length == 2) {
-				transform.setScale(values[0], values[1]);
+			else if (values.size() == 2) {
+				transform.setScale(values.get(0), values.get(1));
 			}
 			else {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text);
 			}
 		}
 		else if (text.startsWith("rotate(") && text.endsWith(")")) {
-			text = text.substring(7, text.length() - 1).replaceAll(" ", "");
-			float[] values = parseFloatArray(text);
-			if (values.length == 1) {
-				transform.setRotate(values[0], 0, 0);
+			ArrayList<Float> values = parseValues("rotate", text);
+			if (values.size() == 1) {
+				transform.setRotate(values.get(0), 0, 0);
 			}
-			else if (values.length == 3) {
-				transform.setRotate(values[0], values[1], values[2]);
+			else if (values.size() == 3) {
+				transform.setRotate(values.get(0), values.get(1), values.get(2));
 			}
 			else {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text);
 			}
 		}
 		else if (text.startsWith("skewX(") && text.endsWith(")")) {
-			text = text.substring(6, text.length() - 1).replaceAll(" ", "");
-			float[] values = parseFloatArray(text);
-			if (values.length == 1) {
-				transform.setSkewX(values[0]);
+			ArrayList<Float> values = parseValues("skewX", text);
+			if (values.size() == 1) {
+				transform.setSkewX(values.get(0));
 			}
 			else {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text);
 			}
 		}
 		else if (text.startsWith("skewY(") && text.endsWith(")")) {
-			text = text.substring(6, text.length() - 1).replaceAll(" ", "");
-			float[] values = parseFloatArray(text);
-			if (values.length == 1) {
-				transform.setSkewY(values[0]);
+			ArrayList<Float> values = parseValues("skewY", text);
+			if (values.size() == 1) {
+				transform.setSkewY(values.get(0));
 			}
 			else {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid transform: " + text);
@@ -429,60 +479,71 @@ public interface ElementParser<T extends SVGElement> {
 		return result;
 	}
 	
-	static class PathSegTokenizer {
+	public static class ValueTokenizer {
 		
-		private char[] data;
+		public char[] data;
 		
-		private int pointer = 0;
+		public int pointer = 0;
 		
-		private PathSegTokenizer(String text) {
-			data = text.toCharArray();
+		public ValueTokenizer(char[] data) {
+			this.data = data;
+		}
+
+		public boolean isNumber(char c) {
+			return Character.isDigit(c) || c == '-' || c == '.';
 		}
 		
-		private void skipWhitespace() {
+		public void skipWhitespace() {
 			while (pointer < data.length && (data[pointer] == ' ' || data[pointer] == '\n' || 
 					data[pointer] == '\t' || data[pointer] == '\r' || data[pointer] == ',')) {
 				pointer++;
 			}
 		}
-		
-		private boolean isNumber(char c) {
-			return Character.isDigit(c) || c == '-' || c == '.';
-		}
-		
-		private char readPathSegType() {
-			skipWhitespace();
-			return data[pointer++];
-		}
-		
-		private float readValue() {
+
+		public float readValue() {
 			skipWhitespace();
 			int digits = 0;
 			char[] array = new char[data.length - pointer];
-			while (pointer < data.length && digits < array.length && (Character.isDigit(data[pointer]) || data[pointer] == '.' || (digits == 0 && data[pointer] == '-'))) {
+			char last = 0;
+			while (pointer < data.length && digits < array.length && (Character.isDigit(data[pointer]) || Character.toLowerCase(data[pointer]) == 'e' || data[pointer] == '.' || (digits == 0 && data[pointer] == '-') || (digits > 0 && data[pointer] == '-' && last == 'e'))) {
 				array[digits++] = data[pointer];
+				last = Character.toLowerCase(data[pointer]);
 				pointer++;
-				System.out.println(pointer + " " + data.length);
 			}
 			char[] result = new char[digits];
 			System.arraycopy(array, 0, result, 0, digits);
 			return Float.parseFloat(new String(result));
 		}
+
+		public char readType() {
+			skipWhitespace();
+			System.out.println(data[pointer]);
+			return data[pointer++];
+		}
 		
-		private boolean readBoolean() {
+		public boolean readBoolean() {
 			skipWhitespace();
 			char c = data[pointer];
 			pointer++;
 			return c == '1';
 		}
 		
-		private boolean moreValues() {
+		public boolean moreValues() {
 			skipWhitespace();
 			return pointer < data.length && isNumber(data[pointer]);
 		}
 		
-		private boolean moreData() {
+		public boolean moreData() {
+			skipWhitespace();
 			return pointer < data.length;
+		}
+		
+	}
+	
+	static class PathSegTokenizer extends ValueTokenizer {
+		
+		private PathSegTokenizer(String text) {
+			super(text.toCharArray());
 		}
 		
 	}
@@ -584,8 +645,11 @@ public interface ElementParser<T extends SVGElement> {
 	}
 	
 	static ArrayList<SVGPathSeg> parsePathSeg(PathSegTokenizer tokenizer) {
-		char type = tokenizer.readPathSegType();
 		ArrayList<SVGPathSeg> list = new ArrayList<>();
+		if (!tokenizer.moreData()) {
+			return list;
+		}
+		char type = tokenizer.readType();
 		switch (type) {
 			case 'z': case 'Z':
 				list.add(new SVGPathSegClosePath.Implementation());

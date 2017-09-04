@@ -30,7 +30,7 @@ public class SVGViewElementParser implements ElementParser<SVGViewElement> {
 	
 	@Override
 	public SVGViewElement readElement(Element element, ParsingState parsingState) {
-		String viewBoxStr = element.getAttribute(Attributes.VIEW_BOX);
+		String viewBoxStr = ElementParser.read(element, Attributes.VIEW_BOX);
 		SVGAnimatedRect viewBox = null;
 		if (viewBoxStr != null) {
 			ArrayList<String> viewBoxStrValues = StringUtils.splitByWhitespace(viewBoxStr);
@@ -42,12 +42,12 @@ public class SVGViewElementParser implements ElementParser<SVGViewElement> {
 		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, "xMidYMid meet"));
 		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
-		SVGStringList viewTarget = new SVGStringList.Implementation(StringUtils.splitByWhitespace(element.getAttribute(Attributes.VIEW_TARGET)));
-		String zoomAndPanStr = element.getAttribute(Attributes.ZOOM_AND_PAN);
+		SVGStringList viewTarget = new SVGStringList.Implementation(StringUtils.splitByWhitespace(ElementParser.read(element, Attributes.VIEW_TARGET)));
+		String zoomAndPanStr = ElementParser.read(element, Attributes.ZOOM_AND_PAN);
 		short zoomAndPan = strToEnum.get(zoomAndPanStr);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));

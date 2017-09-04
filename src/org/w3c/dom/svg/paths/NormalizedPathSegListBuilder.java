@@ -75,7 +75,7 @@ public class NormalizedPathSegListBuilder {
 			curveToCubicSmoothRel(pathSegInstance.getX2(), pathSegInstance.getY2(), pathSegInstance.getX(), pathSegInstance.getY());
 		}
 		else if (pathSeg instanceof SVGPathSegCurveToCubicSmoothAbs) {
-			SVGPathSegCurveToCubicSmoothRel pathSegInstance = (SVGPathSegCurveToCubicSmoothRel) pathSeg;
+			SVGPathSegCurveToCubicSmoothAbs pathSegInstance = (SVGPathSegCurveToCubicSmoothAbs) pathSeg;
 			curveToCubicSmoothAbs(pathSegInstance.getX2(), pathSegInstance.getY2(), pathSegInstance.getX(), pathSegInstance.getY());
 		}
 		else if (pathSeg instanceof SVGPathSegCurveToQuadraticRel) {

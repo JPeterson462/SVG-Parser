@@ -21,11 +21,11 @@ public class SVGHKernElementParser implements ElementParser<SVGHKernElement> {
 
 	@Override
 	public SVGHKernElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String u1Str = element.getAttribute(Attributes.U1);
+		String u1Str = ElementParser.read(element, Attributes.U1);
 		SVGUnicodeRangeList u1 = null;
 		if (u1Str != null) {
 			String[] u1Parts = u1Str.split(",");
@@ -42,7 +42,7 @@ public class SVGHKernElementParser implements ElementParser<SVGHKernElement> {
 			}
 			u1 = new SVGUnicodeRangeList.Implementation(u1List);
 		}
-		String g1Str = element.getAttribute(Attributes.G1);
+		String g1Str = ElementParser.read(element, Attributes.G1);
 		SVGStringList g1 = null;
 		if (g1Str != null) {
 			String[] g1Parts = g1Str.split(",");
@@ -52,7 +52,7 @@ public class SVGHKernElementParser implements ElementParser<SVGHKernElement> {
 			}
 			g1 = new SVGStringList.Implementation(g1List);
 		}
-		String u2Str = element.getAttribute(Attributes.U2);
+		String u2Str = ElementParser.read(element, Attributes.U2);
 		SVGUnicodeRangeList u2 = null;
 		if (u2Str != null) {
 			String[] u2Parts = u2Str.split(",");
@@ -69,7 +69,7 @@ public class SVGHKernElementParser implements ElementParser<SVGHKernElement> {
 			}
 			u2 = new SVGUnicodeRangeList.Implementation(u2List);
 		}
-		String g2Str = element.getAttribute(Attributes.G2);
+		String g2Str = ElementParser.read(element, Attributes.G2);
 		SVGStringList g2 = null;
 		if (g2Str != null) {
 			String[] g2Parts = g2Str.split(",");
@@ -79,7 +79,7 @@ public class SVGHKernElementParser implements ElementParser<SVGHKernElement> {
 			}
 			g2 = new SVGStringList.Implementation(g2List);
 		}
-		String kStr = element.getAttribute(Attributes.K);
+		String kStr = ElementParser.read(element, Attributes.K);
 		SVGNumber k = new SVGNumber.Implementation(Float.parseFloat(kStr));
 		return new SVGHKernElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				u1, g1, u2, g2, k);

@@ -16,10 +16,10 @@ public class SVGFontFaceUriElementParser implements ElementParser<SVGFontFaceUri
 
 	@Override
 	public SVGFontFaceUriElement readElement(Element element, ParsingState parsingState) {
-		String uri = element.getAttribute(Attributes.XLINK_HREF);
+		String uri = ElementParser.read(element, Attributes.XLINK_HREF);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGFontFaceUriElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, uri);
@@ -30,7 +30,7 @@ public class SVGFontFaceUriElementParser implements ElementParser<SVGFontFaceUri
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
-		attributes.put(Attributes.XLINK_HREF, element.getHref());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref());
 		return factory.createElement(Tags.FONT_FACE_NAME, attributes);
 	}
 

@@ -28,12 +28,12 @@ public class SVGImageElementParser implements ElementParser<SVGImageElement> {
 
 	@Override
 	public SVGImageElement readElement(Element element, ParsingState parsingState) {
-		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
+		String hrefStr = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = element.getAttribute(Attributes.WIDTH);
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		String widthStr = ElementParser.read(element, Attributes.WIDTH);
+		String heightStr = ElementParser.read(element, Attributes.HEIGHT);
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Width: " + widthStr);
 		}
@@ -57,19 +57,19 @@ public class SVGImageElementParser implements ElementParser<SVGImageElement> {
 		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -116,7 +116,7 @@ public class SVGImageElementParser implements ElementParser<SVGImageElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		return factory.createElement(Tags.IMAGE, attributes);
 	}
 

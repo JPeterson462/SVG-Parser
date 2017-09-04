@@ -41,7 +41,7 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 	@Override
 	public SVGUseElement readElement(Element element, ParsingState parsingState) {
 		// Attributes
-		String hrefStr = element.getAttribute(Attributes.XLINK_HREF);
+		String hrefStr = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString href = new SVGAnimatedString.Implementation(hrefStr, hrefStr);
 		SVGElementInstance instanceRoot = parsingState.getElement(hrefStr).createInstance();
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
@@ -62,19 +62,19 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -100,7 +100,7 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 	@Override
 	public Element writeElement(SVGUseElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put("href", element.getHref().getBaseValue());
 //		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
 //		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
 //		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());

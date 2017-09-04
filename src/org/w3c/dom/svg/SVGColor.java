@@ -208,9 +208,9 @@ public interface SVGColor extends CSSValue {
 				blue = (int) (bFloat * RGBColorImplementation.MAX_COLOR_COMPONENT);
 			}
 			else if (!components[0].endsWith("%") && !components[1].endsWith("%") && !components[2].endsWith("%")) {
-				red = Integer.parseInt(components[0].substring(0, components[0].length() - 1));
-				green = Integer.parseInt(components[1].substring(0, components[1].length() - 1));
-				blue = Integer.parseInt(components[2].substring(0, components[2].length() - 1));
+				red = Integer.parseInt(components[0]);
+				green = Integer.parseInt(components[1]);
+				blue = Integer.parseInt(components[2]);
 			}
 			else {
 				throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid RGB code.");

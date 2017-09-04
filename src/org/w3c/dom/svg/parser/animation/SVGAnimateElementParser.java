@@ -81,8 +81,8 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 	
 	@Override
 	public SVGAnimateElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
@@ -90,7 +90,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -101,8 +101,8 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		String onRepeat = ElementParser.readOrDefault(element, Attributes.ON_REPEAT, "");
 		String attributeTypeStr = ElementParser.readOrDefault(element, Attributes.ATTRIBUTE_TYPE, "auto");
 		short attributeType = attributeType_strToEnum.get(attributeTypeStr);
-		String attributeName = element.getAttribute(Attributes.ATTRIBUTE_NAME);
-		String beginStr = element.getAttribute(Attributes.BEGIN);
+		String attributeName = ElementParser.read(element, Attributes.ATTRIBUTE_NAME);
+		String beginStr = ElementParser.read(element, Attributes.BEGIN);
 		SMILTimingValueList begin = null;
 		if (beginStr != null) {
 			String[] listed = beginStr.split(";");
@@ -115,7 +115,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		String durationStr = ElementParser.readOrDefault(element, Attributes.DUR, "indefinite");
 		SMILClockValue duration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE_MEDIA);
 		duration.setValue(durationStr);
-		String endStr = element.getAttribute(Attributes.END);
+		String endStr = ElementParser.read(element, Attributes.END);
 		SMILTimingValueList end = null;
 		if (endStr != null) {
 			String[] listed = endStr.split(";");
@@ -128,7 +128,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		String minStr = ElementParser.readOrDefault(element, Attributes.MIN, "0");
 		SMILClockValue min = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
 		min.setValue(minStr);
-		String maxStr = element.getAttribute(Attributes.MAX);
+		String maxStr = ElementParser.read(element, Attributes.MAX);
 		SMILClockValue max = null;
 		if (maxStr != null) {
 			max = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
@@ -142,7 +142,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		if (!repeatIndefinite) {
 			repeatCount = new SVGNumber.Implementation(Float.parseFloat(repeatCountStr));
 		}
-		String repeatDurStr = element.getAttribute(Attributes.REPEAT_DUR);
+		String repeatDurStr = ElementParser.read(element, Attributes.REPEAT_DUR);
 		SMILClockValue repeatDuration = null;
 		if (repeatDurStr != null) {
 			repeatDuration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE);
@@ -158,7 +158,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		short accumulate = accumulate_strToEnum.get(accumulateStr);
 		SVGStringList values = ElementParser.readOrNull(element, Attributes.VALUES, ";", false);
 		SVGStringList keyTimes = ElementParser.readOrNull(element, Attributes.KEY_TIMES, ";", false);
-		String keySplinesStr = element.getAttribute(Attributes.KEY_SPLINES);
+		String keySplinesStr = ElementParser.read(element, Attributes.KEY_SPLINES);
 		SVGStringList keySplines = null;
 		if (keySplinesStr != null) {
 			List<String> keySplinesValues;
@@ -172,9 +172,9 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 			}
 			keySplines = new SVGStringList.Implementation(keySplinesValues);
 		}
-		String from = element.getAttribute(Attributes.FROM);
-		String to = element.getAttribute(Attributes.TO);
-		String by = element.getAttribute(Attributes.BY);
+		String from = ElementParser.read(element, Attributes.FROM);
+		String to = ElementParser.read(element, Attributes.TO);
+		String by = ElementParser.read(element, Attributes.BY);
 		return new SVGAnimateElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, 
 				null, className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, 

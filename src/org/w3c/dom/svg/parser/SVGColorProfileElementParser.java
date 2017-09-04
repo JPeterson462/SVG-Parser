@@ -29,15 +29,15 @@ public class SVGColorProfileElementParser implements ElementParser<SVGColorProfi
 	
 	@Override
 	public SVGColorProfileElement readElement(Element element, ParsingState parsingState) {
-		String href = element.getAttribute(Attributes.XLINK_HREF);
+		String href = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
-		String local = element.getAttribute(Attributes.LOCAL);
-		String name = element.getAttribute(Attributes.NAME);
-		String renderingIntentStr = element.getAttribute(Attributes.RENDERING_INDENT);
+		String local = ElementParser.read(element, Attributes.LOCAL);
+		String name = ElementParser.read(element, Attributes.NAME);
+		String renderingIntentStr = ElementParser.read(element, Attributes.RENDERING_INDENT);
 		short renderingIntent = strToEnum.get(renderingIntentStr);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGColorProfileElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
@@ -47,7 +47,7 @@ public class SVGColorProfileElementParser implements ElementParser<SVGColorProfi
 	@Override
 	public Element writeElement(SVGColorProfileElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.LOCAL, element.getLocal());
 		attributes.put(Attributes.NAME, element.getName());
 		attributes.put(Attributes.RENDERING_INDENT, enumToStr.get(element.getRenderingIntent()));

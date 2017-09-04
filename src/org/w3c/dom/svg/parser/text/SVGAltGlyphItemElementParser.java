@@ -16,8 +16,8 @@ public class SVGAltGlyphItemElementParser implements ElementParser<SVGAltGlyphIt
 
 	@Override
 	public SVGAltGlyphItemElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		return new SVGAltGlyphItemElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement);

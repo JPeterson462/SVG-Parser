@@ -21,8 +21,8 @@ public class SVGForeignObjectElementParser implements ElementParser<SVGForeignOb
 	public SVGForeignObjectElement readElement(Element element, ParsingState parsingState) {
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = element.getAttribute(Attributes.WIDTH);
-		String heightStr = element.getAttribute(Attributes.HEIGHT);
+		String widthStr = ElementParser.read(element, Attributes.WIDTH);
+		String heightStr = ElementParser.read(element, Attributes.HEIGHT);
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Width: " + widthStr);
 		}
@@ -42,19 +42,19 @@ public class SVGForeignObjectElementParser implements ElementParser<SVGForeignOb
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

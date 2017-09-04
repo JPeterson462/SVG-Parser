@@ -39,11 +39,11 @@ public class SVGFEFuncRElementParser implements ElementParser<SVGFEFuncRElement>
 	
 	@Override
 	public SVGFEFuncRElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String typeStr = element.getAttribute(Attributes.TYPE);
+		String typeStr = ElementParser.read(element, Attributes.TYPE);
 		short typeEnum = type_strToEnum.get(typeStr);
 		SVGAnimatedEnumeration type = new SVGAnimatedEnumeration.Implementation(typeEnum, typeEnum);
 		ArrayList<String> tableValuesStrList = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.TABLE_VALUES, ""));

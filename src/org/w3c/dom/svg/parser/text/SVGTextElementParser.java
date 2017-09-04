@@ -3,6 +3,7 @@ package org.w3c.dom.svg.parser.text;
 import java.util.HashMap;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
@@ -55,30 +56,34 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		String rotateStr = ElementParser.readOrDefault(element, Attributes.ROTATE, "");
 		SVGNumberList rotate = ElementParser.parseNumberList(rotateStr);
 		SVGAnimatedNumberList arotate = new SVGAnimatedNumberList.Implementation(rotate, rotate);
-		String textLengthStr = ElementParser.readOrDefault(element, Attributes.TEXT_LENGTH, "0");
-		if (textLengthStr.startsWith("-")) {
+		String textLengthStr = ElementParser.read(element, Attributes.TEXT_LENGTH);
+		if (textLengthStr != null && textLengthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Length: " + textLengthStr);
 		}
 		SVGLength textLength = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
-		textLength.setValueAsString(textLengthStr);
+		if (textLengthStr != null && textLengthStr.length() > 0) {
+			textLength.setValueAsString(textLengthStr);
+		} else {
+			textLength = null;
+		}
 		SVGAnimatedLength atextLength = new SVGAnimatedLength.Implementation(textLength, textLength);
 		String lengthAdjustStr = ElementParser.readOrDefault(element, Attributes.LENGTH_ADJUST, "spacing");
 		short lengthAdjustEnum = strToEnum.get(lengthAdjustStr);
 		SVGAnimatedEnumeration lengthAdjust = new SVGAnimatedEnumeration.Implementation(lengthAdjustEnum, lengthAdjustEnum);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -108,7 +113,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.DX, ElementParser.convertLengthList(element.getDX().getBaseValue()));
 		attributes.put(Attributes.DY, ElementParser.convertLengthList(element.getDY().getBaseValue()));
 		attributes.put(Attributes.ROTATE, ElementParser.convertNumberList(element.getRotate().getBaseValue()));
-		attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
 		attributes.put(Attributes.LENGTH_ADJUST, enumToStr.get(element.getLengthAdjust().getBaseValue()));
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
@@ -121,6 +126,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
+		attributes.put(Attributes.FONT_SIZE, element.getStyle().getPropertyValue(CSSPropertyNames.FONT_SIZE));
 		Element textElement = factory.createElement(Tags.TEXT, attributes);
 		textElement.setTextContent(element.getTextContent());
 		return textElement;

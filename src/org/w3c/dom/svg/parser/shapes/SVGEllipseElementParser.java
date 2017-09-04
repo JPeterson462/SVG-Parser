@@ -27,8 +27,8 @@ public class SVGEllipseElementParser implements ElementParser<SVGEllipseElement>
 		// Read and validate
 		String cxStr = ElementParser.readOrDefault(element, Attributes.CX, "0");
 		String cyStr = ElementParser.readOrDefault(element, Attributes.CY, "0");
-		String rxStr = element.getAttribute(Attributes.RX);
-		String ryStr = element.getAttribute(Attributes.RY);
+		String rxStr = ElementParser.read(element, Attributes.RX);
+		String ryStr = ElementParser.read(element, Attributes.RY);
 		if (rxStr.startsWith("-")) {
 			SVGErrors.error("X Radius must be >= 0");
 		}
@@ -50,19 +50,19 @@ public class SVGEllipseElementParser implements ElementParser<SVGEllipseElement>
 		SVGAnimatedLength arx = new SVGAnimatedLength.Implementation(rx, rx);
 		SVGAnimatedLength ary = new SVGAnimatedLength.Implementation(ry, ry);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));

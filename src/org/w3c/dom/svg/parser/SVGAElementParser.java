@@ -4,36 +4,36 @@ import java.util.HashMap;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
-import org.w3c.dom.svg.SVGAElement;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
+import org.w3c.dom.svg.document.SVGAElement;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
 public class SVGAElementParser implements ElementParser<SVGAElement> {
 
 	@Override
 	public SVGAElement readElement(Element element, ParsingState parsingState) {
-		String href = element.getAttribute(Attributes.XLINK_HREF);
+		String href = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
-		String target = element.getAttribute(Attributes.TARGET);
+		String target = ElementParser.read(element, Attributes.TARGET);
 		SVGAnimatedString atarget = new SVGAnimatedString.Implementation(target, target);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -66,7 +66,7 @@ public class SVGAElementParser implements ElementParser<SVGAElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.TARGET, element.getTarget().getBaseValue());
 		return factory.createElement(Tags.A, attributes);
 	}

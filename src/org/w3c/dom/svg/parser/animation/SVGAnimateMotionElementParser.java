@@ -95,8 +95,8 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 	
 	@Override
 	public SVGAnimateMotionElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
@@ -108,7 +108,7 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		String onEnd = ElementParser.readOrDefault(element, Attributes.ON_END, "");
 		String onLoad = ElementParser.readOrDefault(element, Attributes.ON_LOAD, "");
 		String onRepeat = ElementParser.readOrDefault(element, Attributes.ON_REPEAT, "");
-		String beginStr = element.getAttribute(Attributes.BEGIN);
+		String beginStr = ElementParser.read(element, Attributes.BEGIN);
 		SMILTimingValueList begin = null;
 		if (beginStr != null) {
 			String[] listed = beginStr.split(";");
@@ -121,7 +121,7 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		String durationStr = ElementParser.readOrDefault(element, Attributes.DUR, "indefinite");
 		SMILClockValue duration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE_MEDIA);
 		duration.setValue(durationStr);
-		String endStr = element.getAttribute(Attributes.END);
+		String endStr = ElementParser.read(element, Attributes.END);
 		SMILTimingValueList end = null;
 		if (endStr != null) {
 			String[] listed = endStr.split(";");
@@ -134,7 +134,7 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		String minStr = ElementParser.readOrDefault(element, Attributes.MIN, "0");
 		SMILClockValue min = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
 		min.setValue(minStr);
-		String maxStr = element.getAttribute(Attributes.MAX);
+		String maxStr = ElementParser.read(element, Attributes.MAX);
 		SMILClockValue max = null;
 		if (maxStr != null) {
 			max = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
@@ -148,7 +148,7 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		if (!repeatIndefinite) {
 			repeatCount = new SVGNumber.Implementation(Float.parseFloat(repeatCountStr));
 		}
-		String repeatDurStr = element.getAttribute(Attributes.REPEAT_DUR);
+		String repeatDurStr = ElementParser.read(element, Attributes.REPEAT_DUR);
 		SMILClockValue repeatDuration = null;
 		if (repeatDurStr != null) {
 			repeatDuration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE);
@@ -164,7 +164,7 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 		short accumulate = accumulate_strToEnum.get(accumulateStr);
 		SVGStringList values = ElementParser.readOrNull(element, Attributes.VALUES, ";", false);
 		SVGStringList keyTimes = ElementParser.readOrNull(element, Attributes.KEY_TIMES, ";", false);
-		String keySplinesStr = element.getAttribute(Attributes.KEY_SPLINES);
+		String keySplinesStr = ElementParser.read(element, Attributes.KEY_SPLINES);
 		SVGStringList keySplines = null;
 		if (keySplinesStr != null) {
 			List<String> keySplinesValues;
@@ -178,18 +178,18 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 			}
 			keySplines = new SVGStringList.Implementation(keySplinesValues);
 		}
-		String from = element.getAttribute(Attributes.FROM);
-		String to = element.getAttribute(Attributes.TO);
-		String by = element.getAttribute(Attributes.BY);
+		String from = ElementParser.read(element, Attributes.FROM);
+		String to = ElementParser.read(element, Attributes.TO);
+		String by = ElementParser.read(element, Attributes.BY);
 		String rotateStr = ElementParser.readOrDefault(element, Attributes.ROTATE, "0");
 		boolean rotateAuto = rotateStr.contains("auto"), rotateReverse = rotateStr.contains("reverse");
 		SVGNumber rotate = null;
 		if (!rotateAuto && !rotateReverse) {
 			rotate = new SVGNumber.Implementation(Float.parseFloat(rotateStr));
 		}
-		String origin = element.getAttribute(Attributes.ORIGIN);
-		SVGPathSegList path = ElementParser.parsePathSegList(element.getAttribute(Attributes.PATH));
-		String keyPointsStr = element.getAttribute(Attributes.KEY_POINTS);
+		String origin = ElementParser.read(element, Attributes.ORIGIN);
+		SVGPathSegList path = ElementParser.parsePathSegList(ElementParser.read(element, Attributes.PATH));
+		String keyPointsStr = ElementParser.read(element, Attributes.KEY_POINTS);
 		SVGNumberList keyPoints = null;
 		if (keyPointsStr != null) {
 			String[] keyPointsParts = keyPointsStr.split(";");

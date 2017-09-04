@@ -39,10 +39,10 @@ public class SVGAltGlyphElementParser implements ElementParser<SVGAltGlyphElemen
 	
 	@Override
 	public SVGAltGlyphElement readElement(Element element, ParsingState parsingState) {
-		String href = element.getAttribute(Attributes.XLINK_HREF);
+		String href = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
-		String glyphRef = element.getAttribute(Attributes.GLYPH_REF);
-		String format = element.getAttribute(Attributes.FORMAT);
+		String glyphRef = ElementParser.read(element, Attributes.GLYPH_REF);
+		String format = ElementParser.read(element, Attributes.FORMAT);
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		SVGLengthList x = ElementParser.parseLengthList(xStr, parsingState);
 		SVGAnimatedLengthList ax = new SVGAnimatedLengthList.Implementation(x, x);
@@ -69,19 +69,19 @@ public class SVGAltGlyphElementParser implements ElementParser<SVGAltGlyphElemen
 		short lengthAdjustEnum = strToEnum.get(lengthAdjustStr);
 		SVGAnimatedEnumeration lengthAdjust = new SVGAnimatedEnumeration.Implementation(lengthAdjustEnum, lengthAdjustEnum);
 		// Get default values
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String xmlLang = element.getAttribute(Attributes.XML_LANG);
+		String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
 		if (xmlLang == null) {
 			xmlLang = "en";
 		}
-		String xmlSpace = element.getAttribute(Attributes.XML_SPACE);
+		String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
 		if (xmlSpace == null) {
 			xmlSpace = "default";
 		}
-		String classNameAsString = element.getAttribute(Attributes.CLASS);
+		String classNameAsString = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
@@ -118,7 +118,7 @@ public class SVGAltGlyphElementParser implements ElementParser<SVGAltGlyphElemen
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		attributes.put(Attributes.GLYPH_REF, element.getGlyphRef());
 		attributes.put(Attributes.FORMAT, element.getFormat());
-		attributes.put(Attributes.XLINK_HREF, element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		return factory.createElement(Tags.ALT_GLYPH, attributes);
 	}
 

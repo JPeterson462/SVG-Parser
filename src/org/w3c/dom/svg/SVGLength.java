@@ -239,7 +239,7 @@ public interface SVGLength {
 				} else {
 					unitType = SVG_LENGTHTYPE_PX;
 				}
-			}System.out.println(value);
+			}
 			setValueInSpecifiedUnits(Float.parseFloat(value));
 		}
 

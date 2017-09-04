@@ -74,6 +74,9 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 
 	@Override
 	public String getPropertyValue(String propertyName) {
+		if (!properties.containsKey(propertyName)) {
+			return null;
+		}
 		return properties.get(propertyName).value;
 	}
 

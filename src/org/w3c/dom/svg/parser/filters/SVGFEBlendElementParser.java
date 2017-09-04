@@ -37,8 +37,8 @@ public class SVGFEBlendElementParser implements ElementParser<SVGFEBlendElement>
 	
 	@Override
 	public SVGFEBlendElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
@@ -57,16 +57,16 @@ public class SVGFEBlendElementParser implements ElementParser<SVGFEBlendElement>
 		SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		height.setValueAsString(heightStr);
 		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
-		String resultStr = element.getAttribute(Attributes.RESULT);
+		String resultStr = ElementParser.read(element, Attributes.RESULT);
 		SVGAnimatedString result = new SVGAnimatedString.Implementation(resultStr, resultStr);
-		String classNameStr = element.getAttribute(Attributes.CLASS);
+		String classNameStr = ElementParser.read(element, Attributes.CLASS);
 		SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameStr, classNameStr);
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		String in1Str = element.getAttribute(Attributes.IN);
+		String in1Str = ElementParser.read(element, Attributes.IN);
 		SVGAnimatedString in1 = new SVGAnimatedString.Implementation(in1Str, in1Str);
-		String in2Str = element.getAttribute(Attributes.IN2);
+		String in2Str = ElementParser.read(element, Attributes.IN2);
 		SVGAnimatedString in2 = new SVGAnimatedString.Implementation(in2Str, in2Str);
 		String modeStr = ElementParser.readOrDefault(element, Attributes.MODE, "normal");
 		short modeEnum = mode_strToEnum.get(modeStr);

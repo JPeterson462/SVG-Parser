@@ -17,11 +17,11 @@ public class SVGFEMergeNodeElementParser implements ElementParser<SVGFEMergeNode
 
 	@Override
 	public SVGFEMergeNodeElement readElement(Element element, ParsingState parsingState) {
-		String id = element.getAttribute(Attributes.ID);
-		String xmlBase = element.getAttribute(Attributes.XML_BASE);
+		String id = ElementParser.read(element, Attributes.ID);
+		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
-		String in1Str = element.getAttribute(Attributes.IN);
+		String in1Str = ElementParser.read(element, Attributes.IN);
 		SVGAnimatedString in1 = new SVGAnimatedString.Implementation(in1Str, in1Str);
 		return new SVGFEMergeNodeElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, in1);
 	}
