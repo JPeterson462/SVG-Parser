@@ -130,7 +130,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		min.setValue(minStr);
 		String maxStr = ElementParser.read(element, Attributes.MAX);
 		SMILClockValue max = null;
-		if (maxStr != null) {
+		if (maxStr != null && maxStr.length() > 0) {
 			max = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
 			max.setValue(maxStr);
 		}

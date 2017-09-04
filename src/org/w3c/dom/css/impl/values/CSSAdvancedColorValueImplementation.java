@@ -107,7 +107,7 @@ public class CSSAdvancedColorValueImplementation implements CSSAdvancedColorValu
 				}
 				red = r0 * 16 + r1;
 				green = g0 * 16 + g1;
-				blue = b0 * 10 + b1;
+				blue = b0 * 16 + b1;
 				moreText[0] = 7;
 			}
 			else {
@@ -122,7 +122,7 @@ public class CSSAdvancedColorValueImplementation implements CSSAdvancedColorValu
 				}
 				red = r0 * 16 + r1;
 				green = g0 * 16 + g1;
-				blue = b0 * 10 + b1;
+				blue = b0 * 16 + b1;
 				moreText[0] = 4;
 			}
 		}

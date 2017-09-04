@@ -324,6 +324,9 @@ public interface ElementParser<T extends SVGElement> {
 		if (attribute.length() > 0) {
 			String[] rawTransforms = attribute.split("\\)");
 			for (int i = 0; i < rawTransforms.length; i++) {
+				if (rawTransforms[i].trim().length() == 0) {
+					continue;
+				}
 				transforms.add(parseTransform((rawTransforms[i] + ")").trim()));
 			}
 		}

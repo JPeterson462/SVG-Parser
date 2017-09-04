@@ -272,8 +272,6 @@ public interface SVGLength {
 							} else {
 								throw new DOMException(DOMException.INVALID_STATE_ERR, "This element (" + viewportElement + ") cannot be used for relative positioning");
 							}
-						} else {
-							throw new DOMException(DOMException.INVALID_STATE_ERR, "Root elements cannot use relative positioning"); 
 						}
 					}
 					break;

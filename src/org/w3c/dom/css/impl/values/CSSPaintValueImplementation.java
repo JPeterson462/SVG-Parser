@@ -32,9 +32,9 @@ public class CSSPaintValueImplementation implements CSSPaintValue {
 		if (paint == null) {
 			paint = new SVGPaint.Implementation();
 		}
-		if (text.startsWith("url(")) {
-			paintUri = StringUtils.parseUri(text);
-		} else {
+//		if (text.startsWith("url(")) {
+//			paintUri = StringUtils.parseUri(text);
+//		} else {
 			inherit = false;
 			short paintType;
 			String uri = null, rgbColor = null, iccColor = null;
@@ -50,9 +50,12 @@ public class CSSPaintValueImplementation implements CSSPaintValue {
 			}
 			else if (text.startsWith(StringUtils.URI_PREFIX)) {
 				uri = text.substring(0, text.indexOf(StringUtils.URI_SUFFIX));
-				String colorText = text.substring(uri.length()).trim();
+				String colorText = text.substring(uri.length() + 1).trim();
 				uri = uri.trim();
 				if (colorText.equals("none")) {
+					paintType = SVGPaint.SVG_PAINTTYPE_URI_NONE;
+				}
+				else if (colorText.trim().length() == 0) {
 					paintType = SVGPaint.SVG_PAINTTYPE_URI_NONE;
 				}
 				else if (colorText.equals("currentColor")) {
@@ -82,7 +85,7 @@ public class CSSPaintValueImplementation implements CSSPaintValue {
 				}
 			}
 			paint.setPaint(paintType, uri, rgbColor, iccColor);
-		}
+//		}
 	}
 
 	@Override

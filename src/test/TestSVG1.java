@@ -19,19 +19,16 @@ public class TestSVG1 {
 		// path length NaN for curves
 		// delay <use> connections until afterwards
 		// animation and document events
-		// 37 left; 371 files; 7 others; 364 ~ 2x - 37, x ~ 200
-		final String SVG_FILE = "svg-files/svg2009";
+		// 30 left; 371 files; 7 others; 364 ~ 2x - 30, x ~ 200
+		final String SVG_FILE = "svg-files/gallardo";
 		// DroidSans-Bold, DroidSans, DroidSansMono, DroidSerif-Bold,
 		// DroidSerif-BoldItalic, DroidSerif-Italic, DroidSerif-Regular,
-		// juanmontoya_lingerie, lineargradient2, lineargradient4,
-		// gallardo, pservers-grad-03-b-anim,
-		// anim3, lineargradient1,
+		// juanmontoya_lingerie, gallardo, pservers-grad-03-b-anim, anim3,
 		// mouseEvents, ny1, patch, pservers-grad-03-b, rg1024_green_grapes,
-		// rg1024_metal_effect, scimitar-anim, preserveAspectRatio, photos,
+		// rg1024_metal_effect, scimitar-anim, preserveAspectRatio,
 		// gump-bench, displayWebStats, compuserver_msn_Ford_Focus,
-		// anim2, The United States of America,
-		// Steps, scimitar, snake, twitter, video1 (<video> tag), x11 (<audio> tag),
-		// svg2009, helloworld, gaussian1
+		// anim2, The United States of America, Steps, scimitar, snake, 
+		// video1 (<video> tag), svg2009, gaussian1
 		if (!Parsers.hasRegistered()) Parsers.registerParsers();
 		FileInputStream stream = new FileInputStream(SVG_FILE + ".svg");
 		SVGRenderingState renderingState = new SVGRenderingState() {

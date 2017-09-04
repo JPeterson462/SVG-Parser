@@ -8,4 +8,6 @@ public interface CSSColorValue extends CSSValue {
 	
 	public int getBlue();
 	
+	public float getAlpha();
+	
 }
