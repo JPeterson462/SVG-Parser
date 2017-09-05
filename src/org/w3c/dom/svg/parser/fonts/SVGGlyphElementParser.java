@@ -11,6 +11,7 @@ import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.fonts.SVGFontElement;
 import org.w3c.dom.svg.fonts.SVGGlyphElement;
 import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
@@ -43,6 +44,7 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 	
 	@Override
 	public SVGGlyphElement readElement(Element element, ParsingState parsingState) {
+		SVGFontElement fontElement = (SVGFontElement) parsingState.getCurrentParent();
 		String unicode = ElementParser.read(element, Attributes.UNICODE);
 		String[] glyphNames = ElementParser.read(element, Attributes.GLYPH_NAME).split(",");
 		ArrayList<String> glyphNameList = new ArrayList<>();
@@ -51,16 +53,16 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 		}
 		SVGStringList glyphName = new SVGStringList.Implementation(glyphNameList);
 		SVGPathSegList pathData = ElementParser.parsePathSegList(ElementParser.read(element, Attributes.D));
-		short orientation = orientation_strToEnum.get(ElementParser.read(element, Attributes.ORIENTATION));
-		short arabicForm = arabicForm_strToEnum.get(ElementParser.read(element, Attributes.ARABIC_FORM));
+		short orientation = orientation_strToEnum.getOrDefault(ElementParser.read(element, Attributes.ORIENTATION), SVGGlyphElement.SVG_GLYPHORIENTATION_BOTH);
+		short arabicForm = arabicForm_strToEnum.getOrDefault(ElementParser.read(element, Attributes.ARABIC_FORM), SVGGlyphElement.SVG_ARABICFORM_INITIAL);
 		SVGStringList lang = new SVGStringList.Implementation(Arrays.asList(ElementParser.read(element, Attributes.LANG).split(",")));
-		String horizontalAdvanceXStr = ElementParser.read(element, Attributes.HORIZ_ADV_X);
+		String horizontalAdvanceXStr = ElementParser.readOrDefault(element, Attributes.HORIZ_ADV_X, Float.toString(fontElement.getHorizontalAdvanceX().getValue()));
 		SVGNumber horizontalAdvanceX = new SVGNumber.Implementation(Float.parseFloat(horizontalAdvanceXStr));
-		String verticalOriginXStr = ElementParser.read(element, Attributes.VERT_ORIGIN_X);
+		String verticalOriginXStr = ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_X, Float.toString(fontElement.getVerticalOriginX().getValue()));
 		SVGNumber verticalOriginX = new SVGNumber.Implementation(Float.parseFloat(verticalOriginXStr));
-		String verticalOriginYStr = ElementParser.read(element, Attributes.VERT_ORIGIN_Y);
+		String verticalOriginYStr = ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_Y, Float.toString(fontElement.getVerticalOriginY().getValue()));
 		SVGNumber verticalOriginY = new SVGNumber.Implementation(Float.parseFloat(verticalOriginYStr));
-		String verticalAdvanceYStr = ElementParser.read(element, Attributes.VERT_ADV_Y);
+		String verticalAdvanceYStr = ElementParser.readOrDefault(element, Attributes.VERT_ADV_Y, Float.toString(fontElement.getVerticalAdvanceY().getValue()));
 		SVGNumber verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(verticalAdvanceYStr));
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);

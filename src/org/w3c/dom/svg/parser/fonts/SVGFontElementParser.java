@@ -31,8 +31,9 @@ public class SVGFontElementParser implements ElementParser<SVGFontElement> {
 		SVGNumber verticalOriginY = new SVGNumber.Implementation(Float.parseFloat(ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_Y, Float.toString(horizontalOriginY.getValue()))));
 		SVGNumber verticalAdvanceY = null;
 		if (element.hasAttribute(Attributes.VERT_ADV_Y)) {
-			verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(ElementParser.read(element, Attributes.VERT_ADV_Y)));
-			// TODO: compute VERT_ADV_Y based on <font-face> child
+			verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(ElementParser.readOrDefault(element, Attributes.VERT_ADV_Y)));
+		} else {
+			verticalAdvanceY = new SVGNumber.Implementation(Float.NaN);
 		}
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);

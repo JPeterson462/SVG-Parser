@@ -13,7 +13,6 @@ SVGUseElementParser, SVGLocatable
 
 CSSProperties
 SVGFontElementParser. 16px -> 1em
-SVGFontFaceParser read font attributes
 Parsing URIs (url(...), local(...))
 Referencing fonts and filters
 
@@ -21,7 +20,6 @@ SVGLocatable implementation
 SVGTextContentElement (and parser?)
 SVGAnimationElement implementation
 
-Graphical event attributes, document event attributes
 Check content models (child attributes based on parent: like clip-path), documented properties
 
 FUTURE:

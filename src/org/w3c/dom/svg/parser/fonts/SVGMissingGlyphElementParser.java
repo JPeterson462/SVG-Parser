@@ -8,6 +8,7 @@ import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.fonts.SVGFontElement;
 import org.w3c.dom.svg.fonts.SVGGlyphElement;
 import org.w3c.dom.svg.fonts.SVGMissingGlyphElement;
 import org.w3c.dom.svg.parser.Attributes;
@@ -41,14 +42,15 @@ public class SVGMissingGlyphElementParser implements ElementParser<SVGMissingGly
 	
 	@Override
 	public SVGMissingGlyphElement readElement(Element element, ParsingState parsingState) {
+		SVGFontElement fontElement = (SVGFontElement) parsingState.getCurrentParent();
 		SVGPathSegList pathData = ElementParser.parsePathSegList(ElementParser.read(element, Attributes.D));
-		String horizontalAdvanceXStr = ElementParser.read(element, Attributes.HORIZ_ADV_X);
+		String horizontalAdvanceXStr = ElementParser.readOrDefault(element, Attributes.HORIZ_ADV_X, Float.toString(fontElement.getHorizontalAdvanceX().getValue()));
 		SVGNumber horizontalAdvanceX = new SVGNumber.Implementation(Float.parseFloat(horizontalAdvanceXStr));
-		String verticalOriginXStr = ElementParser.read(element, Attributes.VERT_ORIGIN_X);
+		String verticalOriginXStr = ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_X, Float.toString(fontElement.getVerticalOriginX().getValue()));
 		SVGNumber verticalOriginX = new SVGNumber.Implementation(Float.parseFloat(verticalOriginXStr));
-		String verticalOriginYStr = ElementParser.read(element, Attributes.VERT_ORIGIN_Y);
+		String verticalOriginYStr = ElementParser.readOrDefault(element, Attributes.VERT_ORIGIN_Y, Float.toString(fontElement.getVerticalOriginY().getValue()));
 		SVGNumber verticalOriginY = new SVGNumber.Implementation(Float.parseFloat(verticalOriginYStr));
-		String verticalAdvanceYStr = ElementParser.read(element, Attributes.VERT_ADV_Y);
+		String verticalAdvanceYStr = ElementParser.readOrDefault(element, Attributes.VERT_ADV_Y, Float.toString(fontElement.getVerticalAdvanceY().getValue()));
 		SVGNumber verticalAdvanceY = new SVGNumber.Implementation(Float.parseFloat(verticalAdvanceYStr));
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);

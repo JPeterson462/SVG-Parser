@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGFontFace;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.fonts.SVGFontElement;
 import org.w3c.dom.svg.fonts.SVGFontFaceElement;
 import org.w3c.dom.svg.fonts.SVGFontFaceParser;
 import org.w3c.dom.svg.parser.Attributes;
@@ -29,6 +30,12 @@ public class SVGFontFaceElementParser implements ElementParser<SVGFontFaceElemen
 			}
 			return ElementParser.readOrDefault(element, attribute, defaultValue);
 		}, parsingState);
+		SVGElement parent = parsingState.getCurrentParent();
+		if (parent instanceof SVGFontElement) {
+			((SVGFontElement) parent).getVerticalAdvanceY().setValue(fontFace.getUnitsPerEm().getValue() * 1);
+		} else {
+			// TODO
+		}
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);
 		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);

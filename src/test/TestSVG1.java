@@ -15,14 +15,11 @@ public class TestSVG1 {
 	// https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/
 	public static void main(String[] args) throws Exception {
 		SVGParser parser = new SVGParser();
-		// inherit font face attributes (default other than "0")
 		// path length NaN for curves
 		// animation and document events
-		// 30 left; 371 files; 7 others; 364 ~ 2x - 30, x ~ 200
+		// 23 left; 371 files; 7 others; 364 ~ 2x - 23, x ~ 200
 		// fill for animation elements
-		final String SVG_FILE = "svg-files/pservers-grad-03-b";
-		// DroidSans-Bold, DroidSans, DroidSansMono, DroidSerif-Bold,
-		// DroidSerif-BoldItalic, DroidSerif-Italic, DroidSerif-Regular,
+		final String SVG_FILE = "svg-files/DroidSans";
 		// juanmontoya_lingerie, gallardo, pservers-grad-03-b-anim, anim3,
 		// mouseEvents, ny1, patch, pservers-grad-03-b, rg1024_green_grapes,
 		// rg1024_metal_effect, scimitar-anim, preserveAspectRatio,

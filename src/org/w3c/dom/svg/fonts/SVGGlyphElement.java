@@ -15,6 +15,7 @@ public interface SVGGlyphElement extends SVGElement, SVGStylable {
 	
 	public static final short SVG_GLYPHORIENTATION_H = 0;
 	public static final short SVG_GLYPHORIENTATION_V = 1;
+	public static final short SVG_GLYPHORIENTATION_BOTH = 2;
 	
 	public static final short SVG_ARABICFORM_INITIAL = 0;
 	public static final short SVG_ARABICFORM_MEDIAL = 1;

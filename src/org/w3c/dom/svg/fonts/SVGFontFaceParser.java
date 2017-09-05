@@ -137,14 +137,14 @@ public class SVGFontFaceParser {
 			panose1Values.add(new SVGNumber.Implementation(Float.parseFloat(panose1Parts.get(i))));
 		}
 		SVGNumberList panose1 = new SVGNumberList.Implementation(panose1Values);
-		SVGNumber stemV = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMV, "0")));
-		SVGNumber stemH = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMH, "0")));
-		SVGNumber slope = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.SLOPE, "0")));
-		SVGNumber capHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.CAP_HEIGHT, "0")));
-		SVGNumber xHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.X_HEIGHT, "0")));
-		SVGNumber accentHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ACCENT_HEIGHT, "0")));
-		SVGNumber ascent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ASCENT, "0")));
-		SVGNumber descent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.DESCENT, "0")));
+		SVGNumber stemV = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMV, null)));
+		SVGNumber stemH = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STEMH, null)));
+		SVGNumber slope = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.SLOPE, null)));
+		SVGNumber capHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.CAP_HEIGHT, null)));
+		SVGNumber xHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.X_HEIGHT, null)));
+		SVGNumber accentHeight = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ACCENT_HEIGHT, null)));
+		SVGNumber ascent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ASCENT, null)));
+		SVGNumber descent = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.DESCENT, null)));
 		HashMap<Integer, SVGNumber> widths = new HashMap<>();
 		String widthsStr = element.getAttribute(Attributes.WIDTHS, "0");
 		String[] widthsParts = widthsStr.split(",");
@@ -175,9 +175,9 @@ public class SVGFontFaceParser {
 			bBox = new SVGRect.Implementation(Float.parseFloat(bBoxValues[0].trim()), Float.parseFloat(bBoxValues[1].trim()), 
 					Float.parseFloat(bBoxValues[2].trim()), Float.parseFloat(bBoxValues[3].trim()));
 		}
-		SVGNumber ideographic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.IDEOGRAPHIC, "0")));
-		SVGNumber alphabetic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ALPHABETIC, "0")));
-		SVGNumber mathematical = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.MATHEMATICAL, "0")));
+		SVGNumber ideographic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.IDEOGRAPHIC, null)));
+		SVGNumber alphabetic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.ALPHABETIC, null)));
+		SVGNumber mathematical = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.MATHEMATICAL, null)));
 		SVGNumber hanging = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.HANGING, null)));
 		SVGNumber vIdeographic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.V_IDEOGRAPHIC, null)));
 		SVGNumber vAlphabetic = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.V_ALPHABETIC, null)));
@@ -207,31 +207,33 @@ public class SVGFontFaceParser {
 		attributes.put(Attributes.UNICODE_RANGE, join(fontFace.getUnicodeRange(), ", "));
 		attributes.put(Attributes.UNITS_PER_EM, Float.toString(fontFace.getUnitsPerEm().getValue()));
 		attributes.put(Attributes.PANOSE_1, join(fontFace.getPanose1(), " ", true));
-		attributes.put(Attributes.STEMV, Float.toString(fontFace.getStemV().getValue()));
-		attributes.put(Attributes.STEMH, Float.toString(fontFace.getStemH().getValue()));
-		attributes.put(Attributes.SLOPE, Float.toString(fontFace.getSlope().getValue()));
-		attributes.put(Attributes.CAP_HEIGHT, Float.toString(fontFace.getCapHeight().getValue()));
-		attributes.put(Attributes.X_HEIGHT, Float.toString(fontFace.getXHeight().getValue()));
-		attributes.put(Attributes.ACCENT_HEIGHT, Float.toString(fontFace.getAccentHeight().getValue()));
-		attributes.put(Attributes.ASCENT, Float.toString(fontFace.getAscent().getValue()));
-		attributes.put(Attributes.DESCENT, Float.toString(fontFace.getDescent().getValue()));
+		attributes.put(Attributes.STEMV, toString(fontFace.getStemV().getValue()));
+		attributes.put(Attributes.STEMH, toString(fontFace.getStemH().getValue()));
+		attributes.put(Attributes.SLOPE, toString(fontFace.getSlope().getValue()));
+		attributes.put(Attributes.CAP_HEIGHT, toString(fontFace.getCapHeight().getValue()));
+		attributes.put(Attributes.X_HEIGHT, toString(fontFace.getXHeight().getValue()));
+		attributes.put(Attributes.ACCENT_HEIGHT, toString(fontFace.getAccentHeight().getValue()));
+		attributes.put(Attributes.ASCENT, toString(fontFace.getAscent().getValue()));
+		attributes.put(Attributes.DESCENT, toString(fontFace.getDescent().getValue()));
 		attributes.put(Attributes.WIDTHS, fontFace.getWidthsString());
-		attributes.put(Attributes.BBOX, Float.toString(fontFace.getBBox().getX()) + " " + Float.toString(fontFace.getBBox().getY()) + " " + 
-										Float.toString(fontFace.getBBox().getWidth()) + " " + Float.toString(fontFace.getBBox().getHeight()));
-		attributes.put(Attributes.IDEOGRAPHIC, Float.toString(fontFace.getIdeographic().getValue()));
-		attributes.put(Attributes.ALPHABETIC, Float.toString(fontFace.getAlphabetic().getValue()));
-		attributes.put(Attributes.MATHEMATICAL, Float.toString(fontFace.getMathematical().getValue()));
-		attributes.put(Attributes.HANGING, Float.toString(fontFace.getHanging().getValue()));
-		attributes.put(Attributes.V_IDEOGRAPHIC, Float.toString(fontFace.getVIdeographic().getValue()));
-		attributes.put(Attributes.V_ALPHABETIC, Float.toString(fontFace.getVAlphabetic().getValue()));
-		attributes.put(Attributes.V_MATHEMATICAL, Float.toString(fontFace.getVMathematical().getValue()));
-		attributes.put(Attributes.V_HANGING, Float.toString(fontFace.getVHanging().getValue()));
-		attributes.put(Attributes.UNDERLINE_POSITION, Float.toString(fontFace.getUnderlinePosition().getValue()));
-		attributes.put(Attributes.UNDERLINE_THICKNESS, Float.toString(fontFace.getUnderlineThickness().getValue()));
-		attributes.put(Attributes.STRIKETHROUGH_POSITION, Float.toString(fontFace.getStrikethroughPosition().getValue()));
-		attributes.put(Attributes.STRIKETHROUGH_THICKNESS, Float.toString(fontFace.getStrikethroughThickness().getValue()));
-		attributes.put(Attributes.OVERLINE_POSITION, Float.toString(fontFace.getOverlinePosition().getValue()));
-		attributes.put(Attributes.OVERLINE_THICKNESS, Float.toString(fontFace.getOverlineThickness().getValue()));
+		if (fontFace.getBBox() != null) {
+			attributes.put(Attributes.BBOX, toString(fontFace.getBBox().getX()) + " " + toString(fontFace.getBBox().getY()) + " " + 
+											toString(fontFace.getBBox().getWidth()) + " " + toString(fontFace.getBBox().getHeight()));
+		}
+		attributes.put(Attributes.IDEOGRAPHIC, toString(fontFace.getIdeographic().getValue()));
+		attributes.put(Attributes.ALPHABETIC, toString(fontFace.getAlphabetic().getValue()));
+		attributes.put(Attributes.MATHEMATICAL, toString(fontFace.getMathematical().getValue()));
+		attributes.put(Attributes.HANGING, toString(fontFace.getHanging().getValue()));
+		attributes.put(Attributes.V_IDEOGRAPHIC, toString(fontFace.getVIdeographic().getValue()));
+		attributes.put(Attributes.V_ALPHABETIC, toString(fontFace.getVAlphabetic().getValue()));
+		attributes.put(Attributes.V_MATHEMATICAL, toString(fontFace.getVMathematical().getValue()));
+		attributes.put(Attributes.V_HANGING, toString(fontFace.getVHanging().getValue()));
+		attributes.put(Attributes.UNDERLINE_POSITION, toString(fontFace.getUnderlinePosition().getValue()));
+		attributes.put(Attributes.UNDERLINE_THICKNESS, toString(fontFace.getUnderlineThickness().getValue()));
+		attributes.put(Attributes.STRIKETHROUGH_POSITION, toString(fontFace.getStrikethroughPosition().getValue()));
+		attributes.put(Attributes.STRIKETHROUGH_THICKNESS, toString(fontFace.getStrikethroughThickness().getValue()));
+		attributes.put(Attributes.OVERLINE_POSITION, toString(fontFace.getOverlinePosition().getValue()));
+		attributes.put(Attributes.OVERLINE_THICKNESS, toString(fontFace.getOverlineThickness().getValue()));
 	}
 	
 	private String join(SVGStringList list, String joinBy) {
@@ -293,8 +295,15 @@ public class SVGFontFaceParser {
 		return result;
 	}
 	
+	private String toString(Float value) {
+		if (value == Float.NaN) {
+			return null;
+		}
+		return Float.toString(value);
+	}
+	
 	private Float parseFloat(String value) {
-		if (value == null) {
+		if (value == null || value.length() == 0) {
 			return Float.NaN;
 		}
 		return Float.parseFloat(value);
