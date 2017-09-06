@@ -50,7 +50,7 @@ public class SVGTitleElementParser implements ElementParser<SVGTitleElement> {
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		Element titleElement = factory.createElement(Tags.TITLE, attributes);
 		titleElement.setTextContent(element.getTextContent());
 		return titleElement;

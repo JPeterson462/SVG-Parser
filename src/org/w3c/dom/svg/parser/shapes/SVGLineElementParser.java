@@ -82,7 +82,7 @@ public class SVGLineElementParser implements ElementParser<SVGLineElement> {
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
 		attributes.put(Attributes.X1, element.getX1().getBaseValue().getValueAsString());
 		attributes.put(Attributes.Y1, element.getY1().getBaseValue().getValueAsString());

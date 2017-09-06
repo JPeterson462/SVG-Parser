@@ -288,6 +288,16 @@ public interface SMILTimingValue {
 		
 	}
 	
+	public static int determineSign(String signedClockValue) {
+		if (signedClockValue.startsWith("+")) {
+			return 1;
+		}
+		if (signedClockValue.startsWith("-")) {
+			return -1;
+		}
+		return 1;
+	}
+	
 	public static SMILTimingValue createTimingValue(String text) {
 		if (text.equals("indefinite")) {
 			return new SMILTimingIndefiniteValue.Implementation();
@@ -303,7 +313,7 @@ public interface SMILTimingValue {
 			int sign = 0;
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
-				sign = signedClockValue.startsWith("+") ? 1 : -1;
+				sign = determineSign(signedClockValue);
 				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingAccessKeyValue.Implementation(accessKey, sign, clockValue);
@@ -321,51 +331,67 @@ public interface SMILTimingValue {
 			int sign = 0;
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
-				sign = signedClockValue.startsWith("+") ? 1 : -1;
+				sign = determineSign(signedClockValue);
 				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingRepeatValue.Implementation(idValue, repeatCount, sign, clockValue);
 		}
 		int plusMinus = text.indexOf('+') > -1 ? text.indexOf('+') : text.indexOf('-');
 		if (text.contains("begin") || text.contains("end")) {
-			String rawIdValue = text.substring(0, text.indexOf("."));
+			System.out.println(text);
+			String rawIdValue = text.substring(0, Math.max(text.indexOf("."), 0));
 			String idValue = null;
 			if (rawIdValue.length() > 0) {
-				idValue = rawIdValue.substring(0, rawIdValue.length() - 1);
+				idValue = rawIdValue.substring(0, rawIdValue.length());
 			}
-			String suffix = text.substring(rawIdValue.length() + 1, plusMinus);
-			String signedClockValue = text.substring(plusMinus);
+			String suffix = text.substring(rawIdValue.length() + 1, plusMinus >= 0 ? plusMinus : text.length());
+			String signedClockValue = plusMinus >= 0 ? text.substring(plusMinus) : "";
 			int sign = 0;
 			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 			if (signedClockValue.length() > 0) {
-				sign = signedClockValue.startsWith("+") ? 1 : -1;
+				sign = determineSign(signedClockValue);
 				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
 			}
 			return new SMILTimingSyncbaseValue.Implementation(idValue, suffix, sign, clockValue);
 		}
-		if (text.indexOf('.') < plusMinus) {
-			String rawIdValue = text.substring(0, text.indexOf("."));
+		if ((plusMinus < 0 || text.indexOf('.') < plusMinus) && containsLetters(text)) {
+			System.out.println(text);
+			String rawIdValue = text.indexOf('.') >= 0 ? text.substring(0, text.indexOf(".")) : "";
+			System.out.println(rawIdValue);
 			String idValue = null;
 			if (rawIdValue.length() > 0) {
-				idValue = rawIdValue.substring(0, rawIdValue.length() - 1);
+				idValue = rawIdValue;
 			}
-			String eventRef = text.substring(rawIdValue.length() + 1, plusMinus);
-			String signedClockValue = text.substring(plusMinus);
+			String eventRef = text.substring(rawIdValue.length() > 0 ? rawIdValue.length() + 1 : 0, plusMinus > 0 ? plusMinus : text.length());
 			int sign = 0;
-			SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
-			if (signedClockValue.length() > 0) {
-				sign = signedClockValue.startsWith("+") ? 1 : -1;
-				clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
+			SMILClockValue clockValue = null;
+			if (plusMinus > 0) {
+				String signedClockValue = text.substring(plusMinus);
+				sign = 0;
+				clockValue = new SMILClockValue.Implementation((short) 0);
+				if (signedClockValue.length() > 0) {
+					sign = determineSign(signedClockValue);
+					clockValue.setValue(signedClockValue.startsWith("+") || signedClockValue.startsWith("-") ? signedClockValue.substring(1) : signedClockValue);
+				}
 			}
 			return new SMILTimingEventValue.Implementation(idValue, eventRef, sign, clockValue);
 		}
 		int sign = 0;
 		SMILClockValue clockValue = new SMILClockValue.Implementation((short) 0);
 		if (text.length() > 0) {
-			sign = text.startsWith("+") ? 1 : -1;
+			sign = determineSign(text);
 			clockValue.setValue(text.startsWith("+") || text.startsWith("-") ? text.substring(1) : text);
 		}
 		return new SMILTimingOffsetValue.Implementation(sign, clockValue);
+	}
+	
+	public static boolean containsLetters(String text) {
+		for (int i = 0; i < text.length(); i++) {
+			if (Character.isAlphabetic(text.charAt(i)) && text.charAt(i) != 's') {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static String convertTimingValue(SMILTimingValue timingValue) {

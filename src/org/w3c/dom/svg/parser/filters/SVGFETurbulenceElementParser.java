@@ -114,7 +114,7 @@ public class SVGFETurbulenceElementParser implements ElementParser<SVGFETurbulen
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.BASE_FREQUENCY, element.getBaseFrequencyX().getBaseValue() + " " + element.getBaseFrequencyY().getBaseValue());
 		attributes.put(Attributes.NUM_OCTAVES, Long.toString(element.getNumOctaves().getBaseValue()));
 		attributes.put(Attributes.SEED, Float.toString(element.getSeed().getBaseValue()));

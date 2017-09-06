@@ -201,7 +201,6 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 			float totalLength = 0;
 			SVGPathMath.State state = new SVGPathMath.State();
 			state.point = new SVGPoint.Implementation(0, 0);
-			state.start = new SVGPoint.Implementation(0, 0);
 			boolean setStart = false;
 			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
 				SVGPathSeg seg = pathSegList.getItem(segment);
@@ -221,7 +220,6 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		public SVGPoint getPointAtLength(float distance) {
 			SVGPathMath.State state = new SVGPathMath.State();
 			state.point = new SVGPoint.Implementation(0, 0);
-			state.start = new SVGPoint.Implementation(0, 0);
 			boolean setStart = false;
 			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
 				SVGPathSeg seg = pathSegList.getItem(segment);
@@ -246,7 +244,6 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 		public long getPathSegAtLength(float distance) {
 			SVGPathMath.State state = new SVGPathMath.State();
 			state.point = new SVGPoint.Implementation(0, 0);
-			state.start = new SVGPoint.Implementation(0, 0);
 			boolean setStart = false;
 			for (long segment = 0; segment < pathSegList.getNumberOfItems(); segment++) {
 				SVGPathSeg seg = pathSegList.getItem(segment);

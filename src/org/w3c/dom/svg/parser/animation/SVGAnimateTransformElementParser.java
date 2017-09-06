@@ -136,7 +136,7 @@ public class SVGAnimateTransformElementParser implements ElementParser<SVGAnimat
 		min.setValue(minStr);
 		String maxStr = ElementParser.read(element, Attributes.MAX);
 		SMILClockValue max = null;
-		if (maxStr != null) {
+		if (maxStr != null && maxStr.length() > 0) {
 			max = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
 			max.setValue(maxStr);
 		}
@@ -150,7 +150,7 @@ public class SVGAnimateTransformElementParser implements ElementParser<SVGAnimat
 		}
 		String repeatDurStr = ElementParser.read(element, Attributes.REPEAT_DUR);
 		SMILClockValue repeatDuration = null;
-		if (repeatDurStr != null) {
+		if (repeatDurStr != null && repeatDurStr.length() > 0) {
 			repeatDuration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE);
 			repeatDuration.setValue(repeatDurStr);
 		}
@@ -210,10 +210,14 @@ public class SVGAnimateTransformElementParser implements ElementParser<SVGAnimat
 		attributes.put(Attributes.DUR, element.getDuration().getValue());
 		attributes.put(Attributes.END, ElementParser.concatenate(element.getEnd(), ";"));
 		attributes.put(Attributes.MIN, element.getMin().getValue());
-		attributes.put(Attributes.MAX, element.getMax().getValue());
+		if (element.getMax() != null) {
+			attributes.put(Attributes.MAX, element.getMax().getValue());
+		}
 		attributes.put(Attributes.RESTART, restart_enumToStr.get(element.getRestart()));
 		attributes.put(Attributes.REPEAT_COUNT, element.isRepeatIndefinite() ? "indefinite" : Float.toString(element.getRepeatCount().getValue()));
-		attributes.put(Attributes.REPEAT_DUR, element.getRepeatDuration().getValue());
+		if (element.getRepeatDuration() != null) {
+			attributes.put(Attributes.REPEAT_DUR, element.getRepeatDuration().getValue());
+		}
 		attributes.put(Attributes.FILL, fill_enumToStr.get(element.getFill()));
 		attributes.put(Attributes.CALC_MODE, calcMode_enumToStr.get(element.getCalcMode()));
 		attributes.put(Attributes.ADDITIVE, additive_enumToStr.get(element.getAdditive()));

@@ -89,7 +89,7 @@ public class SVGRadialGradientElementParser implements ElementParser<SVGRadialGr
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());		
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		attributes.put(Attributes.GRADIENT_UNITS, gradientUnits_enumToStr.get(element.getGradientUnits().getBaseValue()));
 		attributes.put(Attributes.GRADIENT_TRANSFORM, ElementParser.getTransforms(element.getGradientTransform()));

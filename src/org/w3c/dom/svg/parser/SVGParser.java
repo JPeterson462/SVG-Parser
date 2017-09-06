@@ -1,7 +1,11 @@
 package org.w3c.dom.svg.parser;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -207,8 +211,24 @@ public class SVGParser {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		DOMSource source = new DOMSource(document);
-		StreamResult result = new StreamResult(stream);
+		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+		StreamResult result = new StreamResult(byteStream);
 		transformer.transform(source, result);
+		String file = new String(byteStream.toByteArray());
+		HashMap<String, String> htmlEntities = new HashMap<>();
+		htmlEntities.put("&gt;[^\"]", ">");
+		htmlEntities.put("&lt;[^\"]", "<");
+		htmlEntities.put("&amp;[^\"]", "&");
+		for (Map.Entry<String, String> htmlEntity : htmlEntities.entrySet()) {
+			file = file.replaceAll(htmlEntity.getKey(), htmlEntity.getValue());
+		}
+		try {
+			stream.write(file.getBytes());
+			stream.flush();
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to write file. " + e.getMessage());
+		}
+		
 	}
 
 }

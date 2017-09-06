@@ -69,7 +69,7 @@ public class SVGFEOffsetElementParser implements ElementParser<SVGFEOffsetElemen
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.IN, element.getIn1().getBaseValue());
 		attributes.put(Attributes.DX, Float.toString(element.getDX().getBaseValue()));
 		attributes.put(Attributes.DY, Float.toString(element.getDY().getBaseValue()));

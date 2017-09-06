@@ -90,7 +90,7 @@ public class SVGFESpecularLightingElementParser implements ElementParser<SVGFESp
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.IN, element.getIn1().getBaseValue());
 		attributes.put(Attributes.SURFACE_SCALE, Float.toString(element.getSurfaceScale().getBaseValue()));
 		attributes.put(Attributes.SPECULAR_CONSTANT, Float.toString(element.getSpecularConstant().getBaseValue()));

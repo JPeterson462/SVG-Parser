@@ -159,7 +159,7 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
 		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
 		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());

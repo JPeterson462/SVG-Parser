@@ -35,7 +35,7 @@ public class SVGStopElementParser implements ElementParser<SVGStopElement> {
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.OFFSET, Float.toString(element.getOffset().getBaseValue()));
 		return factory.createElement(Tags.STOP, attributes);
 	}

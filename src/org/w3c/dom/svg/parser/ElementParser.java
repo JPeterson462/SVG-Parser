@@ -2,8 +2,10 @@ package org.w3c.dom.svg.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.css.impl.StringUtils;
@@ -179,6 +181,15 @@ public interface ElementParser<T extends SVGElement> {
 				declaration.setProperty(properties[i], element.getAttribute(properties[i]), null);
 			}
 		}
+	}
+	
+	public static void storeStyleFromAttributes(HashMap<String, String> attributes, CSSStyleDeclaration declaration) {
+		String[] properties = CSSPropertyNames.PROPERTIES;
+		for (int i = 0; i < properties.length; i++) {
+			if (declaration.getPropertyValue(properties[i]) != null) {
+				attributes.put(properties[i], declaration.getPropertyValue(properties[i]));
+			}
+		}		
 	}
 	
 	public static String read(Element element, String attribute) {

@@ -11,6 +11,13 @@ public class StringUtils {
 	
 	public static final String URI_PREFIX = "url(", URI_SUFFIX = ")";
 
+	public static String escapeUnicode(String unicode) {
+		if (unicode.equals("&")) {
+			return "&amp;";
+		}
+		return unicode;
+	}
+	
 	public static String convertToWritable(float value) {
 		if (Math.floor(value) == value) {
 			return Integer.toString((int) Math.floor(value));

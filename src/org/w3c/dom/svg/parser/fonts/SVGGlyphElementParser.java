@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
+import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
@@ -95,7 +96,7 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		return factory.createElement(Tags.GLYPH, attributes);
 	}
 

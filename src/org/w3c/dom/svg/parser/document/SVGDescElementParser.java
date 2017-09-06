@@ -50,7 +50,7 @@ public class SVGDescElementParser implements ElementParser<SVGDescElement> {
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		Element descElement = factory.createElement(Tags.DESC, attributes);
 		descElement.setTextContent(element.getTextContent());
 		return descElement;

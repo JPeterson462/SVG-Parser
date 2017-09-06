@@ -63,8 +63,8 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 		SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
 		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
 		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = ElementParser.read(element, Attributes.WIDTH);
-		String heightStr = ElementParser.read(element, Attributes.HEIGHT);
+		String widthStr = ElementParser.readOrDefault(element, Attributes.WIDTH, "0");
+		String heightStr = ElementParser.readOrDefault(element, Attributes.HEIGHT, "0");
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Width: " + widthStr);
 		}
@@ -98,7 +98,7 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 		String patternUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_UNITS, "objectBoundingBox");
 		short patternUnitsEnum = patternUnits_strToEnum.get(patternUnitsStr);
 		SVGAnimatedEnumeration patternUnits = new SVGAnimatedEnumeration.Implementation(patternUnitsEnum, patternUnitsEnum);
-		String patternContentUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_CONTENT_UNITS, "objectBoundingBox");
+		String patternContentUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_CONTENT_UNITS, "userSpaceOnUse");
 		short patternContentUnitsEnum = patternUnits_strToEnum.get(patternContentUnitsStr);
 		SVGAnimatedEnumeration patternContentUnits = new SVGAnimatedEnumeration.Implementation(patternContentUnitsEnum, patternContentUnitsEnum);
 		SVGAnimatedTransformList patternTransform = ElementParser.parseTransforms(ElementParser.readOrDefault(element, Attributes.PATTERN_TRANSFORM, ""));
@@ -111,13 +111,13 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 	@Override
 	public Element writeElement(SVGPatternElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[0], element.getHref().getBaseValue());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.concatenate(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.concatenate(element.getRequiredFeatures(), " "));

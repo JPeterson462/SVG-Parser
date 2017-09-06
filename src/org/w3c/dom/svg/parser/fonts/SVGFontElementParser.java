@@ -64,7 +64,7 @@ public class SVGFontElementParser implements ElementParser<SVGFontElement> {
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		return factory.createElement(Tags.FONT, attributes);
 	}

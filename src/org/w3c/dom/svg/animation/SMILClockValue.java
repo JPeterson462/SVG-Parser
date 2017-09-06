@@ -63,6 +63,7 @@ public interface SMILClockValue {
 
 		@Override
 		public void setValue(String clockValue) {
+			System.out.println("'" + clockValue + "'");
 			this.clockValue = clockValue;
 			indefinite = clockValue.equals("indefinite");
 			media = clockValue.equals("media");

@@ -146,7 +146,7 @@ public class SVGFEConvolveMatrixElementParser implements ElementParser<SVGFEConv
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.IN, element.getIn1().getBaseValue());
 		attributes.put(Attributes.ORDER, Long.toString(element.getOrderX().getBaseValue()) + " " + Long.toString(element.getOrderY().getBaseValue()));
 		attributes.put(Attributes.KERNEL_MATRIX, ElementParser.concatenate(element.getKernelMatrix().getBaseValue(), " "));

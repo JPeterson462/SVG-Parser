@@ -89,7 +89,7 @@ public class SVGEllipseElementParser implements ElementParser<SVGEllipseElement>
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
 		attributes.put(Attributes.CX, element.getCX().getBaseValue().getValueAsString());
 		attributes.put(Attributes.CY, element.getCY().getBaseValue().getValueAsString());

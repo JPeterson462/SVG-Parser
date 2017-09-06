@@ -57,7 +57,7 @@ public class SVGGlyphRefElementParser implements ElementParser<SVGGlyphRefElemen
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		return factory.createElement(Tags.GLYPH_REF, attributes);
 	}
 

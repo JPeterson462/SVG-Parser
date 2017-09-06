@@ -129,7 +129,7 @@ public class SVGAnimateColorElementParser implements ElementParser<SVGAnimateCol
 		min.setValue(minStr);
 		String maxStr = ElementParser.read(element, Attributes.MAX);
 		SMILClockValue max = null;
-		if (maxStr != null) {
+		if (maxStr != null && maxStr.length() > 0) {
 			max = new SMILClockValue.Implementation(SMILClockValue.MEDIA);
 			max.setValue(maxStr);
 		}
@@ -143,7 +143,7 @@ public class SVGAnimateColorElementParser implements ElementParser<SVGAnimateCol
 		}
 		String repeatDurStr = ElementParser.read(element, Attributes.REPEAT_DUR);
 		SMILClockValue repeatDuration = null;
-		if (repeatDurStr != null) {
+		if (repeatDurStr != null && repeatDurStr.length() > 0) {
 			repeatDuration = new SMILClockValue.Implementation(SMILClockValue.INDEFINITE);
 			repeatDuration.setValue(repeatDurStr);
 		}
@@ -187,7 +187,7 @@ public class SVGAnimateColorElementParser implements ElementParser<SVGAnimateCol
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
@@ -202,10 +202,14 @@ public class SVGAnimateColorElementParser implements ElementParser<SVGAnimateCol
 		attributes.put(Attributes.DUR, element.getDuration().getValue());
 		attributes.put(Attributes.END, ElementParser.concatenate(element.getEnd(), ";"));
 		attributes.put(Attributes.MIN, element.getMin().getValue());
-		attributes.put(Attributes.MAX, element.getMax().getValue());
+		if (element.getMax() != null) {
+			attributes.put(Attributes.MAX, element.getMax().getValue());
+		}
 		attributes.put(Attributes.RESTART, restart_enumToStr.get(element.getRestart()));
 		attributes.put(Attributes.REPEAT_COUNT, element.isRepeatIndefinite() ? "indefinite" : Float.toString(element.getRepeatCount().getValue()));
-		attributes.put(Attributes.REPEAT_DUR, element.getRepeatDuration().getValue());
+		if (element.getRepeatDuration() != null) {
+			attributes.put(Attributes.REPEAT_DUR, element.getRepeatDuration().getValue());
+		}
 		attributes.put(Attributes.FILL, fill_enumToStr.get(element.getFill()));
 		attributes.put(Attributes.CALC_MODE, calcMode_enumToStr.get(element.getCalcMode()));
 		attributes.put(Attributes.ADDITIVE, additive_enumToStr.get(element.getAdditive()));

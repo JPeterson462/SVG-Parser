@@ -84,7 +84,7 @@ public class SVGFEImageElementParser implements ElementParser<SVGFEImageElement>
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());

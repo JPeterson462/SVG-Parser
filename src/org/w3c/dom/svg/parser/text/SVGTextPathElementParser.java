@@ -45,7 +45,7 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		spacing_strToEnum.put("auto", SVGTextPathElement.TEXTPATH_SPACINGTYPE_AUTO);
 		spacing_enumToStr.put(SVGTextPathElement.TEXTPATH_SPACINGTYPE_EXACT, "exact");
 		spacing_strToEnum.put("exact", SVGTextPathElement.TEXTPATH_SPACINGTYPE_EXACT);
-		}
+	}
 	
 	@Override
 	public SVGTextPathElement readElement(Element element, ParsingState parsingState) {
@@ -69,7 +69,7 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		short methodValue = method_strToEnum.get(methodStr);
 		SVGAnimatedEnumeration method = new SVGAnimatedEnumeration.Implementation(methodValue, methodValue);
 		String spacingStr = ElementParser.readOrDefault(element, Attributes.SPACING, "exact");
-		short spacingValue = method_strToEnum.get(spacingStr);
+		short spacingValue = spacing_strToEnum.get(spacingStr);
 		SVGAnimatedEnumeration spacing = new SVGAnimatedEnumeration.Implementation(spacingValue, spacingValue);
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);
@@ -112,7 +112,7 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
 		attributes.put(Attributes.XML_SPACE, element.getXMLSpace());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));

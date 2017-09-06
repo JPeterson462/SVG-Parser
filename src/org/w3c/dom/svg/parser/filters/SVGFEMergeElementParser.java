@@ -62,7 +62,7 @@ public class SVGFEMergeElementParser implements ElementParser<SVGFEMergeElement>
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		return factory.createElement(Tags.FE_MERGE, attributes);
 	}
 

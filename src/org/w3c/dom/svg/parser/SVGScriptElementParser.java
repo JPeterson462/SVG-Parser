@@ -25,7 +25,7 @@ public class SVGScriptElementParser implements ElementParser<SVGScriptElement> {
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
 		SVGScriptElement scriptElement = new SVGScriptElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				href, externalResourcesRequired, type);
-		scriptElement.setTextContent(element.getTextContent());
+		scriptElement.setTextContent("<![CDATA[" + element.getTextContent() + "]]>");
 		return scriptElement;
 	}
 

@@ -136,7 +136,7 @@ public class SVGMarkerElementParser implements ElementParser<SVGMarkerElement> {
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
-		attributes.put(Attributes.STYLE, element.getStyle().getCssText());
+		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		return factory.createElement(Tags.MARKER, attributes);
 	}
 

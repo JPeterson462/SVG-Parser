@@ -44,9 +44,6 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 		for (int i = 0; i < propertyNames.size(); i++) {
 			String propertyName = propertyNames.get(i);
 			Property property = properties.get(propertyName);
-			if (i > 0) {
-				buffer.append('\n');
-			}
 			buffer.append(propertyName + ": " + property.value + (property.priority != null && property.priority.length() > 0 ? (" !" + property.priority) : "") + ";");
 		}
 		return buffer.toString();
