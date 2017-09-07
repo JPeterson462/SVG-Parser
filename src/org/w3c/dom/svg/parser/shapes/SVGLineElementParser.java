@@ -27,7 +27,7 @@ public class SVGLineElementParser implements ElementParser<SVGLineElement> {
 		String x1Str = ElementParser.readOrDefault(element, Attributes.X1, "0");
 		String y1Str = ElementParser.readOrDefault(element, Attributes.Y1, "0");
 		String x2Str = ElementParser.readOrDefault(element, Attributes.X2, "0");
-		String y2Str = ElementParser.readOrDefault(element, Attributes.X2, "0");
+		String y2Str = ElementParser.readOrDefault(element, Attributes.Y2, "0");
 		// Convert
 		SVGLength x1 = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		x1.setValueAsString(x1Str);

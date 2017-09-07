@@ -128,7 +128,10 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
 		attributes.put(Attributes.FONT_SIZE, element.getStyle().getPropertyValue(CSSPropertyNames.FONT_SIZE));
 		Element textElement = factory.createElement(Tags.TEXT, attributes);
-		textElement.setTextContent(element.getTextContent());
+		if (element.getChildNodes().getLength() == 0) {
+			// Only write the <text> content if there aren't child nodes like <tspan>
+			textElement.setTextContent(element.getTextContent());
+		}
 		return textElement;
 	}
 

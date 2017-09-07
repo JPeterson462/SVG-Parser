@@ -39,12 +39,18 @@ public class SVGTSpanElementParser implements ElementParser<SVGTSpanElement> {
 	
 	@Override
 	public SVGTSpanElement readElement(Element element, ParsingState parsingState) {
-		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
-		SVGLengthList x = ElementParser.parseLengthList(xStr, parsingState);
-		SVGAnimatedLengthList ax = new SVGAnimatedLengthList.Implementation(x, x);
-		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		SVGLengthList y = ElementParser.parseLengthList(yStr, parsingState);
-		SVGAnimatedLengthList ay = new SVGAnimatedLengthList.Implementation(y, y);
+		String xStr = ElementParser.read(element, Attributes.X);
+		SVGAnimatedLengthList ax = null;
+		if (xStr != null && xStr.length() > 0) {
+			SVGLengthList x = ElementParser.parseLengthList(xStr, parsingState);
+			ax = new SVGAnimatedLengthList.Implementation(x, x);
+		}
+		String yStr = ElementParser.read(element, Attributes.Y);
+		SVGAnimatedLengthList ay = null;
+		if (yStr != null && yStr.length() > 0){
+			SVGLengthList y = ElementParser.parseLengthList(yStr, parsingState);
+			ay = new SVGAnimatedLengthList.Implementation(y, y);
+		}
 		String dxStr = ElementParser.readOrDefault(element, Attributes.DX, "");
 		SVGLengthList dx = ElementParser.parseLengthList(dxStr, parsingState);
 		SVGAnimatedLengthList adx = new SVGAnimatedLengthList.Implementation(dx, dx);
@@ -98,12 +104,16 @@ public class SVGTSpanElementParser implements ElementParser<SVGTSpanElement> {
 	@Override
 	public Element writeElement(SVGTSpanElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<String, String>();
-		attributes.put(Attributes.X, ElementParser.convertLengthList(element.getX().getBaseValue()));
-		attributes.put(Attributes.Y, ElementParser.convertLengthList(element.getY().getBaseValue()));
+		if (element.getX() != null) {
+			attributes.put(Attributes.X, ElementParser.convertLengthList(element.getX().getBaseValue()));
+		}
+		if (element.getY() != null) {
+			attributes.put(Attributes.Y, ElementParser.convertLengthList(element.getY().getBaseValue()));
+		}
 		attributes.put(Attributes.DX, ElementParser.convertLengthList(element.getDX().getBaseValue()));
 		attributes.put(Attributes.DY, ElementParser.convertLengthList(element.getDY().getBaseValue()));
 		attributes.put(Attributes.ROTATE, ElementParser.convertNumberList(element.getRotate().getBaseValue()));
-		attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
+//		attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
 		attributes.put(Attributes.LENGTH_ADJUST, enumToStr.get(element.getLengthAdjust().getBaseValue()));
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());

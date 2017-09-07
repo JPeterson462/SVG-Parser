@@ -108,19 +108,19 @@ public class SVGPathMath {
 				return SVGMath.sqrt(dx * dx + dy * dy);
 			case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS:
 				SVGPathSegLineToHorizontalAbs pathSegLineToHorizontalAbs = (SVGPathSegLineToHorizontalAbs) segment;
-				return pathSegLineToHorizontalAbs.getX() - state.point.getX();
+				return Math.abs(pathSegLineToHorizontalAbs.getX() - state.point.getX());
 			case SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS:
 				SVGPathSegLineToVerticalAbs pathSegLineToVerticalAbs = (SVGPathSegLineToVerticalAbs) segment;
-				return pathSegLineToVerticalAbs.getY() - state.point.getY();
+				return Math.abs(pathSegLineToVerticalAbs.getY() - state.point.getY());
 			case SVGPathSeg.PATHSEG_LINETO_REL:
 				SVGPathSegLineToRel pathSegLineToRel = (SVGPathSegLineToRel) segment;
 				return SVGMath.sqrt(pathSegLineToRel.getX() * pathSegLineToRel.getX() + pathSegLineToRel.getY() * pathSegLineToRel.getY());
 			case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL:
 				SVGPathSegLineToHorizontalRel pathSegLineToHorizontalRel = (SVGPathSegLineToHorizontalRel) segment;
-				return pathSegLineToHorizontalRel.getX();
+				return Math.abs(pathSegLineToHorizontalRel.getX());
 			case SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL:
 				SVGPathSegLineToVerticalRel pathSegLineToVerticalRel = (SVGPathSegLineToVerticalRel) segment;
-				return pathSegLineToVerticalRel.getY();
+				return Math.abs(pathSegLineToVerticalRel.getY());
 			case SVGPathSeg.PATHSEG_MOVETO_ABS:
 				SVGPathSegMoveToAbs pathSegMoveToAbs = (SVGPathSegMoveToAbs) segment;
 				if (state.start == null) {

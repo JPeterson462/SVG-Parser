@@ -161,7 +161,7 @@ public interface SVGLength {
 		@Override
 		public String getValueAsString() {
 			if (unitType == SVG_LENGTHTYPE_PX) {
-				return getValueInSpecifiedUnitsAsString();
+				return getValueInSpecifiedUnitsAsString() + "px";
 			}
 			String extension = "";
 			switch (unitType) {
@@ -192,6 +192,9 @@ public interface SVGLength {
 				case SVG_LENGTHTYPE_PC:
 					extension = "pc";
 					break;
+			}
+			if (extension.length() == 0) {
+				extension = "px";
 			}
 			return getValueInSpecifiedUnitsAsString() + extension;
 		}

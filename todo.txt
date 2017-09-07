@@ -10,17 +10,11 @@ CSSLengthValueImplementation.setBaseElement
 Get default CSSLengthValue values; are CSSLengthValue based on viewport element or cascading?
 Recursive CSSNumberValue?
 SVGUseElementParser, SVGLocatable
-
 CSSProperties
-SVGFontElementParser. 16px -> 1em
-Parsing URIs (url(...), local(...))
-Referencing fonts and filters
 
 SVGLocatable implementation
 SVGTextContentElement (and parser?)
 SVGAnimationElement implementation
-
-Check content models (child attributes based on parent: like clip-path), documented properties
 
 FUTURE:
 -------
@@ -67,7 +61,7 @@ R	W
 +	+	<polygon>
 +	+	<text>
 +	+	<tspan>
-.	.	<tref>
++	+	<tref>
 +	+	<textPath>
 +	+	<altGlyph>
 +	+	<altGlyphDef>

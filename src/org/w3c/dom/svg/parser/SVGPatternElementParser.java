@@ -111,7 +111,7 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 	@Override
 	public Element writeElement(SVGPatternElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF[0], element.getHref().getBaseValue());
+		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());
