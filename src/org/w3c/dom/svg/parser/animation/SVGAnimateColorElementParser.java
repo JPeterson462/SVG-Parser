@@ -178,7 +178,7 @@ public class SVGAnimateColorElementParser implements ElementParser<SVGAnimateCol
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, null, 
 				className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, attributeName, 
 				begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, repeatDuration, 
-				fill, calcMode, additive, accumulate, values, keyTimes, keySplines, from, to, by);
+				fill, calcMode, additive, accumulate, values, keyTimes, keySplines, from, to, by, parsingState.getClock());
 	}
 
 	@Override

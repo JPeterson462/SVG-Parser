@@ -22,8 +22,14 @@ public interface SVGLocatable {
 		
 		private SVGElement element;
 		
+		private SVGRect bBox = new SVGRect.Implementation(0, 0, 0, 0);
+		
+		private SVGMatrix screenCtm = new SVGMatrix.Implementation(), ctm = new SVGMatrix.Implementation();
+		
 		public Implementation(SVGElement element) {
 			this.element = element;
+			screenCtm.identity();
+			ctm.identity();
 		}
 		
 		@Override
@@ -50,37 +56,42 @@ public interface SVGLocatable {
 
 		@Override
 		public SVGRect getBBox() {
-			SVGElement parent = (SVGElement) element.getParentNode();
-			SVGRect parentBoundingBox = null;
-			while (parent != null && parentBoundingBox == null) {
-				if (parent instanceof SVGLocatable) {
-					parentBoundingBox = ((SVGLocatable) parent).getBBox();
-				}
-				parent = (SVGElement) parent.getParentNode();
-			}
-			if (parentBoundingBox == null) {
-				parentBoundingBox = new SVGRect.Implementation(0, 0, 0, 0); // TODO
-			}
-			// TODO apply transforms, compute for shapes and paths
-			return new SVGRect.Implementation(parentBoundingBox.getX(), parentBoundingBox.getY(), parentBoundingBox.getWidth(), parentBoundingBox.getHeight());
+			return bBox;
 		}
 
 		@Override
 		public SVGMatrix getCTM() {
-			// TODO Auto-generated method stub
-			return null;
+			ctm.identity();
+			getMatrixUntilViewport(ctm, element, getNearestViewportElement());
+			return ctm;
+		}
+		
+		private void getMatrixUntilViewport(SVGMatrix matrix, SVGElement element, SVGElement nearestViewport) {
+			if (!element.equals(nearestViewport)) {
+				getMatrixUntilViewport(matrix, (SVGElement) element.getParentNode(), nearestViewport);
+				((SVGTransformable) element).getTransform().getBaseValue().applyTo(matrix);
+			}
 		}
 
 		@Override
 		public SVGMatrix getScreenCTM() {
-			// TODO Auto-generated method stub
-			return null;
+			return screenCtm;
 		}
 
 		@Override
 		public SVGMatrix getTransformToElement(SVGElement element) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			if (!(element instanceof SVGTransformable)) {
+				return SVGErrors.error("Element " + element.getTag() + " cannot be located");
+			}
+			if (bBox.getWidth() == 0 || bBox.getHeight() == 0) {
+				return SVGErrors.error("This element cannot be used to transform to " + element);
+			}
+			SVGMatrix source = getCTM();
+			SVGMatrix destination = ((SVGTransformable) element).getCTM();
+			SVGMatrix matrix = new SVGMatrix.Implementation();
+			matrix.set(destination.getA(), destination.getB(), destination.getC(), destination.getD(), destination.getE(), destination.getF());
+			matrix.multiply(source.inverse());
+			return matrix;
 		}
 		
 	}

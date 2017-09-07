@@ -203,7 +203,7 @@ public class SVGAnimateMotionElementParser implements ElementParser<SVGAnimateMo
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, null, 
 				onBegin, onEnd, onRepeat, onLoad, begin, duration, end, min, max, restart, repeatCount, 
 				repeatIndefinite, repeatDuration, fill, calcMode, additive, accumulate, path, keyPoints, 
-				rotate, rotateAuto, rotateReverse, origin, values, keyTimes, keySplines, from, to, by);
+				rotate, rotateAuto, rotateReverse, origin, values, keyTimes, keySplines, from, to, by, parsingState.getClock());
 	}
 
 	@Override

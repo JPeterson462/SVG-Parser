@@ -186,7 +186,7 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 				null, className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, 
 				attributeName, begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, 
 				repeatDuration, fill, calcMode, additive, accumulate, values, keyTimes, keySplines, 
-				from, to, by);
+				from, to, by, parsingState.getClock());
 	}
 
 	@Override

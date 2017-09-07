@@ -9,6 +9,7 @@ import org.w3c.dom.css.impl.CSSStyleSheetImplementation;
 import org.w3c.dom.css.impl.MediaListImplementation;
 import org.w3c.dom.stylesheets.StyleSheet;
 import org.w3c.dom.stylesheets.StyleSheetList;
+import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.document.SVGRenderingState;
@@ -26,12 +27,19 @@ public class ParsingState {
 	
 	private SVGRenderingState renderingState;
 	
-	public ParsingState(SVGRenderingState renderingState) {
+	private SVGClock clock;
+	
+	public ParsingState(SVGRenderingState renderingState, SVGClock clock) {
 		this.renderingState = renderingState;
+		this.clock = clock;
 	}
 	
 	public SVGRenderingState getRenderingState() {
 		return renderingState;
+	}
+	
+	public SVGClock getClock() {
+		return clock;
 	}
 
 	public SVGSVGElement getOwnerSVGElement() {

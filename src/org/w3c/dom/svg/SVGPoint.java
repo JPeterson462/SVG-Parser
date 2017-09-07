@@ -45,8 +45,8 @@ public interface SVGPoint {
 
 		@Override
 		public SVGPoint matrixTransform(SVGMatrix matrix) {
-			float x = matrix.getA() * this.x + matrix.getB() * this.y + matrix.getC();
-			float y = matrix.getD() * this.x + matrix.getE() * this.y + matrix.getF();
+			float x = matrix.getA() * this.x + matrix.getC() * this.y + matrix.getE();
+			float y = matrix.getB() * this.x + matrix.getD() * this.y + matrix.getF();
 			return new Implementation(x, y);
 		}
 		

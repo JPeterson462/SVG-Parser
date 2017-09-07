@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.animation.SVGAnimationElement;
@@ -31,7 +32,7 @@ import org.w3c.dom.svg.document.SVGUseElement;
 
 public class SVGParser {
 	
-	public SVGSVGElement readDocument(InputStream stream, SVGRenderingState renderingState) throws Exception {
+	public SVGSVGElement readDocument(InputStream stream, SVGRenderingState renderingState, SVGClock clock) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(stream);
@@ -41,7 +42,7 @@ public class SVGParser {
 		}
 		Element root = document.getDocumentElement();
 		if (root.getTagName().equals(Tags.SVG)) {
-			ParsingState parsingState = new ParsingState(renderingState);
+			ParsingState parsingState = new ParsingState(renderingState, clock);
 			SVGSVGElement rootElement = (SVGSVGElement) parseElementRecursively(root, parsingState);
 			parsingState.traverseHierarchy(element -> {
 				if (element instanceof SVGAnimationElement) {

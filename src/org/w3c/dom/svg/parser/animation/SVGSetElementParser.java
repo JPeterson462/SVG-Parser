@@ -118,7 +118,7 @@ public class SVGSetElementParser implements ElementParser<SVGSetElement> {
 		return new SVGSetElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures,
 				requiredExtensions, systemLanguage, externalResourcesRequired, null, onBegin, onEnd,
 				onRepeat, onLoad, attributeType, attributeName, begin, duration, end, min, max, restart,
-				repeatCount, repeatIndefinite, repeatDuration, fill, to);
+				repeatCount, repeatIndefinite, repeatDuration, fill, to, parsingState.getClock());
 	}
 
 	@Override

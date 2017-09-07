@@ -28,6 +28,26 @@ public class SVGPathMath {
 		return length;
 	}
 	
+	public static void getPathBounds(SVGPathSegList list, SVGPoint min, SVGPoint max) {
+		State state = new State();
+		state.point = new SVGPoint.Implementation(0, 0);
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			transformPoint(list.getItem(i), state);
+			if (state.point.getX() < min.getX()) {
+				min.setX(state.point.getX());
+			}
+			if (state.point.getY() < min.getY()) {
+				min.setY(state.point.getY());
+			}
+			if (state.point.getX() > max.getX()) {
+				max.setX(state.point.getX());
+			}
+			if (state.point.getY() > max.getY()) {
+				max.setY(state.point.getY());
+			}
+		}
+	}
+	
 	public static float getSegmentLength(SVGPathSeg segment, State state) {
 		float[] controlPoint;
 		switch (segment.getPathSegType()) {

@@ -18,6 +18,7 @@ import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
+import org.w3c.dom.svg.shapes.SVGAnimatedPoints;
 import org.w3c.dom.svg.shapes.SVGPolylineElement;
 
 public class SVGPolylineElementParser implements ElementParser<SVGPolylineElement> {
@@ -48,6 +49,7 @@ public class SVGPolylineElementParser implements ElementParser<SVGPolylineElemen
 		}
 		// Convert
 		SVGPointList points = new SVGPointList.Implementation(pointList);
+		SVGAnimatedPoints apoints = new SVGAnimatedPoints.Implementation(points, points);
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);
 		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
@@ -77,7 +79,7 @@ public class SVGPolylineElementParser implements ElementParser<SVGPolylineElemen
 		// Construct the implementation
 		return new SVGPolylineElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
-					points, points, nearestViewportElement, farthestViewportElement, transform);
+					apoints, nearestViewportElement, farthestViewportElement, transform);
 	}
 
 	@Override
@@ -90,7 +92,7 @@ public class SVGPolylineElementParser implements ElementParser<SVGPolylineElemen
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
-		attributes.put(Attributes.POINTS, ElementParser.concatenate(element.getBaseValue(), " "));
+		attributes.put(Attributes.POINTS, ElementParser.concatenate(element.getPoints().getBaseValue(), " "));
 		attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.join(element.getRequiredFeatures(), " "));
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));

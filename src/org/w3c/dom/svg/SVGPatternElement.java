@@ -7,7 +7,7 @@ import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
 public interface SVGPatternElement extends SVGElement, SVGURIReference, SVGTests, 
-		SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGFitToViewBox, SVGUnitTypes, SVGDimensioned {
+		SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGFitToViewBox, SVGUnitTypes, SVGDimensioned, SVGPositioned {
 
 	public SVGAnimatedEnumeration getPatternUnits();
 	

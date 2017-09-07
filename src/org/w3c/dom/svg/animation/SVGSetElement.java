@@ -1,6 +1,7 @@
 package org.w3c.dom.svg.animation;
 
 import org.w3c.dom.svg.SVGAnimatedBoolean;
+import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGNumber;
@@ -41,8 +42,8 @@ public interface SVGSetElement extends SVGAnimationElement, SVGExternalResources
 				String onBegin, String onEnd, String onRepeat, String onLoad, short attributeType, String attributeName,
 				SMILTimingValueList begin, SMILClockValue duration, SMILTimingValueList end,
 				SMILClockValue min, SMILClockValue max, short restart, SVGNumber repeatCount,
-				boolean repeatIndefinite, SMILClockValue repeatDuration, short fill, String to) {
-			super(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, targetElement);
+				boolean repeatIndefinite, SMILClockValue repeatDuration, short fill, String to, SVGClock clock) {
+			super(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, targetElement, clock);
 			this.onBegin = onBegin;
 			this.onEnd = onEnd;
 			this.onRepeat = onRepeat;

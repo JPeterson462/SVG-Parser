@@ -188,7 +188,7 @@ public class SVGAnimateTransformElementParser implements ElementParser<SVGAnimat
 				externalResourcesRequired, null, onBegin, onEnd, onRepeat, onLoad, 
 				attributeType, attributeName, begin, duration, end, min, max, restart,
 				repeatCount, repeatIndefinite, repeatDuration, fill, calcMode, additive,
-				accumulate, transformType, values, keyTimes, keySplines, from, to, by);
+				accumulate, transformType, values, keyTimes, keySplines, from, to, by, parsingState.getClock());
 	}
 
 	@Override

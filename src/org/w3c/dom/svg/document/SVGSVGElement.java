@@ -42,20 +42,31 @@ import org.w3c.dom.svg.SVGLocatable;
 import org.w3c.dom.svg.SVGMatrix;
 import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.SVGPoint;
+import org.w3c.dom.svg.SVGPointList;
+import org.w3c.dom.svg.SVGPositioned;
 import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTests;
 import org.w3c.dom.svg.SVGTransform;
+import org.w3c.dom.svg.SVGTransformList;
 import org.w3c.dom.svg.SVGTransformable;
 import org.w3c.dom.svg.SVGViewSpec;
 import org.w3c.dom.svg.SVGZoomAndPan;
+import org.w3c.dom.svg.paths.SVGPathElement;
+import org.w3c.dom.svg.paths.SVGPathMath;
+import org.w3c.dom.svg.shapes.SVGCircleElement;
+import org.w3c.dom.svg.shapes.SVGEllipseElement;
+import org.w3c.dom.svg.shapes.SVGLineElement;
+import org.w3c.dom.svg.shapes.SVGPolygonElement;
+import org.w3c.dom.svg.shapes.SVGPolylineElement;
+import org.w3c.dom.svg.shapes.SVGRectElement;
 import org.w3c.dom.views.DocumentView;
 
 public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace, 
 			SVGExternalResourcesRequired, SVGStylable, SVGLocatable, 
 			SVGFitToViewBox, SVGZoomAndPan, DocumentEvent, ViewCSS, 
-			DocumentCSS, SVGDimensioned {
+			DocumentCSS, SVGDimensioned, SVGPositioned {
 	
 	public SVGNumber getVersion();
 	
@@ -165,6 +176,8 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 	public String getOnUnload();
 	
 	public String getOnZoom();
+
+	public void computeBoundingBoxes();
 	
 	public static class Implementation extends SVGElement.Implementation implements SVGSVGElement {
 		
@@ -784,6 +797,152 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 		@Override
 		public String getOnZoom() {
 			return onZoom;
+		}
+
+		@Override
+		public void computeBoundingBoxes() {
+			computeBoundingBoxes(this);
+		}
+		
+		private void computeBoundingBoxes(SVGElement element) {
+			NodeList children = element.getChildNodes();
+			// Recurse
+			for (int i = 0; i < children.getLength(); i++) {
+				Node child = children.item(i);
+				if (child instanceof SVGElement) {
+					computeBoundingBoxes((SVGElement) child);
+				}
+			}
+			if (element instanceof SVGLocatable) {
+				float x = 0, y = 0, width = 0, height = 0;
+				boolean computedX = true, computedY = true, computedWidth = true, computedHeight = true;
+				// Compute the bounding box for defined shapes
+				if (element instanceof SVGDimensioned) {
+					SVGDimensioned dimensioned = (SVGDimensioned) element;
+					SVGLength widthValue = dimensioned.getWidth() != null ? dimensioned.getWidth().getBaseValue() : null;
+					SVGLength heightValue = dimensioned.getHeight() != null ? dimensioned.getHeight().getBaseValue() : null;
+					if (widthValue != null) {
+						width = widthValue.getValue();
+						computedWidth = false;
+					}
+					if (heightValue != null) {
+						height = heightValue.getValue();
+						computedHeight = false;
+					}
+				}
+				if (element instanceof SVGPositioned) {
+					SVGPositioned positioned = (SVGPositioned) element;
+					SVGLength xValue = positioned.getX() != null ? positioned.getX().getBaseValue() : null;
+					SVGLength yValue = positioned.getY() != null ? positioned.getY().getBaseValue() : null;
+					if (xValue != null) {
+						x = xValue.getValue();
+						computedX = false;
+					}
+					if (yValue != null) {
+						y = yValue.getValue();
+						computedY = false;
+					}
+				}
+				if (computedWidth || computedHeight || computedX || computedY) {
+					for (int i = 0; i < children.getLength(); i++) {
+						Node child = children.item(i);
+						if (child instanceof SVGPathElement) {
+							SVGPoint min = new SVGPoint.Implementation(Float.MAX_VALUE, Float.MAX_VALUE);
+							SVGPoint max = new SVGPoint.Implementation(-Float.MAX_VALUE, -Float.MAX_VALUE);
+							SVGPathMath.getPathBounds(((SVGPathElement) element).getPathSegList(), min, max);
+							x = min.getX();
+							y = min.getY();
+							width = max.getX() - min.getX();
+							height = max.getY() - min.getY();
+						}
+						else if (child instanceof SVGCircleElement) {
+							SVGCircleElement circle = (SVGCircleElement) child;
+							width = circle.getRadius().getBaseValue().getValue() * 2;
+							height = circle.getRadius().getBaseValue().getValue() * 2;
+							x = circle.getCX().getBaseValue().getValue() - circle.getRadius().getBaseValue().getValue();
+							y = circle.getCY().getBaseValue().getValue() - circle.getRadius().getBaseValue().getValue();
+						}
+						else if (child instanceof SVGEllipseElement) {
+							SVGEllipseElement ellipse = (SVGEllipseElement) child;
+							width = ellipse.getRadiusX().getBaseValue().getValue() * 2;
+							height = ellipse.getRadiusY().getBaseValue().getValue() * 2;
+							x = ellipse.getCX().getBaseValue().getValue() - ellipse.getRadiusX().getBaseValue().getValue();
+							y = ellipse.getCY().getBaseValue().getValue() - ellipse.getRadiusY().getBaseValue().getValue();
+						}
+						else if (child instanceof SVGLineElement) {
+							SVGLineElement line = (SVGLineElement) child;
+							x = Math.min(line.getX1().getBaseValue().getValue(), line.getX2().getBaseValue().getValue());
+							width = Math.max(line.getX1().getBaseValue().getValue(), line.getX2().getBaseValue().getValue()) - x;
+							y = Math.min(line.getY1().getBaseValue().getValue(), line.getY2().getBaseValue().getValue());
+							height = Math.max(line.getY1().getBaseValue().getValue(), line.getY2().getBaseValue().getValue()) - y;
+						}
+						else if (child instanceof SVGPolygonElement) {
+							float[] bounds = findRegion(((SVGPolygonElement) element).getPoints().getBaseValue());
+							x = bounds[0];
+							y = bounds[1];
+							width = bounds[2];
+							height = bounds[3];
+						}
+						else if (child instanceof SVGPolylineElement) {
+							float[] bounds = findRegion(((SVGPolylineElement) element).getPoints().getBaseValue());
+							x = bounds[0];
+							y = bounds[1];
+							width = bounds[2];
+							height = bounds[3];
+						}
+						else if (child instanceof SVGRectElement) {
+							// Already computed
+						}
+						// TODO text elements
+					}
+					// Adjust the bounding box to fit children
+					for (int i = 0; i < children.getLength(); i++) {
+						Node child = children.item(i);
+						if (child instanceof SVGLocatable) {
+							SVGRect bBox = ((SVGLocatable) child).getBBox();
+							if (bBox != null) {
+								x = Math.min(x, bBox.getX());
+								y = Math.min(y, bBox.getY());
+								width = Math.max(x + width, bBox.getX() + bBox.getWidth()) - x;
+								height = Math.max(y + height, bBox.getY() + bBox.getHeight()) - y;
+							}
+						}
+					}
+				}
+				// Store the result
+				float x0 = x, y0 = y, x1 = x + width, y1 = y + height;
+				if (element instanceof SVGTransformable) {
+					SVGTransformList transforms = ((SVGTransformable) element).getTransform().getBaseValue();
+					SVGMatrix matrix = new SVGMatrix.Implementation();
+					matrix.identity();
+					transforms.applyTo(matrix);
+					SVGPoint p0 = new SVGPoint.Implementation(x0, y0);
+					SVGPoint p1 = new SVGPoint.Implementation(x1, y1);
+					p0.matrixTransform(matrix);
+					p1.matrixTransform(matrix);
+					x0 = p0.getX();
+					y0 = p0.getY();
+					x1 = p1.getX();
+					y1 = p1.getY();
+				}
+				((SVGLocatable) element).getBBox().setX(Math.min(x0, x1));
+				((SVGLocatable) element).getBBox().setY(Math.min(y0, y1));
+				((SVGLocatable) element).getBBox().setWidth(Math.abs(x1 - x0));
+				((SVGLocatable) element).getBBox().setHeight(Math.abs(y1 - y0));
+			}
+		}
+		
+		private float[] findRegion(SVGPointList points) {
+			float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE, maxX = -Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+			for (int i = 0; i < points.getNumberOfItems(); i++) {
+				SVGPoint point = points.getItem(i);
+				minX = Math.min(minX, point.getX());
+				maxX = Math.max(maxX, point.getX());
+				minY = Math.min(minY, point.getY());
+				maxY = Math.max(maxY, point.getY());
+			}
+			
+			return new float[] { minX, minY, maxX - minX, maxY - minY };
 		}
 
 	}

@@ -5,6 +5,7 @@ import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
+import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.SVGStringList;
@@ -51,8 +52,9 @@ public interface SVGAnimateColorElement extends SVGAnimationElement, SVGStylable
 				SMILTimingValueList begin, SMILClockValue duration, SMILTimingValueList end, SMILClockValue min, 
 				SMILClockValue max, short restart, SVGNumber repeatCount, boolean repeatIndefinite, SMILClockValue repeatDuration,
 				short fill, short calcMode, short additive, short accumulate,
-				SVGStringList values, SVGStringList keyTimes, SVGStringList keySplines, String from, String to, String by) {
-			super(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, targetElement);
+				SVGStringList values, SVGStringList keyTimes, SVGStringList keySplines, String from, String to, String by, SVGClock clock) {
+			super(id, xmlBase, ownerSVGElement, viewportElement, requiredFeatures, requiredExtensions, 
+					systemLanguage, externalResourcesRequired, targetElement, clock);
 			this.className = className;
 			this.style = style;
 			this.onBegin = onBegin;

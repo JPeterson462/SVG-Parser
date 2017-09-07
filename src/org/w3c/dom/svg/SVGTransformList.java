@@ -8,6 +8,8 @@ import org.w3c.dom.DOMException;
 
 public interface SVGTransformList extends ElementList<SVGTransform> {
 	
+	public void applyTo(SVGMatrix matrix);
+	
 	public static class Implementation implements SVGTransformList {
 
 		private ArrayList<SVGTransform> list;
@@ -68,6 +70,14 @@ public interface SVGTransformList extends ElementList<SVGTransform> {
 		public SVGTransform appendItem(SVGTransform newItem) throws DOMException {
 			list.add(newItem);
 			return newItem;
+		}
+
+		@Override
+		public void applyTo(SVGMatrix matrix) {
+			for (int i = 0; i < getNumberOfItems(); i++) {
+				SVGTransform item = getItem(i);
+				matrix.multiply(item.getMatrix());
+			}
 		}
 		
 	}

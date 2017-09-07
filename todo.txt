@@ -9,12 +9,10 @@ TODO:
 CSSLengthValueImplementation.setBaseElement
 Get default CSSLengthValue values; are CSSLengthValue based on viewport element or cascading?
 Recursive CSSNumberValue?
-SVGUseElementParser, SVGLocatable
 CSSProperties
-
-SVGLocatable implementation
-SVGTextContentElement (and parser?)
-SVGAnimationElement implementation
+Inline element positioning?
+Computing bounds for text elements
+SVGTextContentElement
 
 FUTURE:
 -------

@@ -10,13 +10,14 @@ import org.w3c.dom.svg.SVGDimensioned;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
+import org.w3c.dom.svg.SVGPositioned;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTests;
 import org.w3c.dom.svg.SVGTransformable;
 import org.w3c.dom.svg.SVGURIReference;
 
-public interface SVGImageElement extends SVGElement, SVGLangSpace, SVGStylable, SVGTests, SVGExternalResourcesRequired, SVGTransformable, SVGURIReference, SVGDimensioned {
+public interface SVGImageElement extends SVGElement, SVGLangSpace, SVGStylable, SVGTests, SVGExternalResourcesRequired, SVGTransformable, SVGURIReference, SVGDimensioned, SVGPositioned {
 
 	public SVGAnimatedLength getX();
 	

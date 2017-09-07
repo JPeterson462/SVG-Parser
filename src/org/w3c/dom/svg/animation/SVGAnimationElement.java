@@ -4,6 +4,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.ElementFinder;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
+import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGStringList;
@@ -30,15 +31,20 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 		
 		private SVGElement targetElement;
 		
+		private SVGClock clock;
+		
+		private float startTime, endTime;
+		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
-				SVGAnimatedBoolean externalResourcesRequired, SVGElement targetElement) {
+				SVGAnimatedBoolean externalResourcesRequired, SVGElement targetElement, SVGClock clock) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
 			this.requiredFeatures = requiredFeatures;
 			this.requiredExtensions = requiredExtensions;
 			this.systemLanguage = systemLanguage;
 			this.externalResourcesRequired = externalResourcesRequired;
 			this.targetElement = targetElement;
+			this.clock = clock;
 		}
 
 		@Override
@@ -73,7 +79,8 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void beginElementAt(float offset) {
-			//TODO
+			startTime = clock.getCurrentTime() + offset;
+			endTime = Float.MAX_VALUE;
 		}
 
 		@Override
@@ -83,7 +90,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public void endElementAt(float offset) {
-			//TODO
+			endTime = getCurrentTime() + offset;
 		}
 
 		@Override
@@ -93,20 +100,21 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public float getStartTime() throws DOMException {
-			// TODO Auto-generated method stub
-			return 0;
+			return startTime;
 		}
 
 		@Override
 		public float getCurrentTime() {
-			// TODO Auto-generated method stub
-			return 0;
+			return clock.getCurrentTime();
 		}
 
 		@Override
 		public float getSimpleDuration() throws DOMException {
-			// TODO Auto-generated method stub
-			return 0;
+			float currentTime = getCurrentTime();
+			if (currentTime > endTime) {
+				return endTime - getStartTime();
+			}
+			return currentTime - getStartTime();
 		}
 
 		@Override

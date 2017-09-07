@@ -4,9 +4,10 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGDimensioned;
+import org.w3c.dom.svg.SVGPositioned;
 import org.w3c.dom.svg.SVGStylable;
 
-public interface SVGFilterPrimitiveStandardAttributes extends SVGStylable, SVGDimensioned {
+public interface SVGFilterPrimitiveStandardAttributes extends SVGStylable, SVGDimensioned, SVGPositioned {
 
 	public SVGAnimatedLength getX();
 	

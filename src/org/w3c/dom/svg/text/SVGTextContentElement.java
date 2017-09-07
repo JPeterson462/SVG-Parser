@@ -172,14 +172,14 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@Override
 		public SVGPoint getStartPositionOfChar(long charnum) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			SVGRect bounds = getExtentOfChar(charnum);
+			return new SVGPoint.Implementation(bounds.getX(), bounds.getY());
 		}
 
 		@Override
 		public SVGPoint getEndPositionOfChar(long charnum) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			SVGRect bounds = getExtentOfChar(charnum);
+			return new SVGPoint.Implementation(bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
 		}
 
 		@Override

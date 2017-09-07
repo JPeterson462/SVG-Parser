@@ -13,12 +13,13 @@ import org.w3c.dom.svg.SVGDimensioned;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
+import org.w3c.dom.svg.SVGPositioned;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGURIReference;
 import org.w3c.dom.svg.SVGUnitTypes;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
-public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGUnitTypes, SVGDimensioned {
+public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSpace, SVGExternalResourcesRequired, SVGStylable, SVGUnitTypes, SVGDimensioned, SVGPositioned {
 
 	public SVGAnimatedEnumeration getFilterUnits();
 	

@@ -58,7 +58,7 @@ public class TestSVG1 {
 			}
 			
 		};
-		SVGSVGElement element = parser.readDocument(stream, renderingState);
+		SVGSVGElement element = parser.readDocument(stream, renderingState, () -> System.currentTimeMillis() / 1000f);
 		parser.writeDocument(element, new FileOutputStream(SVG_FILE + "-output.svg"));
 //		System.out.println(element);
 	}
