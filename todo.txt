@@ -9,7 +9,6 @@ TODO:
 Inline element positioning?
 Computing bounds for text elements
 SVGTextContentElement
-Multiple @font-face.src
 
 FUTURE:
 -------

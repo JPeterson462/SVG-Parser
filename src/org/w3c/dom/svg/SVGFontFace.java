@@ -107,6 +107,8 @@ public interface SVGFontFace {
 	
 	public SVGNumber getOverlineThickness();
 	
+	public HashMap<String, String> getFontSources();
+	
 	public static class Implementation implements SVGFontFace {
 		
 		private SVGStringList fontFamily;
@@ -134,6 +136,8 @@ public interface SVGFontFace {
 		private SVGNumber ideographic, alphabetic, mathematical, hanging, vIdeographic, 
 				vAlphabetic, vMathematical, vHanging, underlinePosition, underlineThickness,
 				strikethroughPosition, strikethroughThickness, overlinePosition, overlineThickness;
+		
+		private HashMap<String, String> sources;
 
 		public Implementation(SVGStringList fontFamily, SVGEnumerationList fontStyle, SVGEnumerationList fontVariant,
 				SVGEnumerationList fontWeight, SVGEnumerationList fontStretch, SVGLengthList fontSize, boolean forAllFontSizes,
@@ -143,7 +147,8 @@ public interface SVGFontFace {
 				SVGNumber ideographic, SVGNumber alphabetic, SVGNumber mathematical, SVGNumber hanging,
 				SVGNumber vIdeographic, SVGNumber vAlphabetic, SVGNumber vMathematical, SVGNumber vHanging,
 				SVGNumber underlinePosition, SVGNumber underlineThickness, SVGNumber strikethroughPosition,
-				SVGNumber strikethroughThickness, SVGNumber overlinePosition, SVGNumber overlineThickness) {
+				SVGNumber strikethroughThickness, SVGNumber overlinePosition, SVGNumber overlineThickness,
+				HashMap<String, String> sources) {
 			this.fontFamily = fontFamily;
 			this.fontStyle = fontStyle;
 			this.fontVariant = fontVariant;
@@ -179,6 +184,7 @@ public interface SVGFontFace {
 			this.strikethroughThickness = strikethroughThickness;
 			this.overlinePosition = overlinePosition;
 			this.overlineThickness = overlineThickness;
+			this.sources = sources;
 		}
 
 		public SVGStringList getFontFamily() {
@@ -325,6 +331,11 @@ public interface SVGFontFace {
 		@Override
 		public String getWidthsString() {
 			return widthsString;
+		}
+
+		@Override
+		public HashMap<String, String> getFontSources() {
+			return sources;
 		}
 		
 	}

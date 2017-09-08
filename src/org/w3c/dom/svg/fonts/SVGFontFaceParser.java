@@ -2,6 +2,7 @@ package org.w3c.dom.svg.fonts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGEnumerationList;
@@ -189,12 +190,37 @@ public class SVGFontFaceParser {
 		SVGNumber strikethroughThickness = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.STRIKETHROUGH_THICKNESS, null)));
 		SVGNumber overlinePosition = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.OVERLINE_POSITION, null)));
 		SVGNumber overlineThickness = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.OVERLINE_THICKNESS, null)));
+		String srcValue = element.getAttribute("src", null);
+		HashMap<String, String> sources = null;
+		if (srcValue != null) {
+			sources = new HashMap<>();
+			String[] values = srcValue.split(",");
+			for (int i = 0; i < values.length; i++) {
+				String value = values[i].trim();
+				String format = null, path = null;
+				if (value.contains("format(")) {
+					String restOfValue = value.substring(0, value.indexOf("format("));
+					String formatValue = value.substring(restOfValue.length()).trim();
+					format = formatValue.substring("format(".length() + 1, formatValue.length() - (")".length() + 1));
+					value = restOfValue.trim();
+				}
+				if (value.startsWith("local(")) {
+					path = value.substring("local(".length(), value.length() - ")".length());
+					path = path.replaceAll("\"", "");
+				} else {
+					path = value;
+				}
+				path = path.trim();
+				format = format.trim();
+				sources.put(path, format);
+			}
+		}
 		SVGFontFace fontFace = new SVGFontFace.Implementation(fontFamily, fontStyle, fontVariant,
 				fontWeight, fontStretch, fontSize, forAllFontSizes, unicodeRange, unitsPerEm, panose1, stemV,
 				stemH, slope, capHeight, xHeight, accentHeight, ascent, descent, widths, widthsStr, bBox,
 				ideographic, alphabetic, mathematical, hanging, vIdeographic, vAlphabetic,
 				vMathematical, vHanging, underlinePosition, underlineThickness, 
-				strikethroughPosition, strikethroughThickness, overlinePosition, overlineThickness);
+				strikethroughPosition, strikethroughThickness, overlinePosition, overlineThickness, sources);
 		return fontFace;
 	}
 	
@@ -234,6 +260,25 @@ public class SVGFontFaceParser {
 		attributes.put(Attributes.STRIKETHROUGH_THICKNESS, toString(fontFace.getStrikethroughThickness().getValue()));
 		attributes.put(Attributes.OVERLINE_POSITION, toString(fontFace.getOverlinePosition().getValue()));
 		attributes.put(Attributes.OVERLINE_THICKNESS, toString(fontFace.getOverlineThickness().getValue()));
+		if (fontFace.getFontSources() != null) {
+			String src = "";
+			int length = 0;
+			for (Map.Entry<String, String> source : fontFace.getFontSources().entrySet()) {
+				if (length > 0) {
+					src += ", ";
+				}
+				if (source.getKey().contains("(")) {
+					src += source.getKey();
+				} else {
+					src += "local(\"" + source.getKey() + "\")";
+				}
+				if (source.getValue() != null) {
+					src += " format(\"" + source.getValue() + "\")";
+				}
+				length++;
+			}
+			attributes.put("src", src);
+		}
 	}
 	
 	private String join(SVGStringList list, String joinBy) {
