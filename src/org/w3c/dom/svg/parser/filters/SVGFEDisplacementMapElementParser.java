@@ -75,9 +75,11 @@ public class SVGFEDisplacementMapElementParser implements ElementParser<SVGFEDis
 		String yChannelSelectorStr = ElementParser.readOrDefault(element, Attributes.Y_CHANNEL_SELECTOR, "A");
 		short yChannelSelectorEnum = channelSelector_strToEnum.get(yChannelSelectorStr);
 		SVGAnimatedEnumeration yChannelSelector = new SVGAnimatedEnumeration.Implementation(yChannelSelectorEnum, yChannelSelectorEnum);
-		return new SVGFEDisplacementMapElement.Implementation(id, xmlBase, ownerSVGElement,
+		SVGFEDisplacementMapElement feDisplacementMap = new SVGFEDisplacementMapElement.Implementation(id, xmlBase, ownerSVGElement,
 				viewportElement, ax, ay, awidth, aheight, result, className, style, in1, in2,
 				scale, xChannelSelector, yChannelSelector);
+		ElementParser.connectLengthRoots(feDisplacementMap);
+		return feDisplacementMap;
 	}
 
 	@Override

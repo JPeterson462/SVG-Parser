@@ -46,10 +46,12 @@ public class SVGAElementParser implements ElementParser<SVGAElement> {
 		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		return new SVGAElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref,
+		SVGAElement a = new SVGAElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref,
 				requiredFeatures, requiredExtensions, systemLanguage, xmlLang, xmlSpace,
 				externalResourcesRequired, className, style, nearestViewportElement, 
 				farthestViewportElement, transform, atarget);
+		ElementParser.connectLengthRoots(a);
+		return a;
 	}
 
 	@Override

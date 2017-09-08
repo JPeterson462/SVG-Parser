@@ -77,9 +77,11 @@ public class SVGPolygonElementParser implements ElementParser<SVGPolygonElement>
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGPolygonElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGPolygonElement polygon = new SVGPolygonElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					apoints, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(polygon);
+		return polygon;
 	}
 
 	@Override

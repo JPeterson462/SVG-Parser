@@ -108,9 +108,11 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement> {
 		ElementParser.parseStyleFromAttributes(element, style);
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		return new SVGFilterElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+		SVGFilterElement filter = new SVGFilterElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				href, xmlLang, xmlSpace, externalResourcesRequired, className, style, filterUnits, 
 				primitiveUnits, ax, ay, awidth, aheight, filterResX, filterResY);
+		ElementParser.connectLengthRoots(filter);
+		return filter;
 	}
 
 	@Override

@@ -3,10 +3,11 @@ package org.w3c.dom.css.impl.values;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSLengthValue;
+import org.w3c.dom.css.Connected;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 
-public class CSSLengthValueImplementation implements CSSLengthValue {
+public class CSSLengthValueImplementation implements CSSLengthValue, Connected {
 	
 	public static final int VALUE_AUTO = 1 << 0;
 	public static final int VALUE_NORMAL = 1 << 1;
@@ -24,7 +25,7 @@ public class CSSLengthValueImplementation implements CSSLengthValue {
 		setCssText(cssText);
 	}
 	
-	public void setBaseElement(SVGElement baseElement) {
+	public void connect(SVGElement baseElement) {
 		((SVGLength.Implementation) length).setElement(baseElement);
 		setCssText(cssText);
 	}

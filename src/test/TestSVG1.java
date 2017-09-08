@@ -19,7 +19,7 @@ public class TestSVG1 {
 		SVGParser parser = new SVGParser();
 		// 10 left; 371 files; 7 others; 364 ~ 2x - 10, x ~ 200
 		// gradients are messed up
-		final String SVG_FILE = "svg-files/rg1024_green_grapes";
+		final String SVG_FILE = "svg-files/gallardo";
 		// juanmontoya_lingerie, gallardo,
 		// rg1024_green_grapes, rg1024_metal_effect, scimitar-anim,
 		// gump-bench, compuserver_msn_Ford_Focus, scimitar, svg2009, gaussian1

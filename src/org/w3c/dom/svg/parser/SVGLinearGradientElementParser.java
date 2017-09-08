@@ -75,9 +75,11 @@ public class SVGLinearGradientElementParser implements ElementParser<SVGLinearGr
 		SVGLength y2 = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		y2.setValueAsString(y2Str);
 		SVGAnimatedLength ay2 = new SVGAnimatedLength.Implementation(y2, y2);
-		return new SVGLinearGradientElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGLinearGradientElement linearGradient = new SVGLinearGradientElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ahref, externalResourcesRequired, className, style, gradientUnits, gradientTransform,
 				spreadMethod, ax1, ay1, ax2, ay2);
+		ElementParser.connectLengthRoots(linearGradient);
+		return linearGradient;
 	}
 
 	@Override

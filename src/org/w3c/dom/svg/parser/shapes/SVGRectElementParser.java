@@ -114,9 +114,11 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGRectElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGRectElement rect = new SVGRectElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					ax, ay, awidth, aheight, arx, ary, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(rect);
+		return rect;
 	}
 
 	@Override

@@ -76,9 +76,11 @@ public class SVGEllipseElementParser implements ElementParser<SVGEllipseElement>
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGEllipseElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGEllipseElement ellipse = new SVGEllipseElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					acx, acy, arx, ary, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(ellipse);
+		return ellipse;
 	}
 
 	@Override

@@ -181,12 +181,14 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 		String from = ElementParser.read(element, Attributes.FROM);
 		String to = ElementParser.read(element, Attributes.TO);
 		String by = ElementParser.read(element, Attributes.BY);
-		return new SVGAnimateElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+		SVGAnimateElement animate = new SVGAnimateElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, 
 				null, className, style, onBegin, onEnd, onRepeat, onLoad, attributeType, 
 				attributeName, begin, duration, end, min, max, restart, repeatCount, repeatIndefinite, 
 				repeatDuration, fill, calcMode, additive, accumulate, values, keyTimes, keySplines, 
 				from, to, by, parsingState.getClock());
+		ElementParser.connectLengthRoots(animate);
+		return animate;
 	}
 
 	@Override

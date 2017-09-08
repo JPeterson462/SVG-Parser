@@ -74,9 +74,11 @@ public class SVGFESpecularLightingElementParser implements ElementParser<SVGFESp
 		else {
 			SVGErrors.error("Invalid kernelUnitLength: " + kernelUnitLengthStr);
 		}
-		return new SVGFESpecularLightingElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+		SVGFESpecularLightingElement feSpecularLighting = new SVGFESpecularLightingElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				ax, ay, awidth, aheight, result, className, style, in1, surfaceScale, specularConstant, 
 				specularExponent, kernelUnitLengthX, kernelUnitLengthY);
+		ElementParser.connectLengthRoots(feSpecularLighting);
+		return feSpecularLighting;
 	}
 
 	@Override

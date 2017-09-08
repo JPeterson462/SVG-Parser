@@ -105,10 +105,12 @@ public class SVGMarkerElementParser implements ElementParser<SVGMarkerElement> {
 		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, "xMidYMid meet"));
 		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
-		return new SVGMarkerElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGMarkerElement marker = new SVGMarkerElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				xmlLang, xmlSpace, className, style, externalResourcesRequired, 
 				viewBox, preserveAspectRatio, arefX, arefY, markerUnits, amarkerWidth, 
 				amarkerHeight, orientType, aorientAngle);
+		ElementParser.connectLengthRoots(marker);
+		return marker;
 	}
 
 	@Override

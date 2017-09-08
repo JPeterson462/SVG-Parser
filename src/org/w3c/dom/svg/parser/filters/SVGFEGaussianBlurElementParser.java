@@ -71,8 +71,10 @@ public class SVGFEGaussianBlurElementParser implements ElementParser<SVGFEGaussi
 			stdDeviationX = new SVGAnimatedNumber.Implementation(stdDeviationXValue, stdDeviationXValue);
 			stdDeviationY = new SVGAnimatedNumber.Implementation(stdDeviationYValue, stdDeviationYValue);
 		}
-		return new SVGFEGaussianBlurElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEGaussianBlurElement feGaussianBlur = new SVGFEGaussianBlurElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1, stdDeviationX, stdDeviationY);
+		ElementParser.connectLengthRoots(feGaussianBlur);
+		return feGaussianBlur;
 	}
 
 	@Override

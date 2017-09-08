@@ -26,7 +26,9 @@ public class SVGStopElementParser implements ElementParser<SVGStopElement> {
 		String offsetStr = ElementParser.readOrDefault(element, Attributes.OFFSET, "0");
 		float offsetValue =  offsetStr.endsWith("%") ? Float.parseFloat(offsetStr.substring(0, offsetStr.length() - 1)) / 100f : Float.parseFloat(offsetStr);
 		SVGAnimatedNumber offset = new SVGAnimatedNumber.Implementation(offsetValue, offsetValue);
-		return new SVGStopElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className, style, offset);
+		SVGStopElement stop = new SVGStopElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className, style, offset);
+		ElementParser.connectLengthRoots(stop);
+		return stop;
 	}
 
 	@Override

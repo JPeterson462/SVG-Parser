@@ -85,8 +85,10 @@ public class SVGFEMorphologyElementParser implements ElementParser<SVGFEMorpholo
 			radiusX = new SVGAnimatedNumber.Implementation(radiusXValue, radiusXValue);
 			radiusY = new SVGAnimatedNumber.Implementation(radiusYValue, radiusYValue);
 		}
-		return new SVGFEMorphologyElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+		SVGFEMorphologyElement feMorphology = new SVGFEMorphologyElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				ax, ay, awidth, aheight, result, className, style, in1, operator, radiusX, radiusY);
+		ElementParser.connectLengthRoots(feMorphology);
+		return feMorphology;
 	}
 
 	@Override

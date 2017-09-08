@@ -102,10 +102,12 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 		short patternContentUnitsEnum = patternUnits_strToEnum.get(patternContentUnitsStr);
 		SVGAnimatedEnumeration patternContentUnits = new SVGAnimatedEnumeration.Implementation(patternContentUnitsEnum, patternContentUnitsEnum);
 		SVGAnimatedTransformList patternTransform = ElementParser.parseTransforms(ElementParser.readOrDefault(element, Attributes.PATTERN_TRANSFORM, ""));
-		return new SVGPatternElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref, 
+		SVGPatternElement pattern = new SVGPatternElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref, 
 				requiredFeatures, requiredExtensions, systemLanguage, xmlLang, xmlSpace, 
 				externalResourcesRequired, className, style, viewBox, preserveAspectRatio, 
 				patternUnits, patternContentUnits, patternTransform, ax, ay, awidth, aheight);
+		ElementParser.connectLengthRoots(pattern);
+		return pattern;
 	}
 
 	@Override

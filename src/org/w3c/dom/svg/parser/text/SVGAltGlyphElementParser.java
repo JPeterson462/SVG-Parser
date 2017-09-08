@@ -91,9 +91,11 @@ public class SVGAltGlyphElementParser implements ElementParser<SVGAltGlyphElemen
 		SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		return new SVGAltGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ax,
+		SVGAltGlyphElement altGlyph = new SVGAltGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ax,
 				ay, adx, ady, arotate, ahref, glyphRef, format, xmlLang, xmlSpace, className, style,
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, atextLength, lengthAdjust);
+		ElementParser.connectLengthRoots(altGlyph);
+		return altGlyph;
 	}
 
 	@Override

@@ -69,9 +69,11 @@ public class SVGCircleElementParser implements ElementParser<SVGCircleElement> {
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGCircleElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGCircleElement circle = new SVGCircleElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					acx, acy, ar, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(circle);
+		return circle;
 	}
 
 	@Override

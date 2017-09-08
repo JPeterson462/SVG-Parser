@@ -19,8 +19,8 @@ import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.DocumentCSS;
 import org.w3c.dom.css.ViewCSS;
 import org.w3c.dom.css.impl.CSSProperties;
+import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
-import org.w3c.dom.css.impl.values.CSSLengthValueImplementation;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.stylesheets.StyleSheetList;
@@ -438,7 +438,7 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 							CSSLengthValue lengthValue = (CSSLengthValue) value;
 							SVGLength length = lengthValue.getValue();
 							if (length.getUnitType() == SVGLength.SVG_LENGTHTYPE_PERCENTAGE) {
-								// Compute as relative
+								computeValues.storeValue(propertyName, value);
 							} else {
 								computeValues.storeValue(propertyName, value);
 							}
@@ -453,38 +453,27 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 					}
 				}
 			}
-			// 2. Traverse the parent hierarchy for absolute values 
-			// 3. Compute relative values based on hierarchy (until first absolute value)
+			// 2. Handle Inheritance
 			for (int i = 0; i < defaultValues.getLength(); i++) {
 				String propertyName = defaultValues.item(i);
 				CSSValue value = inlineValues.getPropertyCSSValue(propertyName);
-				if (value instanceof CSSLengthValue) {
-					float valueInSpecifiedUnits = ((CSSLengthValue) value).getValue().getValueInSpecifiedUnits();
-					SVGElement parent = (SVGElement) element.getParentNode();
-					boolean foundAbsolute = false;
-					while (parent != null && !foundAbsolute) {
-						if (parent instanceof SVGStylable) {
-							CSSStyleDeclaration style = ((SVGStylable) parent).getStyle();
-							CSSLengthValue valueNested = (CSSLengthValue) style.getPropertyCSSValue(propertyName);
-							if (valueNested.getValue().getUnitType() == SVGLength.SVG_LENGTHTYPE_PERCENTAGE) {
-								valueInSpecifiedUnits *= valueNested.getValue().getValueInSpecifiedUnits();
-							} else {
-								foundAbsolute = true;
-								valueInSpecifiedUnits = (valueInSpecifiedUnits / 100) * valueNested.getValue().getValue();
+				if (value != null && value.getCssValueType() == CSSValue.CSS_INHERIT && isInheritedProperty(propertyName)) {
+					SVGElement parentNode = (SVGElement) element.getParentNode();
+					String targetCssText = null;
+					while (parentNode != null && targetCssText == null) {
+						if (parentNode instanceof SVGStylable) {
+							CSSStyleDeclaration style = ((SVGStylable) parentNode).getStyle();
+							CSSValue parentValue = style.getPropertyCSSValue(propertyName);
+							if (parentValue != null && value.getCssValueType() != CSSValue.CSS_INHERIT) {
+								targetCssText = parentValue.getCssText();
 							}
 						}
-						parent = (SVGElement) parent.getParentNode();
+						parentNode = (SVGElement) parentNode.getParentNode();
 					}
-					if (!foundAbsolute) {
-						CSSLengthValue valueNested = (CSSLengthValue) defaultValues.getPropertyCSSValue(propertyName);
-						valueInSpecifiedUnits = (valueInSpecifiedUnits / 100) * valueNested.getValue().getValue();
-					}
-					SVGLength length = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, (SVGElement) element.getParentNode());
-					length.setValue(valueInSpecifiedUnits);
-					computeValues.storeValue(propertyName, new CSSLengthValueImplementation(length.getValueAsString(), ((CSSLengthValue) value).getValueFlags()));
+					value.setCssText(targetCssText);
 				}
 			}
-			// 4. Add in default values for unspecified values
+			// 3. Add in default values for unspecified values
 			for (int i = 0; i < defaultValues.getLength(); i++) {
 				String propertyName = defaultValues.item(i);
 				CSSValue value = defaultValues.getPropertyCSSValue(propertyName);
@@ -493,6 +482,15 @@ public interface SVGSVGElement extends SVGElement, SVGTests, SVGLangSpace,
 				}
 			}
 			return computeValues;
+		}
+		
+		private boolean isInheritedProperty(String propertyName) {
+			for (int i = 0; i < CSSPropertyNames.INHERITED_PROPERTIES.length; i++) {
+				if (propertyName.equals(CSSPropertyNames.INHERITED_PROPERTIES[i])) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		@Override

@@ -47,9 +47,11 @@ public class SVGSwitchElementParser implements ElementParser<SVGSwitchElement> {
 		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		return new SVGSwitchElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGSwitchElement switchElt = new SVGSwitchElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
 				systemLanguage, externalResourcesRequired, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(switchElt);
+		return switchElt;
 	}
 
 	@Override

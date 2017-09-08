@@ -92,6 +92,7 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 				systemLanguage, externalResourcesRequired, nearestViewportElement, 
 				farthestViewportElement, transform, href, ax, ay, awidth, aheight,
 				instanceRoot, instanceRoot);
+		ElementParser.connectLengthRoots(useElement);
 		return useElement;
 	}
 

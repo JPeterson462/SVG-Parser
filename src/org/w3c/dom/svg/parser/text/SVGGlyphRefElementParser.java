@@ -40,8 +40,10 @@ public class SVGGlyphRefElementParser implements ElementParser<SVGGlyphRefElemen
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		return new SVGGlyphRefElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGGlyphRefElement glyphRefElt = new SVGGlyphRefElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ahref, className, style, glyphRef, format, x, y, dx, dy);
+		ElementParser.connectLengthRoots(glyphRefElt);
+		return glyphRefElt;
 	}
 
 	@Override

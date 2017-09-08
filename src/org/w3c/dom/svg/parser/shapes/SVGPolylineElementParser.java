@@ -77,9 +77,11 @@ public class SVGPolylineElementParser implements ElementParser<SVGPolylineElemen
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGPolylineElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGPolylineElement polyline = new SVGPolylineElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					apoints, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(polyline);
+		return polyline;
 	}
 
 	@Override

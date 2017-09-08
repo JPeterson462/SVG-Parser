@@ -60,8 +60,10 @@ public class SVGSymbolElementParser implements ElementParser<SVGSymbolElement> {
 		ElementParser.parseStyleFromAttributes(element, style);
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		return new SVGSymbolElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGSymbolElement symbol = new SVGSymbolElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				xmlLang, xmlSpace, className, style, externalResourcesRequired, viewBox, preserveAspectRatio);
+		ElementParser.connectLengthRoots(symbol);
+		return symbol;
 	}
 
 	@Override

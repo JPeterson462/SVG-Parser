@@ -39,6 +39,7 @@ public class SVGDescElementParser implements ElementParser<SVGDescElement> {
 		SVGDescElement descElement = new SVGDescElement.Implementation(id, xmlBase, ownerSVGElement, 
 				viewportElement, xmlLang, xmlSpace, className, style);
 		descElement.setTextContent(element.getTextContent());
+		ElementParser.connectLengthRoots(descElement);
 		return descElement;
 	}
 

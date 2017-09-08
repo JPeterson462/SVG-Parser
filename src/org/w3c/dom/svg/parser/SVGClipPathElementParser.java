@@ -56,9 +56,11 @@ public class SVGClipPathElementParser implements ElementParser<SVGClipPathElemen
 		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		return new SVGClipPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGClipPathElement clipPath = new SVGClipPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				requiredFeatures, requiredExtensions, systemLanguage, xmlLang, xmlSpace, externalResourcesRequired,
 				className, style, clipPathUnits, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(clipPath);
+		return clipPath;
 	}
 
 	@Override

@@ -99,6 +99,7 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 				atextLength, lengthAdjust);
 		textPathElement.setTextContent(element.getTextContent());
+		ElementParser.connectLengthRoots(textPathElement);
 		return textPathElement;
 	}
 

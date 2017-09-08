@@ -47,9 +47,11 @@ public class SVGFontElementParser implements ElementParser<SVGFontElement> {
 		ElementParser.parseStyleFromAttributes(element, style);
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
-		return new SVGFontElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, externalResourcesRequired,
+		SVGFontElement font = new SVGFontElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, externalResourcesRequired,
 				className, style, horizontalOriginX, horizontalOriginY, horizontalAdvanceX, 
 				verticalOriginX, verticalOriginY, verticalAdvanceY);
+		ElementParser.connectLengthRoots(font);
+		return font;
 	}
 
 	@Override

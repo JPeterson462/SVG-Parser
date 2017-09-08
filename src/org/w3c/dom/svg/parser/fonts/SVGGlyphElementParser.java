@@ -75,9 +75,11 @@ public class SVGGlyphElementParser implements ElementParser<SVGGlyphElement> {
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		return new SVGGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className,
+		SVGGlyphElement glyph = new SVGGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className,
 				style, unicode, glyphName, pathData, orientation, arabicForm, lang, horizontalAdvanceX,
 				verticalOriginX, verticalOriginY, verticalAdvanceY);
+		ElementParser.connectLengthRoots(glyph);
+		return glyph;
 	}
 
 	@Override

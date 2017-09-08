@@ -86,9 +86,11 @@ public class SVGFECompositeElementParser implements ElementParser<SVGFEComposite
 		String k4Str = ElementParser.readOrDefault(element, Attributes.K4, "0");
 		float k4Value = Float.parseFloat(k4Str);
 		SVGAnimatedNumber k4 = new SVGAnimatedNumber.Implementation(k4Value, k4Value);
-		return new SVGFECompositeElement.Implementation(id, xmlBase, ownerSVGElement,
+		SVGFECompositeElement feComposite = new SVGFECompositeElement.Implementation(id, xmlBase, ownerSVGElement,
 				viewportElement, ax, ay, awidth, aheight, result, className, style, in1, in2,
 				operator, k1, k2, k3, k4);
+		ElementParser.connectLengthRoots(feComposite);
+		return feComposite;
 	}
 
 	@Override

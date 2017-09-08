@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.css.Connected;
 import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.css.impl.StringUtils;
@@ -20,6 +22,7 @@ import org.w3c.dom.svg.SVGNumber;
 import org.w3c.dom.svg.SVGNumberList;
 import org.w3c.dom.svg.SVGPointList;
 import org.w3c.dom.svg.SVGStringList;
+import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTransform;
 import org.w3c.dom.svg.SVGTransformList;
 import org.w3c.dom.svg.SVGUnicodeRangeList;
@@ -179,6 +182,20 @@ public interface ElementParser<T extends SVGElement> {
 			if (element.hasAttribute(properties[i])) {
 				System.out.println(properties[i]);
 				declaration.setProperty(properties[i], element.getAttribute(properties[i]), null);
+			}
+		}
+	}
+	
+	public static void connectLengthRoots(SVGElement element) {
+		if (element instanceof SVGStylable) {
+			SVGStylable stylable = (SVGStylable) element;
+			CSSStyleDeclaration style = stylable.getStyle();
+			for (int i = 0; i < style.getLength(); i++) {
+				String propertyName = style.item(i);
+				CSSValue value = style.getPropertyCSSValue(propertyName);
+				if (value instanceof Connected) {
+					((Connected) value).connect(element);
+				}
 			}
 		}
 	}
@@ -507,9 +524,12 @@ public interface ElementParser<T extends SVGElement> {
 			return Character.isDigit(c) || c == '-' || c == '.';
 		}
 		
+		private boolean whitespace(char c) {
+			return c == ' ' || c == '\n' || c == '\t' || c == '\r' || c == ',';
+		}
+		
 		public void skipWhitespace() {
-			while (pointer < data.length && (data[pointer] == ' ' || data[pointer] == '\n' || 
-					data[pointer] == '\t' || data[pointer] == '\r' || data[pointer] == ',')) {
+			while (pointer < data.length && whitespace(data[pointer])) {
 				pointer++;
 			}
 		}
@@ -540,6 +560,19 @@ public interface ElementParser<T extends SVGElement> {
 			char c = data[pointer];
 			pointer++;
 			return c == '1';
+		}
+		
+		public String readString() {
+			skipWhitespace();
+			int digits = 0;
+			char[] array = new char[data.length - pointer];
+			while (pointer < data.length && digits < array.length && !whitespace(data[pointer])) {
+				array[digits++] = data[pointer];
+				pointer++;
+			}
+			char[] result = new char[digits];
+			System.arraycopy(array, 0, result, 0, digits);
+			return new String(result);
 		}
 		
 		public boolean moreValues() {

@@ -98,9 +98,11 @@ public class SVGFETurbulenceElementParser implements ElementParser<SVGFETurbulen
 		String typeStr = ElementParser.readOrDefault(element, Attributes.TYPE, "turbulence");
 		short typeValue = type_strToEnum.get(typeStr);
 		SVGAnimatedEnumeration type = new SVGAnimatedEnumeration.Implementation(typeValue, typeValue);
-		return new SVGFETurbulenceElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+		SVGFETurbulenceElement feTurbulence = new SVGFETurbulenceElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				ax, ay, awidth, aheight, result, className, style, baseFrequencyX, baseFrequencyY, 
 				numOctaves, seed, stitchTiles, type);
+		ElementParser.connectLengthRoots(feTurbulence);
+		return feTurbulence;
 	}
 
 	@Override

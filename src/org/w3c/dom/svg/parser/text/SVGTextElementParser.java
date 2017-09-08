@@ -102,6 +102,7 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 				systemLanguage, externalResourcesRequired, atextLength, lengthAdjust, nearestViewportElement,
 				farthestViewportElement, transform);
 		textElement.setTextContent(element.getTextContent());
+		ElementParser.connectLengthRoots(textElement);
 		return textElement;
 	}
 

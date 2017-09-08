@@ -69,9 +69,11 @@ public class SVGLineElementParser implements ElementParser<SVGLineElement> {
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGLineElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGLineElement line = new SVGLineElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					ax1, ay1, ax2, ay2, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(line);
+		return line;
 	}
 
 	@Override

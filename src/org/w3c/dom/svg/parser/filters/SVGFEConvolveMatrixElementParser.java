@@ -130,9 +130,11 @@ public class SVGFEConvolveMatrixElementParser implements ElementParser<SVGFEConv
 		}
 		boolean preserveAlphaBase = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.PRESERVE_ALPHA, Boolean.toString(false)));
 		SVGAnimatedBoolean preserveAlpha = new SVGAnimatedBoolean.Implementation(preserveAlphaBase, preserveAlphaBase);
-		return new SVGFEConvolveMatrixElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEConvolveMatrixElement feConvolveMatrix = new SVGFEConvolveMatrixElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1, orderX, orderY, kernelMatrix, divisor,
 				bias, targetX, targetY, edgeMode, kernelUnitLengthX, kernelUnitLengthY, preserveAlpha);
+		ElementParser.connectLengthRoots(feConvolveMatrix);
+		return feConvolveMatrix;
 	}
 
 	@Override

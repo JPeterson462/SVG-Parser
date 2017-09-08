@@ -67,10 +67,12 @@ public class SVGForeignObjectElementParser implements ElementParser<SVGForeignOb
 		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		return new SVGForeignObjectElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGForeignObjectElement foreignObject = new SVGForeignObjectElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				requiredFeatures, requiredExtensions, systemLanguage, xmlLang, xmlSpace,
 				externalResourcesRequired, className, style, ax, ay, awidth, aheight, nearestViewportElement,
 				farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(foreignObject);
+		return foreignObject;
 	}
 
 	@Override

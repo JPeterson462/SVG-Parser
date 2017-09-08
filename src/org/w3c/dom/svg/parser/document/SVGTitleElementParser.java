@@ -39,6 +39,7 @@ public class SVGTitleElementParser implements ElementParser<SVGTitleElement> {
 		SVGTitleElement titleElement = new SVGTitleElement.Implementation(id, xmlBase, ownerSVGElement, 
 				viewportElement, xmlLang, xmlSpace, className, style);
 		titleElement.setTextContent(element.getTextContent());
+		ElementParser.connectLengthRoots(titleElement);
 		return titleElement;
 	}
 

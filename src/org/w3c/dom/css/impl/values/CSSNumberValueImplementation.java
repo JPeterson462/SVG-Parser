@@ -8,10 +8,12 @@ public class CSSNumberValueImplementation implements CSSNumberValue {
 	
 	private float value;
 	
-	private boolean inherit = false;
+	private int flags;
 	
-	public CSSNumberValueImplementation() {
-		// Empty Constructor
+	private String cssText;
+	
+	public CSSNumberValueImplementation(int flags) {
+		this.flags = flags;
 	}
 	
 	public float getValue() {
@@ -20,26 +22,50 @@ public class CSSNumberValueImplementation implements CSSNumberValue {
 
 	@Override
 	public String getCssText() {
-		return Float.toString(value);
+		return cssText;
 	}
 
 	@Override
 	public short getCssValueType() {
-		return inherit ? CSS_INHERIT : CSS_PRIMITIVE_VALUE;
+		return isInherit() ? CSS_INHERIT : CSS_PRIMITIVE_VALUE;
 	}
 
 	@Override
 	public void setCssText(String text) throws DOMException {
-		if (text.equals("inherit")) {
-			inherit = true;
-		} else {
-			inherit = false;
+		text = text.trim();
+		cssText = text;
+		if (isInherit()) {
+			if ((flags & NUMBER_INHERIT) == 0) {
+				DOMErrors.invalidValue();
+			}
+		}
+		else if (isNone()) {
+			if ((flags & NUMBER_NONE) == 0) {
+				DOMErrors.invalidValue();
+			}
+		}
+		else {
 			try {
 				value = Float.parseFloat(text);
 			} catch (NumberFormatException e) {
 				DOMErrors.invalidValue();
 			}
 		}
+	}
+
+	@Override
+	public int getFlags() {
+		return flags;
+	}
+
+	@Override
+	public boolean isNone() {
+		return cssText.equals("none");
+	}
+
+	@Override
+	public boolean isInherit() {
+		return cssText.equals("inherit");
 	}
 
 }

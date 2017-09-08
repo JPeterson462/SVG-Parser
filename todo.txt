@@ -6,13 +6,10 @@ Add batik license of computing the Arc2D
 
 TODO:
 -----
-CSSLengthValueImplementation.setBaseElement
-Get default CSSLengthValue values; are CSSLengthValue based on viewport element or cascading?
-Recursive CSSNumberValue?
-CSSProperties
 Inline element positioning?
 Computing bounds for text elements
 SVGTextContentElement
+Multiple @font-face.src
 
 FUTURE:
 -------

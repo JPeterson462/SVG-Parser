@@ -62,6 +62,10 @@ public class SVGParser {
 		}
 	}
 	
+	public static void updateCalculations() {
+		SVGLength.Pool.calculate();
+	}
+	
 	private String removeNamespace(String tag, String... validNamespaces) {
 		String[] split = tag.split(":");
 		if (split.length == 1) {

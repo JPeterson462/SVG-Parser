@@ -49,8 +49,10 @@ public class SVGFEComponentTransferElementParser implements ElementParser<SVGFEC
 		ElementParser.parseStyleFromAttributes(element, style);
 		String in1Str = ElementParser.read(element, Attributes.IN);
 		SVGAnimatedString in1 = new SVGAnimatedString.Implementation(in1Str, in1Str);
-		return new SVGFEComponentTransferElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEComponentTransferElement feComponentTransfer = new SVGFEComponentTransferElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1);
+		ElementParser.connectLengthRoots(feComponentTransfer);
+		return feComponentTransfer;
 	}
 
 	@Override

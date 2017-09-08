@@ -102,6 +102,7 @@ public class SVGTRefElementParser implements ElementParser<SVGTRefElement> {
 				arotate, ahref, xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
 				systemLanguage, externalResourcesRequired, atextLength, lengthAdjust);
 		textElement.setTextContent(element.getTextContent());
+		ElementParser.connectLengthRoots(textElement);
 		return textElement;
 	}
 

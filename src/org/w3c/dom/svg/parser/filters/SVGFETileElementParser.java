@@ -49,8 +49,10 @@ public class SVGFETileElementParser implements ElementParser<SVGFETileElement> {
 		ElementParser.parseStyleFromAttributes(element, style);
 		String in1Str = ElementParser.read(element, Attributes.IN);
 		SVGAnimatedString in1 = new SVGAnimatedString.Implementation(in1Str, in1Str);
-		return new SVGFETileElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFETileElement feTile = new SVGFETileElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1);
+		ElementParser.connectLengthRoots(feTile);
+		return feTile;
 	}
 
 	@Override

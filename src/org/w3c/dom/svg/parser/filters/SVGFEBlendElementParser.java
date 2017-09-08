@@ -71,8 +71,10 @@ public class SVGFEBlendElementParser implements ElementParser<SVGFEBlendElement>
 		String modeStr = ElementParser.readOrDefault(element, Attributes.MODE, "normal");
 		short modeEnum = mode_strToEnum.get(modeStr);
 		SVGAnimatedEnumeration mode = new SVGAnimatedEnumeration.Implementation(modeEnum, modeEnum);
-		return new SVGFEBlendElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEBlendElement feBlend = new SVGFEBlendElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1, in2, mode);
+		ElementParser.connectLengthRoots(feBlend);
+		return feBlend;
 	}
 
 	@Override

@@ -47,8 +47,10 @@ public class SVGFEFloodElementParser implements ElementParser<SVGFEFloodElement>
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		return new SVGFEFloodElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEFloodElement feFlood = new SVGFEFloodElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style);
+		ElementParser.connectLengthRoots(feFlood);
+		return feFlood;
 	}
 
 	@Override

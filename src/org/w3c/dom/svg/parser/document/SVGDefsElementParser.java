@@ -47,10 +47,12 @@ public class SVGDefsElementParser implements ElementParser<SVGDefsElement> {
 		SVGElement nearestViewportElement = ElementParser.getNearestViewportElement(parsingState);
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
-		return new SVGDefsElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGDefsElement defs = new SVGDefsElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions,
 				systemLanguage, externalResourcesRequired, nearestViewportElement,
 				farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(defs);
+		return defs;
 	}
 
 	@Override

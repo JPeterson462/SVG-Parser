@@ -138,6 +138,7 @@ public class SVGSVGElementParser implements ElementParser<SVGSVGElement> {
 		String onUnload = ElementParser.read(element, Attributes.ON_UNLOAD);
 		String onZoom = ElementParser.read(element, Attributes.ON_ZOOM);
 		svgElement.connectDocumentEventListeners(onLoad, onAbort, onError, onResize, onScroll, onUnload, onZoom);
+		ElementParser.connectLengthRoots(svgElement);
 		return svgElement;
 	}
 

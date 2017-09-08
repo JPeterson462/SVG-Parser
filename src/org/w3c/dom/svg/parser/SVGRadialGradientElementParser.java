@@ -79,8 +79,10 @@ public class SVGRadialGradientElementParser implements ElementParser<SVGRadialGr
 		SVGLength fy = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		fy.setValueAsString(fyStr);
 		SVGAnimatedLength afy = new SVGAnimatedLength.Implementation(fy, fy);
-		return new SVGRadialGradientElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref, 
+		SVGRadialGradientElement radialGradient = new SVGRadialGradientElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref, 
 				externalResourcesRequired, className, style, gradientUnits, gradientTransform, spreadMethod, acx, acy, ar, afx, afy);
+		ElementParser.connectLengthRoots(radialGradient);
+		return radialGradient;
 	}
 
 	@Override

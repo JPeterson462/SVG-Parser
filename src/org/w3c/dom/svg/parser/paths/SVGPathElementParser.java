@@ -59,9 +59,11 @@ public class SVGPathElementParser implements ElementParser<SVGPathElement> {
 		SVGElement farthestViewportElement = ElementParser.getFarthestViewportElement(parsingState);
 		SVGAnimatedTransformList transform = ElementParser.parseTransforms(element);
 		// Construct the implementation
-		return new SVGPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
+		SVGPathElement path = new SVGPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace,
 					className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 					pathSegList, normalizedPathSegList, new SVGPathSegList.Implementation(pathSegList), new SVGPathSegList.Implementation(normalizedPathSegList), aPathLength, nearestViewportElement, farthestViewportElement, transform);
+		ElementParser.connectLengthRoots(path);
+		return path;
 	}
 
 	@Override

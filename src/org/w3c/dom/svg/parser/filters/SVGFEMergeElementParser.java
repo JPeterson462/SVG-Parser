@@ -47,8 +47,10 @@ public class SVGFEMergeElementParser implements ElementParser<SVGFEMergeElement>
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		return new SVGFEMergeElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEMergeElement feMerge = new SVGFEMergeElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style);
+		ElementParser.connectLengthRoots(feMerge);
+		return feMerge;
 	}
 
 	@Override

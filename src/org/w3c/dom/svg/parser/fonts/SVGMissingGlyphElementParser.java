@@ -62,8 +62,10 @@ public class SVGMissingGlyphElementParser implements ElementParser<SVGMissingGly
 		CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
 		style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
 		ElementParser.parseStyleFromAttributes(element, style);
-		return new SVGMissingGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className,
+		SVGMissingGlyphElement missingGlyph = new SVGMissingGlyphElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, className,
 				style, pathData, horizontalAdvanceX, verticalOriginX, verticalOriginY, verticalAdvanceY);
+		ElementParser.connectLengthRoots(missingGlyph);
+		return missingGlyph;
 	}
 
 	@Override

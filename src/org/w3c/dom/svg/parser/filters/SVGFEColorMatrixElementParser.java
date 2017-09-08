@@ -79,8 +79,10 @@ public class SVGFEColorMatrixElementParser implements ElementParser<SVGFEColorMa
 		}
 		SVGNumberList valuesBase = new SVGNumberList.Implementation(valuesList);
 		SVGAnimatedNumberList values = new SVGAnimatedNumberList.Implementation(valuesBase, valuesBase);
-		return new SVGFEColorMatrixElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEColorMatrixElement feColorMatrix = new SVGFEColorMatrixElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1, type, values);
+		ElementParser.connectLengthRoots(feColorMatrix);
+		return feColorMatrix;
 	}
 
 	@Override

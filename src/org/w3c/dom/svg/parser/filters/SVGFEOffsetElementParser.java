@@ -54,8 +54,10 @@ public class SVGFEOffsetElementParser implements ElementParser<SVGFEOffsetElemen
 		SVGAnimatedNumber dx = new SVGAnimatedNumber.Implementation(Float.parseFloat(dxStr), Float.parseFloat(dxStr));
 		String dyStr = ElementParser.readOrDefault(element, Attributes.DY, "0");
 		SVGAnimatedNumber dy = new SVGAnimatedNumber.Implementation(Float.parseFloat(dyStr), Float.parseFloat(dyStr));
-		return new SVGFEOffsetElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
+		SVGFEOffsetElement feOffset = new SVGFEOffsetElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
 				ax, ay, awidth, aheight, result, className, style, in1, dx, dy);
+		ElementParser.connectLengthRoots(feOffset);
+		return feOffset;
 	}
 
 	@Override

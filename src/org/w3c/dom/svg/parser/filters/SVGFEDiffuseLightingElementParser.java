@@ -72,9 +72,11 @@ public class SVGFEDiffuseLightingElementParser implements ElementParser<SVGFEDif
 		else {
 			SVGErrors.error("Invalid kernelUnitLength: " + kernelUnitLengthStr);
 		}
-		return new SVGFEDiffuseLightingElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
+		SVGFEDiffuseLightingElement feDiffuseLighting = new SVGFEDiffuseLightingElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, 
 				ax, ay, awidth, aheight, result, className, style, in1, surfaceScale, diffuseConstant,
 				kernelUnitLengthX, kernelUnitLengthY);
+		ElementParser.connectLengthRoots(feDiffuseLighting);
+		return feDiffuseLighting;
 	}
 
 	@Override
