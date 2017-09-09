@@ -166,7 +166,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@Override
 		public float getSubStringLength(long charnum, long nchars) throws DOMException {
-			// TODO Auto-generated method stub
+			// TODO
 			return 0;
 		}
 

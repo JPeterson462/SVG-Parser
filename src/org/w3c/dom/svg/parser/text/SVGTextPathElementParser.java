@@ -122,7 +122,10 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		attributes.put(Attributes.METHOD, method_enumToStr.get(element.getMethod().getBaseValue()));
 		attributes.put(Attributes.SPACING, spacing_enumToStr.get(element.getSpacing().getBaseValue()));
 		Element textPathElement = factory.createElement(Tags.TEXT_PATH, attributes);
-		textPathElement.setTextContent(element.getTextContent());
+		if (element.getChildNodes().getLength() == 0) {
+			// Only write the <text> content if there aren't child nodes like <tspan>
+			textPathElement.setTextContent(element.getTextContent());
+		}
 		return textPathElement;
 	}
 

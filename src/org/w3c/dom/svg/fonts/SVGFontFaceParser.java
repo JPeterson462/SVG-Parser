@@ -192,7 +192,7 @@ public class SVGFontFaceParser {
 		SVGNumber overlineThickness = new SVGNumber.Implementation(parseFloat(element.getAttribute(Attributes.OVERLINE_THICKNESS, null)));
 		String srcValue = element.getAttribute("src", null);
 		HashMap<String, String> sources = null;
-		if (srcValue != null) {
+		if (srcValue != null && srcValue.length() > 0) {
 			sources = new HashMap<>();
 			String[] values = srcValue.split(",");
 			for (int i = 0; i < values.length; i++) {
@@ -210,8 +210,8 @@ public class SVGFontFaceParser {
 				} else {
 					path = value;
 				}
-				path = path.trim();
-				format = format.trim();
+				path = path == null ? path : path.trim();
+				format = format == null ? format : format.trim();
 				sources.put(path, format);
 			}
 		}

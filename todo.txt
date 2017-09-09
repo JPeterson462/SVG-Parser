@@ -6,7 +6,6 @@ Add batik license of computing the Arc2D
 
 TODO:
 -----
-Inline element positioning?
 Computing bounds for text elements
 SVGTextContentElement
 
@@ -17,11 +16,9 @@ Documentation
 Validate setting of constants?
 For implementations duplicate() should it recurse?
 Better adoptNode() implementation
-Setting viewport element each layer?
 Validate SVG using required features and extensions
 Don't support calc()
-Parsing JavaScript?
-Cascading CSSNumberValue?
+Parsing JavaScript
 
 * = work in progress
 + = done
