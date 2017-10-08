@@ -19,6 +19,8 @@ public interface SVGRect {
 	public float getHeight();
 	
 	public void setHeight(float height) throws DOMException;
+	
+	public boolean contains(SVGPoint point);
 
 	public static class Implementation implements SVGRect {
 
@@ -69,6 +71,11 @@ public interface SVGRect {
 		@Override
 		public void setHeight(float height) throws DOMException {
 			this.height = height;
+		}
+
+		@Override
+		public boolean contains(SVGPoint point) {
+			return point.getX() > x && point.getY() > y && point.getX() < (x + width) && point.getY() < (y + height);
 		}
 		
 	}

@@ -32,6 +32,7 @@ import org.w3c.dom.svg.document.SVGUseElement;
 
 public class SVGParser {
 	
+	@SuppressWarnings("rawtypes")
 	public SVGSVGElement readDocument(InputStream stream, SVGRenderingState renderingState, SVGClock clock) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
@@ -49,6 +50,7 @@ public class SVGParser {
 					((SVGAnimationElement) element).searchForTargetElement(parsingState::getElement);
 				}
 			});
+			parsingState.processDelayedInstantiation((tag) -> (DelayedElementParser) Parsers.getParser(tag));
 			SVGLength.Pool.calculate();
 			parsingState.traverseHierarchy(element -> {
 				if (element instanceof SVGUseElement) {
@@ -92,7 +94,6 @@ public class SVGParser {
 		if (parser == null) {
 			return null;
 		}
-		System.out.println("'" + root.getTagName() + "'");
 		SVGElement element = parser.readElement(root, parsingState);
 		String onFocusIn = null, onFocusOut = null, onActivate = null, onClick = null,
 				onMouseDown = null, onMouseUp = null, onMouseOver = null, onMouseMove = null, onMouseOut = null;
@@ -151,6 +152,9 @@ public class SVGParser {
 	private Element parseElementRecursively(SVGElement root, ElementFactory factory) {
 		ElementParser parser = Parsers.getParser(root.getTag());
 		Element element = parser.writeElement(root, factory);
+		if (element == null) {
+			return null;
+		}
 		if (root.getOnFocusIn() != null) {
 			element.setAttribute("onfocusin", root.getOnFocusIn());
 		}
@@ -184,7 +188,10 @@ public class SVGParser {
 			if (!(child instanceof SVGElement)) {
 				continue;
 			}
-			element.appendChild(parseElementRecursively((SVGElement) child, factory));
+			Element childElement = parseElementRecursively((SVGElement) child, factory);
+			if (childElement != null) {
+				element.appendChild(childElement);
+			}
 		}
 		return element;
 	}
@@ -196,7 +203,7 @@ public class SVGParser {
 		return false;
 	}
 	
-	public void writeDocument(SVGSVGElement element, OutputStream stream) throws ParserConfigurationException, TransformerException {
+	public void writeDocument(SVGSVGElement element, OutputStream stream, boolean writeXlink) throws ParserConfigurationException, TransformerException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = dbFactory.newDocumentBuilder();
 		Document document = builder.newDocument();
@@ -204,7 +211,9 @@ public class SVGParser {
 			Element node = document.createElement(name);
 			attributes.entrySet().forEach((entry) -> { 
 				if (entry.getValue() != null && entry.getValue().length() > 0 && !isInvalidNumber(entry.getValue())) {
-					node.setAttribute(entry.getKey(), entry.getValue());
+					if (writeXlink || !entry.getKey().startsWith("xlink:")) {
+						node.setAttribute(entry.getKey(), entry.getValue());
+					}
 				}
 			});
 			return node;

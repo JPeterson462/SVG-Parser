@@ -180,7 +180,6 @@ public interface ElementParser<T extends SVGElement> {
 		String[] properties = CSSPropertyNames.PROPERTIES;
 		for (int i = 0; i < properties.length; i++) {
 			if (element.hasAttribute(properties[i])) {
-				System.out.println(properties[i]);
 				declaration.setProperty(properties[i], element.getAttribute(properties[i]), null);
 			}
 		}
@@ -551,7 +550,6 @@ public interface ElementParser<T extends SVGElement> {
 
 		public char readType() {
 			skipWhitespace();
-			System.out.println(data[pointer]);
 			return data[pointer++];
 		}
 		
@@ -737,7 +735,6 @@ public interface ElementParser<T extends SVGElement> {
 				while (tokenizer.moreValues()) {
 					SVGPathSegLineToRel lineToRel = new SVGPathSegLineToRel.Implementation();
 					lineToRel.setX(tokenizer.readValue());
-					System.out.println(lineToRel.getX());
 					lineToRel.setY(tokenizer.readValue());
 					list.add(lineToRel);
 				}

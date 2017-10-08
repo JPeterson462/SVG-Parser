@@ -47,7 +47,9 @@ public class SVGColorProfileElementParser implements ElementParser<SVGColorProfi
 	@Override
 	public Element writeElement(SVGColorProfileElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		for (int i = 0; i < Attributes.XLINK_HREF.length; i++) {
+			attributes.put(Attributes.XLINK_HREF[i], element.getHref().getBaseValue());
+		}
 		attributes.put(Attributes.LOCAL, element.getLocal());
 		attributes.put(Attributes.NAME, element.getName());
 		attributes.put(Attributes.RENDERING_INDENT, enumToStr.get(element.getRenderingIntent()));

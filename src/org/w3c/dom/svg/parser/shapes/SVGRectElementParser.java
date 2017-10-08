@@ -37,26 +37,18 @@ public class SVGRectElementParser implements ElementParser<SVGRectElement> {
 		}
 		String rxStr = ElementParser.read(element, Attributes.RX);
 		String ryStr = ElementParser.read(element, Attributes.RY);
-		if (rxStr == "" ) {
-			rxStr = "0";
-		}
-		if (ryStr == "" ) {
-			ryStr = rxStr;
-		}
-		if (rxStr == null && ryStr != null) {
+		if (rxStr.length() == 0 && ryStr.length() != 0) {
 			rxStr = ryStr;
 		}
-		if (rxStr == null) {
+		if (ryStr.length() == 0 && rxStr.length() != 0) {
+			ryStr = rxStr;
+		}
+		if (rxStr.length() == 0 && ryStr.length() == 0) {
 			rxStr = "0";
+			ryStr = "0";
 		}
 		if (rxStr.startsWith("-")) {
 			SVGErrors.error("X Radius must be >= 0");
-		}
-		if (ryStr == null && rxStr != null) {
-			ryStr = rxStr;
-		}
-		if (ryStr == null) {
-			ryStr = "0";
 		}
 		if (ryStr.startsWith("-")) {
 			SVGErrors.error("Y Radius must be >= 0");

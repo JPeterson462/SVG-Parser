@@ -49,7 +49,9 @@ public class SVGGlyphRefElementParser implements ElementParser<SVGGlyphRefElemen
 	@Override
 	public Element writeElement(SVGGlyphRefElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		for (int i = 0; i < Attributes.XLINK_HREF.length; i++) {
+			attributes.put(Attributes.XLINK_HREF[i], element.getHref().getBaseValue());
+		}
 		attributes.put(Attributes.GLYPH_REF, element.getGlyphRef());
 		attributes.put(Attributes.FORMAT, element.getFormat());
 		attributes.put(Attributes.X, Float.toString(element.getX()));

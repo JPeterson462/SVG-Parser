@@ -4,6 +4,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.DOMErrors;
+import org.w3c.dom.svg.DelayedInstantiation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedInteger;
@@ -39,6 +40,7 @@ public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSp
 	
 	public void setFilterRes(long filterResX, long filterResY) throws DOMException;
 
+	@DelayedInstantiation
 	public static class Implementation extends SVGElement.Implementation implements SVGFilterElement {
 
 		private SVGAnimatedString href;
@@ -56,6 +58,8 @@ public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSp
 		private SVGAnimatedLength x, y, width, height;
 		
 		private SVGAnimatedInteger filterResX, filterResY;
+		
+		private boolean instantiated;
 		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedString href,
@@ -80,6 +84,42 @@ public interface SVGFilterElement extends SVGElement, SVGURIReference, SVGLangSp
 			this.height = height;
 			this.filterResX = filterResX;
 			this.filterResY = filterResY;
+			instantiated = true;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+			instantiated = false;
+		}
+		
+		public void instantiateFilter(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGAnimatedString href,
+				String xmlLang, String xmlSpace,
+				SVGAnimatedBoolean externalResourcesRequired,
+				SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGAnimatedEnumeration filterUnits, SVGAnimatedEnumeration primitiveUnits,
+				SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width, SVGAnimatedLength height,
+				SVGAnimatedInteger filterResX, SVGAnimatedInteger filterResY) {
+			instantiateBase(xmlBase, ownerSVGElement, viewportElement);
+			this.href = href;
+			this.xmlLang = xmlLang;
+			this.xmlSpace = xmlSpace;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.className = className;
+			this.style = style;
+			this.filterUnits = filterUnits;
+			this.primitiveUnits = primitiveUnits;
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			this.filterResX = filterResX;
+			this.filterResY = filterResY;
+			instantiated = true;
+		}
+		
+		public boolean hasBeenInstantiated() {
+			return instantiated;
 		}
 
 		@Override

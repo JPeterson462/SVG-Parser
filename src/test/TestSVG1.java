@@ -18,11 +18,11 @@ public class TestSVG1 {
 	public static void main(String[] args) throws Exception {
 		SVGParser parser = new SVGParser();
 		// 10 left; 371 files; 7 others; 364 ~ 2x - 10, x ~ 200
-		// gradients are messed up
-		final String SVG_FILE = "svg-files/svg2009";
-		// juanmontoya_lingerie, gallardo,
-		// rg1024_green_grapes, rg1024_metal_effect, scimitar-anim,
-		// gump-bench, compuserver_msn_Ford_Focus, scimitar, svg2009, gaussian1
+		// gradients are messed up, so are gaussian blurs
+		final String SVG_FILE = "svg-files/gump-bench";
+		// juanmontoya_lingerie, gallardo, rg1024_green_grapes, 
+		// rg1024_metal_effect, scimitar-anim, gump-bench,
+		// compuserver_msn_Ford_Focus, scimitar, svg2009, gaussian1
 		if (!Parsers.hasRegistered()) Parsers.registerParsers();
 		FileInputStream stream = new FileInputStream(SVG_FILE + ".svg");
 		SVGRenderingState renderingState = new SVGRenderingState() {
@@ -58,8 +58,10 @@ public class TestSVG1 {
 			}
 			
 		};
+		long s = System.nanoTime();
 		SVGSVGElement element = parser.readDocument(stream, renderingState, () -> System.currentTimeMillis() / 1000f);
-		parser.writeDocument(element, new FileOutputStream(SVG_FILE + "-output.svg"));
+		System.out.println((System.nanoTime() - s)/1_000_000 + "ms");
+		parser.writeDocument(element, new FileOutputStream(SVG_FILE + "-output.svg"), false);
 //		System.out.println(element);
 	}
 

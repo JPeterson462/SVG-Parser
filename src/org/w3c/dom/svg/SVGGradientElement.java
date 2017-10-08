@@ -25,6 +25,7 @@ public interface SVGGradientElement extends SVGElement, SVGURIReference, SVGExte
 	
 	public SVGAnimatedEnumeration getSpreadMethod();
 	
+	@DelayedInstantiation
 	public static class Implementation extends SVGElement.Implementation implements SVGGradientElement {
 
 		private SVGAnimatedString href;
@@ -54,6 +55,25 @@ public interface SVGGradientElement extends SVGElement, SVGURIReference, SVGExte
 			this.gradientUnits = gradientUnits;
 			this.gradientTransform = gradientTransform;
 			this.spreadMethod = spreadMethod;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+		}
+		
+		public void instantiateGradient(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGAnimatedString href,
+				SVGAnimatedBoolean externalResourcesRequired,
+				SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGAnimatedEnumeration gradientUnits, SVGAnimatedTransformList gradientTransform, SVGAnimatedEnumeration spreadMethod) {
+			instantiateBase(xmlBase, ownerSVGElement, viewportElement);
+			this.href = href;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.className = className;
+			this.style = style;
+			this.gradientUnits = gradientUnits;
+			this.gradientTransform = gradientTransform;
+			this.spreadMethod = spreadMethod;			
 		}
 
 		@Override

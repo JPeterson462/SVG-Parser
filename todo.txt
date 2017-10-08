@@ -8,6 +8,8 @@ TODO:
 -----
 Computing bounds for text elements
 SVGTextContentElement
+Fix gaussian blur
+Pattern should inherit from xlink:href any undefined properties
 
 FUTURE:
 -------
@@ -17,7 +19,7 @@ Validate setting of constants?
 For implementations duplicate() should it recurse?
 Better adoptNode() implementation
 Validate SVG using required features and extensions
-Don't support calc()
+Support for calc()
 Parsing JavaScript
 
 * = work in progress

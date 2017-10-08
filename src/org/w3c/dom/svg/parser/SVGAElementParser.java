@@ -68,7 +68,9 @@ public class SVGAElementParser implements ElementParser<SVGAElement> {
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, element.getExternalResourcesRequired().getBaseValue().toString());
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		for (int i = 0; i < Attributes.XLINK_HREF.length; i++) {
+			attributes.put(Attributes.XLINK_HREF[i], element.getHref().getBaseValue());
+		}
 		attributes.put(Attributes.TARGET, element.getTarget().getBaseValue());
 		return factory.createElement(Tags.A, attributes);
 	}

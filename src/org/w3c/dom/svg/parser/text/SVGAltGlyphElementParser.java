@@ -120,7 +120,9 @@ public class SVGAltGlyphElementParser implements ElementParser<SVGAltGlyphElemen
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
 		attributes.put(Attributes.GLYPH_REF, element.getGlyphRef());
 		attributes.put(Attributes.FORMAT, element.getFormat());
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		for (int i = 0; i < Attributes.XLINK_HREF.length; i++) {
+			attributes.put(Attributes.XLINK_HREF[i], element.getHref().getBaseValue());
+		}
 		return factory.createElement(Tags.ALT_GLYPH, attributes);
 	}
 

@@ -118,7 +118,9 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		attributes.put(Attributes.REQUIRED_EXTENSIONS, ElementParser.join(element.getRequiredExtensions(), " "));
 		attributes.put(Attributes.SYSTEM_LANGUAGE, ElementParser.join(element.getSystemLanguage(), " "));
 		attributes.put(Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(element.getExternalResourcesRequired().getBaseValue()));
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		for (int i = 0; i < Attributes.XLINK_HREF.length; i++) {
+			attributes.put(Attributes.XLINK_HREF[i], element.getHref().getBaseValue());
+		}
 		attributes.put(Attributes.METHOD, method_enumToStr.get(element.getMethod().getBaseValue()));
 		attributes.put(Attributes.SPACING, spacing_enumToStr.get(element.getSpacing().getBaseValue()));
 		Element textPathElement = factory.createElement(Tags.TEXT_PATH, attributes);

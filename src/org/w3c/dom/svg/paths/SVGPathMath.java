@@ -23,7 +23,6 @@ public class SVGPathMath {
 		for (int i = 0; i < list.getNumberOfItems(); i++) {
 			length += getSegmentLength(list.getItem(i), state);
 			transformPoint(list.getItem(i), state);
-			System.out.println(list.getItem(i).getPathSegTypeAsLetter() + " -> " + length);
 		}
 		return length;
 	}
@@ -61,7 +60,6 @@ public class SVGPathMath {
 						pathSegArcRel.getAngle(), Arc.flag(pathSegArcRel.getLargeArcFlag()), Arc.flag(pathSegArcRel.getSweepFlag()), 1);
 			case SVGPathSeg.PATHSEG_CLOSEPATH:
 //				SVGPathSegClosePath pathSegClosePath = (SVGPathSegClosePath) segment;
-				System.out.println(state.start + " " + state.point);
 				float closeDx = state.start.getX() - state.point.getX();
 				float closeDy = state.start.getY() - state.point.getY();
 				return SVGMath.sqrt(closeDx * closeDx + closeDy * closeDy);

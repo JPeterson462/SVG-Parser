@@ -14,10 +14,13 @@ public interface SVGRadialGradientElement extends SVGGradientElement {
 	public SVGAnimatedLength getFX();
 	
 	public SVGAnimatedLength getFY();
-	
+
+	@DelayedInstantiation
 	public static class Implementation extends SVGGradientElement.Implementation implements SVGRadialGradientElement {
 
 		private SVGAnimatedLength cx, cy, radius, fx, fy;
+		
+		private boolean instantiated;
 		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedString href, SVGAnimatedBoolean externalResourcesRequired, SVGAnimatedString className,
@@ -31,6 +34,31 @@ public interface SVGRadialGradientElement extends SVGGradientElement {
 			this.radius = radius;
 			this.fx = fx;
 			this.fy = fy;
+			instantiated = true;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+			instantiated = false;
+		}
+		
+		public void instantiateRadialGradient(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGAnimatedString href, SVGAnimatedBoolean externalResourcesRequired, SVGAnimatedString className,
+				CSSStyleDeclaration style, SVGAnimatedEnumeration gradientUnits,
+				SVGAnimatedTransformList gradientTransform, SVGAnimatedEnumeration spreadMethod,
+				SVGAnimatedLength cx, SVGAnimatedLength cy, SVGAnimatedLength radius, SVGAnimatedLength fx, SVGAnimatedLength fy) {
+			instantiateGradient(xmlBase, ownerSVGElement, viewportElement, href, externalResourcesRequired, className,
+					style, gradientUnits, gradientTransform, spreadMethod);
+			this.cx = cx;
+			this.cy = cy;
+			this.radius = radius;
+			this.fx = fx;
+			this.fy = fy;
+			instantiated = true;
+		}
+		
+		public boolean hasBeenInstantiated() {
+			return instantiated;
 		}
 
 		@Override

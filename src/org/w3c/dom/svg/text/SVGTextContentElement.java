@@ -9,6 +9,7 @@ import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedLength;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
 import org.w3c.dom.svg.SVGPoint;
@@ -172,38 +173,56 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@Override
 		public SVGPoint getStartPositionOfChar(long charnum) throws DOMException {
-			SVGRect bounds = getExtentOfChar(charnum);
-			return new SVGPoint.Implementation(bounds.getX(), bounds.getY());
+			// TODO Auto-generated method stub
+			if (charnum > 0) {
+				
+			}
+			return null;
 		}
 
 		@Override
 		public SVGPoint getEndPositionOfChar(long charnum) throws DOMException {
-			SVGRect bounds = getExtentOfChar(charnum);
-			return new SVGPoint.Implementation(bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight());
-		}
-
-		@Override
-		public SVGRect getExtentOfChar(long charnum) throws DOMException {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
+		public SVGRect getExtentOfChar(long charnum) throws DOMException {
+			SVGPoint start = getStartPositionOfChar(charnum);
+			SVGPoint end = getEndPositionOfChar(charnum);
+			float x0 = Math.min(start.getX(), end.getX());
+			float x1 = Math.max(start.getX(), end.getX());
+			float y0 = Math.min(start.getY(), end.getY());
+			float y1 = Math.max(start.getY(), end.getY());
+			return new SVGRect.Implementation(x0, y0, x1 - x0, y1 - y0);
+		}
+
+		@Override
 		public float getRotationOfChar(long charnum) throws DOMException {
-			// TODO Auto-generated method stub
+			if (this instanceof SVGTextPathElement) {
+				SVGPoint start = getStartPositionOfChar(charnum);
+				//TODO
+			}
 			return 0;
 		}
 
 		@Override
 		public long getCharNumAtPosition(SVGPoint point) {
-			// TODO Auto-generated method stub
-			return 0;
+			if (point == null) {
+				return -1;
+			}
+			for (long charnum = 0; charnum < getNumberOfChars(); charnum++) {
+				SVGRect bounds = getExtentOfChar(charnum);
+				if (bounds.contains(point)) {
+					return charnum;
+				}
+			}
+			return -1;
 		}
 
 		@Override
 		public void selectSubString(long charnum, long nchars) throws DOMException {
-			// TODO Auto-generated method stub
-			
+			SVGErrors.error("Not supported: selectSubString()");
 		}
 		
 	}

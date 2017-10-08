@@ -51,7 +51,9 @@ public class SVGCursorElementParser implements ElementParser<SVGCursorElement> {
 		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
-		attributes.put(Attributes.XLINK_HREF[Attributes.XLINK_HREF.length - 1], element.getHref().getBaseValue());
+		for (int i = 0; i < Attributes.XLINK_HREF.length; i++) {
+			attributes.put(Attributes.XLINK_HREF[i], element.getHref().getBaseValue());
+		}
 		if (element.getRequiredFeatures().getLength() > 0) {
 			attributes.put(Attributes.REQUIRED_FEATURES, ElementParser.concatenate(element.getRequiredFeatures(), " "));
 		}

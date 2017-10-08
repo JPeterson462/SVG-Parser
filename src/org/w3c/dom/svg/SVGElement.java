@@ -55,6 +55,7 @@ public interface SVGElement extends Element {
 	
 	public String getOnMouseOut();
 	
+	@DelayedInstantiation
 	public static class Implementation extends ElementImplementation implements SVGElement {
 
 		private String id, xmlBase;
@@ -70,6 +71,17 @@ public interface SVGElement extends Element {
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
 			super(id);
 			this.id = id;
+			this.xmlBase = xmlBase;
+			this.ownerSVGElement = ownerSVGElement;
+			this.viewportElement = viewportElement;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+			this.id = id;
+		}
+		
+		public void instantiateBase(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement) {
 			this.xmlBase = xmlBase;
 			this.ownerSVGElement = ownerSVGElement;
 			this.viewportElement = viewportElement;
