@@ -8,8 +8,6 @@ TODO:
 -----
 Computing bounds for text elements
 SVGTextContentElement
-Fix gaussian blur
-Pattern should inherit from xlink:href any undefined properties
 
 FUTURE:
 -------

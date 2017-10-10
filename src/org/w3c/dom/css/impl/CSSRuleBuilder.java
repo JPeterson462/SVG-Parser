@@ -181,7 +181,6 @@ public class CSSRuleBuilder {
 		if (text.startsWith(CSSRulePrefixes.PREFIX)) {
 			return new CSSUnknownRuleImplementation(parentRule, stylesheet, new CSSStyleDeclarationImplementation(parentRule, declaration));
 		}
-		System.out.println(body);
 		CSSStyleDeclarationImplementation declarationSub = new CSSStyleDeclarationImplementation(parentRule, declaration);
 		String[] rules = body.split(";");
 		for (int i = 0; i < rules.length; i++) {

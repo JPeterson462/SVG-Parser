@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.css.impl.StringUtils;
+import org.w3c.dom.svg.DelayedInstantiation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedLength;
@@ -22,7 +23,7 @@ import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
 
-public class SVGPatternElementParser implements ElementParser<SVGPatternElement> {
+public class SVGPatternElementParser implements ElementParser<SVGPatternElement>, DelayedElementParser<SVGPatternElement> {
 
 	private HashMap<String, Short> patternUnits_strToEnum = new HashMap<>();
 	private HashMap<Short, String> patternUnits_enumToStr = new HashMap<>();
@@ -36,10 +37,17 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 	
 	@Override
 	public SVGPatternElement readElement(Element element, ParsingState parsingState) {
+		String id = ElementParser.read(element, Attributes.ID);
 		String href = ElementParser.read(element, Attributes.XLINK_HREF);
 		SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
+		SVGPatternElement linkedElement = (SVGPatternElement) parsingState.getElement(href);
+		if (href != null && linkedElement == null) {
+			// Delay Instantiation
+			SVGPatternElement svgElement = new SVGPatternElement.Implementation(id);
+			parsingState.delayInstantiation(svgElement, element);
+			return svgElement;
+		}
 		// Get default values
-		String id = ElementParser.read(element, Attributes.ID);
 		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
@@ -61,10 +69,10 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 		SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
 		SVGStringList requiredExtensions = ElementParser.readOrNull(element, Attributes.REQUIRED_EXTENSIONS, " ", true);
 		SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
-		String xStr = ElementParser.readOrDefault(element, Attributes.X, "0");
-		String yStr = ElementParser.readOrDefault(element, Attributes.Y, "0");
-		String widthStr = ElementParser.readOrDefault(element, Attributes.WIDTH, "0");
-		String heightStr = ElementParser.readOrDefault(element, Attributes.HEIGHT, "0");
+		String xStr = ElementParser.readOrDefault(element, Attributes.X, linkedElement != null ? linkedElement.getX().getBaseValue().getValueAsString() : "0");
+		String yStr = ElementParser.readOrDefault(element, Attributes.Y, linkedElement != null ? linkedElement.getY().getBaseValue().getValueAsString() : "0");
+		String widthStr = ElementParser.readOrDefault(element, Attributes.WIDTH, linkedElement != null ? linkedElement.getWidth().getBaseValue().getValueAsString() : "0");
+		String heightStr = ElementParser.readOrDefault(element, Attributes.HEIGHT, linkedElement != null ? linkedElement.getHeight().getBaseValue().getValueAsString() : "0");
 		if (widthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Width: " + widthStr);
 		}
@@ -82,9 +90,16 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 		SVGAnimatedLength ax = new SVGAnimatedLength.Implementation(x, x);
 		SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
 		SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
-		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);	
+		SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);
+		String inheritedAspectRatio = "";
+		if (linkedElement != null) {
+			SVGPreserveAspectRatio.Implementation inheritedImpl = new SVGPreserveAspectRatio.Implementation();
+			inheritedImpl.setAlign(linkedElement.getPreserveAspectRatio().getBaseValue().getAlign());
+			inheritedImpl.setMeetOrSlice(linkedElement.getPreserveAspectRatio().getBaseValue().getMeetOrSlice());
+			inheritedAspectRatio = inheritedImpl.getAsString();
+		}
 		SVGPreserveAspectRatio.Implementation preserveAspectRatioValue = new SVGPreserveAspectRatio.Implementation();
-		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, "xMidYMid meet"));
+		ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, linkedElement != null ? inheritedAspectRatio : "xMidYMid meet"));
 		preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
 		SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
 		String viewBoxStr = ElementParser.read(element, Attributes.VIEW_BOX);
@@ -95,19 +110,109 @@ public class SVGPatternElementParser implements ElementParser<SVGPatternElement>
 					Float.parseFloat(viewBoxStrValues.get(2)), Float.parseFloat(viewBoxStrValues.get(3)));
 			viewBox = new SVGAnimatedRect.Implementation(viewBoxValue, viewBoxValue);
 		}
-		String patternUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_UNITS, "objectBoundingBox");
+		String patternUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_UNITS, linkedElement != null ? patternUnits_enumToStr.get(linkedElement.getPatternUnits().getBaseValue()) : "objectBoundingBox");
 		short patternUnitsEnum = patternUnits_strToEnum.get(patternUnitsStr);
 		SVGAnimatedEnumeration patternUnits = new SVGAnimatedEnumeration.Implementation(patternUnitsEnum, patternUnitsEnum);
-		String patternContentUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_CONTENT_UNITS, "userSpaceOnUse");
+		String patternContentUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_CONTENT_UNITS, linkedElement != null ? patternUnits_enumToStr.get(linkedElement.getPatternContentUnits().getBaseValue()) : "userSpaceOnUse");
 		short patternContentUnitsEnum = patternUnits_strToEnum.get(patternContentUnitsStr);
 		SVGAnimatedEnumeration patternContentUnits = new SVGAnimatedEnumeration.Implementation(patternContentUnitsEnum, patternContentUnitsEnum);
-		SVGAnimatedTransformList patternTransform = ElementParser.parseTransforms(ElementParser.readOrDefault(element, Attributes.PATTERN_TRANSFORM, ""));
+		SVGAnimatedTransformList patternTransform = ElementParser.parseTransforms(ElementParser.readOrDefault(element, Attributes.PATTERN_TRANSFORM, linkedElement != null ? ElementParser.getTransforms(linkedElement.getPatternTransform()) : ""));
 		SVGPatternElement pattern = new SVGPatternElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement, ahref, 
 				requiredFeatures, requiredExtensions, systemLanguage, xmlLang, xmlSpace, 
 				externalResourcesRequired, className, style, viewBox, preserveAspectRatio, 
 				patternUnits, patternContentUnits, patternTransform, ax, ay, awidth, aheight);
 		ElementParser.connectLengthRoots(pattern);
 		return pattern;
+	}
+
+	@Override
+	public void readElement(SVGPatternElement destination, Element element, ParsingState parsingState) {
+		if (destination.getClass().getAnnotation(DelayedInstantiation.class) != null) {
+			String href = ElementParser.read(element, Attributes.XLINK_HREF);
+			SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
+			SVGPatternElement linkedElement = (SVGPatternElement) parsingState.getElement(href);
+			if (linkedElement instanceof SVGPatternElement.Implementation && !((SVGPatternElement.Implementation) linkedElement).hasBeenInstantiated()) {
+				// Delay Instantiation
+				parsingState.delayInstantiation(destination, element);
+				return;
+			}
+			// Get default values
+			String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
+			SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
+			SVGElement viewportElement = parsingState.getViewportElement();
+			String classNameAsString = ElementParser.read(element, Attributes.CLASS);
+			SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
+			CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
+			style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
+			ElementParser.parseStyleFromAttributes(element, style);
+			boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
+			SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
+			String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
+			if (xmlLang == null) {
+				xmlLang = "en";
+			}
+			String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
+			if (xmlSpace == null) {
+				xmlSpace = "default";
+			}
+			SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
+			SVGStringList requiredExtensions = ElementParser.readOrNull(element, Attributes.REQUIRED_EXTENSIONS, " ", true);
+			SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
+			String xStr = ElementParser.readOrDefault(element, Attributes.X, linkedElement != null ? linkedElement.getX().getBaseValue().getValueAsString() : "0");
+			String yStr = ElementParser.readOrDefault(element, Attributes.Y, linkedElement != null ? linkedElement.getY().getBaseValue().getValueAsString() : "0");
+			String widthStr = ElementParser.readOrDefault(element, Attributes.WIDTH, linkedElement != null ? linkedElement.getWidth().getBaseValue().getValueAsString() : "0");
+			String heightStr = ElementParser.readOrDefault(element, Attributes.HEIGHT, linkedElement != null ? linkedElement.getHeight().getBaseValue().getValueAsString() : "0");
+			if (widthStr.startsWith("-")) {
+				SVGErrors.error("Invalid Width: " + widthStr);
+			}
+			if (heightStr.startsWith("-")) {
+				SVGErrors.error("Invalid Height: " + heightStr);
+			}
+			SVGLength x = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+			x.setValueAsString(xStr);
+			SVGLength y = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+			y.setValueAsString(yStr);
+			SVGLength width = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+			width.setValueAsString(widthStr);
+			SVGLength height = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+			height.setValueAsString(heightStr);
+			SVGAnimatedLength ax = new SVGAnimatedLength.Implementation(x, x);
+			SVGAnimatedLength ay = new SVGAnimatedLength.Implementation(y, y);
+			SVGAnimatedLength awidth = new SVGAnimatedLength.Implementation(width, width);
+			SVGAnimatedLength aheight = new SVGAnimatedLength.Implementation(height, height);	
+			String inheritedAspectRatio = "";
+			if (linkedElement != null && linkedElement.getPreserveAspectRatio() != null) {
+				SVGPreserveAspectRatio.Implementation inheritedImpl = new SVGPreserveAspectRatio.Implementation();
+				inheritedImpl.setAlign(linkedElement.getPreserveAspectRatio().getBaseValue().getAlign());
+				inheritedImpl.setMeetOrSlice(linkedElement.getPreserveAspectRatio().getBaseValue().getMeetOrSlice());
+				inheritedAspectRatio = inheritedImpl.getAsString();
+			}
+			SVGPreserveAspectRatio.Implementation preserveAspectRatioValue = new SVGPreserveAspectRatio.Implementation();
+			ArrayList<String> preserveAspectRatioParts = StringUtils.splitByWhitespace(ElementParser.readOrDefault(element, Attributes.PRESERVE_ASPECT_RATIO, linkedElement != null && linkedElement.getPreserveAspectRatio() != null ? inheritedAspectRatio : "xMidYMid meet"));
+			preserveAspectRatioValue.setFromString(preserveAspectRatioParts.get(0), preserveAspectRatioParts.size() == 1 ? null : preserveAspectRatioParts.get(1));
+			SVGAnimatedPreserveAspectRatio preserveAspectRatio = new SVGAnimatedPreserveAspectRatio.Implementation(preserveAspectRatioValue, preserveAspectRatioValue);
+			String viewBoxStr = ElementParser.read(element, Attributes.VIEW_BOX);
+			SVGAnimatedRect viewBox = null;
+			if (viewBoxStr != null && viewBoxStr.length() > 0) {
+				ArrayList<String> viewBoxStrValues = StringUtils.splitByWhitespace(viewBoxStr);
+				SVGRect viewBoxValue = new SVGRect.Implementation(Float.parseFloat(viewBoxStrValues.get(0)), Float.parseFloat(viewBoxStrValues.get(1)),
+						Float.parseFloat(viewBoxStrValues.get(2)), Float.parseFloat(viewBoxStrValues.get(3)));
+				viewBox = new SVGAnimatedRect.Implementation(viewBoxValue, viewBoxValue);
+			}
+			String patternUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_UNITS, linkedElement != null ? patternUnits_enumToStr.get(linkedElement.getPatternUnits().getBaseValue()) : "objectBoundingBox");
+			short patternUnitsEnum = patternUnits_strToEnum.get(patternUnitsStr);
+			SVGAnimatedEnumeration patternUnits = new SVGAnimatedEnumeration.Implementation(patternUnitsEnum, patternUnitsEnum);
+			String patternContentUnitsStr = ElementParser.readOrDefault(element, Attributes.PATTERN_CONTENT_UNITS, linkedElement != null ? patternUnits_enumToStr.get(linkedElement.getPatternContentUnits().getBaseValue()) : "userSpaceOnUse");
+			short patternContentUnitsEnum = patternUnits_strToEnum.get(patternContentUnitsStr);
+			SVGAnimatedEnumeration patternContentUnits = new SVGAnimatedEnumeration.Implementation(patternContentUnitsEnum, patternContentUnitsEnum);
+			SVGAnimatedTransformList patternTransform = ElementParser.parseTransforms(ElementParser.readOrDefault(element, Attributes.PATTERN_TRANSFORM, linkedElement != null ? ElementParser.getTransforms(linkedElement.getPatternTransform()) : ""));
+			((SVGPatternElement.Implementation) destination).instantiatePattern(xmlBase, ownerSVGElement, viewportElement, ahref,
+					requiredFeatures, requiredExtensions, systemLanguage, xmlLang, xmlSpace, externalResourcesRequired, className,
+					style, viewBox, preserveAspectRatio, patternUnits, patternContentUnits, patternTransform, ax, ay, awidth, aheight);
+			if (style != null) {
+				ElementParser.connectLengthRoots(destination);
+			}
+		}
 	}
 
 	@Override

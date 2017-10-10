@@ -23,6 +23,7 @@ public interface SVGPatternElement extends SVGElement, SVGURIReference, SVGTests
 
 	public SVGAnimatedLength getHeight();
 	
+	@DelayedInstantiation
 	public static class Implementation extends SVGElement.Implementation implements SVGPatternElement {
 
 		private SVGAnimatedString href;
@@ -59,6 +60,8 @@ public interface SVGPatternElement extends SVGElement, SVGURIReference, SVGTests
 		
 		private SVGAnimatedLength height;
 		
+		private boolean instantiated;
+		
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
 				SVGAnimatedString href,
 				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
@@ -87,6 +90,47 @@ public interface SVGPatternElement extends SVGElement, SVGURIReference, SVGTests
 			this.y = y;
 			this.width = width;
 			this.height = height;
+			instantiated = true;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+			instantiated = false;
+		}
+		
+		public void instantiatePattern(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGAnimatedString href,
+				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
+				String xmlLang, String xmlSpace,
+				SVGAnimatedBoolean externalResourcesRequired,
+				SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGAnimatedRect viewBox, SVGAnimatedPreserveAspectRatio preserveAspectRatio,
+				SVGAnimatedEnumeration patternUnits, SVGAnimatedEnumeration patternContentUnits, SVGAnimatedTransformList patternTransform,
+				SVGAnimatedLength x, SVGAnimatedLength y, SVGAnimatedLength width, SVGAnimatedLength height) {
+			instantiateBase(xmlBase, ownerSVGElement, viewportElement);
+			this.href = href;
+			this.requiredFeatures = requiredFeatures;
+			this.requiredExtensions = requiredExtensions;
+			this.systemLanguage = systemLanguage;
+			this.xmlLang = xmlLang;
+			this.xmlSpace = xmlSpace;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.className = className;
+			this.style = style;
+			this.viewBox = viewBox;
+			this.preserveAspectRatio = preserveAspectRatio;
+			this.patternUnits = patternUnits;
+			this.patternContentUnits = patternContentUnits;
+			this.patternTransform = patternTransform;
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+			instantiated = true;
+		}
+		
+		public boolean hasBeenInstantiated() {
+			return instantiated;
 		}
 
 		@Override

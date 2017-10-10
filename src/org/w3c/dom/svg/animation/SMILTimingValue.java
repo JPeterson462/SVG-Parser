@@ -338,7 +338,6 @@ public interface SMILTimingValue {
 		}
 		int plusMinus = text.indexOf('+') > -1 ? text.indexOf('+') : text.indexOf('-');
 		if (text.contains("begin") || text.contains("end")) {
-			System.out.println(text);
 			String rawIdValue = text.substring(0, Math.max(text.indexOf("."), 0));
 			String idValue = null;
 			if (rawIdValue.length() > 0) {
@@ -355,9 +354,7 @@ public interface SMILTimingValue {
 			return new SMILTimingSyncbaseValue.Implementation(idValue, suffix, sign, clockValue);
 		}
 		if ((plusMinus < 0 || text.indexOf('.') < plusMinus) && containsLetters(text)) {
-			System.out.println(text);
 			String rawIdValue = text.indexOf('.') >= 0 ? text.substring(0, text.indexOf(".")) : "";
-			System.out.println(rawIdValue);
 			String idValue = null;
 			if (rawIdValue.length() > 0) {
 				idValue = rawIdValue;

@@ -18,6 +18,7 @@ import org.w3c.dom.svg.parser.Attributes;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
+import org.w3c.dom.svg.parser.Settings;
 import org.w3c.dom.svg.parser.Tags;
 
 public class SVGFEGaussianBlurElementParser implements ElementParser<SVGFEGaussianBlurElement> {
@@ -82,10 +83,12 @@ public class SVGFEGaussianBlurElementParser implements ElementParser<SVGFEGaussi
 		HashMap<String, String> attributes = new HashMap<>();
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
-		attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
-		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
-		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
-		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+		if (Settings.WRITE_GAUSSIANBLUR_DIMENSIONS) {
+			attributes.put(Attributes.X, element.getX().getBaseValue().getValueAsString());
+			attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
+			attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
+			attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
+		}
 		attributes.put(Attributes.RESULT, element.getResult().getBaseValue());
 		attributes.put(Attributes.CLASS, element.getClassName().getBaseValue());
 		ElementParser.storeStyleFromAttributes(attributes, element.getStyle());
