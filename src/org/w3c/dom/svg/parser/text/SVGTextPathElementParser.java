@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
+import org.w3c.dom.svg.DelayedInstantiation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedLength;
@@ -14,14 +15,16 @@ import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.parser.Attributes;
+import org.w3c.dom.svg.parser.DelayedElementParser;
 import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
+import org.w3c.dom.svg.paths.SVGPathElement;
 import org.w3c.dom.svg.text.SVGTextContentElement;
 import org.w3c.dom.svg.text.SVGTextPathElement;
 
-public class SVGTextPathElementParser implements ElementParser<SVGTextPathElement> {
+public class SVGTextPathElementParser implements ElementParser<SVGTextPathElement>, DelayedElementParser<SVGTextPathElement> {
 
 	private HashMap<Short, String> lengthAdjust_enumToStr = new HashMap<>();
 	private HashMap<String, Short> lengthAdjust_strToEnum = new HashMap<>();
@@ -55,6 +58,13 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		if (textLengthStr.startsWith("-")) {
 			SVGErrors.error("Invalid Length: " + textLengthStr);
 		}
+		String id = ElementParser.read(element, Attributes.ID);
+		SVGPathElement linkedElement = (SVGPathElement) parsingState.getElement(href);
+		if (href != null && linkedElement == null) {
+			SVGTextPathElement svgElement = new SVGTextPathElement.Implementation(id);
+			parsingState.delayInstantiation(svgElement, element);
+			return svgElement;
+		}
 		SVGLength textLength = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
 		textLength.setValueAsString(textLengthStr);
 		SVGAnimatedLength atextLength = new SVGAnimatedLength.Implementation(textLength, textLength);
@@ -72,7 +82,6 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		short spacingValue = spacing_strToEnum.get(spacingStr);
 		SVGAnimatedEnumeration spacing = new SVGAnimatedEnumeration.Implementation(spacingValue, spacingValue);
 		// Get default values
-		String id = ElementParser.read(element, Attributes.ID);
 		String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
 		SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
 		SVGElement viewportElement = parsingState.getViewportElement();
@@ -95,12 +104,74 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
 		SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
 		SVGTextPathElement textPathElement = new SVGTextPathElement.Implementation(id, xmlBase, ownerSVGElement, viewportElement,
-				ahref, astartOffset, method, spacing, xmlLang, xmlSpace, className, style,
+				ahref, linkedElement, astartOffset, method, spacing, xmlLang, xmlSpace, className, style,
 				requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired,
 				atextLength, lengthAdjust);
 		textPathElement.setTextContent(element.getTextContent());
 		ElementParser.connectLengthRoots(textPathElement);
 		return textPathElement;
+	}
+	
+	@Override
+	public void readElement(SVGTextPathElement destination, Element element, ParsingState parsingState) {
+		if (destination.getClass().getAnnotation(DelayedInstantiation.class) != null) {
+			String href = ElementParser.read(element, Attributes.XLINK_HREF);
+			SVGAnimatedString ahref = new SVGAnimatedString.Implementation(href, href);
+			String textLengthStr = ElementParser.readOrDefault(element, Attributes.TEXT_LENGTH, "0");
+			if (textLengthStr.startsWith("-")) {
+				SVGErrors.error("Invalid Length: " + textLengthStr);
+			}
+			SVGPathElement linkedElement = (SVGPathElement) parsingState.getElement(href);
+			if (href != null && linkedElement == null) {
+				// Delay Instantiation
+				parsingState.delayInstantiation(destination, element);
+				return;
+			}
+			SVGLength textLength = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+			textLength.setValueAsString(textLengthStr);
+			SVGAnimatedLength atextLength = new SVGAnimatedLength.Implementation(textLength, textLength);
+			String lengthAdjustStr = ElementParser.readOrDefault(element, Attributes.LENGTH_ADJUST, "spacing");
+			short lengthAdjustEnum = lengthAdjust_strToEnum.get(lengthAdjustStr);
+			SVGAnimatedEnumeration lengthAdjust = new SVGAnimatedEnumeration.Implementation(lengthAdjustEnum, lengthAdjustEnum);
+			String startOffsetStr = ElementParser.readOrDefault(element, Attributes.START_OFFSET, "0");
+			SVGLength startOffset = new SVGLength.Implementation(SVGLength.SVG_LENGTHTYPE_UNKNOWN, 0, parsingState.getCurrentParent());
+			startOffset.setValueAsString(startOffsetStr);
+			SVGAnimatedLength astartOffset = new SVGAnimatedLength.Implementation(startOffset, startOffset);
+			String methodStr = ElementParser.readOrDefault(element, Attributes.METHOD, "align");
+			short methodValue = method_strToEnum.get(methodStr);
+			SVGAnimatedEnumeration method = new SVGAnimatedEnumeration.Implementation(methodValue, methodValue);
+			String spacingStr = ElementParser.readOrDefault(element, Attributes.SPACING, "exact");
+			short spacingValue = spacing_strToEnum.get(spacingStr);
+			SVGAnimatedEnumeration spacing = new SVGAnimatedEnumeration.Implementation(spacingValue, spacingValue);
+			// Get default values
+			String xmlBase = ElementParser.read(element, Attributes.XML_BASE);
+			SVGSVGElement ownerSVGElement = parsingState.getOwnerSVGElement();
+			SVGElement viewportElement = parsingState.getViewportElement();
+			String xmlLang = ElementParser.read(element, Attributes.XML_LANG);
+			if (xmlLang == null) {
+				xmlLang = "en";
+			}
+			String xmlSpace = ElementParser.read(element, Attributes.XML_SPACE);
+			if (xmlSpace == null) {
+				xmlSpace = "default";
+			}
+			String classNameAsString = ElementParser.read(element, Attributes.CLASS);
+			SVGAnimatedString className = new SVGAnimatedString.Implementation(classNameAsString, classNameAsString);
+			CSSStyleDeclarationImplementation style = new CSSStyleDeclarationImplementation(parsingState.findParentRule());
+			style.setCssText(ElementParser.readOrDefault(element, Attributes.STYLE, ""));
+			ElementParser.parseStyleFromAttributes(element, style);
+			SVGStringList requiredFeatures = ElementParser.readOrNull(element, Attributes.REQUIRED_FEATURES, " ", true);
+			SVGStringList requiredExtensions = ElementParser.readOrNull(element, Attributes.REQUIRED_EXTENSIONS, " ", true);
+			SVGStringList systemLanguage = ElementParser.readOrNull(element, Attributes.SYSTEM_LANGUAGE, " ", true);
+			boolean externalResourcesRequiredAsBoolean = Boolean.parseBoolean(ElementParser.readOrDefault(element, Attributes.EXTERNAL_RESOURCES_REQUIRED, Boolean.toString(false)));
+			SVGAnimatedBoolean externalResourcesRequired = new SVGAnimatedBoolean.Implementation(externalResourcesRequiredAsBoolean, externalResourcesRequiredAsBoolean);
+			destination.setTextContent(element.getTextContent());
+			((SVGTextPathElement.Implementation) destination).instantiateTextPath(xmlBase, ownerSVGElement, viewportElement,
+					ahref, linkedElement, astartOffset, method, spacing, xmlLang,
+					xmlSpace, className, style, requiredFeatures, requiredExtensions,
+					systemLanguage, externalResourcesRequired, atextLength, lengthAdjust);
+			ElementParser.connectLengthRoots(destination);
+		}
 	}
 
 	@Override
