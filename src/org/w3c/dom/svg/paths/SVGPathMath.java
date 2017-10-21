@@ -16,6 +16,23 @@ public class SVGPathMath {
 		
 	}
 	
+	public static SVGPoint getPointAtLength(float length, SVGPathSegList list) {
+		State state = new State();
+		state.point = new SVGPoint.Implementation(0, 0);
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			SVGPathSeg seg = list.getItem(i);
+			float segLength = getSegmentLength(seg, state);
+			if (length < segLength) {
+				transformPoint(seg, length, segLength, state);
+				return state.point;
+			} else {
+				length -= segLength;
+				transformPoint(seg, state);
+			}
+		}
+		return state.point;
+	}
+	
 	public static float getPathLength(SVGPathSegList list) {
 		State state = new State();
 		state.point = new SVGPoint.Implementation(0, 0);

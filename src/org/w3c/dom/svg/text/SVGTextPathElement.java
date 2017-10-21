@@ -1,6 +1,7 @@
 package org.w3c.dom.svg.text;
 
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.svg.DelayedInstantiation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedLength;
@@ -9,6 +10,7 @@ import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGURIReference;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.paths.SVGPathElement;
 
 public interface SVGTextPathElement extends SVGTextContentElement, SVGURIReference {
 	
@@ -40,6 +42,9 @@ public interface SVGTextPathElement extends SVGTextContentElement, SVGURIReferen
 	
 	public SVGAnimatedEnumeration getSpacing();
 	
+	public SVGPathElement getPath();
+	
+	@DelayedInstantiation
 	public static class Implementation extends SVGTextContentElement.Implementation implements SVGTextPathElement {
 
 		private SVGAnimatedString href;
@@ -47,9 +52,11 @@ public interface SVGTextPathElement extends SVGTextContentElement, SVGURIReferen
 		private SVGAnimatedLength startOffset;
 		
 		private SVGAnimatedEnumeration method, spacing;
+		
+		private SVGPathElement path;
 
 		public Implementation(String id, String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
-				SVGAnimatedString href,
+				SVGAnimatedString href, SVGPathElement path,
 				SVGAnimatedLength startOffset, SVGAnimatedEnumeration method, SVGAnimatedEnumeration spacing,
 				String xmlLang, String xmlSpace,
 				SVGAnimatedString className, CSSStyleDeclaration style,
@@ -58,6 +65,30 @@ public interface SVGTextPathElement extends SVGTextContentElement, SVGURIReferen
 				SVGAnimatedLength textLength, SVGAnimatedEnumeration lengthAdjust) {
 			super(id, xmlBase, ownerSVGElement, viewportElement, xmlLang, xmlSpace, className, style, requiredFeatures, requiredExtensions, systemLanguage, externalResourcesRequired, textLength, lengthAdjust);
 			this.href = href;
+			this.path = path;
+			this.startOffset = startOffset;
+			this.method = method;
+			this.spacing = spacing;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+		}
+		
+		public void instantiateTextPath(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				SVGAnimatedString href, SVGPathElement path,
+				SVGAnimatedLength startOffset, SVGAnimatedEnumeration method, SVGAnimatedEnumeration spacing,
+				String xmlLang, String xmlSpace,
+				SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
+				SVGAnimatedBoolean externalResourcesRequired,
+				SVGAnimatedLength textLength, SVGAnimatedEnumeration lengthAdjust) {
+			instantiateTextContent(xmlSpace, ownerSVGElement, viewportElement,
+					xmlLang, xmlSpace, className, style, requiredFeatures,
+					requiredExtensions, systemLanguage, externalResourcesRequired, 
+					textLength, lengthAdjust);
+			this.href = href;
+			this.path = path;
 			this.startOffset = startOffset;
 			this.method = method;
 			this.spacing = spacing;
@@ -81,6 +112,11 @@ public interface SVGTextPathElement extends SVGTextContentElement, SVGURIReferen
 		@Override
 		public SVGAnimatedEnumeration getSpacing() {
 			return spacing;
+		}
+
+		@Override
+		public SVGPathElement getPath() {
+			return path;
 		}
 
 	}

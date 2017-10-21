@@ -11,6 +11,7 @@ import java.util.HashMap;
 import com.digiturtle.util.Rect;
 
 import org.w3c.dom.DOMErrors;
+import org.w3c.dom.svg.DelayedInstantiation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
 import org.w3c.dom.svg.SVGAnimatedLength;
@@ -19,12 +20,14 @@ import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
+import org.w3c.dom.svg.SVGMath;
 import org.w3c.dom.svg.SVGPoint;
 import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGStylable;
 import org.w3c.dom.svg.SVGTests;
 import org.w3c.dom.svg.document.SVGSVGElement;
+import org.w3c.dom.svg.paths.SVGPathMath;
 
 public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStylable, SVGTests, SVGExternalResourcesRequired {
 
@@ -60,6 +63,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 	@SuppressWarnings("rawtypes")
 	public SVGFont getFontInUse();
 	
+	@DelayedInstantiation
 	public static class Implementation extends SVGElement.Implementation implements SVGTextContentElement {
 
 		private String xmlLang, xmlSpace;
@@ -83,6 +87,29 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 				SVGAnimatedBoolean externalResourcesRequired,
 				SVGAnimatedLength textLength, SVGAnimatedEnumeration lengthAdjust) {
 			super(id, xmlBase, ownerSVGElement, viewportElement);
+			this.xmlLang = xmlLang;
+			this.xmlSpace = xmlSpace;
+			this.className = className;
+			this.style = style;
+			this.requiredFeatures = requiredFeatures;
+			this.requiredExtensions = requiredExtensions;
+			this.systemLanguage = systemLanguage;
+			this.externalResourcesRequired = externalResourcesRequired;
+			this.textLength = textLength;
+			this.lengthAdjust = lengthAdjust;
+		}
+		
+		public Implementation(String id) {
+			super(id);
+		}
+		
+		public void instantiateTextContent(String xmlBase, SVGSVGElement ownerSVGElement, SVGElement viewportElement,
+				String xmlLang, String xmlSpace,
+				SVGAnimatedString className, CSSStyleDeclaration style,
+				SVGStringList requiredFeatures, SVGStringList requiredExtensions, SVGStringList systemLanguage,
+				SVGAnimatedBoolean externalResourcesRequired,
+				SVGAnimatedLength textLength, SVGAnimatedEnumeration lengthAdjust) {
+			instantiateBase(xmlBase, ownerSVGElement, viewportElement);
 			this.xmlLang = xmlLang;
 			this.xmlSpace = xmlSpace;
 			this.className = className;
@@ -192,19 +219,38 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 			return length;
 		}
 
+		private SVGPoint getCenterOfChar(long charnum) {// TODO: startOffset, method, and spacing need to be used when computing the path
+			if (this instanceof SVGTextPathElement) {
+				float substringLength = getSubStringLength(0, charnum);
+				return SVGPathMath.getPointAtLength(substringLength, ((SVGTextPathElement) this).getPath().getPathSegList());
+			} else {
+				// TODO
+				return null;
+			}
+		}
+		
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public SVGPoint getStartPositionOfChar(long charnum) throws DOMException {
-			// TODO Auto-generated method stub
-			if (charnum > 0) {
-				
-			}
-			return null;
+			SVGFont font = getFontInUse();
+			SVGPoint midpoint = getCenterOfChar(charnum);
+			HashMap<Character, Rect> bounds = font.getCharacterBounds();
+			Rect charBounds = bounds.get(getTextContent().charAt((int) charnum));
+			float length = SVGMath.sqrt(charBounds.getWidth() * charBounds.getWidth() + charBounds.getHeight() * charBounds.getHeight()) / 2;
+			float baseAngle = SVGMath.acos(charBounds.getHeight() / length), newAngle = -baseAngle + getRotationOfChar(charnum);
+			return new SVGPoint.Implementation(midpoint.getX() + SVGMath.cos(newAngle) * length, midpoint.getY() + SVGMath.sin(newAngle) * length);
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public SVGPoint getEndPositionOfChar(long charnum) throws DOMException {
-			// TODO Auto-generated method stub
-			return null;
+			SVGFont font = getFontInUse();
+			SVGPoint midpoint = getCenterOfChar(charnum);
+			HashMap<Character, Rect> bounds = font.getCharacterBounds();
+			Rect charBounds = bounds.get(getTextContent().charAt((int) charnum));
+			float length = SVGMath.sqrt(charBounds.getWidth() * charBounds.getWidth() + charBounds.getHeight() * charBounds.getHeight()) / 2;
+			float baseAngle = SVGMath.acos(charBounds.getHeight() / length), newAngle = baseAngle + getRotationOfChar(charnum);
+			return new SVGPoint.Implementation(midpoint.getX() + SVGMath.cos(newAngle) * length, midpoint.getY() + SVGMath.sin(newAngle) * length);
 		}
 
 		@Override
@@ -220,8 +266,10 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@Override
 		public float getRotationOfChar(long charnum) throws DOMException {
+			// TODO
 			if (this instanceof SVGTextPathElement) {
-				// TODO
+				SVGPoint center = getCenterOfChar(charnum);
+				// rotation based on path
 			}
 			return 0;
 		}
@@ -245,6 +293,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 			SVGErrors.error("Not supported: selectSubString()");
 		}
 
+		@SuppressWarnings("rawtypes")
 		@Override
 		public SVGFont getFontInUse() {
 			// TODO Auto-generated method stub
