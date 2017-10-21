@@ -3,6 +3,13 @@ package org.w3c.dom.svg.text;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
+import org.w3c.dom.fonts.SVGFont;
+import org.w3c.dom.fonts.SVGFontAttributes;
+
+import java.util.HashMap;
+
+import com.digiturtle.util.Rect;
+
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedEnumeration;
@@ -49,6 +56,9 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 	public long getCharNumAtPosition(SVGPoint point);
 	
 	public void selectSubString(long charnum, long nchars) throws DOMException;
+	
+	@SuppressWarnings("rawtypes")
+	public SVGFont getFontInUse();
 	
 	public static class Implementation extends SVGElement.Implementation implements SVGTextContentElement {
 
@@ -165,10 +175,21 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 			return getSubStringLength(0, getNumberOfChars());
 		}
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		@Override
 		public float getSubStringLength(long charnum, long nchars) throws DOMException {
-			// TODO
-			return 0;
+			SVGFont font = getFontInUse();
+			float length = 0;
+			for (long offset = 0; offset < nchars; offset++) {
+				HashMap<Character, Rect> bounds = font.getCharacterBounds();
+				Rect thisBounds = bounds.get(getTextContent().charAt((int) (charnum + offset)));
+				if (offset > 0) {
+					Rect lastBounds = bounds.get(getTextContent().charAt((int) (charnum + offset - 1)));
+					length += lastBounds.getAdvance().get(getTextContent().charAt((int) (charnum + offset - 1)));
+				}
+				length += thisBounds.getWidth();
+			}
+			return length;
 		}
 
 		@Override
@@ -200,8 +221,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@Override
 		public float getRotationOfChar(long charnum) throws DOMException {
 			if (this instanceof SVGTextPathElement) {
-				SVGPoint start = getStartPositionOfChar(charnum);
-				//TODO
+				// TODO
 			}
 			return 0;
 		}
@@ -223,6 +243,12 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@Override
 		public void selectSubString(long charnum, long nchars) throws DOMException {
 			SVGErrors.error("Not supported: selectSubString()");
+		}
+
+		@Override
+		public SVGFont getFontInUse() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}
