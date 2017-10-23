@@ -16,6 +16,68 @@ public class SVGPathMath {
 		
 	}
 	
+	public static float getRotationAtLength(float length, SVGPathSeg segment, State state) { // TODO
+		float currentX = state.point.getX(), currentY = state.point.getY();
+		float dx, dy;
+		switch (segment.getPathSegType()) {
+			case SVGPathSeg.PATHSEG_ARC_ABS:
+			case SVGPathSeg.PATHSEG_ARC_REL:
+			case SVGPathSeg.PATHSEG_CLOSEPATH:
+				dx = ((SVGPathSegLineToAbs) segment).getX() - currentX;
+				dy = ((SVGPathSegLineToAbs) segment).getY() - currentY;
+				return SVGMath.atan2(dy, dx);
+			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS:
+			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL:
+			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
+			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL:
+			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS:
+			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL:
+			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS:
+			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL:
+			case SVGPathSeg.PATHSEG_LINETO_ABS:
+				dx = ((SVGPathSegLineToAbs) segment).getX() - currentX;
+				dy = ((SVGPathSegLineToAbs) segment).getY() - currentY;
+				return SVGMath.atan2(dy, dx);
+			case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS:
+				dx = ((SVGPathSegLineToHorizontalAbs) segment).getX() - currentX;
+				return dx > 0 ? 0 : SVGMath.PI;
+			case SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS:
+				dy = ((SVGPathSegLineToVerticalAbs) segment).getY() - currentY;
+				return dy > 0 ? SVGMath.PI / 2 : -SVGMath.PI / 2;
+			case SVGPathSeg.PATHSEG_LINETO_REL:
+				SVGPathSegLineToRel lineToRel = (SVGPathSegLineToRel) segment;
+				return SVGMath.atan2(lineToRel.getY(), lineToRel.getX());
+			case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL:
+				SVGPathSegLineToHorizontalRel lineToHorizontalRel = (SVGPathSegLineToHorizontalRel) segment;
+				return lineToHorizontalRel.getX() > 0 ? 0 : SVGMath.PI;				
+			case SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL:
+				SVGPathSegLineToVerticalRel lineToVerticalRel = (SVGPathSegLineToVerticalRel) segment;
+				return lineToVerticalRel.getY() > 0 ? SVGMath.PI / 2 : -SVGMath.PI / 2;
+			case SVGPathSeg.PATHSEG_MOVETO_ABS:
+				return 0;
+			case SVGPathSeg.PATHSEG_MOVETO_REL:
+				return 0;
+			default:
+				return 0;
+		}
+	}
+	
+	public static SVGPoint getPathSegAtLength(float length, SVGPathSegList list, State state) {
+		state.point = new SVGPoint.Implementation(0, 0);
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			SVGPathSeg seg = list.getItem(i);
+			float segLength = getSegmentLength(seg, state);
+			if (length < segLength) {
+				transformPoint(seg, length, segLength, state);
+				return new SVGPoint.Implementation(i, length);
+			} else {
+				length -= segLength;
+				transformPoint(seg, state);
+			}
+		}
+		return null;
+	}
+	
 	public static SVGPoint getPointAtLength(float length, SVGPathSegList list) {
 		State state = new State();
 		state.point = new SVGPoint.Implementation(0, 0);

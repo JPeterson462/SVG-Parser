@@ -49,4 +49,8 @@ public class SVGMath {
 		return (float) Math.toRadians(degrees);
 	}
 
+	public static float atan2(float y, float x) {
+		return (float) Math.atan2(y, x);
+	}
+
 }
