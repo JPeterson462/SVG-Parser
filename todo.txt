@@ -6,8 +6,7 @@ Add batik license of computing the Arc2D
 
 TODO:
 -----
-Computing bounds for text elements
-SVGTextContentElement
+SVGFontRepository
 
 FUTURE:
 -------

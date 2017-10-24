@@ -6,7 +6,6 @@ import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.fonts.SVGFont;
-import org.w3c.dom.fonts.SVGFontAttributes;
 
 import java.util.HashMap;
 
@@ -21,6 +20,7 @@ import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
+import org.w3c.dom.svg.SVGFontRepository;
 import org.w3c.dom.svg.SVGLangSpace;
 import org.w3c.dom.svg.SVGLengthList;
 import org.w3c.dom.svg.SVGLocatable;
@@ -257,6 +257,9 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 						} else {
 							originalLength += bounds.getWidth() + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c));
 						}
+						if (dx != null) {
+							originalLength += dx.getItem(c).getValue();
+						}
 						lastChar = c;
 					}
 					float ratio = boundsWidth / originalLength;
@@ -272,6 +275,9 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 							length += bounds.getWidth();
 						} else {
 							length += bounds.getWidth() + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c));
+						}
+						if (dx != null) {
+							length += dx.getItem(c).getValue();
 						}
 						lastChar = c;
 					}
@@ -302,6 +308,9 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 						} else {
 							length += bounds.getWidth() + perSpaceWidth;
 						}
+						if (dx != null) {
+							length += dx.getItem(c).getValue();
+						}
 						lastChar = c;
 					}
 				}
@@ -320,6 +329,9 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 					} else {
 						length += bounds.getWidth() + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c));
 					}
+					if (dx != null) {
+						length += dx.getItem(c).getValue();
+					}
 					lastChar = c;
 				}
 			}
@@ -327,7 +339,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		}
 
 		@SuppressWarnings("rawtypes")
-		private SVGPoint getCenterOfChar(long charnum) {//TODO wrapping text
+		private SVGPoint getCenterOfChar(long charnum) {
 			SVGFont font = getFontInUse();
 			if (this instanceof SVGTextPathElement) {
 				float substringLength = getSubStringLength(0, charnum) - ((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() / 2;
@@ -416,8 +428,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@SuppressWarnings("rawtypes")
 		@Override
 		public SVGFont getFontInUse() {
-			// TODO Auto-generated method stub
-			return null;
+			return SVGFontRepository.getFont(this);
 		}
 		
 	}
