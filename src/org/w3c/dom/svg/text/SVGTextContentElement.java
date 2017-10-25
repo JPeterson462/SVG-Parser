@@ -21,6 +21,7 @@ import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGErrors;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGFontRepository;
+import org.w3c.dom.svg.SVGFontRepository.SVGFontDefinition;
 import org.w3c.dom.svg.SVGLangSpace;
 import org.w3c.dom.svg.SVGLengthList;
 import org.w3c.dom.svg.SVGLocatable;
@@ -64,8 +65,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 	
 	public void selectSubString(long charnum, long nchars) throws DOMException;
 	
-	@SuppressWarnings("rawtypes")
-	public SVGFont getFontInUse();
+	public SVGFontDefinition getFontInUse();
 	
 	@DelayedInstantiation
 	public static class Implementation extends SVGElement.Implementation implements SVGTextContentElement {
@@ -210,7 +210,9 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@Override
 		public float getSubStringLength(long charnum, long nchars) throws DOMException {
 			float length = 0;
-			SVGFont font = getFontInUse();
+			SVGFontDefinition fontDefinition = getFontInUse();
+			SVGFont font = fontDefinition.getFont();
+			float scale = fontDefinition.getScale();
 			boolean tSpanElement = this instanceof SVGTSpanElement;
 			CSSStyleDeclaration style = getStyle();
 			float kerningForced = 0, letterSpacingForced = 0, wordSpacingForced = 0;
@@ -227,12 +229,12 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 				}
 				CSSLengthValue letterSpacing = ((CSSLengthValue) style.getPropertyCSSValue(CSSPropertyNames.LETTER_SPACING));
 				if (letterSpacing != null && !letterSpacing.isNormal() && !letterSpacing.isInherit()) {
-					letterSpacingForced = letterSpacing.getValue().getValue() + kerningForced;
+					letterSpacingForced = (letterSpacing.getValue().getValue() + kerningForced) * scale;
 					setLetterSpacing = true;
 				}
 				CSSLengthValue wordSpacing = ((CSSLengthValue) style.getPropertyCSSValue(CSSPropertyNames.WORD_SPACING));
 				if (wordSpacing != null && !wordSpacing.isNormal() && !wordSpacing.isInherit()) {
-					wordSpacingForced = wordSpacing.getValue().getValue();
+					wordSpacingForced = wordSpacing.getValue().getValue() * scale;
 					setWordSpacing = true;
 				}
 			}
@@ -253,12 +255,12 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 							continue;
 						}
 						if (lastChar == 0) {
-							originalLength += bounds.getWidth();
+							originalLength += bounds.getWidth() * scale;
 						} else {
-							originalLength += bounds.getWidth() + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c));
+							originalLength += bounds.getWidth() * scale + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c) * scale);
 						}
 						if (dx != null) {
-							originalLength += dx.getItem(c).getValue();
+							originalLength += dx.getItem(c).getValue() * scale;
 						}
 						lastChar = c;
 					}
@@ -272,12 +274,12 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 							continue;
 						}
 						if (lastChar == 0) {
-							length += bounds.getWidth();
+							length += bounds.getWidth() * scale;
 						} else {
-							length += bounds.getWidth() + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c));
+							length += bounds.getWidth() * scale + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c) * scale);
 						}
 						if (dx != null) {
-							length += dx.getItem(c).getValue();
+							length += dx.getItem(c).getValue() * scale;
 						}
 						lastChar = c;
 					}
@@ -289,7 +291,7 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 						for (long charval = 0; charval < getNumberOfChars(); charval++) {
 							char c = getTextContent().charAt((int) charval);
 							Rect bounds = (Rect) font.getCharacterBounds().get(c);
-							glyphWidth += bounds.getWidth();
+							glyphWidth += bounds.getWidth() * scale;
 						}
 						float totalSpacingWidth = boundsWidth - glyphWidth;
 						perSpaceWidth = totalSpacingWidth / (getNumberOfChars() - 1);
@@ -304,12 +306,12 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 							continue;
 						}
 						if (lastChar == 0) {
-							length += bounds.getWidth();
+							length += bounds.getWidth() * scale;
 						} else {
-							length += bounds.getWidth() + perSpaceWidth;
+							length += bounds.getWidth() * scale + perSpaceWidth;
 						}
 						if (dx != null) {
-							length += dx.getItem(c).getValue();
+							length += dx.getItem(c).getValue() * scale;
 						}
 						lastChar = c;
 					}
@@ -325,12 +327,12 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 						continue;
 					}
 					if (lastChar == 0) {
-						length += bounds.getWidth();
+						length += bounds.getWidth() * scale;
 					} else {
-						length += bounds.getWidth() + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c));
+						length += bounds.getWidth() * scale + (setLetterSpacing ? letterSpacingForced : ((Rect) font.getCharacterBounds().get(lastChar)).getAdvance().get(c) * scale);
 					}
 					if (dx != null) {
-						length += dx.getItem(c).getValue();
+						length += dx.getItem(c).getValue() * scale;
 					}
 					lastChar = c;
 				}
@@ -340,14 +342,16 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 
 		@SuppressWarnings("rawtypes")
 		private SVGPoint getCenterOfChar(long charnum) {
-			SVGFont font = getFontInUse();
+			SVGFontDefinition fontDefinition = getFontInUse();
+			SVGFont font = fontDefinition.getFont();
+			float scale = fontDefinition.getScale();
 			if (this instanceof SVGTextPathElement) {
-				float substringLength = getSubStringLength(0, charnum) - ((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() / 2;
+				float substringLength = getSubStringLength(0, charnum) - (((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() * scale) / 2;
 				return SVGPathMath.getPointAtLength(substringLength, ((SVGTextPathElement) this).getPath().getPathSegList());
 			} else {
 				SVGRect bounds = ((SVGLocatable) this.getParentNode()).getBBox();
-				float substringLength = getSubStringLength(0, charnum) - ((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() / 2;
-				float y = ((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getHeight() / 2;
+				float substringLength = getSubStringLength(0, charnum) - (((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() * scale) / 2;
+				float y = (((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getHeight() * scale) / 2;
 				return new SVGPoint.Implementation(substringLength + bounds.getX(), y + bounds.getY());
 			}
 		}
@@ -355,11 +359,13 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public SVGPoint getStartPositionOfChar(long charnum) throws DOMException {
-			SVGFont font = getFontInUse();
+			SVGFontDefinition fontDefinition = getFontInUse();
+			SVGFont font = fontDefinition.getFont();
+			float scale = fontDefinition.getScale();
 			SVGPoint midpoint = getCenterOfChar(charnum);
 			HashMap<Character, Rect> bounds = font.getCharacterBounds();
 			Rect charBounds = bounds.get(getTextContent().charAt((int) charnum));
-			float length = SVGMath.sqrt(charBounds.getWidth() * charBounds.getWidth() + charBounds.getHeight() * charBounds.getHeight()) / 2;
+			float length = SVGMath.sqrt(charBounds.getWidth() * scale * charBounds.getWidth() * scale + charBounds.getHeight() * scale * charBounds.getHeight() * scale) / 2;
 			float baseAngle = SVGMath.acos(charBounds.getHeight() / length), newAngle = -baseAngle + getRotationOfChar(charnum);
 			return new SVGPoint.Implementation(midpoint.getX() + SVGMath.cos(newAngle) * length, midpoint.getY() + SVGMath.sin(newAngle) * length);
 		}
@@ -367,11 +373,13 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public SVGPoint getEndPositionOfChar(long charnum) throws DOMException {
-			SVGFont font = getFontInUse();
+			SVGFontDefinition fontDefinition = getFontInUse();
+			SVGFont font = fontDefinition.getFont();
+			float scale = fontDefinition.getScale();
 			SVGPoint midpoint = getCenterOfChar(charnum);
 			HashMap<Character, Rect> bounds = font.getCharacterBounds();
 			Rect charBounds = bounds.get(getTextContent().charAt((int) charnum));
-			float length = SVGMath.sqrt(charBounds.getWidth() * charBounds.getWidth() + charBounds.getHeight() * charBounds.getHeight()) / 2;
+			float length = SVGMath.sqrt(charBounds.getWidth() * scale * charBounds.getWidth() * scale + charBounds.getHeight() * scale * charBounds.getHeight() * scale) / 2;
 			float baseAngle = SVGMath.acos(charBounds.getHeight() / length), newAngle = baseAngle + getRotationOfChar(charnum);
 			return new SVGPoint.Implementation(midpoint.getX() + SVGMath.cos(newAngle) * length, midpoint.getY() + SVGMath.sin(newAngle) * length);
 		}
@@ -391,8 +399,10 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 		@Override
 		public float getRotationOfChar(long charnum) throws DOMException {
 			if (this instanceof SVGTextPathElement) {
-				SVGFont font = getFontInUse();
-				float substringLength = getSubStringLength(0, charnum) - ((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() / 2;
+				SVGFontDefinition fontDefinition = getFontInUse();
+				SVGFont font = fontDefinition.getFont();
+				float scale = fontDefinition.getScale();
+				float substringLength = getSubStringLength(0, charnum) - (((Rect) font.getCharacterBounds().get(getTextContent().charAt((int) charnum))).getWidth() * scale) / 2;
 				SVGPathMath.State state = new SVGPathMath.State();
 				SVGPoint pathSegAndLength = SVGPathMath.getPathSegAtLength(substringLength, ((SVGTextPathElement) this).getPath().getPathSegList(), state);
 				state.point.setX(0);
@@ -425,9 +435,8 @@ public interface SVGTextContentElement extends SVGElement, SVGLangSpace, SVGStyl
 			SVGErrors.error("Not supported: selectSubString()");
 		}
 
-		@SuppressWarnings("rawtypes")
 		@Override
-		public SVGFont getFontInUse() {
+		public SVGFontDefinition getFontInUse() {
 			return SVGFontRepository.getFont(this);
 		}
 		

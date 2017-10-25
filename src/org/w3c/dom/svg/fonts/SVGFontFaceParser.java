@@ -20,6 +20,8 @@ import org.w3c.dom.svg.parser.ParsingState;
 
 public class SVGFontFaceParser {
 
+	public static final String LOCAL_FLAG = "local$:";
+	
 	private HashMap<String, Short> fontStyle_strToEnum = new HashMap<>();
 	private HashMap<Short, String> fontStyle_enumToStr = new HashMap<>();
 	
@@ -206,7 +208,7 @@ public class SVGFontFaceParser {
 				}
 				if (value.startsWith("local(")) {
 					path = value.substring("local(".length(), value.length() - ")".length());
-					path = path.replaceAll("\"", "");
+					path = LOCAL_FLAG + path.replaceAll("\"", "");
 				} else {
 					path = value;
 				}

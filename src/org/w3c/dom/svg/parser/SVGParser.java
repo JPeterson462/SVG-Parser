@@ -22,18 +22,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.fonts.SVGFontParser;
 import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGFontRepository;
 import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.animation.SVGAnimationElement;
 import org.w3c.dom.svg.document.SVGRenderingState;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.document.SVGUseElement;
+import org.w3c.dom.svg.fonts.SVGFontElement;
 
 public class SVGParser {
 	
 	@SuppressWarnings("rawtypes")
-	public SVGSVGElement readDocument(InputStream stream, SVGRenderingState renderingState, SVGClock clock) throws Exception {
+	public SVGSVGElement readDocument(InputStream stream, SVGRenderingState renderingState, SVGClock clock, SVGFontParser fontParser) throws Exception {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse(stream);
@@ -49,7 +52,13 @@ public class SVGParser {
 				if (element instanceof SVGAnimationElement) {
 					((SVGAnimationElement) element).searchForTargetElement(parsingState::getElement);
 				}
+				if (element instanceof SVGFontElement) {
+					SVGFontRepository.registerFontDefinition((SVGFontElement) element);
+				}
 			});
+			for (int i = 0; i < parsingState.getNumberOfStylesheets(); i++) {
+				SVGFontRepository.registerFontDefinitions(parsingState.getStyleSheet(i), fontParser);
+			}
 			parsingState.processDelayedInstantiation((tag) -> (DelayedElementParser) Parsers.getParser(tag));
 			SVGLength.Pool.calculate();
 			parsingState.traverseHierarchy(element -> {

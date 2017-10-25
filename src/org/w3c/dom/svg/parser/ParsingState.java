@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSRule;
+import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.css.impl.CSSStyleSheetImplementation;
 import org.w3c.dom.css.impl.MediaListImplementation;
 import org.w3c.dom.stylesheets.StyleSheet;
@@ -79,6 +80,14 @@ public class ParsingState {
 		CSSStyleSheetImplementation stylesheet = new CSSStyleSheetImplementation(null, false, null, new MediaListImplementation(), ownerSVGElement, null, null, null, null, this);
 		stylesheet.setCssText(cssText);
 		stylesheets.add(stylesheet);
+	}
+	
+	public CSSStyleSheet getStyleSheet(int index) {
+		return (CSSStyleSheet) stylesheets.get(index);
+	}
+	
+	public int getNumberOfStylesheets() {
+		return stylesheets.size();
 	}
 	
 	public StyleSheetList toStyleSheetList() {
