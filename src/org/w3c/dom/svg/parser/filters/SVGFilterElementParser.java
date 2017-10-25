@@ -219,7 +219,9 @@ public class SVGFilterElementParser implements ElementParser<SVGFilterElement>, 
 		attributes.put(Attributes.Y, element.getY().getBaseValue().getValueAsString());
 		attributes.put(Attributes.WIDTH, element.getWidth().getBaseValue().getValueAsString());
 		attributes.put(Attributes.HEIGHT, element.getHeight().getBaseValue().getValueAsString());
-		attributes.put(Attributes.FILTER_RES, Long.toString(element.getFilterResX().getBaseValue()) + " " + Long.toString(element.getFilterResY().getBaseValue()));
+		if (element.getFilterResX().getBaseValue() > 0 || element.getFilterResY().getBaseValue() > 0) {
+			attributes.put(Attributes.FILTER_RES, Long.toString(element.getFilterResX().getBaseValue()) + " " + Long.toString(element.getFilterResY().getBaseValue()));
+		}
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
 		attributes.put(Attributes.XML_LANG, element.getXMLLang());

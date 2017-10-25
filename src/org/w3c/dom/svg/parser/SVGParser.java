@@ -31,7 +31,7 @@ import org.w3c.dom.svg.animation.SVGAnimationElement;
 import org.w3c.dom.svg.document.SVGRenderingState;
 import org.w3c.dom.svg.document.SVGSVGElement;
 import org.w3c.dom.svg.document.SVGUseElement;
-import org.w3c.dom.svg.fonts.SVGFontElement;
+import org.w3c.dom.svg.fonts.SVGFontFaceElement;
 
 public class SVGParser {
 	
@@ -52,8 +52,8 @@ public class SVGParser {
 				if (element instanceof SVGAnimationElement) {
 					((SVGAnimationElement) element).searchForTargetElement(parsingState::getElement);
 				}
-				if (element instanceof SVGFontElement) {
-					SVGFontRepository.registerFontDefinition((SVGFontElement) element);
+				if (element instanceof SVGFontFaceElement) {
+					SVGFontRepository.registerFontDefinition((SVGFontFaceElement) element, fontParser);
 				}
 			});
 			for (int i = 0; i < parsingState.getNumberOfStylesheets(); i++) {

@@ -3,6 +3,8 @@ package org.w3c.dom.svg.parser.text;
 import java.util.HashMap;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.css.impl.CSSPropertyNames;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -24,8 +26,11 @@ import org.w3c.dom.svg.parser.ElementFactory;
 import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
+import org.w3c.dom.svg.text.SVGTRefElement;
+import org.w3c.dom.svg.text.SVGTSpanElement;
 import org.w3c.dom.svg.text.SVGTextContentElement;
 import org.w3c.dom.svg.text.SVGTextElement;
+import org.w3c.dom.svg.text.SVGTextPathElement;
 
 public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 
@@ -129,11 +134,23 @@ public class SVGTextElementParser implements ElementParser<SVGTextElement> {
 		attributes.put(Attributes.TRANSFORM, ElementParser.getTransforms(element.getTransform()));
 		attributes.put(Attributes.FONT_SIZE, element.getStyle().getPropertyValue(CSSPropertyNames.FONT_SIZE));
 		Element textElement = factory.createElement(Tags.TEXT, attributes);
-		if (element.getChildNodes().getLength() == 0) {
+		if (!hasChildTextElement(element)) {
 			// Only write the <text> content if there aren't child nodes like <tspan>
 			textElement.setTextContent(element.getTextContent());
 		}
 		return textElement;
+	}
+	
+	private boolean hasChildTextElement(SVGElement element) {
+		NodeList children = element.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child instanceof SVGTextElement || child instanceof SVGTextPathElement || 
+					child instanceof SVGTRefElement || child instanceof SVGTSpanElement) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.w3c.dom.NodeList;
+import org.w3c.dom.fonts.opengl.GLSVGFontParser;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGRect;
 import org.w3c.dom.svg.document.SVGRenderingState;
@@ -17,9 +18,7 @@ public class TestSVG1 {
 	public static void main(String[] args) throws Exception {
 		SVGParser parser = new SVGParser();
 		final String SVG_FILE = "svg-files/svg2009";
-		// juanmontoya_lingerie, 
-		// gump-bench,
-		// compuserver_msn_Ford_Focus, svg2009
+		// gump-bench, compuserver_msn_Ford_Focus, svg2009
 		if (!Parsers.hasRegistered()) Parsers.registerParsers();
 		FileInputStream stream = new FileInputStream(SVG_FILE + ".svg");
 		SVGRenderingState renderingState = new SVGRenderingState() {
@@ -56,9 +55,9 @@ public class TestSVG1 {
 			
 		};
 		long s = System.nanoTime();
-		SVGSVGElement element = parser.readDocument(stream, renderingState, () -> System.currentTimeMillis() / 1000f);
+		SVGSVGElement element = parser.readDocument(stream, renderingState, () -> System.currentTimeMillis() / 1000f, new GLSVGFontParser());
 		System.out.println((System.nanoTime() - s)/1_000_000 + "ms");
-		parser.writeDocument(element, new FileOutputStream(SVG_FILE + "-output1.svg"), false);
+		parser.writeDocument(element, new FileOutputStream(SVG_FILE + "-output.svg"), false);
 //		System.out.println(element);
 	}
 

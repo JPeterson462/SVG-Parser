@@ -216,8 +216,8 @@ public class SVGAnimateElementParser implements ElementParser<SVGAnimateElement>
 			attributes.put(Attributes.MAX, element.getMax().getValue());
 		}
 		attributes.put(Attributes.RESTART, restart_enumToStr.get(element.getRestart()));
-		attributes.put(Attributes.REPEAT_COUNT, element.isRepeatIndefinite() ? "indefinite" : Float.toString(element.getRepeatCount().getValue()));
 		if (element.getRepeatDuration() != null) {
+			attributes.put(Attributes.REPEAT_COUNT, element.isRepeatIndefinite() ? "indefinite" : Float.toString(element.getRepeatCount().getValue()));
 			attributes.put(Attributes.REPEAT_DUR, element.getRepeatDuration().getValue());
 		}
 		attributes.put(Attributes.FILL, fill_enumToStr.get(element.getFill()));

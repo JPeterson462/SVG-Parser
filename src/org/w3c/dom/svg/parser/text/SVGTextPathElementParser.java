@@ -3,6 +3,8 @@ package org.w3c.dom.svg.parser.text;
 import java.util.HashMap;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.css.impl.CSSStyleDeclarationImplementation;
 import org.w3c.dom.svg.DelayedInstantiation;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
@@ -21,7 +23,10 @@ import org.w3c.dom.svg.parser.ElementParser;
 import org.w3c.dom.svg.parser.ParsingState;
 import org.w3c.dom.svg.parser.Tags;
 import org.w3c.dom.svg.paths.SVGPathElement;
+import org.w3c.dom.svg.text.SVGTRefElement;
+import org.w3c.dom.svg.text.SVGTSpanElement;
 import org.w3c.dom.svg.text.SVGTextContentElement;
+import org.w3c.dom.svg.text.SVGTextElement;
 import org.w3c.dom.svg.text.SVGTextPathElement;
 
 public class SVGTextPathElementParser implements ElementParser<SVGTextPathElement>, DelayedElementParser<SVGTextPathElement> {
@@ -177,7 +182,9 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 	@Override
 	public Element writeElement(SVGTextPathElement element, ElementFactory factory) {
 		HashMap<String, String> attributes = new HashMap<>();
-		attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
+		if (element.getTextLength().getBaseValue().getValue() > 0) {
+			attributes.put(Attributes.TEXT_LENGTH, element.getTextLength().getBaseValue().getValueAsString());
+		}
 		attributes.put(Attributes.LENGTH_ADJUST, lengthAdjust_enumToStr.get(element.getLengthAdjust().getBaseValue()));
 		attributes.put(Attributes.ID, element.getID());
 		attributes.put(Attributes.XML_BASE, element.getXMLBase());
@@ -195,11 +202,23 @@ public class SVGTextPathElementParser implements ElementParser<SVGTextPathElemen
 		attributes.put(Attributes.METHOD, method_enumToStr.get(element.getMethod().getBaseValue()));
 		attributes.put(Attributes.SPACING, spacing_enumToStr.get(element.getSpacing().getBaseValue()));
 		Element textPathElement = factory.createElement(Tags.TEXT_PATH, attributes);
-		if (element.getChildNodes().getLength() == 0) {
+		if (!hasChildTextElement(element)) {
 			// Only write the <text> content if there aren't child nodes like <tspan>
 			textPathElement.setTextContent(element.getTextContent());
 		}
 		return textPathElement;
 	}
-
+	
+	private boolean hasChildTextElement(SVGElement element) {
+		NodeList children = element.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child instanceof SVGTextElement || child instanceof SVGTextPathElement || 
+					child instanceof SVGTRefElement || child instanceof SVGTSpanElement) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
