@@ -1,29 +1,8 @@
-https://www.w3.org/TR/SVG/types.html#InterfaceSVGElement
-https://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSRule
-
-Add license https://github.com/regebro/svg.path/blob/master/LICENSE.txt
-Add batik license of computing the Arc2D
-
-TODO:
------
-SVGFontRepository
-
-FUTURE:
--------
-Readonly elements/attributes?
-Documentation
-Validate setting of constants?
-For implementations duplicate() should it recurse?
-Better adoptNode() implementation
-Validate SVG using required features and extensions
-Support for calc()
-Parsing JavaScript
-
 * = work in progress
 + = done
 . = not handled
 
-*	1. Implementations
++	1. Implementations
 +	2. Parser (Reader)
 	3. Renderer
 +	4. Writer

@@ -17,7 +17,7 @@ public class TestSVG1 {
 	// https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/
 	public static void main(String[] args) throws Exception {
 		SVGParser parser = new SVGParser();
-		final String SVG_FILE = "svg-files/svg2009";
+		final String SVG_FILE = "svg-files/compuserver_msn_Ford_Focus";
 		// gump-bench, compuserver_msn_Ford_Focus, svg2009
 		if (!Parsers.hasRegistered()) Parsers.registerParsers();
 		FileInputStream stream = new FileInputStream(SVG_FILE + ".svg");
