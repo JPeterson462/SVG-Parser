@@ -3,9 +3,11 @@ package org.w3c.dom.css.impl.values;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSAngleValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.svg.SVGAngle;
 
-public class CSSAngleValueImplementation implements CSSAngleValue {
+public class CSSAngleValueImplementation implements CSSAngleValue, CSSTypedValue {
 	
 	private static final int STATE_INHERIT = 0, STATE_AUTO = 1, STATE_VALUE = 2;
 	
@@ -64,6 +66,11 @@ public class CSSAngleValueImplementation implements CSSAngleValue {
 	@Override
 	public boolean isInherit() {
 		return state == STATE_INHERIT;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.ANGLE;
 	}
 
 }

@@ -3,9 +3,11 @@ package org.w3c.dom.css.impl.values;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSEnableBackgroundValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.svg.parser.ElementParser;
 
-public class CSSEnableBackgroundValueImplementation implements CSSEnableBackgroundValue {
+public class CSSEnableBackgroundValueImplementation implements CSSEnableBackgroundValue, CSSTypedValue {
 
 	private String cssText;
 	
@@ -85,6 +87,11 @@ public class CSSEnableBackgroundValueImplementation implements CSSEnableBackgrou
 	@Override
 	public float getHeight() {
 		return height;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.ENABLE_BACKGROUND;
 	}
 
 }

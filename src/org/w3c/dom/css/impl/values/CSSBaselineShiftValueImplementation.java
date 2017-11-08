@@ -2,11 +2,13 @@ package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSBaselineShiftValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.Connected;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 
-public class CSSBaselineShiftValueImplementation implements CSSBaselineShiftValue, Connected {
+public class CSSBaselineShiftValueImplementation implements CSSBaselineShiftValue, Connected, CSSTypedValue {
 
 	private SVGLength length;
 	
@@ -63,6 +65,11 @@ public class CSSBaselineShiftValueImplementation implements CSSBaselineShiftValu
 	@Override
 	public SVGLength getLength() {
 		return length;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.BASELINE_SHIFT;
 	}
 
 }

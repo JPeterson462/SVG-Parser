@@ -3,12 +3,14 @@ package org.w3c.dom.css.impl.values;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSShapeValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.Connected;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 
 // The only supported shape is a rectangle
-public class CSSShapeValueImplementation implements CSSShapeValue, Connected {
+public class CSSShapeValueImplementation implements CSSShapeValue, Connected, CSSTypedValue {
 	
 	private String cssText;
 	
@@ -152,6 +154,11 @@ public class CSSShapeValueImplementation implements CSSShapeValue, Connected {
 	@Override
 	public boolean isLeftAuto() {
 		return leftAuto;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.SHAPE;
 	}
 
 }

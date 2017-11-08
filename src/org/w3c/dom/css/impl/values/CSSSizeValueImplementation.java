@@ -2,11 +2,13 @@ package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSSizeValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.Connected;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 
-public class CSSSizeValueImplementation implements CSSSizeValue, Connected {
+public class CSSSizeValueImplementation implements CSSSizeValue, Connected, CSSTypedValue {
 	
 	private CSSSize size;
 	
@@ -76,6 +78,11 @@ public class CSSSizeValueImplementation implements CSSSizeValue, Connected {
 	@Override
 	public boolean isInherit() {
 		return cssText.equals("inherit");
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.SIZE;
 	}
 
 }

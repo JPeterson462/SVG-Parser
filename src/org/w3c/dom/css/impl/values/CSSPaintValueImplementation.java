@@ -2,10 +2,12 @@ package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPaintValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGPaint;
 
-public class CSSPaintValueImplementation implements CSSPaintValue {
+public class CSSPaintValueImplementation implements CSSPaintValue, CSSTypedValue {
 	
 	private String cssText;
 	
@@ -96,6 +98,11 @@ public class CSSPaintValueImplementation implements CSSPaintValue {
 	@Override
 	public String getPaintUri() {
 		return paintUri;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.PAINT;
 	}
 
 }

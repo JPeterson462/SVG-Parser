@@ -7,10 +7,12 @@ import org.w3c.dom.css.CSSFontDefinitionValue;
 import org.w3c.dom.css.CSSLengthValue;
 import org.w3c.dom.css.CSSSizeValue;
 import org.w3c.dom.css.CSSStringListValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.impl.CSSEnums;
 import org.w3c.dom.css.impl.StringUtils;
 
-public class CSSFontDefinitionValueImplementation implements CSSFontDefinitionValue {
+public class CSSFontDefinitionValueImplementation implements CSSFontDefinitionValue, CSSTypedValue {
 
 	private String cssText;
 	
@@ -157,6 +159,11 @@ public class CSSFontDefinitionValueImplementation implements CSSFontDefinitionVa
 	@Override
 	public CSSStringListValue getFontFamily() {
 		return fontFamily;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.FONT_DEFINITION;
 	}
 
 }

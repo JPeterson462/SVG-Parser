@@ -3,11 +3,13 @@ package org.w3c.dom.css.impl.values;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSLengthValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.Connected;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 
-public class CSSLengthValueImplementation implements CSSLengthValue, Connected {
+public class CSSLengthValueImplementation implements CSSLengthValue, Connected, CSSTypedValue {
 	
 	public static final int VALUE_AUTO = 1 << 0;
 	public static final int VALUE_NORMAL = 1 << 1;
@@ -86,6 +88,11 @@ public class CSSLengthValueImplementation implements CSSLengthValue, Connected {
 	@Override
 	public int getValueFlags() {
 		return valueFlags;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.LENGTH;
 	}
 
 }

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSDashArrayValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.Connected;
 import org.w3c.dom.svg.SVGElement;
 import org.w3c.dom.svg.SVGLength;
 import org.w3c.dom.svg.SVGLengthList;
 
-public class CSSDashArrayValueImplementation implements CSSDashArrayValue, Connected {
+public class CSSDashArrayValueImplementation implements CSSDashArrayValue, Connected, CSSTypedValue {
 	
 	private SVGLengthList dashArray;
 	
@@ -84,6 +86,11 @@ public class CSSDashArrayValueImplementation implements CSSDashArrayValue, Conne
 	@Override
 	public boolean isNone() {
 		return cssText.equals("none");
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.DASH_ARRAY;
 	}
 
 }

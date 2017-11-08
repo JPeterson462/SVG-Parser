@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.CSSTypedValue;
 import org.w3c.dom.css.CSSValue;
 
 public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
@@ -57,6 +58,14 @@ public class CSSStyleDeclarationImplementation implements CSSStyleDeclaration {
 	@Override
 	public CSSRule getParentRule() {
 		return parentRule;
+	}
+	
+	public org.w3c.dom.css.CSSValueType getPropertyType(String propertyName) {
+		CSSValue value = getPropertyCSSValue(propertyName);
+		if (value != null && value instanceof CSSTypedValue) {
+			return ((CSSTypedValue) value).getType();
+		}
+		return org.w3c.dom.css.CSSValueType.UNKNOWN;
 	}
 	
 	@Override

@@ -2,9 +2,11 @@ package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSIRIValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.impl.StringUtils;
 
-public class CSSIRIValueImplementation implements CSSIRIValue {
+public class CSSIRIValueImplementation implements CSSIRIValue, CSSTypedValue {
 	
 	private String value;
 
@@ -51,6 +53,11 @@ public class CSSIRIValueImplementation implements CSSIRIValue {
 			state = STATE_IRI;
 			value = StringUtils.parseUri(text);
 		}
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.IRI;
 	}
 
 }

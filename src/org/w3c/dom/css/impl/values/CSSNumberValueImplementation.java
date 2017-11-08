@@ -3,8 +3,10 @@ package org.w3c.dom.css.impl.values;
 import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSNumberValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 
-public class CSSNumberValueImplementation implements CSSNumberValue {
+public class CSSNumberValueImplementation implements CSSNumberValue, CSSTypedValue {
 	
 	private float value;
 	
@@ -66,6 +68,11 @@ public class CSSNumberValueImplementation implements CSSNumberValue {
 	@Override
 	public boolean isInherit() {
 		return cssText.equals("inherit");
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.NUMBER;
 	}
 
 }

@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSAdvancedColorValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.svg.Colors;
 import org.w3c.dom.svg.SVGException;
 import org.w3c.dom.svg.SVGRegex;
 import org.w3c.dom.svg.impl.RGBColorImplementation;
 
-public class CSSAdvancedColorValueImplementation implements CSSAdvancedColorValue {
+public class CSSAdvancedColorValueImplementation implements CSSAdvancedColorValue, CSSTypedValue {
 
 	private RGBColor rgbColor;
 	
@@ -175,6 +177,11 @@ public class CSSAdvancedColorValueImplementation implements CSSAdvancedColorValu
 		} else {
 			throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid ICC color code.");
 		}
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.ADVANCED_COLOR;
 	}
 	
 }

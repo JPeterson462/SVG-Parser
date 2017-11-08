@@ -2,8 +2,10 @@ package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSStringListValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 
-public class CSSStringListValueImplementation implements CSSStringListValue {
+public class CSSStringListValueImplementation implements CSSStringListValue, CSSTypedValue {
 	
 	private String cssText, values[];
 
@@ -35,6 +37,11 @@ public class CSSStringListValueImplementation implements CSSStringListValue {
 	@Override
 	public boolean isInherit() {
 		return values == null;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.STRING_LIST;
 	}
 
 }

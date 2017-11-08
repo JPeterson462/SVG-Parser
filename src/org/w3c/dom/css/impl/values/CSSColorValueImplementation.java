@@ -2,13 +2,15 @@ package org.w3c.dom.css.impl.values;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSColorValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.RGBColor;
 import org.w3c.dom.svg.Colors;
 import org.w3c.dom.svg.SVGException;
 import org.w3c.dom.svg.SVGRegex;
 import org.w3c.dom.svg.impl.RGBColorImplementation;
 
-public class CSSColorValueImplementation implements CSSColorValue {
+public class CSSColorValueImplementation implements CSSColorValue, CSSTypedValue {
 	
 	private RGBColor rgbColor;
 	
@@ -177,6 +179,11 @@ public class CSSColorValueImplementation implements CSSColorValue {
 			throw new SVGException(SVGException.SVG_INVALID_VALUE_ERR, "Invalid color name.");
 		}
 		return new RGBColorImplementation(red, green, blue);
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.COLOR;
 	}
 
 }

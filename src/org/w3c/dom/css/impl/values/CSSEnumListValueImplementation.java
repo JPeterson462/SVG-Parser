@@ -2,13 +2,14 @@ package org.w3c.dom.css.impl.values;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSEnumListValue;
+import org.w3c.dom.css.CSSTypedValue;
+import org.w3c.dom.css.CSSValueType;
 import org.w3c.dom.css.impl.StringUtils;
 import org.w3c.dom.svg.SVGErrors;
 
-public class CSSEnumListValueImplementation implements CSSEnumListValue {
+public class CSSEnumListValueImplementation implements CSSEnumListValue, CSSTypedValue {
 
 	private String cssText;
 	
@@ -79,6 +80,11 @@ public class CSSEnumListValueImplementation implements CSSEnumListValue {
 	@Override
 	public String[] getPossibleListValues() {
 		return possibleListValues;
+	}
+
+	@Override
+	public CSSValueType getType() {
+		return CSSValueType.ENUM_LIST;
 	}
 
 }
