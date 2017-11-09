@@ -47,6 +47,7 @@ public class CSSProperties {
 		declaration.storeValue(CSSPropertyNames.DOMINANT_BASELINE, createEnum(CSSEnums.DOMINANT_BASELINE_VALUES, "auto"));
 		declaration.storeValue(CSSPropertyNames.ENABLE_BACKGROUND, createEnableBackground("accumulate"));
 		declaration.storeValue(CSSPropertyNames.STROKE, createPaint("black"));
+		declaration.storeValue(CSSPropertyNames.FILL, createPaint("none"));
 		declaration.storeValue(CSSPropertyNames.FILL_OPACITY, createNumber("1", CSSNumberValue.NUMBER_INHERIT));
 		declaration.storeValue(CSSPropertyNames.FILL_RULE, createEnum(CSSEnums.FILL_RULE_VALUES, "nonzero"));
 		declaration.storeValue(CSSPropertyNames.FILTER, createIRI("none"));
@@ -145,7 +146,7 @@ public class CSSProperties {
 				if (cssText.equals("remove") || cssText.equals("freeze")) {
 					// Different Context
 				} else {
-					declaration.storeValue(CSSPropertyNames.STROKE, createPaint(cssText));		
+					declaration.storeValue(CSSPropertyNames.FILL, createPaint(cssText));		
 				}
 			});
 			properties.put(CSSPropertyNames.FILL_OPACITY, (cssText, declaration) -> {
