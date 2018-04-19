@@ -21,8 +21,28 @@ public class Arc {
 		return new float[] { cx + rx * SVGMath.cos(theta), cx + ry * SVGMath.sin(theta) };
 	}
 	
-	// https://github.com/regebro/svg.path/blob/master/src/svg/path/path.py
+	public static float[] arcTangentLine(float x0, float y0, float x1, float y1, float rx, float ry, float xAxisRotation, int largeArcFlag, int sweepFlag, float t, float dt) {
+		// Since arcs are more complex than a simple bezier curve, approach the derivative in the old fashioned way
+		float[] output = new float[2];
+		while (dt > 0.001f) {
+			arc(x0, y0, x1, y1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag, t + dt, output, 0);
+			dt = dt * 0.5f;
+		}
+		return output;
+	}
+
 	public static float[] arc(float x0, float y0, float x1, float y1, float rx, float ry, float xAxisRotation, int largeArcFlag, int sweepFlag, float t) {
+		float[] output = new float[2];
+		arc(x0, y0, x1, y1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag, t, output, 0);
+		return output;
+	}
+	
+	public static void arc(float x0, float y0, float x1, float y1, float rx, float ry, float xAxisRotation, int largeArcFlag, int sweepFlag, float t, float[] output) {
+		arc(x0, y0, x1, y1, rx, ry, xAxisRotation, largeArcFlag, sweepFlag, t, output, 0);
+	}
+	
+	// https://github.com/regebro/svg.path/blob/master/src/svg/path/path.py
+	public static void arc(float x0, float y0, float x1, float y1, float rx, float ry, float xAxisRotation, int largeArcFlag, int sweepFlag, float t, float[] output, int index) {
 		xAxisRotation = SVGMath.toRadians(xAxisRotation);
 		// pos = t						start = x0, y0
 		// radius = rx, ry				rotation = xAxisRotation
@@ -74,7 +94,11 @@ public class Arc {
 		sinr = SVGMath.sin(xAxisRotation);
 		float x = (cosr * SVGMath.cos(angle) * rx - sinr * SVGMath.sin(angle) * ry + cx);
 		float y = (sinr * SVGMath.cos(angle) * rx + cosr * SVGMath.sin(angle) * ry + cy);
-		return new float[] { x, y };
+		if (output.length < 2) {
+			throw new IllegalArgumentException("Output array is too small");
+		}
+		output[index + 0] = x;
+		output[index + 1] = y;
 	}
 	
 	public static final int MIN_DEPTH = 5;

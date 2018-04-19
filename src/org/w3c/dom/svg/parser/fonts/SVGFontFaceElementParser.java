@@ -34,7 +34,7 @@ public class SVGFontFaceElementParser implements ElementParser<SVGFontFaceElemen
 		if (parent instanceof SVGFontElement) {
 			((SVGFontElement) parent).getVerticalAdvanceY().setValue(fontFace.getUnitsPerEm().getValue() * 1);
 		} else {
-			// TODO
+			
 		}
 		// Get default values
 		String id = ElementParser.read(element, Attributes.ID);

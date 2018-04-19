@@ -16,42 +16,108 @@ public class SVGPathMath {
 		
 	}
 	
-	public static float getRotationAtLength(float length, SVGPathSeg segment, State state) { // TODO
+	public static float getRotationAtLength(float length, SVGPathSegList list, State state) {
+		state.point = new SVGPoint.Implementation(0, 0);
+		for (int i = 0; i < list.getNumberOfItems(); i++) {
+			SVGPathSeg seg = list.getItem(i);
+			float segLength = getSegmentLength(seg, state);
+			if (length < segLength) {
+				return getRotationAtLength(length, seg, state);
+			} else {
+				length -= segLength;
+				transformPoint(seg, state);
+			}
+		}
+		return getRotationAtLength(length, list.getItem(list.getNumberOfItems() - 1), state);
+	}
+	
+	public static float getRotationAtLength(float length, SVGPathSeg segment, State state) {
 		float currentX = state.point.getX(), currentY = state.point.getY();
-		float dx, dy;
-		switch (segment.getPathSegType()) {
+		float dx, dy, dydx;
+		float[] controlPoint;
+		float t = length / getSegmentLength(segment, state);
+		NormalizedPathSegListBuilder builder = new NormalizedPathSegListBuilder();
+		builder.setState(state);
+		SVGPathSeg normalizedSegment = builder.process(segment);
+		switch (normalizedSegment.getPathSegType()) {
 			case SVGPathSeg.PATHSEG_ARC_ABS:
+				SVGPathSegArcAbs arcAbs = (SVGPathSegArcAbs) normalizedSegment;
+				float dt = 1;
+				float[] dy_dx = Arc.arcTangentLine(state.point.getX(), state.point.getY(), arcAbs.getX(), arcAbs.getY(), arcAbs.getR1(), arcAbs.getR2(), arcAbs.getAngle(), Arc.flag(arcAbs.getLargeArcFlag()), Arc.flag(arcAbs.getSweepFlag()), t, dt);
+				dx = dy_dx[0];
+				dy = dy_dx[1];
+				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_ARC_REL:
+				// Normalized to absolute
+				break;
 			case SVGPathSeg.PATHSEG_CLOSEPATH:
-				dx = ((SVGPathSegLineToAbs) segment).getX() - currentX;
-				dy = ((SVGPathSegLineToAbs) segment).getY() - currentY;
+				dx = ((SVGPathSegLineToAbs) normalizedSegment).getX() - currentX;
+				dy = ((SVGPathSegLineToAbs) normalizedSegment).getY() - currentY;
 				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_ABS:
+				SVGPathSegCurveToCubicAbs curveToCubicAbs = (SVGPathSegCurveToCubicAbs) normalizedSegment;
+				dydx = BezierCurve.cubicBezierTangentLine(state.point.getX(), curveToCubicAbs.getX1(), curveToCubicAbs.getX2(), curveToCubicAbs.getX(), t);
+				dx = 1;
+				dy = dydx * dx;
+				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_REL:
+				// Normalized to absolute
+				break;
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_ABS:
+				SVGPathSegCurveToCubicSmoothAbs curveToCubicSmoothAbs = (SVGPathSegCurveToCubicSmoothAbs) normalizedSegment;
+				if (state.lastControlPoint == null) {
+					state.lastControlPoint = new float[] { state.point.getX(), state.point.getY() };
+				}
+				controlPoint = SVGMath.reflectPoint(state.lastControlPoint[0], state.lastControlPoint[1], state.point.getX(), state.point.getY());
+				state.lastControlPoint = controlPoint;
+				dydx = BezierCurve.cubicBezierTangentLine(state.point.getX(), controlPoint[0], curveToCubicSmoothAbs.getX2(), curveToCubicSmoothAbs.getX(), t);
+				dx = 1;
+				dy = dydx * dx;
+				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_CURVETO_CUBIC_SMOOTH_REL:
+				// Normalized to absolute
+				break;
 			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_ABS:
+				SVGPathSegCurveToQuadraticAbs curveToQuadraticAbs = (SVGPathSegCurveToQuadraticAbs) normalizedSegment;
+				dydx = BezierCurve.quadraticBezierTangentLine(state.point.getX(), curveToQuadraticAbs.getX1(), curveToQuadraticAbs.getX(), t);
+				dx = 1;
+				dy = dydx * dx;
+				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_REL:
+				// Normalized to absolute
+				break;
 			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_ABS:
+				SVGPathSegCurveToQuadraticSmoothAbs curveToQuadraticSmoothAbs = (SVGPathSegCurveToQuadraticSmoothAbs) normalizedSegment;
+				if (state.lastControlPoint == null) {
+					state.lastControlPoint = new float[] { state.point.getX(), state.point.getY() };
+				}
+				controlPoint = SVGMath.reflectPoint(state.lastControlPoint[0], state.lastControlPoint[1], state.point.getX(), state.point.getY());
+				state.lastControlPoint = controlPoint;
+				dydx = BezierCurve.quadraticBezierTangentLine(state.point.getX(), controlPoint[0], curveToQuadraticSmoothAbs.getX(), t);
+				dx = 1;
+				dy = dydx * dx;
+				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_CURVETO_QUADRATIC_SMOOTH_REL:
+				// Normalized to absolute
+				break;
 			case SVGPathSeg.PATHSEG_LINETO_ABS:
-				dx = ((SVGPathSegLineToAbs) segment).getX() - currentX;
-				dy = ((SVGPathSegLineToAbs) segment).getY() - currentY;
+				dx = ((SVGPathSegLineToAbs) normalizedSegment).getX() - currentX;
+				dy = ((SVGPathSegLineToAbs) normalizedSegment).getY() - currentY;
 				return SVGMath.atan2(dy, dx);
 			case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_ABS:
-				dx = ((SVGPathSegLineToHorizontalAbs) segment).getX() - currentX;
+				dx = ((SVGPathSegLineToHorizontalAbs) normalizedSegment).getX() - currentX;
 				return dx > 0 ? 0 : SVGMath.PI;
 			case SVGPathSeg.PATHSEG_LINETO_VERTICAL_ABS:
-				dy = ((SVGPathSegLineToVerticalAbs) segment).getY() - currentY;
+				dy = ((SVGPathSegLineToVerticalAbs) normalizedSegment).getY() - currentY;
 				return dy > 0 ? SVGMath.PI / 2 : -SVGMath.PI / 2;
 			case SVGPathSeg.PATHSEG_LINETO_REL:
-				SVGPathSegLineToRel lineToRel = (SVGPathSegLineToRel) segment;
+				SVGPathSegLineToRel lineToRel = (SVGPathSegLineToRel) normalizedSegment;
 				return SVGMath.atan2(lineToRel.getY(), lineToRel.getX());
 			case SVGPathSeg.PATHSEG_LINETO_HORIZONTAL_REL:
-				SVGPathSegLineToHorizontalRel lineToHorizontalRel = (SVGPathSegLineToHorizontalRel) segment;
+				SVGPathSegLineToHorizontalRel lineToHorizontalRel = (SVGPathSegLineToHorizontalRel) normalizedSegment;
 				return lineToHorizontalRel.getX() > 0 ? 0 : SVGMath.PI;				
 			case SVGPathSeg.PATHSEG_LINETO_VERTICAL_REL:
-				SVGPathSegLineToVerticalRel lineToVerticalRel = (SVGPathSegLineToVerticalRel) segment;
+				SVGPathSegLineToVerticalRel lineToVerticalRel = (SVGPathSegLineToVerticalRel) normalizedSegment;
 				return lineToVerticalRel.getY() > 0 ? SVGMath.PI / 2 : -SVGMath.PI / 2;
 			case SVGPathSeg.PATHSEG_MOVETO_ABS:
 				return 0;
@@ -60,6 +126,7 @@ public class SVGPathMath {
 			default:
 				return 0;
 		}
+		return 0;
 	}
 	
 	public static SVGPoint getPathSegAtLength(float length, SVGPathSegList list, State state) {

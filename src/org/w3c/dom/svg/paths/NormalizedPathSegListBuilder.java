@@ -14,6 +14,10 @@ public class NormalizedPathSegListBuilder {
 		
 	}
 	
+	public void setState(SVGPathMath.State pathMathState) {
+		this.pathMathState = pathMathState;
+	}
+	
 	private void addSegment(SVGPathSeg segment) {
 		segList.add(segment);
 		lastSegment = segment.getPathSegType();
@@ -26,7 +30,7 @@ public class NormalizedPathSegListBuilder {
 		return toList();
 	}
 	
-	public void process(SVGPathSeg pathSeg) {
+	public SVGPathSeg process(SVGPathSeg pathSeg) {
 		if (pathSeg instanceof SVGPathSegMoveToRel) {
 			SVGPathSegMoveToRel pathSegInstance = (SVGPathSegMoveToRel) pathSeg;
 			moveToRel(pathSegInstance.getX(), pathSegInstance.getY());
@@ -104,6 +108,7 @@ public class NormalizedPathSegListBuilder {
 			arcAbs(pathSegInstance.getR1(), pathSegInstance.getR2(), pathSegInstance.getAngle(), 
 					pathSegInstance.getLargeArcFlag(), pathSegInstance.getSweepFlag(), pathSegInstance.getX(), pathSegInstance.getY());
 		}
+		return segList.get(segList.size() - 1);
 	}
 	
 	public SVGPathSegList toList() {

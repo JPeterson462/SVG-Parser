@@ -24,6 +24,10 @@ public class BezierCurve {
 		return term0 + term1;
 	}
 	
+	public static float quadraticBezierTangentLine(float p0, float p1, float p2, float t) {
+		return 2 * (1 - t) * (p1 - p0) + 2 * t * (p2 - p1);
+	}
+	
 	// Cubic Bezier Curve
 	// B(t) = ((1-t)^3) * P0 + (3(1-t)^2(t)) * P1 + (3(1-t)t^2) * P2 + (t^3) * P3, 0 <= t <= 1
 	// B'(t) = 3(1-t)^2(P1 - P0) + 6(1-t)t(P2 - P1) + 3t^2(P3 - P2)
@@ -51,6 +55,10 @@ public class BezierCurve {
 			previousY = y;
 		}
 		return length;
+	}
+	
+	public static float cubicBezierTangentLine(float p0, float p1, float p2, float p3, float t) {
+		return 3 * (1 - t) * (1 - t) * (p1 - p0) + 6 * (1 - t) * t * (p2 - p1) + 3 * t * t * (p3 - p2);
 	}
 	
 }

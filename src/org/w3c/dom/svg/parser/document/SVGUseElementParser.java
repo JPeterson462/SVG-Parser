@@ -35,7 +35,7 @@ public class SVGUseElementParser implements ElementParser<SVGUseElement> {
 			SVGDimensioned dimensioned = (SVGDimensioned) svgElement;
 			return new float[] { dimensioned.getWidth().getBaseValue().getValue(), dimensioned.getHeight().getBaseValue().getValue() };
 		}
-		return new float[] { 0, 0 }; // TODO
+		return new float[] { 0, 0 };
 	}
 	
 	@Override
