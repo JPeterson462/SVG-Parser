@@ -8,6 +8,7 @@ import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGExtensionManager;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
 import org.w3c.dom.svg.SVGMatrix;
@@ -103,7 +104,7 @@ public interface SVGGElement extends SVGElement, SVGLangSpace, SVGStylable, SVGT
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			return DOMErrors.notSupported();
+			return SVGExtensionManager.getInstance(SVGExtensionManager.DEFAULT_MANAGER).hasExtension(extension);
 		}
 
 		@Override

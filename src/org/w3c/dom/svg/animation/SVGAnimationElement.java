@@ -6,6 +6,7 @@ import org.w3c.dom.svg.ElementFinder;
 import org.w3c.dom.svg.SVGAnimatedBoolean;
 import org.w3c.dom.svg.SVGClock;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGExtensionManager;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGStringList;
 import org.w3c.dom.svg.SVGTests;
@@ -64,7 +65,7 @@ public interface SVGAnimationElement extends SVGElement, SVGTests, SVGExternalRe
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			return DOMErrors.notSupported();
+			return SVGExtensionManager.getInstance(SVGExtensionManager.DEFAULT_MANAGER).hasExtension(extension);
 		}
 
 		@Override

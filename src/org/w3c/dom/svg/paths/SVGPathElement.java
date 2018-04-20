@@ -9,6 +9,7 @@ import org.w3c.dom.svg.SVGAnimatedNumber;
 import org.w3c.dom.svg.SVGAnimatedString;
 import org.w3c.dom.svg.SVGAnimatedTransformList;
 import org.w3c.dom.svg.SVGElement;
+import org.w3c.dom.svg.SVGExtensionManager;
 import org.w3c.dom.svg.SVGExternalResourcesRequired;
 import org.w3c.dom.svg.SVGLangSpace;
 import org.w3c.dom.svg.SVGPoint;
@@ -163,7 +164,7 @@ public interface SVGPathElement extends SVGElement, SVGLangSpace, SVGStylable, S
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			return DOMErrors.notSupported();
+			return SVGExtensionManager.getInstance(SVGExtensionManager.DEFAULT_MANAGER).hasExtension(extension);
 		}
 
 		@Override

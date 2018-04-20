@@ -61,7 +61,7 @@ public interface SVGCursorElement extends SVGElement, SVGURIReference, SVGTests,
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			return DOMErrors.notSupported();
+			return SVGExtensionManager.getInstance(SVGExtensionManager.DEFAULT_MANAGER).hasExtension(extension);
 		}
 
 		@Override

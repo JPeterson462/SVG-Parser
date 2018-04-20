@@ -1,6 +1,5 @@
 package org.w3c.dom.svg;
 
-import org.w3c.dom.DOMErrors;
 import org.w3c.dom.DOMException;
 
 public interface SVGTests {
@@ -40,7 +39,7 @@ public interface SVGTests {
 
 		@Override
 		public boolean hasExtension(String extension) throws DOMException {
-			return DOMErrors.notSupported();
+			return SVGExtensionManager.getInstance(SVGExtensionManager.DEFAULT_MANAGER).hasExtension(extension);
 		}
 		
 	}
